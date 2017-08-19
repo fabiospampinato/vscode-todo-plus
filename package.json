@@ -1,0 +1,191 @@
+{
+  "name": "vscode-todo-plus",
+  "displayName": "Todo+",
+  "description": "Manage todo lists with ease. Powerful, easy to use and customizable.",
+  "icon": "resources/logo-128x128.png",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "out/src/extension.js",
+  "publisher": "fabiospampinato",
+  "activationEvents": [
+    "onLanguage:todo",
+    "onCommand:todo.open",
+    "onCommand:todo.toggleBox",
+    "onCommand:todo.toggleCancel",
+    "onCommand:todo.toggleDone"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "todo",
+        "aliases": [
+          "Todo",
+          "Todos",
+          "Task",
+          "Tasks"
+        ],
+        "extensions": [
+          "TODO",
+          "todolist.txt",
+          ".todo",
+          ".todos",
+          ".task",
+          ".tasks"
+        ]
+      }
+    ],
+    "grammars": [
+      {
+        "language": "todo",
+        "scopeName": "text.todo",
+        "path": "./syntax/grammar.tmLanguage"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Todo - Configuration",
+      "properties": {
+        "todo.file": {
+          "type": "string",
+          "description": "Todo file name",
+          "default": "TODO"
+        },
+        "todo.defaultContent": {
+          "type": "string",
+          "description": "New todo files default content",
+          "default": "\nTodo:\n  ☐ Item\n"
+        },
+        "todo.symbols.box": {
+          "type": "string",
+          "description": "Todo box string",
+          "default": "☐"
+        },
+        "todo.symbols.done": {
+          "type": "string",
+          "description": "Todo done string",
+          "default": "✔"
+        },
+        "todo.symbols.cancel": {
+          "type": "string",
+          "description": "Todo cancel string",
+          "default": "✘"
+        },
+        "todo.colors.cancel": {
+          "type": "string",
+          "description": "Cancelled todo color",
+          "default": "#f92672"
+        },
+        "todo.colors.done": {
+          "type": "string",
+          "description": "Done todo color",
+          "default": "#a6e22e"
+        },
+        "todo.colors.comment": {
+          "type": "string",
+          "description": "Comment color",
+          "default": "#75715e"
+        },
+        "todo.colors.project": {
+          "type": "string",
+          "description": "Project color",
+          "default": "#66d9ef"
+        },
+        "todo.colors.tag": {
+          "type": "string",
+          "description": "Tag color",
+          "default": "#e6db74"
+        },
+        "todo.tags.names": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Special tags' names",
+          "default": ["critical", "high", "low", "today"]
+        },
+        "todo.tags.backgroundColors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Special tags' background colors",
+          "default": ["#e54545", "#e59f45", "#e5d145", "#ae81ff"]
+        },
+        "todo.tags.foregroundColors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Special tags' foreground colors",
+          "default": ["#000000", "#000000", "#000000", "#000000"]
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "todo.open",
+        "title": "Todo: Open"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "todo.toggleBox",
+        "key": "Ctrl+Enter",
+        "mac": "Cmd+Enter",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "todo.toggleCancel",
+        "key": "Alt+c",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "todo.toggleDone",
+        "key": "Alt+d",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "tsc -p ./",
+    "publish": "vsce publish && npm publish",
+    "compile": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "node ./node_modules/vscode/bin/test"
+  },
+  "bugs": {
+    "url": "https://github.com/fabiospampinato/vscode-todo-plus/issues"
+  },
+  "author": {
+    "name": "Fabio Spampinato",
+    "email": "spampinabio@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabiospampinato/vscode-todo-plus.git"
+  },
+  "engines": {
+    "vscode": "^1.0.0"
+  },
+  "keywords": [
+    "vscode",
+    "extension",
+    "todo",
+    "todos",
+    "tasks"
+  ],
+  "categories": [
+    "Other"
+  ],
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "mkdirp": "^0.5.1",
+    "pify": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^6.0.40",
+    "tslint": "^4.4.2",
+    "typescript": "~2.2.0",
+    "vscode": "^1.1.4"
+  }
+}

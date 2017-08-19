@@ -1,0 +1,29 @@
+
+Projects:
+  ☐ Anything with a colon at the end of the line is a project title
+  ☐ You can nest projects inside each other
+  Nested:
+    ☐ You can fold projects
+
+Todos:
+  You can write plain text as notes or descriptions wherever you want
+  New:
+    ☐ Press Cmd/Ctrl+Enter to add a new todo
+  Done:
+    ✔ Press Alt+D to mark a todo as done
+    ✔ Press it again to undo the action
+  Cancel:
+    ✘ Press Alt+C to mark a todo as cancelled
+    ✘ Press it again to undo the action
+  Tagging:
+    ☐ You can add tags using the @ sign, like this @tag
+    ☐ There are some special, customizable tags: @critical @high @low @today
+
+Style:
+  We support a markdown-like syntax for styling text
+  Bold:
+    ☐ Use asterisks for *bold*
+  Italic:
+    ☐ Use underscores for _italic_
+  Strikethrough:
+    ☐ Use tildes for ~strikethrough~

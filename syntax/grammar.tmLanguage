@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>scopeName</key>
+    <string>text.todo</string>
+    <key>fileTypes</key>
+    <array>
+      <string>TODO</string>
+      <string>todolist.txt</string>
+      <string>.todo</string>
+      <string>.todos</string>
+      <string>.task</string>
+      <string>.tasks</string>
+    </array>
+    <key>keyEquivalent</key>
+    <string>^~T</string>
+    <key>name</key>
+    <string>todo</string>
+    <key>uuid</key>
+    <string>76b46c9e-98c0-492f-9472-ad70c3301e59</string>
+  </dict>
+</plist>

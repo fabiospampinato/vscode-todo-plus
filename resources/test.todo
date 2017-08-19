@@ -1,0 +1,49 @@
+
+Project: @today
+  Simple description @critical
+  Style *bold* _italic_ ~strikethrough~ @tag
+  Not a project: but a description
+  ☐ *bold* _italic_ ~strikethrough~
+  ☐ *_bold/italic_* *~bold/strikethrough~* _~italic/strikethrough~_
+  ☐ *_~bold/italic/strikethrough~_*
+  ✘ cancel
+  ✘ another cancel @tag aftertag
+  ✘ cancel/done ✔
+  ✔ done @high
+  ✔ another done
+  ✔ *@today*
+  ✔ done/cancel ✘
+  ☐toggle me
+  ☐ baz @ @custom @tag
+  ☐ qux @critical @high @low @today @today
+  ☐ @critical @mixed @high
+  ☐ *@today* _@today_ ~@today~
+
+Box:
+  - Box
+  ❍ Box
+  ❑ Box
+  ■ Box
+  □ Box
+  ☐ Box
+  ▪ Box
+  ▫ Box
+  – Box
+  — Box
+  ≡ Box
+  → Box
+  › Box
+  [ ] Box
+
+Done:
+  ✔ Done
+  ✓ Done
+  ☑ Done
+  + Done
+  [x] Done
+  [+] Done
+
+Cancel:
+  ✘ Cancel
+  x Cancel
+  [-] Cancel
