@@ -33,6 +33,14 @@ It adds 1 command to the command palette:
 Todo: Open // Open or create your project's todo file
 ```
 
+It adds 3 shortcuts when editing a Todo file:
+
+```js
+Cmd/Ctrl+Enter // Toggle todo's box symbol
+Alt+D // Toggle todo's done symbol
+Alt+C // Toggle todo's cancel symbol
+```
+
 ## Settings
 
 ```js
