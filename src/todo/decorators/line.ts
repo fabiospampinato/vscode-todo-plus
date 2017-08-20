@@ -45,7 +45,15 @@ class Line {
 
     const matches = Utils.getAllMatches ( textLine.text, regex, true );
 
-    return matches.map ( match => this.getRange ( textLine, match.index, match.index + _.last ( match ).length ) );
+    return matches.map ( match => {
+
+      const text = _.last ( match ),
+            endIndex = match.index + match[0].length,
+            startIndex = endIndex - text.length;
+
+      return this.getRange ( textLine, startIndex, endIndex );
+
+    });
 
   }
 
