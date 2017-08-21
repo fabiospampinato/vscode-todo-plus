@@ -1,3 +1,6 @@
+### Version 1.1.1
+- Minor code reorganization
+
 ### Version 1.0.1
 - Ensuring leading spaces won’t get decorated
 - Updated readme

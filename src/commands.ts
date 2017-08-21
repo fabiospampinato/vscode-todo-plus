@@ -77,24 +77,22 @@ async function open () {
 
   if ( !rootPath ) return vscode.window.showErrorMessage ( 'You have to open a project before being able to open its todo file' );
 
-  const config = Config.get (),
-        {extensions} = vscode.extensions.getExtension ( 'fabiospampinato.vscode-todo-plus' ).packageJSON.contributes.languages[0],
-        files = _.uniq ([ config.file, ...extensions ]);
+  const todo = Utils.todo.get ( rootPath );
 
-  for ( let file of files ) {
+  if ( !_.isUndefined ( todo ) ) {
 
-    const filepath = path.join ( rootPath, file ),
-          hasFile = !_.isUndefined ( await Utils.file.read ( filepath ) );
+    return Utils.file.open ( todo.path );
 
-    if ( hasFile ) return Utils.file.open ( filepath );
+  } else {
+
+    const config = Config.get (),
+          defaultPath = path.join ( rootPath, config.file );
+
+    await Utils.file.make ( defaultPath, config.defaultContent );
+
+    return Utils.file.open ( defaultPath );
 
   }
-
-  const defaultPath = path.join ( rootPath, config.file );
-
-  await Utils.file.make ( defaultPath, config.defaultContent );
-
-  return Utils.file.open ( defaultPath );
 
 }
 

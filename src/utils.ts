@@ -8,6 +8,7 @@ import * as path from 'path';
 import * as pify from 'pify';
 import * as vscode from 'vscode';
 import * as Commands from './commands';
+import Config from './config';
 import Consts from './consts';
 
 /* UTILS */
@@ -126,6 +127,16 @@ const Utils = {
 
     },
 
+    readSync ( filepath ) {
+
+      try {
+        return ( fs.readFileSync ( filepath, { encoding: 'utf8' } ) ).toString ();
+      } catch ( e ) {
+        return;
+      }
+
+    },
+
     async make ( filepath, content ) {
 
       await pify ( mkdirp )( path.dirname ( filepath ) );
@@ -137,6 +148,39 @@ const Utils = {
     async write ( filepath, content ) {
 
       return pify ( fs.writeFile )( filepath, content, {} );
+
+    }
+
+  },
+
+  todo: {
+
+    getFiles ( folderPath ) {
+
+      const config = Config.get (),
+            {extensions} = vscode.extensions.getExtension ( 'fabiospampinato.vscode-todo-plus' ).packageJSON.contributes.languages[0],
+            files = _.uniq ([ config.file, ...extensions ]);
+
+      return files.map ( file => path.join ( folderPath, file ) );
+
+    },
+
+    get ( folderPath ) {
+
+      const files = Utils.todo.getFiles ( folderPath );
+
+      for ( let file of files ) {
+
+        const content = Utils.file.readSync ( file );
+
+        if ( _.isUndefined ( content ) ) continue;
+
+        return {
+          path: file,
+          content
+        };
+
+      }
 
     }
 
