@@ -1,3 +1,6 @@
+### Version 1.1.2
+- Added a link to Projects+ Todo+
+
 ### Version 1.1.1
 - Minor code reorganization
 

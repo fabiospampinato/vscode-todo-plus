@@ -53,7 +53,7 @@ const Utils = {
 
   },
 
-  getAllMatches ( str: string, regex: RegExp, multi: true ) {
+  getAllMatches ( str: string, regex: RegExp, multi: boolean = true ) {
 
     regex = multi ? new RegExp ( regex.source, 'gm' ) : regex;
 
