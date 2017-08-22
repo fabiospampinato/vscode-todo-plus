@@ -1,3 +1,6 @@
+### Version 1.2.2
+- Added support for "⬜" as a box symbol
+
 ### Version 1.1.2
 - Added a link to Projects+ Todo+
 

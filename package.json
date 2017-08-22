@@ -3,7 +3,7 @@
   "displayName": "Todo+",
   "description": "Manage todo lists with ease. Powerful, easy to use and customizable.",
   "icon": "resources/logo-128x128.png",
-  "version": "1.1.2",
+  "version": "1.2.2",
   "license": "MIT",
   "main": "out/src/extension.js",
   "publisher": "fabiospampinato",
@@ -101,7 +101,12 @@
             "type": "string"
           },
           "description": "Special tags' names",
-          "default": ["critical", "high", "low", "today"]
+          "default": [
+            "critical",
+            "high",
+            "low",
+            "today"
+          ]
         },
         "todo.tags.backgroundColors": {
           "type": "array",
@@ -109,7 +114,12 @@
             "type": "string"
           },
           "description": "Special tags' background colors",
-          "default": ["#e54545", "#e59f45", "#e5d145", "#ae81ff"]
+          "default": [
+            "#e54545",
+            "#e59f45",
+            "#e5d145",
+            "#ae81ff"
+          ]
         },
         "todo.tags.foregroundColors": {
           "type": "array",
@@ -117,7 +127,12 @@
             "type": "string"
           },
           "description": "Special tags' foreground colors",
-          "default": ["#000000", "#000000", "#000000", "#000000"]
+          "default": [
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000"
+          ]
         }
       }
     },
