@@ -28,8 +28,7 @@ const Consts = {
     foregroundColors: Config.getKey ( 'tags.foregroundColors' )
   },
   regexes: {
-    indent: /^\s*\w+.+:\s*$/,
-    outdent: /^\uffff$/,
+    impossible: /(?=a)b/,
     todo: /^[^\S\n]*((?:[-❍❑■⬜□☐▪▫–—≡→›✘x✔✓☑+]|\[[ x+-]\])[^\n@]*)/,
     todoToken: /^[^\S\n]*([-❍❑■⬜□☐▪▫–—≡→›✘x✔✓☑+]|\[[ x+-]\])/,
     todoBox: /^[^\S\n]*((?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ \])[^\n@]*)/,

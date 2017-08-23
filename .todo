@@ -1,4 +1,5 @@
 
+☐ Moving projects up and down is buggy @high
 ☐ Style commands (cmd+b/i/s) @high
   ☐ https://github.com/neilsustc/vscode-markdown/blob/master/src/formatting.ts
 ☐ New tags:

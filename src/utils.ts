@@ -46,8 +46,8 @@ const Utils = {
 
     vscode.languages.setLanguageConfiguration ( Consts.languageId, {
       indentationRules: {
-        increaseIndentPattern: Consts.regexes.indent,
-        decreaseIndentPattern: Consts.regexes.outdent
+        increaseIndentPattern: Consts.regexes.project,
+        decreaseIndentPattern: Consts.regexes.impossible
       }
     });
 
