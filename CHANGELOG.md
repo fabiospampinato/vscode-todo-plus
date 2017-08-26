@@ -1,3 +1,6 @@
+### Version 1.3.0
+- Added multi-root support
+
 ### Version 1.2.2
 - Added support for "⬜" as a box symbol
 

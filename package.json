@@ -3,7 +3,7 @@
   "displayName": "Todo+",
   "description": "Manage todo lists with ease. Powerful, easy to use and customizable.",
   "icon": "resources/logo-128x128.png",
-  "version": "1.2.2",
+  "version": "1.3.0",
   "license": "MIT",
   "main": "out/src/extension.js",
   "publisher": "fabiospampinato",
@@ -180,7 +180,7 @@
     "url": "https://github.com/fabiospampinato/vscode-todo-plus.git"
   },
   "engines": {
-    "vscode": "^1.0.0"
+    "vscode": "^1.15.0"
   },
   "keywords": [
     "vscode",
@@ -193,6 +193,8 @@
     "Other"
   ],
   "dependencies": {
+    "absolute": "0.0.1",
+    "find-up": "^2.1.0",
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
     "pify": "^3.0.0"

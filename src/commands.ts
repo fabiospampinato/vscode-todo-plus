@@ -73,11 +73,15 @@ function toggleDone ( textEditor: vscode.TextEditor ) {
 
 async function open () {
 
-  const {rootPath} = vscode.workspace;
+  const config = await Config.get (),
+        {activeTextEditor} = vscode.window,
+        editorPath = activeTextEditor && activeTextEditor.document.fileName,
+        rootPath = Utils.folder.getRootPath ( editorPath );
 
   if ( !rootPath ) return vscode.window.showErrorMessage ( 'You have to open a project before being able to open its todo file' );
 
-  const todo = Utils.todo.get ( rootPath );
+  const projectPath = ( await Utils.folder.getWrapperPathOf ( rootPath, editorPath || rootPath, config.file ) ) || rootPath,
+        todo = Utils.todo.get ( projectPath );
 
   if ( !_.isUndefined ( todo ) ) {
 
@@ -86,7 +90,7 @@ async function open () {
   } else {
 
     const config = Config.get (),
-          defaultPath = path.join ( rootPath, config.file );
+          defaultPath = path.join ( projectPath, config.file );
 
     await Utils.file.make ( defaultPath, config.defaultContent );
 
