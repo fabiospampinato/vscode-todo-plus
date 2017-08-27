@@ -21,7 +21,7 @@ function toggleToken ( textEditor: vscode.TextEditor, token: string, removeToken
           line = textEditor.document.lineAt ( pos.line ),
           text = line.text;
 
-    const tokenMatch = text.match ( new RegExp ( `^[^\S\n]*(${_.escapeRegExp ( token )})` ) ),
+    const tokenMatch = text.match ( new RegExp ( `^[^\\S\\n]*(${_.escapeRegExp ( token )})` ) ),
           otherMatch = text.match ( Consts.regexes.todoToken );
 
     if ( tokenMatch ) {
