@@ -1,3 +1,6 @@
+### Version 1.3.2
+- Updated readme
+
 ### Version 1.3.1
 - Fixed a regex
 

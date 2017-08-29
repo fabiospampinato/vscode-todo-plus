@@ -15,7 +15,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
   - **Done**: ✔ ✓ ☑ + [x] [+]
   - **Cancel**: ✘ x [-]
 - **Custom colors**: all colors can be customized
-- **Custom special tags**: special tags' names and colors can be customized
+- **Custom special tags**: special tags' names and their colors can be customized
 
 ## Install
 
@@ -33,7 +33,7 @@ It adds 1 command to the command palette:
 Todo: Open // Open or create your project's todo file
 ```
 
-It adds 3 shortcuts when editing a Todo file:
+It adds 3 shortcuts when editing a `Todo` file:
 
 ```js
 Cmd/Ctrl+Enter // Toggle todo's box symbol
@@ -47,9 +47,9 @@ Alt+C // Toggle todo's cancel symbol
 {
   "todo.file": "TODO", // Todo file name
   "todo.defaultContent": "\nTodo:\n  ☐ Item\n", // New todo files default content
-  "todo.symbols.box": "☐", // Todo box string
-  "todo.symbols.done": "✔", // Todo done string
-  "todo.symbols.cancel": "✘", // Todo cancel string
+  "todo.symbols.box": "☐", // Box symbol
+  "todo.symbols.done": "✔", // Done symbol
+  "todo.symbols.cancel": "✘", // Cancel symbol
   "todo.colors.cancel": "#f92672", // Cancelled todo color
   "todo.colors.done": "#a6e22e", // Done todo color
   "todo.colors.comment": "#75715e", // Comment color
