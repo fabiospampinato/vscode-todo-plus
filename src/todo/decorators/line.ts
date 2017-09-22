@@ -47,7 +47,7 @@ class Line {
 
     return matches.map ( match => {
 
-      const text = _.last ( match ),
+      const text = _.last ( match ) as string,
             endIndex = match.index + match[0].length,
             startIndex = endIndex - text.length;
 
@@ -64,7 +64,7 @@ class Line {
     const ranges = (items.map as any)( this.getItemRanges.bind ( this ) ), //TSC
           zipped = _.zip ( ...ranges ),
           compact = zipped.map ( _.compact ),
-          concat = compact.map ( r => _.concat ( ...r ) );
+          concat = compact.map ( r => _.concat ( [], ...r ) );
 
     return concat;
 

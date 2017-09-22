@@ -16,7 +16,7 @@ const Config = {
 
   getKey ( key: string ) {
 
-    return _.get ( Config.get (), key );
+    return _.get ( Config.get (), key ) as any;
 
   }
 
