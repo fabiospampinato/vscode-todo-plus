@@ -1,6 +1,5 @@
 
 ☐ Moving projects up and down is buggy @high
-☐ Add command palette commands for the shortcuts (only in Todo language)
 ☐ Option for auto-deleting done and cancelled tasks
 ☐ Style commands (cmd+b/i/s)
   ☐ https://github.com/neilsustc/vscode-markdown/blob/master/src/formatting.ts

@@ -145,6 +145,18 @@
       {
         "command": "todo.open",
         "title": "Todo: Open"
+      },
+      {
+        "command": "todo.toggleBox",
+        "title": "Todo: Toggle Box"
+      },
+      {
+        "command": "todo.toggleCancel",
+        "title": "Todo: Toggle Cancel"
+      },
+      {
+        "command": "todo.toggleDone",
+        "title": "Todo: Toggle Done"
       }
     ],
     "keybindings": [
@@ -164,7 +176,23 @@
         "key": "Alt+d",
         "when": "editorTextFocus && resourceLangId == todo"
       }
-    ]
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "todo.toggleBox",
+          "when": "resourceLangId == todo"
+        },
+        {
+          "command": "todo.toggleCancel",
+          "when": "resourceLangId == todo"
+        },
+        {
+          "command": "todo.toggleDone",
+          "when": "resourceLangId == todo"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "tsc -p ./",

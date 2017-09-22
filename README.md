@@ -27,10 +27,13 @@ ext install vscode-todo-plus
 
 ## Usage
 
-It adds 1 command to the command palette:
+It adds 4 command to the command palette:
 
 ```js
-Todo: Open // Open or create your project's todo file
+'Todo: Open' // Open or create your project's todo file
+'Todo: Toggle Box' // Toggle todo's box symbol
+'Todo: Toggle Cancel' // Toggle todo's done symbol
+'Todo: Toggle Done' // Toggle todo's cancel symbol
 ```
 
 It adds 3 shortcuts when editing a `Todo` file:

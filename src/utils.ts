@@ -23,6 +23,8 @@ const Utils = {
 
     commands.forEach ( ({ command, title }) => {
 
+      if ( !_.includes ( ['todo.open'], command ) ) return;
+
       const commandName = _.last ( command.split ( '.' ) ) as string,
             handler = Commands[commandName],
             disposable = vscode.commands.registerCommand ( command, () => handler () );
@@ -32,6 +34,8 @@ const Utils = {
     });
 
     keybindings.forEach ( ({ command }) => {
+
+      if ( _.includes ( ['todo.open'], command ) ) return;
 
       const commandName = _.last ( command.split ( '.' ) ) as string,
             disposable = vscode.commands.registerTextEditorCommand ( command, Commands[commandName] );
