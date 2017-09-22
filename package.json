@@ -152,17 +152,17 @@
         "command": "todo.toggleBox",
         "key": "Ctrl+Enter",
         "mac": "Cmd+Enter",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceLangId == todo"
       },
       {
         "command": "todo.toggleCancel",
         "key": "Alt+c",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceLangId == todo"
       },
       {
         "command": "todo.toggleDone",
         "key": "Alt+d",
-        "when": "editorTextFocus"
+        "when": "editorTextFocus && resourceLangId == todo"
       }
     ]
   },
