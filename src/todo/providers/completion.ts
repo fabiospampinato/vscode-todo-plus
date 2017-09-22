@@ -2,7 +2,8 @@
 /* IMPORT */
 
 import * as vscode from 'vscode';
-import Tags from './tags'
+import Consts from '../../consts';
+import Document from '../document';
 
 /* COMPLETION */
 
@@ -10,10 +11,16 @@ class Completion implements vscode.CompletionItemProvider {
 
   provideCompletionItems ( textDocument: vscode.TextDocument, pos: vscode.Position ) {
 
-    const range = textDocument.getWordRangeAtPosition ( pos ),
-          prefix = range ? textDocument.getText ( range ) : '';
+    return Consts.tags.names.map ( name => {
 
-    return Tags.get ( prefix );
+      const tag = Document.toTag ( name ),
+            item = new vscode.CompletionItem ( tag );
+
+      item.insertText = `${tag} `;
+
+      return item;
+
+    });
 
   }
 
