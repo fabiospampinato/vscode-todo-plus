@@ -133,6 +133,11 @@
             "#000000",
             "#000000"
           ]
+        },
+        "todo.formatting.enabled": {
+          "type": "boolean",
+          "description": "Enable markdown-like formatting",
+          "default": true
         }
       }
     },

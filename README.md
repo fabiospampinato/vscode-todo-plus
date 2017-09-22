@@ -57,7 +57,8 @@ Alt+C // Toggle todo's cancel symbol
   "todo.colors.tag": "#e6db74", // Tag color
   "todo.tags.names": ["critical", "high", "low", "today"], // Special tags' names
   "todo.tags.backgroundColors": ["#e54545", "#e59f45", "#e5d145", "#ae81ff"], // Special tags' background colors
-  "todo.tags.foregroundColors": ["#000000", "#000000", "#000000", "#000000"] // Special tags' foreground colors
+  "todo.tags.foregroundColors": ["#000000", "#000000", "#000000", "#000000"], // Special tags' foreground colors
+  "todo.formatting.enabled": true // Enable markdown-like formatting
 }
 ```
 

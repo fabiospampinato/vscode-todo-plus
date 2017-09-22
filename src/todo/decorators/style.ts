@@ -4,6 +4,7 @@
 import * as vscode from 'vscode';
 import Line from './line';
 import LineItem from '../items/line';
+import Config from '../../config';
 import Consts from '../../consts';
 
 /* STYLE */
@@ -31,6 +32,14 @@ class Style extends Line {
       this.getRangesRegex ( line.line, Consts.regexes.italic ),
       this.getRangesRegex ( line.line, Consts.regexes.strikethrough )
     ];
+
+  }
+
+  getDecorations ( items? ) {
+
+    if ( !Config.getKey ( 'formatting.enabled' ) ) return [];
+
+    return super.getDecorations ( items );
 
   }
 
