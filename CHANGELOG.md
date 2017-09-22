@@ -1,3 +1,9 @@
+### Version 1.4.0
+- Added 3 commands to the command palette
+- Running keybindings only when editing a todo file
+- Fixed tags completion
+- Added an option for disabling markdown-like formatting
+
 ### Version 1.3.2
 - Updated readme
 
