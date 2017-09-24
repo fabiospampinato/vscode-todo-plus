@@ -3,6 +3,7 @@ Project: @today
   Simple description, @tag, nested @critical
   Style *bold* _italic_ ~strikethrough~
   Not a project: but a description
+  Not a project: @tag, but a description
   ☐ *bold* _italic_ ~strikethrough~
   ☐ *_bold/italic_* *~bold/strikethrough~* _~italic/strikethrough~_
   ☐ *_~bold/italic/strikethrough~_*
