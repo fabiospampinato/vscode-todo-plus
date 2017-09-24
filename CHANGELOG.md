@@ -1,3 +1,10 @@
+### Version 1.5.0
+- Improved support for comments containing commas and tags
+- Added `X` and `[X]` to the supported symbols
+- Ensuring special tags are not confused with normal tags starting with the same characters
+- Added support for tags inside todos and comments
+- Fixed a Windows incompatibility
+
 ### Version 1.4.0
 - Added 3 commands to the command palette
 - Running keybindings only when editing a todo file
