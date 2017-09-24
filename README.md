@@ -12,8 +12,8 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
 - **Portable**: being a plain text format you can read and edit it using any editor
 - **Custom symbols**: you can replace the default symbols with any of the supported ones
   - **Box**: - ❍ ❑ ■ ⬜ □ ☐ ▪ ▫ – — ≡ → › [ ]
-  - **Done**: ✔ ✓ ☑ + [x] [+]
-  - **Cancel**: ✘ x [-]
+  - **Done**: ✔ ✓ ☑ + [x] [X] [+]
+  - **Cancel**: ✘ x X [-]
 - **Custom colors**: all colors can be customized
 - **Custom special tags**: special tags' names and their colors can be customized
 
