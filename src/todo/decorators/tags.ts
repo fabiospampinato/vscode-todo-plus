@@ -1,6 +1,7 @@
 
 /* IMPORT */
 
+import * as _ from 'lodash';
 import * as vscode from 'vscode';
 import Line from './line';
 import Document from '../document';
@@ -27,7 +28,11 @@ class Tags extends Line {
   getItemRanges ( line: LineItem ) {
 
     return [
-      ...names.map ( name => this.getRangesToken ( line.line, Document.toTag ( name ) ) ),
+      ...names.map ( name => {
+        const tag = Document.toTag ( name ),
+              regex = new RegExp ( `(${_.escapeRegExp ( tag )})(?![a-zA-Z])`, 'gm' );
+        return this.getRangesRegex ( line.line, regex );
+      }),
       this.getRangesRegex ( line.line, Consts.regexes.tag )
     ];
 
