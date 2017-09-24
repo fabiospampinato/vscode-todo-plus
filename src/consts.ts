@@ -29,14 +29,15 @@ const Consts = {
   },
   regexes: {
     impossible: /(?=a)b/,
-    todo: /^[^\S\n]*((?:[-❍❑■⬜□☐▪▫–—≡→›✘x✔✓☑+]|\[[ x+-]\])[^\n@]*)/,
+    todo: /^[^\S\n]*((?:[-❍❑■⬜□☐▪▫–—≡→›✘x✔✓☑+]|\[[ x+-]\])[^\n]*)/,
     todoToken: /^[^\S\n]*([-❍❑■⬜□☐▪▫–—≡→›✘x✔✓☑+]|\[[ x+-]\])/,
-    todoBox: /^[^\S\n]*((?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ \])[^\n@]*)/,
-    todoCancel: /^[^\S\n]*((?:[✘x]|\[-\])[^\n@]*)/,
-    todoDone: /^[^\S\n]*((?:[✔✓☑+]|\[[x+]\])[^\n@]*)/,
-    project: /^(?![^\S\n]*(?:[-❍❑■⬜□☐▪▫–—≡→›✘x✔✓☑+]|\[[ x+-]\])[^\n@]*)[^\S\n]*(.+:[^\S\n]*)(?:(?=@)|$)/,
-    comment: /^(?![^\S\n]*(?:[-❍❑■⬜□☐▪▫–—≡→›✘x✔✓☑+]|\[[ x+-]\])[^\n@]*)(?![^\S\n]*.+:[^\S\n]*(?:(?=@)|$))[^\S\n]*([^\n@]+)/,
-    tag: /(@\S+)/,
+    todoBox: /^[^\S\n]*((?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ \])[^\n]*)/,
+    todoCancel: /^[^\S\n]*((?:[✘x]|\[-\])[^\n]*)/,
+    todoDone: /^[^\S\n]*((?:[✔✓☑+]|\[[x+]\])[^\n]*)/,
+    project: /^(?![^\S\n]*(?:[-❍❑■⬜□☐▪▫–—≡→›✘x✔✓☑+]|\[[ x+-]\])[^\n]*)[^\S\n]*(.+:[^\S\n]*)(?:(?=@)|$)/,
+    comment: /^(?![^\S\n]*(?:[-❍❑■⬜□☐▪▫–—≡→›✘x✔✓☑+]|\[[ x+-]\])[^\n]*)(?![^\S\n]*.+:[^\S\n]*(?:(?=@)|$))[^\S\n]*([^\n]+)/,
+    tag: /(@[^\s*~_]+)/,
+    tagSpecial: /(?=a)b/,
     bold: /(\*.+\*)/,
     italic: /(_.+_)/,
     strikethrough: /(~.+~)/
@@ -45,7 +46,7 @@ const Consts = {
 
 if ( Consts.tags.names.length ) {
 
-  Consts.regexes.tag = new RegExp ( `(@(?!${ Consts.tags.names.map ( n => _.escapeRegExp ( n ) ).join ( '|' )})\\S+)` );
+  Consts.regexes.tagSpecial = new RegExp ( `(@(?:${Consts.tags.names.map ( n => _.escapeRegExp ( n ) ).join ( '|' )}))(?![a-zA-Z])` );
 
 }
 

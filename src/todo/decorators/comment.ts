@@ -18,7 +18,7 @@ class Comment extends Line {
 
   getItemRanges ( comment: CommentItem ) {
 
-    return [this.getRangesRegex ( comment.line, Consts.regexes.comment )];
+    return [this.getRangesRegex ( comment.line, Consts.regexes.comment, Consts.regexes.tag )];
 
   }
 

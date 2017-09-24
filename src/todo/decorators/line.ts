@@ -41,19 +41,60 @@ class Line {
 
   }
 
-  getRangesRegex ( textLine: vscode.TextLine, regex: RegExp ) {
+  getRangesRegex ( textLine: vscode.TextLine, posRegex: RegExp, negRegex?: RegExp ) {
 
-    const matches = Utils.getAllMatches ( textLine.text, regex, true );
+    function matches2ranges ( matches ) {
+      return matches.map ( match => {
+        const end = match.index + match[0].length,
+              start = end - _.last ( match ).length;
+        return { start, end };
+      });
+    }
 
-    return matches.map ( match => {
+    function rangesDifference ( pos, neg, length ) {
+      const cells = _.fill ( Array ( length ), false );
+      pos.forEach ( ({ start, end }) => _.fill ( cells, true, start, end ) );
+      neg.forEach ( ({ start, end }) => _.fill ( cells, false, start, end ) );
+      const ranges = [];
+      let start = null,
+          end = null;
+      for ( let i = 0, l = cells.length; i < l; i++ ) {
+        const cell = cells[i];
+        const asd = textLine.text[i];
+        if ( start === null ) {
+          if ( cell ) start = i;
+        } else {
+          if ( !cell ) end = i;
+        }
+        if ( start !== null && ( end !== null || i === l - 1 ) ) { //FIXME: What if there's only 1 character?
+          end = end !== null ? end : l;
+          ranges.push ({ start, end });
+          start = null;
+          end = null;
+        }
+      }
+      return ranges;
+    }
 
-      const text = _.last ( match ) as string,
-            endIndex = match.index + match[0].length,
-            startIndex = endIndex - text.length;
+    const posMatches = Utils.getAllMatches ( textLine.text, posRegex ),
+          posRanges = matches2ranges ( posMatches );
 
-      return this.getRange ( textLine, startIndex, endIndex );
+    let ranges = posRanges;
 
-    });
+    if ( posRanges.length && negRegex ) {
+
+      const negMatches = Utils.getAllMatches ( textLine.text, negRegex ),
+            negRanges = matches2ranges ( negMatches );
+
+      if ( negRanges.length ) {
+
+        ranges = rangesDifference ( posRanges, negRanges, textLine.text.length );
+
+      }
+
+    }
+
+    return ranges.map ( ({ start, end }) => this.getRange ( textLine, start, end ) );
 
   }
 

@@ -20,7 +20,7 @@ class Done extends Line {
 
     if ( !todo.isDone () ) return [];
 
-    return [this.getRangesRegex ( todo.line, Consts.regexes.todo )];
+    return [this.getRangesRegex ( todo.line, Consts.regexes.todo, Consts.regexes.tag )];
 
   }
 

@@ -1,23 +1,23 @@
 
 Project: @today
-  Simple description @critical
-  Style *bold* _italic_ ~strikethrough~ @tag
+  Simple description, @tag, nested @critical
+  Style *bold* _italic_ ~strikethrough~
   Not a project: but a description
   ☐ *bold* _italic_ ~strikethrough~
   ☐ *_bold/italic_* *~bold/strikethrough~* _~italic/strikethrough~_
   ☐ *_~bold/italic/strikethrough~_*
   ✘ cancel
-  ✘ another cancel @tag aftertag
+  ✘ another cancel @critical @tag aftertag
   ✘ cancel/done ✔
   ✔ done @high
   ✔ another done
-  ✔ *@today*
   ✔ done/cancel ✘
   ☐toggle me
-  ☐ baz @ @custom @tag
+  ☐ @criticaluper
+  ☐ baz @ @custom @tag(@critical)
   ☐ qux @critical @high @low @today @today
   ☐ @critical @mixed @high
-  ☐ *@today* _@today_ ~@today~
+  ✔ *@today* _@today_ ~@today~
 
 Box:
   - Box

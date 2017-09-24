@@ -20,7 +20,7 @@ class Cancel extends Line {
 
     if ( !todo.isCancel () ) return [];
 
-    return [this.getRangesRegex ( todo.line, Consts.regexes.todo )];
+    return [this.getRangesRegex ( todo.line, Consts.regexes.todo, Consts.regexes.tag )];
 
   }
 

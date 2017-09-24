@@ -34,7 +34,7 @@ class Document {
 
   getItems ( Item: typeof Todo | typeof Project | typeof Comment | typeof Line, regex: RegExp ) {
 
-    const matches = Utils.getAllMatches ( this.textDocument.getText (), regex, true );
+    const matches = Utils.getAllMatches ( this.textDocument.getText (), regex );
 
     return matches.map ( match => {
 
