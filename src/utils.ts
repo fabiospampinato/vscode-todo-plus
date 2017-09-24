@@ -168,11 +168,11 @@ const Utils = {
 
       if ( !workspaceFolders ) return;
 
-      const firstRootPath = workspaceFolders[0].uri.path;
+      const firstRootPath = workspaceFolders[0].uri.fsPath;
 
       if ( !basePath || !absolute ( basePath ) ) return firstRootPath;
 
-      const rootPaths = workspaceFolders.map ( folder => folder.uri.path ),
+      const rootPaths = workspaceFolders.map ( folder => folder.uri.fsPath ),
             sortedRootPaths = _.sortBy ( rootPaths, [path => path.length] ).reverse (); // In order to get the closest root
 
       return sortedRootPaths.find ( rootPath => basePath.startsWith ( rootPath ) );
