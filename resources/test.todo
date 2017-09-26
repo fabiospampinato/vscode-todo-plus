@@ -19,6 +19,7 @@ Project: @today
   ☐ qux @critical @high @low @today @today
   ☐ @critical @mixed @high
   ✔ *@today* _@today_ ~@today~
+  ☐ no tag@example.com tag@critical.com
 
 Box:
   - Box

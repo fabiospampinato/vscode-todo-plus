@@ -36,7 +36,7 @@ const Consts = {
     todoDone: /^[^\S\n]*((?:[✔✓☑+]|\[[xX+]\])[^\n]*)/,
     project: /^(?![^\S\n]*(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]\])[^\n]*)[^\S\n]*(.+:[^\S\n]*)(?:(?=@(?!.+ +[^@]))|$)/,
     comment: /^(?![^\S\n]*(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]\])[^\n]*)(?![^\S\n]*.+:[^\S\n]*(?:(?=@(?!.+ +[^@]))|$))[^\S\n]*([^\n]+)/,
-    tag: /(@[^\s*~_]+)/,
+    tag: /(?:^|[^a-zA-Z0-9])(@[^\s*~_]+)/,
     tagSpecial: /(?=a)b/,
     bold: /(\*.+\*)/,
     italic: /(_.+_)/,
@@ -46,7 +46,7 @@ const Consts = {
 
 if ( Consts.tags.names.length ) {
 
-  Consts.regexes.tagSpecial = new RegExp ( `(@(?:${Consts.tags.names.map ( n => _.escapeRegExp ( n ) ).join ( '|' )}))(?![a-zA-Z])` );
+  Consts.regexes.tagSpecial = new RegExp ( `(?:^|[^a-zA-Z0-9])(@(?:${Consts.tags.names.map ( n => _.escapeRegExp ( n ) ).join ( '|' )}))(?![a-zA-Z])` );
 
 }
 
