@@ -1,3 +1,6 @@
+### Version 1.5.1
+- Ensuring most emails are not recognized as tags
+
 ### Version 1.5.0
 - Improved support for comments containing commas and tags
 - Added `X` and `[X]` to the supported symbols
