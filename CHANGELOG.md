@@ -1,3 +1,6 @@
+### Version 1.5.2
+- Replaced `resourceLangId` with `editorLangId`
+
 ### Version 1.5.1
 - Ensuring most emails are not recognized as tags
 
