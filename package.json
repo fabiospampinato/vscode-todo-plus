@@ -164,32 +164,32 @@
         "command": "todo.toggleBox",
         "key": "Ctrl+Enter",
         "mac": "Cmd+Enter",
-        "when": "editorTextFocus && resourceLangId == todo"
+        "when": "editorTextFocus && editorLangId == todo"
       },
       {
         "command": "todo.toggleCancel",
         "key": "Alt+c",
-        "when": "editorTextFocus && resourceLangId == todo"
+        "when": "editorTextFocus && editorLangId == todo"
       },
       {
         "command": "todo.toggleDone",
         "key": "Alt+d",
-        "when": "editorTextFocus && resourceLangId == todo"
+        "when": "editorTextFocus && editorLangId == todo"
       }
     ],
     "menus": {
       "commandPalette": [
         {
           "command": "todo.toggleBox",
-          "when": "resourceLangId == todo"
+          "when": "editorLangId == todo"
         },
         {
           "command": "todo.toggleCancel",
-          "when": "resourceLangId == todo"
+          "when": "editorLangId == todo"
         },
         {
           "command": "todo.toggleDone",
-          "when": "resourceLangId == todo"
+          "when": "editorLangId == todo"
         }
       ]
     }
