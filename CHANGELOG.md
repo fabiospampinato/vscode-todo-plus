@@ -1,3 +1,6 @@
+### Version 1.5.3
+- Fixed multi-cursor support
+
 ### Version 1.5.2
 - Replaced `resourceLangId` with `editorLangId`
 
