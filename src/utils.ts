@@ -85,19 +85,23 @@ const Utils = {
 
     },
 
-    async replaceRange ( textEditor: vscode.TextEditor, lineNr: number, replacement: string, fromCh: number, toCh?: number ) {
+    makeReplaceEdit ( textEditor: vscode.TextEditor, lineNr: number, replacement: string, fromCh: number, toCh?: number ) {
 
-      const {default: DocumentDecorator} = require ( './todo/decorators/document' ), // In order to avoid a cyclic dependency
-            range = new vscode.Range ( lineNr, fromCh, lineNr, toCh || fromCh ),
-            replace = vscode.TextEdit.replace ( range, replacement ),
-            uri = textEditor.document.uri,
+      const range = new vscode.Range ( lineNr, fromCh, lineNr, toCh || fromCh ),
+            replace = vscode.TextEdit.replace ( range, replacement );
+
+      return replace;
+
+    },
+
+    applyEdits ( textEditor: vscode.TextEditor, edits: vscode.TextEdit[] ) {
+
+      const uri = textEditor.document.uri,
             edit = new vscode.WorkspaceEdit ();
 
-      edit.set ( uri, [replace] );
+      edit.set ( uri, edits );
 
-      await vscode.workspace.applyEdit ( edit );
-
-      DocumentDecorator.decorate ( textEditor );
+      return vscode.workspace.applyEdit ( edit );
 
     }
 
