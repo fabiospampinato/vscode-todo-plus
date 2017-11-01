@@ -5,6 +5,7 @@ Project: @today
   Not a project: but a description
   Not a project: @tag, but a description
   ☐ *bold* _italic_ ~strikethrough~
+  ☐ X*bold*X X_italic_X X~strikethrough~X (Smart)
   ☐ *_bold/italic_* *~bold/strikethrough~* _~italic/strikethrough~_
   ☐ *_~bold/italic/strikethrough~_*
   ✘ cancel
