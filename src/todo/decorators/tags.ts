@@ -25,15 +25,15 @@ class Tags extends Line {
 
   TYPES = [...SPECIAL_TAGS, TAG];
 
-  getItemRanges ( line: LineItem ) {
+  getItemRanges ( line: LineItem, negRange?: vscode.Range | vscode.Range[] ) {
 
     return [
       ...names.map ( name => {
         const tag = Document.toTag ( name ),
               regex = new RegExp ( `(?:^|[^a-zA-Z0-9])(${_.escapeRegExp ( tag )})(?![a-zA-Z])`, 'gm' );
-        return this.getRangesRegex ( line.line, regex );
+        return this.getRangesRegex ( line.startLine, regex, undefined, negRange );
       }),
-      this.getRangesRegex ( line.line, Consts.regexes.tag )
+      this.getRangesRegex ( line.startLine, Consts.regexes.tag, undefined, negRange )
     ];
 
   }

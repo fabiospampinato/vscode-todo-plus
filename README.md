@@ -14,6 +14,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
   - **Box**: - ❍ ❑ ■ ⬜ □ ☐ ▪ ▫ – — ≡ → › [ ]
   - **Done**: ✔ ✓ ☑ + [x] [X] [+]
   - **Cancel**: ✘ x X [-]
+- **Code blocks**: you can define code blocks by wrapping them in backticks (`)
 - **Custom colors**: all colors can be customized
 - **Custom special tags**: special tags' names and their colors can be customized
 
@@ -55,6 +56,7 @@ Alt+C // Toggle todo's cancel symbol
   "todo.symbols.cancel": "✘", // Cancel symbol
   "todo.colors.cancel": "#f92672", // Cancelled todo color
   "todo.colors.done": "#a6e22e", // Done todo color
+  "todo.colors.code": "#fd971f", // Code color
   "todo.colors.comment": "#75715e", // Comment color
   "todo.colors.project": "#66d9ef", // Project color
   "todo.colors.tag": "#e6db74", // Tag color

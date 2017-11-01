@@ -27,3 +27,11 @@ Style:
     ☐ Use underscores for _italic_
   Strikethrough:
     ☐ Use tildes for ~strikethrough~
+
+Code:
+  ☐ you can embed custom `code` pretty much anywhere
+  ☐ even `
+      multi-line
+      code blocks
+      are supported
+    `

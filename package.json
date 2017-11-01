@@ -80,6 +80,11 @@
           "description": "Done todo color",
           "default": "#a6e22e"
         },
+        "todo.colors.code": {
+          "type": "string",
+          "description": "Code color",
+          "default": "#fd971f"
+        },
         "todo.colors.comment": {
           "type": "string",
           "description": "Comment color",

@@ -1,8 +1,8 @@
 
 ☐ Moving projects up and down is buggy @high
-☐ Option for auto-deleting done and cancelled tasks
-☐ Style commands (cmd+b/i/s)
+☐ Style/Code commands (cmd+b/i/s/`)
   ☐ https://github.com/neilsustc/vscode-markdown/blob/master/src/formatting.ts
+☐ Autocomplete these characters: *_~`
 ☐ New tags:
   ☐ @done(+date)
   ☐ @due(+date)

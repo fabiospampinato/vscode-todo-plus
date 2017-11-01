@@ -3,6 +3,7 @@
 
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
+import Code from '../items/code';
 import Comment from '../items/comment';
 import LineItem from '../items/line';
 import Project from '../items/project';
@@ -17,7 +18,7 @@ class Line {
 
   /* RANGE */
 
-  getRange ( textLine: vscode.TextLine, startCharacter: number, endCharacter: number ) {
+  getRange ( textLine: vscode.TextLine, startCharacter: number, endCharacter: number ): vscode.Range {
 
     if ( startCharacter < 0 || endCharacter < 0 ) return;
 
@@ -27,29 +28,7 @@ class Line {
 
   }
 
-  getRangeLine ( textLine: vscode.TextLine ) {
-
-    return this.getRange ( textLine, 0, textLine.range.end.character );
-
-  }
-
-  getRangesToken ( textLine: vscode.TextLine, token: string ) {
-
-    const regex = new RegExp ( `(${_.escapeRegExp ( token )})`, 'gm' );
-
-    return this.getRangesRegex ( textLine, regex );
-
-  }
-
-  getRangesRegex ( textLine: vscode.TextLine, posRegex: RegExp, negRegex?: RegExp ) {
-
-    function matches2ranges ( matches ) {
-      return matches.map ( match => {
-        const end = match.index + match[0].length,
-              start = end - _.last ( match ).length;
-        return { start, end };
-      });
-    }
+  getRangesRegex ( textLine: vscode.TextLine, posRegex: RegExp, negRegex?: RegExp | RegExp[], negRange?: vscode.Range | vscode.Range[] ): vscode.Range[] {
 
     function rangesDifference ( pos, neg, length ) {
       const cells = _.fill ( Array ( length ), false );
@@ -77,32 +56,40 @@ class Line {
     }
 
     const posMatches = Utils.getAllMatches ( textLine.text, posRegex ),
-          posRanges = matches2ranges ( posMatches );
+          posRanges = Utils.matches2ranges ( posMatches );
 
-    let ranges = posRanges;
+    if ( !posRanges.length ) return []; // Early exit //TSC
 
-    if ( posRanges.length && negRegex ) {
+    let ranges = posRanges,
+        negRanges = _.castArray ( negRange || [] ).filter ( range => range.line === textLine.lineNumber );
 
-      const negMatches = Utils.getAllMatches ( textLine.text, negRegex ),
-            negRanges = matches2ranges ( negMatches );
+    if ( negRegex ) { // Getting negative ranges from negative regexes
 
-      if ( negRanges.length ) {
+      _.castArray ( negRegex ).forEach ( negRegex => {
 
-        ranges = rangesDifference ( posRanges, negRanges, textLine.text.length );
+        const negMatches = Utils.getAllMatches ( textLine.text, negRegex );
 
-      }
+        negRanges = negRanges.concat ( Utils.matches2ranges ( negMatches ) );
+
+      });
 
     }
 
-    return ranges.map ( ({ start, end }) => this.getRange ( textLine, start, end ) );
+    if ( negRanges.length ) { // Filtering out negative ranges
+
+      ranges = rangesDifference ( ranges, negRanges, textLine.text.length );
+
+    }
+
+    return ranges.map ( ({ start, end }) => this.getRange ( textLine, start, end ) ) ;
 
   }
 
   /* ITEMS */
 
-  getRanges ( items: Todo[] | Project[] | Comment[] | LineItem[] ) {
+  getRanges ( items: Todo[] | Project[] | Code[] | Comment[] | LineItem[], negRange?: vscode.Range | vscode.Range[] ) {
 
-    const ranges = (items.map as any)( this.getItemRanges.bind ( this ) ), //TSC
+    const ranges = (items.map as any)( item => this.getItemRanges ( item, negRange ) ), //TSC
           zipped = _.zip ( ...ranges ),
           compact = zipped.map ( _.compact ),
           concat = compact.map ( r => _.concat ( [], ...r ) );
@@ -111,11 +98,15 @@ class Line {
 
   }
 
-  getItemRanges ( item: Todo | Project | Comment | LineItem ) {}
+  getItemRanges ( item: Todo | Project | Code | Comment | LineItem, negRange?: vscode.Range | vscode.Range[] ): vscode.Range[] | vscode.Range[][] {
 
-  getDecorations ( items: Todo[] | Project[] | Comment[] | LineItem[] ) {
+    return [item.range];
 
-    const ranges = this.getRanges ( items );
+  }
+
+  getDecorations ( items: Todo[] | Project[] | Code[] | Comment[] | LineItem[], negRange?: vscode.Range | vscode.Range[] ) {
+
+    let ranges = this.getRanges ( items, negRange );
 
     return this.TYPES.map ( ( type, index ) => ({
       type,

@@ -25,21 +25,21 @@ class Style extends Line {
 
   TYPES = [BOLD, ITALIC, STRIKETHROUGH];
 
-  getItemRanges ( line: LineItem ) {
+  getItemRanges ( line: LineItem, negRange?: vscode.Range | vscode.Range[] ) {
 
     return [
-      this.getRangesRegex ( line.line, Consts.regexes.bold ),
-      this.getRangesRegex ( line.line, Consts.regexes.italic ),
-      this.getRangesRegex ( line.line, Consts.regexes.strikethrough )
+      this.getRangesRegex ( line.startLine, Consts.regexes.bold, undefined, negRange ),
+      this.getRangesRegex ( line.startLine, Consts.regexes.italic, undefined, negRange ),
+      this.getRangesRegex ( line.startLine, Consts.regexes.strikethrough, undefined, negRange )
     ];
 
   }
 
-  getDecorations ( items? ) {
+  getDecorations ( items?: LineItem[], negRange?: vscode.Range | vscode.Range[] ) {
 
     if ( !Config.getKey ( 'formatting.enabled' ) ) return [];
 
-    return super.getDecorations ( items );
+    return super.getDecorations ( items, negRange );
 
   }
 

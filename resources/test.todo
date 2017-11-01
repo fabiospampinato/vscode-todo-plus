@@ -4,15 +4,29 @@ Project: @today
   Style *bold* _italic_ ~strikethrough~
   Not a project: but a description
   Not a project: @tag, but a description
+  Contains some `code`, nested
+  Contains some `
+    multi-line
+    code
+  `, nested
   ☐ *bold* _italic_ ~strikethrough~
   ☐ X*bold*X X_italic_X X~strikethrough~X (Smart)
   ☐ *_bold/italic_* *~bold/strikethrough~* _~italic/strikethrough~_
   ☐ *_~bold/italic/strikethrough~_*
+  ☐ `code () *bold* @tag @critical`
+  ☐ `@tag`half
+  ☐ `foo ()` and `bar ()` and ``
+  ☐ `
+     code () *bold* @tag @critical
+     code () *bold* @tag @critical
+    `
   ✘ cancel
   ✘ another cancel @critical @tag aftertag
+  ✘ cancelled `code`, nested
   ✘ cancel/done ✔
   ✔ done @high
   ✔ another done
+  ✔ done `code`, nested
   ✔ done/cancel ✘
   ☐toggle me
   ☐ @criticaluper

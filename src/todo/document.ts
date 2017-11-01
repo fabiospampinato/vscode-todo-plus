@@ -4,6 +4,7 @@
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
 import Line from './items/line';
+import Code from './items/code';
 import Comment from './items/comment';
 import Project from './items/project';
 import Todo from './items/todo';
@@ -28,7 +29,7 @@ class Document {
 
     return _.range ( this.textDocument.lineCount )
             .map ( lineNr => this.textDocument.lineAt ( lineNr ) )
-            .map ( line => new Line ( line ) );
+            .map ( line => new Line ( this.textDocument, line.range.start, line.range.end, line, line, line.text ) );
 
   }
 
@@ -38,11 +39,22 @@ class Document {
 
     return matches.map ( match => {
 
-      const line = this.textDocument.lineAt ( this.textDocument.positionAt ( match.index + 1 ).line );
+      let range = Utils.match2range ( match ),
+          startPos = this.textDocument.positionAt ( range.start ),
+          endPos = this.textDocument.positionAt ( range.end ),
+          startLine = this.textDocument.lineAt ( startPos ),
+          endLine = this.textDocument.lineAt ( endPos ),
+          text = _.last ( match );
 
-      return new Item ( line );
+      return new Item ( this.textDocument, startPos, endPos, startLine, endLine, text );
 
     });
+
+  }
+
+  getCodes () {
+
+    return this.getItems ( Code, Consts.regexes.code );
 
   }
 

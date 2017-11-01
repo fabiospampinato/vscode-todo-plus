@@ -13,15 +13,7 @@ const PROJECT = vscode.window.createTextEditorDecorationType ({
 });
 
 class Project extends Line {
-
   TYPES = [PROJECT];
-
-  getItemRanges ( project: ProjectItem ) {
-
-    return [this.getRangesRegex ( project.line, Consts.regexes.project )];
-
-  }
-
 }
 
 /* EXPORT */

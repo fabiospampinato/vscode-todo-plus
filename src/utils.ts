@@ -77,6 +77,23 @@ const Utils = {
 
   },
 
+  matches2ranges ( matches: RegExpMatchArray[] ) {
+
+    return matches.map ( Utils.match2range );
+
+  },
+
+  match2range ( match: RegExpMatchArray ) {
+
+    const first = _.first ( match ),
+          last = _.last ( match ),
+          start = match.index + first.indexOf ( last ),
+          end = start + last.length;
+
+    return {start, end};
+
+  },
+
   editor: {
 
     isSupported ( textEditor?: vscode.TextEditor ) {
