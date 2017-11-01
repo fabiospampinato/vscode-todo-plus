@@ -1,3 +1,7 @@
+### Version 1.6.0
+- Added support for code blocks
+- Reduced probability that formatting is applied where not intended
+
 ### Version 1.5.3
 - Fixed multi-cursor support
 
