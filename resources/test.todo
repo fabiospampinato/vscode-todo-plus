@@ -37,7 +37,8 @@ Project: @today
   ✔ done/cancel ✘
   ☐toggle me
   ☐ @criticaluper
-  ☐ baz @ @custom @tag(@critical)
+  ☐ @tag() @tag(foo) @tag(@critical) @tag(foo bar)
+  ☐ baz @ @custom @tag(foo) @tag(@critical) @tag(foo bar)
   ☐ qux @critical @high @low @today @today
   ☐ @critical @mixed @high
   ✔ *@today* _@today_ ~@today~
