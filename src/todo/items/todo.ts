@@ -35,7 +35,7 @@ class Todo extends Item {
 
   /* TOKENS */
 
-  toggleToken ( token: string, removeToken: string, insertToken?: string ) {
+  toggleToken ( token: string, removeToken: string, insertToken?: string, force?: boolean ) {
 
     const set = ( replacement, startIndex, endIndex = startIndex ) => {
       const newText = `${this.text.substring ( 0, startIndex )}${replacement}${this.text.substring ( endIndex )}`;
@@ -45,6 +45,8 @@ class Todo extends Item {
     const tokenMatch = this.text.match ( new RegExp ( `^[^\\S\\n]*(${_.escapeRegExp ( token )})` ) );
 
     if ( tokenMatch ) { // Remove
+
+      if ( force === true ) return;
 
       const endIndex = tokenMatch.index + tokenMatch[0].length,
             startIndex = endIndex - tokenMatch[1].length,
@@ -58,6 +60,8 @@ class Todo extends Item {
 
     if ( otherMatch ) { // Replace
 
+      if ( force === false ) return;
+
       const endIndex = otherMatch.index + otherMatch[0].length,
             startIndex = endIndex - otherMatch[1].length;
 
@@ -66,6 +70,8 @@ class Todo extends Item {
     }
 
     if ( insertToken ) { // Insert
+
+      if ( force === false ) return;
 
       let startIndex = this.text.search ( /\S/ );
 
@@ -77,21 +83,57 @@ class Todo extends Item {
 
   }
 
-  toggleBox () {
+  toggleBox ( force?: boolean ) {
 
-    return this.toggleToken ( Consts.symbols.box, '', Consts.symbols.box );
-
-  }
-
-  toggleCancel () {
-
-    return this.toggleToken ( Consts.symbols.cancel, Consts.symbols.box, Consts.symbols.cancel );
+    return this.toggleToken ( Consts.symbols.box, '', Consts.symbols.box, force );
 
   }
 
-  toggleDone () {
+  box () {
 
-    return this.toggleToken ( Consts.symbols.done, Consts.symbols.box, Consts.symbols.done );
+    return this.toggleBox ( true );
+
+  }
+
+  unbox () {
+
+    return this.toggleBox ( false );
+
+  }
+
+  toggleCancel ( force?: boolean ) {
+
+    return this.toggleToken ( Consts.symbols.cancel, Consts.symbols.box, Consts.symbols.cancel, force );
+
+  }
+
+  cancel () {
+
+    return this.toggleCancel ( true );
+
+  }
+
+  uncancel () {
+
+    return this.toggleCancel ( false );
+
+  }
+
+  toggleDone ( force?: boolean ) {
+
+    return this.toggleToken ( Consts.symbols.done, Consts.symbols.box, Consts.symbols.done, force );
+
+  }
+
+  done () {
+
+    return this.toggleDone ( true );
+
+  }
+
+  undone () {
+
+    return this.toggleDone ( false );
 
   }
 
