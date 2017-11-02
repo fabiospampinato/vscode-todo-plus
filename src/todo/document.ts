@@ -25,30 +25,40 @@ class Document {
 
   /* GET */
 
-  getLines () {
-
-    return _.range ( this.textDocument.lineCount )
-            .map ( lineNr => this.textDocument.lineAt ( lineNr ) )
-            .map ( line => new Line ( this.textDocument, line.range.start, line.range.end, line, line, line.text ) );
-
-  }
-
   getItems ( Item: typeof Todo | typeof Project | typeof Comment | typeof Line, regex: RegExp ) {
 
     const matches = Utils.getAllMatches ( this.textDocument.getText (), regex );
 
     return matches.map ( match => {
 
-      let range = Utils.match2range ( match ),
-          startPos = this.textDocument.positionAt ( range.start ),
-          endPos = this.textDocument.positionAt ( range.end ),
-          startLine = this.textDocument.lineAt ( startPos ),
-          endLine = this.textDocument.lineAt ( endPos ),
-          text = _.last ( match );
+      const range = Utils.match2range ( match ),
+            startPos = this.textDocument.positionAt ( range.start ),
+            endPos = this.textDocument.positionAt ( range.end ),
+            startLine = this.textDocument.lineAt ( startPos ),
+            endLine = this.textDocument.lineAt ( endPos ),
+            text = _.last ( match );
 
       return new Item ( this.textDocument, startPos, endPos, startLine, endLine, text );
 
     });
+
+  }
+
+  getItemAt ( Item: typeof Todo | typeof Project | typeof Comment, lineNumber: number ) { //FIXME: Doesn't really work with code blocks (code blocks not recognized and todos inside code blocks recognized)
+
+    const line = this.textDocument.lineAt ( lineNumber );
+
+    if ( !Item.is ( line.text ) ) return;
+
+    return new Item ( this.textDocument, line.range.start, line.range.end, line, line, line.text  );
+
+  }
+
+  getLines () {
+
+    return _.range ( this.textDocument.lineCount )
+            .map ( lineNr => this.textDocument.lineAt ( lineNr ) )
+            .map ( line => new Line ( this.textDocument, line.range.start, line.range.end, line, line, line.text ) );
 
   }
 
@@ -58,9 +68,21 @@ class Document {
 
   }
 
+  getCodeAt ( lineNumber: number ) {
+
+    return this.getItemAt ( Code, lineNumber );
+
+  }
+
   getComments () {
 
     return this.getItems ( Comment, Consts.regexes.comment );
+
+  }
+
+  getCommentAt ( lineNumber: number ) {
+
+    return this.getItemAt ( Comment, lineNumber );
 
   }
 
@@ -70,9 +92,21 @@ class Document {
 
   }
 
+  getProjectAt ( lineNumber: number ) {
+
+    return this.getItemAt ( Project, lineNumber );
+
+  }
+
   getTodos () {
 
     return this.getItems ( Todo, Consts.regexes.todo );
+
+  }
+
+  getTodoAt ( lineNumber: number ) {
+
+    return this.getItemAt ( Todo, lineNumber );
 
   }
 
