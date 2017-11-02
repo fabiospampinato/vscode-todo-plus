@@ -67,7 +67,7 @@ Alt+C // Toggle todo's cancel symbol
 }
 ```
 
-## Demo
+## [Demo](https://github.com/fabiospampinato/vscode-todo-plus/blob/master/resources/readme.todo)
 
 ![Demo](resources/demo.png)
 
