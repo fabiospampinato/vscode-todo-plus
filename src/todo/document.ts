@@ -110,14 +110,6 @@ class Document {
 
   }
 
-  /* TAGS */
-
-  static toTag ( tagName: string ): string {
-
-    return `${Consts.symbols.tag}${tagName}`;
-
-  }
-
 }
 
 /* EXPORT */

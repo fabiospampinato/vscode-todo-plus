@@ -29,7 +29,7 @@ class Tags extends Line {
 
     return [
       ...names.map ( name => {
-        const tag = Document.toTag ( name ),
+        const tag = `@${name}`,
               regex = new RegExp ( `(?:^|[^a-zA-Z0-9])(${_.escapeRegExp ( tag )})(?![a-zA-Z])`, 'gm' );
         return this.getRangesRegex ( line.startLine, regex, undefined, negRange );
       }),

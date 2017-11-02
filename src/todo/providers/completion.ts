@@ -3,7 +3,6 @@
 
 import * as vscode from 'vscode';
 import Consts from '../../consts';
-import Document from '../document';
 
 /* COMPLETION */
 
@@ -13,7 +12,7 @@ class Completion implements vscode.CompletionItemProvider {
 
     return Consts.tags.names.map ( name => {
 
-      const tag = Document.toTag ( name ),
+      const tag = `@${name}`,
             item = new vscode.CompletionItem ( tag );
 
       item.insertText = `${tag} `;
