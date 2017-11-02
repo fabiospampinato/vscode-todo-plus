@@ -9,6 +9,9 @@ Project: @today
     multi-line
     code
   `, nested
+  ---------------------------------
+  –––––––––––––––––––––––––––––––––
+  —————————————————————————————————
   ☐ *bold* _italic_ ~strikethrough~
   ☐ X*bold*X X_italic_X X~strikethrough~X (Smart)
   ☐ *_bold/italic_* *~bold/strikethrough~* _~italic/strikethrough~_
