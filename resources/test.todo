@@ -20,6 +20,10 @@ Project: @today
      code () *bold* @tag @critical
      code () *bold* @tag @critical
     `
+  ☐ ```
+    nested `code` ``code``
+    ```
+  ☐ ```another triple backticks```
   ✘ cancel
   ✘ another cancel @critical @tag aftertag
   ✘ cancelled `code`, nested
