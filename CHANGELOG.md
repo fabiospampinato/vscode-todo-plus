@@ -1,3 +1,8 @@
+### Version 1.6.1
+- Added support for comments starting with a double dash
+- Ensuring projects inside a code block don’t get decorated
+- Added triple backticks (```) code blocks supports
+
 ### Version 1.6.0
 - Added support for code blocks
 - Reduced probability that formatting is applied where not intended
