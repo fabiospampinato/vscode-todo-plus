@@ -9,67 +9,91 @@ import Consts from './consts';
 import Document from './todo/document';
 import Utils from './utils';
 
+/* CALL TODOS METHOD */
+
+const callTodosMethodOptions = {
+  textEditor: undefined,
+  checkValidity: true,
+  filterer: undefined,
+  method: undefined,
+  args: [],
+  errors: {
+    invalid: 'Only todos can perform this action',
+    filtered: 'This todo cannot perform this action'
+  }
+};
+
+function callTodosMethod ( options? ) {
+
+  options = _.merge ( {}, callTodosMethodOptions, options );
+
+  if ( !Utils.editor.isSupported ( options.textEditor ) ) return;
+
+  const doc = new Document ( options.textEditor.document ),
+        lines = _.uniq ( options.textEditor.selections.map ( selection => selection.active.line ) ),
+        todos = _.filter ( lines.map ( line => doc.getTodoAt ( line, options.checkValidity ) ) );
+
+  if ( todos.length !== lines.length ) vscode.window.showErrorMessage ( options.errors.invalid );
+
+  if ( !todos.length ) return;
+
+  const todosFiltered = options.filterer ? todos.filter ( options.filterer ) : todos;
+
+  if ( todosFiltered.length !== todos.length ) vscode.window.showErrorMessage ( options.errors.filtered );
+
+  if ( !todosFiltered.length ) return;
+
+  const edits = _.filter ( todosFiltered.map ( todo => todo[options.method]( ...options.args ) ) );
+
+  if ( !edits.length ) return;
+
+  return Utils.editor.applyEdits ( options.textEditor, edits );
+
+}
+
 /* COMMANDS */
 
-function toggleToken ( textEditor: vscode.TextEditor, token: string, removeToken: string, insertToken?: string ) {
+function start ( textEditor: vscode.TextEditor ) {
 
-  if ( !Utils.editor.isSupported ( textEditor ) ) return;
-
-  const edits = _.filter ( textEditor.selections.map ( selection => {
-
-    const pos = selection.active,
-          line = textEditor.document.lineAt ( pos.line ),
-          text = line.text;
-
-    const tokenMatch = text.match ( new RegExp ( `^[^\\S\\n]*(${_.escapeRegExp ( token )})` ) ),
-          otherMatch = text.match ( Consts.regexes.todoToken );
-
-    if ( tokenMatch ) {
-
-      const endIndex = tokenMatch.index + tokenMatch[0].length,
-            startIndex = endIndex - tokenMatch[1].length,
-            space = !removeToken && text.length >= startIndex + 1 && text[startIndex + 1].match ( /\s/ ) ? 1 : 0;
-
-      return Utils.editor.makeReplaceEdit ( pos.line, removeToken, startIndex, endIndex + space );
-
-    } else if ( otherMatch ) {
-
-      const endIndex = otherMatch.index + otherMatch[0].length,
-            startIndex = endIndex - otherMatch[1].length;
-
-      return Utils.editor.makeReplaceEdit ( pos.line, token, startIndex, endIndex );
-
-    } else if ( insertToken ) {
-
-      let spaceIndex = text.search ( /\S/ );
-
-      if ( spaceIndex === -1 ) spaceIndex = text.length;
-
-      return Utils.editor.makeReplaceEdit ( pos.line, `${insertToken} `, spaceIndex );
-
+  return callTodosMethod ({
+    textEditor,
+    filterer: todo => todo.isBox (),
+    method: 'start',
+    errors: {
+      invalid: 'Only todos can be started',
+      filtered: 'Only not already cancelled/done todos can be started'
     }
-
-  }));
-
-  return Utils.editor.applyEdits ( textEditor, edits );
+  });
 
 }
 
 function toggleBox ( textEditor: vscode.TextEditor ) {
 
-  toggleToken ( textEditor, Consts.symbols.box, '', Consts.symbols.box );
+  return callTodosMethod ({
+    textEditor,
+    checkValidity: false,
+    method: 'toggleBox'
+  });
 
 }
 
 function toggleCancel ( textEditor: vscode.TextEditor ) {
 
-  toggleToken ( textEditor, Consts.symbols.cancel, Consts.symbols.box, Consts.symbols.cancel );
+  return callTodosMethod ({
+    textEditor,
+    checkValidity: false,
+    method: 'toggleCancel'
+  });
 
 }
 
 function toggleDone ( textEditor: vscode.TextEditor ) {
 
-  toggleToken ( textEditor, Consts.symbols.done, Consts.symbols.box, Consts.symbols.done );
+  return callTodosMethod ({
+    textEditor,
+    checkValidity: false,
+    method: 'toggleDone'
+  });
 
 }
 
@@ -102,30 +126,6 @@ async function open () {
 
 }
 
-function start ( textEditor: vscode.TextEditor ) {
-
-  if ( !Utils.editor.isSupported ( textEditor ) ) return;
-
-  const doc = new Document ( textEditor.document ),
-        lines = _.uniq ( textEditor.selections.map ( selection => selection.active.line ) ),
-        todos = _.filter ( lines.map ( line => doc.getTodoAt ( line ) ) );
-
-  if ( todos.length !== lines.length ) vscode.window.showErrorMessage ( 'Only todos can be started' );
-
-  if ( !todos.length ) return;
-
-  const todosBox = todos.filter ( todo => todo.isBox () );
-
-  if ( todosBox.length !== todos.length ) vscode.window.showErrorMessage ( 'Only not already cancelled/done todos can be started' );
-
-  if ( !todosBox.length ) return;
-
-  const edits = _.filter ( todos.map ( todo => todo.start () ) );
-
-  return Utils.editor.applyEdits ( textEditor, edits );
-
-}
-
 /* EXPORT */
 
-export {toggleBox, toggleCancel, toggleDone, open, start};
+export {start, toggleBox, toggleCancel, toggleDone, open};
