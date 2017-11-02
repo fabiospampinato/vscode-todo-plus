@@ -44,11 +44,11 @@ class Document {
 
   }
 
-  getItemAt ( Item: typeof Todo | typeof Project | typeof Comment, lineNumber: number ) { //FIXME: Doesn't really work with code blocks (code blocks not recognized and todos inside code blocks recognized)
+  getItemAt ( Item: typeof Todo | typeof Project | typeof Comment, lineNumber: number, checkValidity = true ) { //FIXME: Doesn't really work with code blocks (code blocks not recognized and todos inside code blocks recognized)
 
     const line = this.textDocument.lineAt ( lineNumber );
 
-    if ( !Item.is ( line.text ) ) return;
+    if ( checkValidity && !Item.is ( line.text ) ) return;
 
     return new Item ( this.textDocument, line.range.start, line.range.end, line, line, line.text  );
 
@@ -68,9 +68,9 @@ class Document {
 
   }
 
-  getCodeAt ( lineNumber: number ) {
+  getCodeAt ( lineNumber: number, checkValidity? ) {
 
-    return this.getItemAt ( Code, lineNumber );
+    return this.getItemAt ( Code, lineNumber, checkValidity );
 
   }
 
@@ -80,9 +80,9 @@ class Document {
 
   }
 
-  getCommentAt ( lineNumber: number ) {
+  getCommentAt ( lineNumber: number, checkValidity? ) {
 
-    return this.getItemAt ( Comment, lineNumber );
+    return this.getItemAt ( Comment, lineNumber, checkValidity );
 
   }
 
@@ -92,9 +92,9 @@ class Document {
 
   }
 
-  getProjectAt ( lineNumber: number ) {
+  getProjectAt ( lineNumber: number, checkValidity? ) {
 
-    return this.getItemAt ( Project, lineNumber );
+    return this.getItemAt ( Project, lineNumber, checkValidity );
 
   }
 
@@ -104,9 +104,9 @@ class Document {
 
   }
 
-  getTodoAt ( lineNumber: number ) {
+  getTodoAt ( lineNumber: number, checkValidity? ) {
 
-    return this.getItemAt ( Todo, lineNumber );
+    return this.getItemAt ( Todo, lineNumber, checkValidity );
 
   }
 
