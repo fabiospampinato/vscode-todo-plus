@@ -30,14 +30,14 @@ function toggleToken ( textEditor: vscode.TextEditor, token: string, removeToken
             startIndex = endIndex - tokenMatch[1].length,
             space = !removeToken && text.length >= startIndex + 1 && text[startIndex + 1].match ( /\s/ ) ? 1 : 0;
 
-      return Utils.editor.makeReplaceEdit ( textEditor, pos.line, removeToken, startIndex, endIndex + space );
+      return Utils.editor.makeReplaceEdit ( pos.line, removeToken, startIndex, endIndex + space );
 
     } else if ( otherMatch ) {
 
       const endIndex = otherMatch.index + otherMatch[0].length,
             startIndex = endIndex - otherMatch[1].length;
 
-      return Utils.editor.makeReplaceEdit ( textEditor, pos.line, token, startIndex, endIndex );
+      return Utils.editor.makeReplaceEdit ( pos.line, token, startIndex, endIndex );
 
     } else if ( insertToken ) {
 
@@ -45,7 +45,7 @@ function toggleToken ( textEditor: vscode.TextEditor, token: string, removeToken
 
       if ( spaceIndex === -1 ) spaceIndex = text.length;
 
-      return Utils.editor.makeReplaceEdit ( textEditor, pos.line, `${insertToken} `, spaceIndex );
+      return Utils.editor.makeReplaceEdit ( pos.line, `${insertToken} `, spaceIndex );
 
     }
 

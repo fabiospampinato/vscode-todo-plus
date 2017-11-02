@@ -102,7 +102,7 @@ const Utils = {
 
     },
 
-    makeReplaceEdit ( textEditor: vscode.TextEditor, lineNr: number, replacement: string, fromCh: number, toCh?: number ) {
+    makeReplaceEdit ( lineNr: number, replacement: string, fromCh: number, toCh?: number ) {
 
       const range = new vscode.Range ( lineNr, fromCh, lineNr, toCh || fromCh ),
             replace = vscode.TextEdit.replace ( range, replacement );
