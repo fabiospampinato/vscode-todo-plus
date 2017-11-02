@@ -17,7 +17,7 @@ Project: @today
   ☐ `@tag`half
   ☐ `foo ()` and `bar ()` and ``
   ☐ `
-     code () *bold* @tag @critical
+     not a project:
      code () *bold* @tag @critical
     `
   ☐ ```

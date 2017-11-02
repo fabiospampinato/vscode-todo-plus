@@ -42,7 +42,7 @@ class Document {
       new Tags ().getDecorations ( lines, negRanges ),
       new Code ().getDecorations ( codes ),
       new Comment ().getDecorations ( comments, negRanges ),
-      new Project ().getDecorations ( projects ),
+      new Project ().getDecorations ( projects, negRanges ),
       new Done ().getDecorations ( todos, negRanges ),
       new Cancel ().getDecorations ( todos, negRanges ),
       new Style ().getDecorations ( lines, negRanges )
