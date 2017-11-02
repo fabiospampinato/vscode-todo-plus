@@ -251,6 +251,22 @@ const Utils = {
 
     }
 
+  },
+
+  timestamp: { //TODO: Find some library that handles multiple formats seamlessly
+
+    parse ( str: string ) {
+
+      return new Date ( str );
+
+    },
+
+    stringify ( date: Date ) {
+
+      return String ( date.getTime () );
+
+    }
+
   }
 
 };

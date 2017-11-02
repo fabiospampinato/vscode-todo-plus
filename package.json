@@ -10,6 +10,7 @@
   "activationEvents": [
     "onLanguage:todo",
     "onCommand:todo.open",
+    "onCommand:todo.start",
     "onCommand:todo.toggleBox",
     "onCommand:todo.toggleCancel",
     "onCommand:todo.toggleDone"
@@ -152,6 +153,10 @@
         "title": "Todo: Open"
       },
       {
+        "command": "todo.start",
+        "title": "Todo: Start"
+      },
+      {
         "command": "todo.toggleBox",
         "title": "Todo: Toggle Box"
       },
@@ -165,6 +170,11 @@
       }
     ],
     "keybindings": [
+      {
+        "command": "todo.start",
+        "key": "Alt+s",
+        "when": "editorTextFocus && editorLangId == todo"
+      },
       {
         "command": "todo.toggleBox",
         "key": "Ctrl+Enter",
@@ -184,6 +194,10 @@
     ],
     "menus": {
       "commandPalette": [
+        {
+          "command": "todo.start",
+          "when": "editorLangId == todo"
+        },
         {
           "command": "todo.toggleBox",
           "when": "editorLangId == todo"

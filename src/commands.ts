@@ -102,6 +102,30 @@ async function open () {
 
 }
 
+function start ( textEditor: vscode.TextEditor ) {
+
+  if ( !Utils.editor.isSupported ( textEditor ) ) return;
+
+  const doc = new Document ( textEditor.document ),
+        lines = _.uniq ( textEditor.selections.map ( selection => selection.active.line ) ),
+        todos = _.filter ( lines.map ( line => doc.getTodoAt ( line ) ) );
+
+  if ( todos.length !== lines.length ) vscode.window.showErrorMessage ( 'Only todos can be started' );
+
+  if ( !todos.length ) return;
+
+  const todosBox = todos.filter ( todo => todo.isBox () );
+
+  if ( todosBox.length !== todos.length ) vscode.window.showErrorMessage ( 'Only not already cancelled/done todos can be started' );
+
+  if ( !todosBox.length ) return;
+
+  const edits = _.filter ( todos.map ( todo => todo.start () ) );
+
+  return Utils.editor.applyEdits ( textEditor, edits );
+
+}
+
 /* EXPORT */
 
-export {toggleBox, toggleCancel, toggleDone, open};
+export {toggleBox, toggleCancel, toggleDone, open, start};
