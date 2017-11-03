@@ -2,6 +2,8 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
+import * as moment from 'moment';
+import 'moment-precise-range-plugin';
 import * as vscode from 'vscode';
 import Item from './item';
 import Config from '../../config';
@@ -87,7 +89,9 @@ class Todo extends Item {
 
   start () {
 
-    const timestamp = Utils.timestamp.stringify (),
+    const date = moment (),
+          format = Config.getKey ( 'timekeeping.started.format' ),
+          timestamp = date.format ( format ),
           tag = `@started(${timestamp})`;
 
     return this.replaceTag ( Consts.regexes.tagStarted, tag );
@@ -112,8 +116,9 @@ class Todo extends Item {
 
       /* FINISH */
 
-      const finishedDate = new Date (),
-            finishedTimestamp = Utils.timestamp.stringify ( finishedDate ),
+      const finishedDate = moment (),
+            finishedFormat = Config.getKey ( 'timekeeping.finished.format' ),
+            finishedTimestamp = finishedDate.format ( finishedFormat ),
             finishedTag = `@${isPositive ? 'done' : 'cancelled' }(${finishedTimestamp})`;
 
       this.addTag ( finishedTag );
@@ -122,10 +127,11 @@ class Todo extends Item {
 
       if ( Config.getKey ( 'timekeeping.elapsed.enabled' ) && started ) {
 
-        const startedTimestamp = Number ( _.last ( started ) ),
-              startedDate = Utils.timestamp.parse ( startedTimestamp ),
-              elapsed = finishedDate.getTime () - startedDate.getTime (),
-              elapsedTag = `@${isPositive ? 'lasted' : 'wasted'}(${elapsed})`; //TODO: Format timestamp
+        const startedTimestamp = _.last ( started ),
+              startedFormat = Config.getKey ( 'timekeeping.started.format' ),
+              startedDate = moment ( startedTimestamp, startedFormat ),
+              diff = moment.preciseDiff ( startedDate, finishedDate ),
+              elapsedTag = `@${isPositive ? 'lasted' : 'wasted'}(${diff})`;
 
         return this.addTag ( elapsedTag );
 

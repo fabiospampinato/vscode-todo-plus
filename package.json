@@ -145,10 +145,20 @@
           "description": "Enable markdown-like formatting",
           "default": true
         },
+        "todo.timekeeping.started.format": {
+          "type": "string",
+          "description": "Format used for displaying time inside @started",
+          "default": "YY-MM-DD HH:mm"
+        },
         "todo.timekeeping.finished.enabled": {
           "type": "boolean",
           "description": "Enable the @done/cancelled tag. It's always enabled if you explicitly start a todo",
           "default": true
+        },
+        "todo.timekeeping.finished.format": {
+          "type": "string",
+          "description": "Format used for displaying time inside @done/cancelled",
+          "default": "YY-MM-DD HH:mm"
         },
         "todo.timekeeping.elapsed.enabled": {
           "type": "boolean",
@@ -259,6 +269,8 @@
     "find-up": "^2.1.0",
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
+    "moment": "^2.19.1",
+    "moment-precise-range-plugin": "^1.2.4",
     "pify": "^3.0.0"
   },
   "devDependencies": {

@@ -6,6 +6,7 @@ import * as absolute from 'absolute';
 import * as findUp from 'find-up';
 import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
+import * as moment from 'moment';
 import * as path from 'path';
 import * as pify from 'pify';
 import * as vscode from 'vscode';
@@ -248,22 +249,6 @@ const Utils = {
         };
 
       }
-
-    }
-
-  },
-
-  timestamp: { //TODO: Find some library that handles multiple formats seamlessly
-
-    parse ( str: number ) {
-
-      return new Date ( str );
-
-    },
-
-    stringify ( date: Date = new Date () ) {
-
-      return String ( date.getTime () );
 
     }
 
