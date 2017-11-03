@@ -23,9 +23,9 @@ class Item {
 
     this.textDocument = textDocument;
     this.startPos = startPos;
-    this.startOffset = textDocument.offsetAt ( this.startPos );
+    this.startOffset = this.textDocument.offsetAt ( this.startPos );
     this.endPos = endPos;
-    this.endOffset = textDocument.offsetAt ( this.endPos );
+    this.endOffset = this.textDocument.offsetAt ( this.endPos );
     this.range = new vscode.Range ( this.startPos, this.endPos );
     this.startLine = startLine;
     this.endLine = endLine;

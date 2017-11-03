@@ -2,6 +2,7 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
+import * as vscode from 'vscode';
 import Item from './item';
 import Consts from '../../consts';
 import Utils from '../../utils';
@@ -12,11 +13,72 @@ class Todo extends Item {
 
   /* HELPERS */
 
-  setText ( newText: string ) { //TODO: Update lines/ranges as well
+  getStatus () {
 
-    this.text = newText;
+    const box = this.isBox (),
+          done = !box && this.isDone (),
+          cancelled = !box && !done && this.isCancelled (),
+          other = !box && !done && !cancelled;
 
-    return Utils.editor.makeReplaceEdit ( this.startLine.lineNumber, newText, this.startPos.character, this.endPos.character );
+    return { box, done, cancelled, other };
+
+  }
+
+  setToken ( replacement: string, startIndex: number, endIndex: number = startIndex ) {
+
+    const was = this.getStatus ();
+
+    this.text = `${this.text.substring ( 0, startIndex )}${replacement}${this.text.substring ( endIndex )}`;
+
+    const is = this.getStatus ();
+
+    if ( ( ( was.done || was.cancelled ) && is.box ) || ( !was.other && is.other ) ) {
+
+      return this.unfinish ();
+
+    } else if ( ( was.box && !is.box ) || ( was.cancelled && is.done ) || ( was.done && is.cancelled ) ) {
+
+      return this.finish ();
+
+    } else {
+
+      return this.makeEdit ();
+
+    }
+
+  }
+
+  makeEdit () {
+
+    if ( this.startLine.text === this.text ) return;
+
+    return Utils.editor.makeReplaceEdit ( this.startLine.lineNumber, this.text, this.startPos.character, this.endPos.character );
+
+  }
+
+  /* TAGS */
+
+  addTag ( tag: string ) {
+
+    this.text = `${_.trimEnd ( this.text )} ${tag}`;
+
+    return this.makeEdit ();
+
+  }
+
+  removeTag ( tagRegex: RegExp ) {
+
+    this.text = _.trimEnd ( this.text.replace ( tagRegex, '' ) );
+
+    return this.makeEdit ();
+
+  }
+
+  replaceTag ( tagRegex: RegExp, tag: string ) {
+
+    this.removeTag ( tagRegex );
+
+    return this.addTag ( tag );
 
   }
 
@@ -24,23 +86,63 @@ class Todo extends Item {
 
   start () {
 
-    const timestamp = Utils.timestamp.stringify ( new Date () ),
-          tag = `@started(${timestamp})`,
-          match = this.text.match ( Consts.regexes.tagStarted ),
-          newText = match ? this.text.replace ( Consts.regexes.tagStarted, tag ) : `${_.trimEnd ( this.text )} ${tag}`;
+    const timestamp = Utils.timestamp.stringify (),
+          tag = `@started(${timestamp})`;
 
-    return this.setText ( newText );
+    return this.replaceTag ( Consts.regexes.tagStarted, tag );
+
+  }
+
+  unstart () {
+
+    return this.removeTag ( Consts.regexes.tagStarted );
+
+  }
+
+  finish () {
+
+    this.unfinish ();
+
+    const isPositive = this.isDone ();
+
+    /* FINISHED */
+
+    const finishedDate = new Date (),
+          finishedTimestamp = Utils.timestamp.stringify ( finishedDate ),
+          finishedTag = `@${isPositive ? 'done' : 'cancelled' }(${finishedTimestamp})`;
+
+    this.addTag ( finishedTag );
+
+    /* ELAPSED */
+
+    const started = this.text.match ( Consts.regexes.tagStarted );
+
+    if ( started ) {
+
+      const startedTimestamp = Number ( _.last ( started ) ),
+            startedDate = Utils.timestamp.parse ( startedTimestamp ),
+            elapsed = finishedDate.getTime () - startedDate.getTime (),
+            elapsedTag = `@${isPositive ? 'lasted' : 'wasted'}(${elapsed})`; //TODO: Format timestamp
+
+      return this.addTag ( elapsedTag );
+
+    }
+
+    return this.makeEdit ();
+
+  }
+
+  unfinish () {
+
+    this.removeTag ( Consts.regexes.tagFinished );
+
+    return this.removeTag ( Consts.regexes.tagElapsed );
 
   }
 
   /* TOKENS */
 
   toggleToken ( token: string, removeToken: string, insertToken?: string, force?: boolean ) {
-
-    const set = ( replacement, startIndex, endIndex = startIndex ) => {
-      const newText = `${this.text.substring ( 0, startIndex )}${replacement}${this.text.substring ( endIndex )}`;
-      return this.setText ( newText );
-    };
 
     const tokenMatch = this.text.match ( new RegExp ( `^[^\\S\\n]*(${_.escapeRegExp ( token )})` ) );
 
@@ -52,7 +154,7 @@ class Todo extends Item {
             startIndex = endIndex - tokenMatch[1].length,
             spaceNr = !removeToken && this.text.length >= startIndex + 1 && this.text[startIndex + 1].match ( /\s/ ) ? 1 : 0;
 
-      return set ( removeToken, startIndex, endIndex + spaceNr );
+      return this.setToken ( removeToken, startIndex, endIndex + spaceNr );
 
     }
 
@@ -65,7 +167,7 @@ class Todo extends Item {
       const endIndex = otherMatch.index + otherMatch[0].length,
             startIndex = endIndex - otherMatch[1].length;
 
-      return set ( token, startIndex, endIndex );
+      return this.setToken ( token, startIndex, endIndex );
 
     }
 
@@ -77,7 +179,7 @@ class Todo extends Item {
 
       if ( startIndex === -1 ) startIndex = this.text.length;
 
-      return set ( `${insertToken} `, startIndex );
+      return this.setToken ( `${insertToken} `, startIndex );
 
     }
 
@@ -151,7 +253,7 @@ class Todo extends Item {
 
   }
 
-  isCancel () {
+  isCancelled () {
 
     return Item.is ( this.text, Consts.regexes.todoCancel );
 

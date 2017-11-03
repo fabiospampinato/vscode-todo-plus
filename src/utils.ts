@@ -255,13 +255,13 @@ const Utils = {
 
   timestamp: { //TODO: Find some library that handles multiple formats seamlessly
 
-    parse ( str: string ) {
+    parse ( str: number ) {
 
       return new Date ( str );
 
     },
 
-    stringify ( date: Date ) {
+    stringify ( date: Date = new Date () ) {
 
       return String ( date.getTime () );
 

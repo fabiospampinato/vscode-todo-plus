@@ -3,9 +3,8 @@
 ☐ Style/Code commands (cmd+b/i/s/`)
   ☐ https://github.com/neilsustc/vscode-markdown/blob/master/src/formatting.ts
 ☐ Autocomplete these characters: *_~`
-☐ New tags:
-  ☐ @done(+date)
-  ☐ @due(+date)
+☐ @due(+timestamp)
+☐ maybe show an error if there's a special tag called `started/done/cancelled/wasted/lasted`
 ☐ Archiving
 ☐ Statistics (Statusbar?)
   ☐ With the current todo, if any, as the tooltip

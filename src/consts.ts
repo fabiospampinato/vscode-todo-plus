@@ -29,7 +29,7 @@ const Consts = {
     foregroundColors: Config.getKey ( 'tags.foregroundColors' )
   },
   regexes: {
-    impossible: /(?=a)b/,// -
+    impossible: /(?=a)b/,
     todo: /^[^\S\n]*((?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]\])[^\n]*)/,
     todoToken: /^[^\S\n]*(?!--|––|——)([-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]\])/,
     todoBox: /^[^\S\n]*((?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ \])[^\n]*)/,
@@ -40,6 +40,8 @@ const Consts = {
     tag: /(?:^|[^a-zA-Z0-9`])(@[^\s*~_(]+(?:\([^)]*\))?)/,
     tagSpecial: /(?=a)b/,
     tagStarted: /@started\(([^)]*)\)/,
+    tagFinished: /@(?:done|cancelled)\(([^)]*)\)/,
+    tagElapsed: /@(?:lasted|wasted)\(([^)]*)\)/,
     code: /((?:```[\s\S]*?```)|(?:`[^`]*`))/,
     bold: /(?:^|\s)(\*.+\*)(?:\s|$)/,
     italic: /(?:^|\s)(_.+_)(?:\s|$)/,
