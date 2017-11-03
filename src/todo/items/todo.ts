@@ -163,7 +163,7 @@ class Todo extends Item {
 
       const endIndex = tokenMatch.index + tokenMatch[0].length,
             startIndex = endIndex - tokenMatch[1].length,
-            spaceNr = !removeToken && this.text.length >= startIndex + 1 && this.text[startIndex + 1].match ( /\s/ ) ? 1 : 0;
+            spaceNr = !removeToken && this.text.length >= ( startIndex + 2 ) && this.text[startIndex + 1].match ( /\s/ ) ? 1 : 0;
 
       return this.setToken ( removeToken, startIndex, endIndex + spaceNr );
 
