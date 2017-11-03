@@ -18,6 +18,10 @@ Todos:
   Tagging:
     ☐ You can add tags using the @ sign, like this @tag
     ☐ There are some special, customizable tags: @critical @high @low @today
+  Timekeeping:
+    ✔ Completed todos can show a timestamp @done(17-11-03 10:42)
+    ☐ Press Alt+S to mark a todo as started @started(17-11-03 10:42)
+      ✔ Now it will show the elapsed time @started(17-11-03 10:42) @done(17-11-03 20:11) @lasted(9 hours 29 minutes)
 
 Style:
   We support a markdown-like syntax for styling text
@@ -29,9 +33,13 @@ Style:
     ☐ Use tildes for ~strikethrough~
 
 Code:
-  ☐ you can embed custom `code` pretty much anywhere
-  ☐ even ```
+  ☐ You can embed custom `code` pretty much anywhere
+  ☐ Even ```
       multi-line
       code blocks
       are supported
     ```
+
+Archive:
+  ✔ Completed todos will be moved here
+  ✔ Congratulations, you are now a Todo+ master!

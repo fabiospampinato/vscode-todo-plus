@@ -1,10 +1,13 @@
 
+☐ Archiving
+  ☐ Sort entries by finished time if possible
+  ☐ Setting for adding the project as suffix to entries
+  ☐ Move also entries' comments
+  ☐ Update Projects+ Todo+ to filter out archives
 ☐ Moving projects up and down is buggy @high
+☐ Due tag: @due(+timestamp)
+☐ Autocomplete these characters: *_~`
 ☐ Style/Code commands (cmd+b/i/s/`)
   ☐ https://github.com/neilsustc/vscode-markdown/blob/master/src/formatting.ts
-☐ Autocomplete these characters: *_~`
-☐ @due(+timestamp)
-☐ maybe show an error if there's a special tag called `started/done/cancelled/wasted/lasted`
-☐ Archiving
 ☐ Statistics (Statusbar?)
   ☐ With the current todo, if any, as the tooltip
