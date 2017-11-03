@@ -39,7 +39,7 @@ class Todo extends Item {
 
       return this.unfinish ();
 
-    } else if ( ( was.box && !is.box ) || ( was.cancelled && is.done ) || ( was.done && is.cancelled ) ) {
+    } else if ( ( was.box && !is.box ) || ( was.cancelled && is.done ) || ( was.done && is.cancelled ) || ( was.other && ( is.done || is.cancelled ) ) ) {
 
       return this.finish ();
 
