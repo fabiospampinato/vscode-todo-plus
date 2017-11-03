@@ -1,3 +1,9 @@
+### Version 1.7.0
+- Added basic `Archive` functionalities
+- Added `Timekeeping` functionalities
+- Todo: fixed toggling of line containing only `☐`
+- Readme: linked `Demo` to the actual demo todo
+
 ### Version 1.6.1
 - Added support for comments starting with a double dash
 - Ensuring projects inside a code block don’t get decorated
