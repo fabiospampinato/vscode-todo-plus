@@ -130,7 +130,7 @@ class Todo extends Item {
         const startedTimestamp = _.last ( started ),
               startedFormat = Config.getKey ( 'timekeeping.started.format' ),
               startedDate = moment ( startedTimestamp, startedFormat ),
-              diff = moment.preciseDiff ( startedDate, finishedDate ),
+              diff = moment['preciseDiff'] ( startedDate, finishedDate ),
               elapsedTag = `@${isPositive ? 'lasted' : 'wasted'}(${diff})`;
 
         return this.addTag ( elapsedTag );
