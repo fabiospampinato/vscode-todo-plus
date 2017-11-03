@@ -144,6 +144,16 @@
           "type": "boolean",
           "description": "Enable markdown-like formatting",
           "default": true
+        },
+        "todo.timekeeping.finished.enabled": {
+          "type": "boolean",
+          "description": "Enable the @done/cancelled tag. It's always enabled if you explicitly start a todo",
+          "default": true
+        },
+        "todo.timekeeping.elapsed.enabled": {
+          "type": "boolean",
+          "description": "Enable the @lasted/wasted tag",
+          "default": true
         }
       }
     },

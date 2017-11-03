@@ -4,6 +4,7 @@
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
 import Item from './item';
+import Config from '../../config';
 import Consts from '../../consts';
 import Utils from '../../utils';
 
@@ -101,30 +102,34 @@ class Todo extends Item {
 
   finish () {
 
-    this.unfinish ();
-
-    const isPositive = this.isDone ();
-
-    /* FINISHED */
-
-    const finishedDate = new Date (),
-          finishedTimestamp = Utils.timestamp.stringify ( finishedDate ),
-          finishedTag = `@${isPositive ? 'done' : 'cancelled' }(${finishedTimestamp})`;
-
-    this.addTag ( finishedTag );
-
-    /* ELAPSED */
-
     const started = this.text.match ( Consts.regexes.tagStarted );
 
-    if ( started ) {
+    if ( Config.getKey ( 'timekeeping.finished.enabled' ) || started ) {
 
-      const startedTimestamp = Number ( _.last ( started ) ),
-            startedDate = Utils.timestamp.parse ( startedTimestamp ),
-            elapsed = finishedDate.getTime () - startedDate.getTime (),
-            elapsedTag = `@${isPositive ? 'lasted' : 'wasted'}(${elapsed})`; //TODO: Format timestamp
+      this.unfinish ();
 
-      return this.addTag ( elapsedTag );
+      const isPositive = this.isDone ();
+
+      /* FINISH */
+
+      const finishedDate = new Date (),
+            finishedTimestamp = Utils.timestamp.stringify ( finishedDate ),
+            finishedTag = `@${isPositive ? 'done' : 'cancelled' }(${finishedTimestamp})`;
+
+      this.addTag ( finishedTag );
+
+      /* ELAPSED */
+
+      if ( Config.getKey ( 'timekeeping.elapsed.enabled' ) && started ) {
+
+        const startedTimestamp = Number ( _.last ( started ) ),
+              startedDate = Utils.timestamp.parse ( startedTimestamp ),
+              elapsed = finishedDate.getTime () - startedDate.getTime (),
+              elapsedTag = `@${isPositive ? 'lasted' : 'wasted'}(${elapsed})`; //TODO: Format timestamp
+
+        return this.addTag ( elapsedTag );
+
+      }
 
     }
 

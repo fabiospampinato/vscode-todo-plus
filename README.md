@@ -63,7 +63,9 @@ Alt+C // Toggle todo's cancel symbol
   "todo.tags.names": ["critical", "high", "low", "today"], // Special tags' names
   "todo.tags.backgroundColors": ["#e54545", "#e59f45", "#e5d145", "#ae81ff"], // Special tags' background colors
   "todo.tags.foregroundColors": ["#000000", "#000000", "#000000", "#000000"], // Special tags' foreground colors
-  "todo.formatting.enabled": true // Enable markdown-like formatting
+  "todo.formatting.enabled": true, // Enable markdown-like formatting
+  "todo.timekeeping.finished.enabled": true, // Enable the @done/cancelled tag. It's always enabled if you explicitly start a todo
+  "todo.timekeeping.elapsed.enabled": true // Enable the @lasted/wasted tag
 }
 ```
 
