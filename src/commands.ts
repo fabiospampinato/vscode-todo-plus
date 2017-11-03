@@ -53,6 +53,37 @@ function callTodosMethod ( options? ) {
 
 /* COMMANDS */
 
+function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read implementation
+
+  const doc = textEditor.document,
+        text = doc.getText (),
+        indentation = Config.getKey ( 'indentation' ),
+        archiveName = Config.getKey ( 'archive.name' ),
+        archiveLabelMatch = _.last ( Utils.getAllMatches ( textEditor.document.getText(), Consts.regexes.archive ) ),
+        archiveLabel = archiveLabelMatch ? archiveLabelMatch[0] : `${archiveName}:`,
+        archiveStartIndex = archiveLabelMatch ? archiveLabelMatch.index : -1,
+        archiveEndIndex = archiveStartIndex === -1 ? -1 : archiveStartIndex + archiveLabel.length,
+        archivableText = archiveStartIndex === -1 ? text : text.substr ( 0, archiveStartIndex ),
+        archivableRegexes = [Consts.regexes.todoDone, Consts.regexes.todoCancel],
+        archivableMatches = _.flatten ( archivableRegexes.map ( re => Utils.getAllMatches ( archivableText, re ) ) );
+
+  if ( !archivableMatches.length ) return;
+
+  const archivablePositions = archivableMatches.map ( match => doc.positionAt ( match.index ) ),
+        archivableLines = archivablePositions.map ( pos => doc.lineAt ( pos.line ) ),
+        archivablePostPositions = archivableMatches.map ( ( match, i ) => doc.positionAt ( Math.min ( text.length - 1, match.index + archivableLines[i].text.length + 1 ) ) ), // In order to completely remove the line, including the new line
+        archivedLines = archivableLines.map ( line => `${indentation}${_.trimStart ( line.text )}` ),
+        archivedText =  '\n' + archivedLines.join ( '\n' ),
+        insertText = archiveStartIndex === -1 ? `\n\n${archiveLabel}${archivedText}` : archivedText,
+        insertPos = archiveEndIndex === -1 ? doc.positionAt ( text.length - 1 ) : doc.positionAt ( archiveEndIndex ),
+        editsRemoveLines = archivableLines.map ( ( line, i ) => vscode.TextEdit.delete ( new vscode.Range ( line.range.start, archivablePostPositions[i] ) ) ),
+        editsInsertArchived = vscode.TextEdit.insert ( insertPos, insertText ),
+        edits = editsRemoveLines.concat ( editsInsertArchived );
+
+  return Utils.editor.applyEdits ( textEditor, edits );
+
+}
+
 function start ( textEditor: vscode.TextEditor ) {
 
   return callTodosMethod ({
@@ -128,4 +159,4 @@ async function open () {
 
 /* EXPORT */
 
-export {start, toggleBox, toggleCancel, toggleDone, open};
+export {archive, start, toggleBox, toggleCancel, toggleDone, open};

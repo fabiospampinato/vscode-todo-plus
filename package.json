@@ -9,6 +9,7 @@
   "publisher": "fabiospampinato",
   "activationEvents": [
     "onLanguage:todo",
+    "onCommand:todo.archive",
     "onCommand:todo.open",
     "onCommand:todo.start",
     "onCommand:todo.toggleBox",
@@ -55,6 +56,11 @@
           "type": "string",
           "description": "New todo files default content",
           "default": "\nTodo:\n  ☐ Item\n"
+        },
+        "todo.indentation": {
+          "type": "string",
+          "description": "String used for indentation",
+          "default": "  "
         },
         "todo.symbols.box": {
           "type": "string",
@@ -164,10 +170,19 @@
           "type": "boolean",
           "description": "Enable the @lasted/wasted tag",
           "default": true
+        },
+        "todo.archive.name": {
+          "type": "string",
+          "description": "Name of the special \"Archive\" project",
+          "default": "Archive"
         }
       }
     },
     "commands": [
+      {
+        "command": "todo.archive",
+        "title": "Todo: Archive"
+      },
       {
         "command": "todo.open",
         "title": "Todo: Open"
@@ -190,6 +205,12 @@
       }
     ],
     "keybindings": [
+      {
+        "command": "todo.archive",
+        "key": "Shift+Ctrl+a",
+        "mac": "Shift+Cmd+a",
+        "when": "editorTextFocus && editorLangId == todo"
+      },
       {
         "command": "todo.start",
         "key": "Alt+s",
@@ -214,6 +235,10 @@
     ],
     "menus": {
       "commandPalette": [
+        {
+          "command": "todo.archive",
+          "when": "editorLangId == todo"
+        },
         {
           "command": "todo.start",
           "when": "editorLangId == todo"

@@ -36,6 +36,7 @@ const Consts = {
     todoCancel: /^[^\S\n]*((?!--|––|——)(?:[✘xX]|\[-\])[^\n]*)/,
     todoDone: /^[^\S\n]*((?:[✔✓☑+]|\[[xX+]\])[^\n]*)/,
     project: /^(?![^\S\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]\])[^\n]*)[^\S\n]*(.+:[^\S\n]*)(?:(?=@(?!.+ +[^@]))|$)/,
+    archive: /^(?![^\S\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]\])[^\n]*)([^\S\n]*Archive:.*$)/,
     comment: /^(?![^\S\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]\])[^\n]*)(?![^\S\n]*.+:[^\S\n]*(?:(?=@(?!.+ +[^@]))|$))[^\S\n]*([^\n]+)/,
     tag: /(?:^|[^a-zA-Z0-9`])(@[^\s*~_(]+(?:\([^)]*\))?)/,
     tagSpecial: /(?=a)b/,
@@ -52,6 +53,14 @@ const Consts = {
 if ( Consts.tags.names.length ) {
 
   Consts.regexes.tagSpecial = new RegExp ( `(?:^|[^a-zA-Z0-9])(@(?:${Consts.tags.names.map ( n => _.escapeRegExp ( n ) ).join ( '|' )}))(?![a-zA-Z])` );
+
+}
+
+const archiveName = Config.getKey ( 'archive.name' );
+
+if ( archiveName ) {
+
+  Consts.regexes.archive = new RegExp ( Consts.regexes.archive.source.replace ( 'Archive', _.escapeRegExp ( archiveName ) ) );
 
 }
 
