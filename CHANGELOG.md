@@ -1,3 +1,6 @@
+### Version 1.7.1
+- Properly getting the path of the currently active document
+
 ### Version 1.7.0
 - Added basic `Archive` functionalities
 - Added `Timekeeping` functionalities
