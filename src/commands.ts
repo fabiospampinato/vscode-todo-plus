@@ -132,7 +132,7 @@ async function open () {
 
   const config = await Config.get (),
         {activeTextEditor} = vscode.window,
-        editorPath = activeTextEditor && activeTextEditor.document.fileName,
+        editorPath = activeTextEditor && activeTextEditor.document.uri.fsPath,
         rootPath = Utils.folder.getRootPath ( editorPath );
 
   if ( !rootPath ) return vscode.window.showErrorMessage ( 'You have to open a project before being able to open its todo file' );
