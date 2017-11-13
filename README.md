@@ -41,13 +41,15 @@ It adds 6 commands to the command palette:
 'Todo: Archive' // Archive completed todos
 ```
 
-It adds 4 shortcuts when editing a `Todo` file:
+It adds 5 shortcuts when editing a `Todo` file:
 
 ```js
-Cmd/Ctrl+Enter // Toggle todo's box symbol
-Alt+S // Mark a todo as started
-Alt+D // Toggle todo's done symbol
-Alt+C // Toggle todo's cancel symbol
+
+'Cmd/Ctrl+Shift+A' // Triggers  `Todo: Archive`
+'Cmd/Ctrl+Enter' // Triggers `Todo: Toggle Box`
+'Alt+D' // Triggers `Todo: Toggle Done`
+'Alt+C' // Triggers `Todo: Toggle Cancel`
+'Alt+S' // Triggers `Todo: Start`
 ```
 
 ## Settings
