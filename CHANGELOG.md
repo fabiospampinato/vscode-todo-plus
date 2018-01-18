@@ -1,3 +1,6 @@
+### Version 1.8.0
+- Added very basic support for TaskPaper
+
 ### Version 1.7.2
 - Updated readme
 
