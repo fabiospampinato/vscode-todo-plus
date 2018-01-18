@@ -32,7 +32,8 @@
           ".todo",
           ".todos",
           ".task",
-          ".tasks"
+          ".tasks",
+          ".taskpaper"
         ]
       }
     ],
