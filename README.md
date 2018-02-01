@@ -25,7 +25,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
 Run the following in the command palette:
 
 ```shell
-ext install vscode-todo-plus
+ext install fabiospampinato.vscode-todo-plus
 ```
 
 ## Usage
