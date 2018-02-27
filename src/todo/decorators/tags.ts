@@ -30,7 +30,7 @@ class Tags extends Line {
     return [
       ...names.map ( name => {
         const tag = `@${name}`,
-              regex = new RegExp ( `(?:^|[^a-zA-Z0-9])(${_.escapeRegExp ( tag )})(?![a-zA-Z])`, 'gm' );
+              regex = new RegExp ( `(?:^|[^a-zA-Z0-9])(${_.escapeRegExp ( tag )}(?:\\([^)]*\\))?)(?![a-zA-Z])`, 'gm' );
         return this.getRangesRegex ( line.startLine, regex, undefined, negRange );
       }),
       this.getRangesRegex ( line.startLine, Consts.regexes.tag, undefined, negRange )

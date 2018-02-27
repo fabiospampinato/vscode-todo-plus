@@ -52,7 +52,7 @@ const Consts = {
 
 if ( Consts.tags.names.length ) {
 
-  Consts.regexes.tagSpecial = new RegExp ( `(?:^|[^a-zA-Z0-9])(@(?:${Consts.tags.names.map ( n => _.escapeRegExp ( n ) ).join ( '|' )}))(?![a-zA-Z])` );
+  Consts.regexes.tagSpecial = new RegExp ( `(?:^|[^a-zA-Z0-9])(@(?:${Consts.tags.names.map ( n => _.escapeRegExp ( n ) ).join ( '|' )})(?:\\([^)]*\\))?)(?![a-zA-Z])` );
 
 }
 
