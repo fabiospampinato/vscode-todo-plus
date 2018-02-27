@@ -1,3 +1,8 @@
+### Version 1.8.1
+- README: specify plugin author on install command
+- Restricting single backtick codes to a single line
+- Added support for special tags with arguments
+
 ### Version 1.8.0
 - Added very basic support for TaskPaper
 
