@@ -284,9 +284,10 @@
     "vscode",
     "extension",
     "todo",
+    "task",
+    "taskpaper",
     "todos",
-    "tasks",
-    "taskpaper"
+    "tasks"
   ],
   "categories": [
     "Other"
