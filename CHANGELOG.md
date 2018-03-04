@@ -1,6 +1,6 @@
-### Version 1.8.2
-- added taskpaper on keywords
-- Merge pull request #36 from avelino/master
+### Version 1.8.3
+- Added taskpaper to the keywords
+- Reordered keywords
 
 ### Version 1.8.1
 - README: specify plugin author on install command

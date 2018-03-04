@@ -3,7 +3,7 @@
   "displayName": "Todo+",
   "description": "Manage todo lists with ease. Powerful, easy to use and customizable.",
   "icon": "resources/logo-128x128.png",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "license": "MIT",
   "main": "out/src/extension.js",
   "publisher": "fabiospampinato",
