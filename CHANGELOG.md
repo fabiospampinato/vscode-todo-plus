@@ -1,3 +1,7 @@
+### Version 1.9.0
+- Tags: removed restriction for the `_` character
+- Added support for embedded todos
+
 ### Version 1.8.3
 - Added taskpaper to the keywords
 - Reordered keywords
