@@ -61,7 +61,7 @@ class Line {
     if ( !posRanges.length ) return []; // Early exit //TSC
 
     let ranges = posRanges,
-        negRanges = _.castArray ( negRange || [] ).filter ( range => range.line === textLine.lineNumber );
+        negRanges = _.castArray ( negRange as any || [] ).filter ( range => range.line === textLine.lineNumber );
 
     if ( negRegex ) { // Getting negative ranges from negative regexes
 

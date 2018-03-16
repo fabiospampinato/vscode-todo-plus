@@ -36,7 +36,7 @@ class Document {
             endPos = this.textDocument.positionAt ( range.end ),
             startLine = this.textDocument.lineAt ( startPos ),
             endLine = this.textDocument.lineAt ( endPos ),
-            text = _.last ( match );
+            text = _.last ( match ) as string;
 
       return new Item ( this.textDocument, startPos, endPos, startLine, endLine, text );
 

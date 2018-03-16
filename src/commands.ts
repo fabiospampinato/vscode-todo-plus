@@ -30,7 +30,7 @@ function callTodosMethod ( options? ) {
   if ( !Utils.editor.isSupported ( options.textEditor ) ) return;
 
   const doc = new Document ( options.textEditor.document ),
-        lines = _.uniq ( options.textEditor.selections.map ( selection => selection.active.line ) ),
+        lines = _.uniq ( options.textEditor.selections.map ( selection => selection.active.line ) ) as number[],
         todos = _.filter ( lines.map ( line => doc.getTodoAt ( line, options.checkValidity ) ) );
 
   if ( todos.length !== lines.length ) vscode.window.showErrorMessage ( options.errors.invalid );
@@ -137,7 +137,7 @@ async function open () {
 
   if ( !rootPath ) return vscode.window.showErrorMessage ( 'You have to open a project before being able to open its todo file' );
 
-  const projectPath = ( await Utils.folder.getWrapperPathOf ( rootPath, editorPath || rootPath, config.file ) ) || rootPath,
+  const projectPath = ( ( await Utils.folder.getWrapperPathOf ( rootPath, editorPath || rootPath, config.file ) ) || rootPath ) as string,
         todo = Utils.todo.get ( projectPath );
 
   if ( !_.isUndefined ( todo ) ) {

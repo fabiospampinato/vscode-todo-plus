@@ -36,7 +36,7 @@ class Document {
   static getDecorations ( lines, codes, comments, projects, todos ) {
 
     let codeRanges = new Code ().getRanges ( codes ),
-        negRanges = _.filter ( _.flatten ( _.flatten ( codeRanges ).map ( range => lines.map ( line => line.range.intersection ( range ) ) ) ) ).map ( range => ({ line: range.start.line, start: range.start.character, end: range.end.character }) ); //FIXME: O(n²), ugly
+        negRanges = _.filter ( _.flatten ( _.flatten ( codeRanges ).map ( range => lines.map ( line => line.range.intersection ( range ) ) ) ) ).map ( range => ({ line: range.start.line, start: range.start.character, end: range.end.character }) ) as any; //FIXME: O(n²), ugly //TSC
 
     return _.concat (
       new Tags ().getDecorations ( lines, negRanges ),
