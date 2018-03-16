@@ -11,6 +11,7 @@
     "onLanguage:todo",
     "onCommand:todo.archive",
     "onCommand:todo.open",
+    "onCommand:todo.openEmbedded",
     "onCommand:todo.start",
     "onCommand:todo.toggleBox",
     "onCommand:todo.toggleCancel",
@@ -176,6 +177,49 @@
           "type": "string",
           "description": "Name of the special \"Archive\" project",
           "default": "Archive"
+        },
+        "todo.embedded.regex": {
+          "type": "string",
+          "description": "Regex used for finding embedded todos, requires double escaping",
+          "default": "(?:#|//|/\\*) ?(TODO|FIXME|FIX|HACK|NOTE)(?: |:)"
+        },
+        "todo.embedded.include": {
+          "type": "array",
+          "description": "Globs to use for including files",
+          "default": [
+            "**/*"
+          ]
+        },
+        "todo.embedded.exclude": {
+          "type": "array",
+          "description": "Globs to use for excluding files",
+          "default": [
+            "**/.git",
+            "**/.svn",
+            "**/.hg",
+            "**/.vscode",
+            "**/.github",
+            "**/.next",
+            "**/node_modules",
+            "**/bower_components",
+            "**/dist",
+            "**/build",
+            "**/out",
+            "**/output",
+            "**/_output",
+            "**/*.min.*",
+            "**/*.map"
+          ]
+        },
+        "todo.embedded.limit": {
+          "type": "number",
+          "description": "Maximum number of files to search",
+          "default": 5120
+        },
+        "todo.embedded.groupByFile": {
+          "type": "boolean",
+          "description": "Group todos by file",
+          "default": false
         }
       }
     },
@@ -187,6 +231,10 @@
       {
         "command": "todo.open",
         "title": "Todo: Open"
+      },
+      {
+        "command": "todo.openEmbedded",
+        "title": "Todo: Open Embedded"
       },
       {
         "command": "todo.start",
@@ -295,11 +343,13 @@
   "dependencies": {
     "absolute": "0.0.1",
     "find-up": "^2.1.0",
+    "is-binary-path": "^2.0.0",
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
     "moment": "^2.19.1",
     "moment-precise-range-plugin": "^1.2.4",
-    "pify": "^3.0.0"
+    "pify": "^3.0.0",
+    "string-matches": "^1.0.1"
   },
   "devDependencies": {
     "@types/node": "^6.0.40",

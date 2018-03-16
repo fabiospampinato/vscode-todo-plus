@@ -5,10 +5,12 @@ import * as _ from 'lodash';
 import * as absolute from 'absolute';
 import * as findUp from 'find-up';
 import * as fs from 'fs';
+import * as isBinaryPath from 'is-binary-path';
 import * as mkdirp from 'mkdirp';
 import * as moment from 'moment';
 import * as path from 'path';
 import * as pify from 'pify';
+import stringMatches from 'string-matches';
 import * as vscode from 'vscode';
 import * as Commands from './commands';
 import Config from './config';
@@ -24,7 +26,7 @@ const Utils = {
 
     commands.forEach ( ({ command, title }) => {
 
-      if ( !_.includes ( ['todo.open'], command ) ) return;
+      if ( !_.includes ( ['todo.open', 'todo.openEmbedded'], command ) ) return;
 
       const commandName = _.last ( command.split ( '.' ) ) as string,
             handler = Commands[commandName],
@@ -36,7 +38,7 @@ const Utils = {
 
     keybindings.forEach ( ({ command }) => {
 
-      if ( _.includes ( ['todo.open'], command ) ) return;
+      if ( _.includes ( ['todo.open', 'todo.openEmbedded'], command ) ) return;
 
       const commandName = _.last ( command.split ( '.' ) ) as string,
             disposable = vscode.commands.registerTextEditorCommand ( command, Commands[commandName] );
@@ -95,6 +97,12 @@ const Utils = {
 
   },
 
+  parseGlobs ( globs ) {
+
+    return `{${_.castArray ( globs ).join ( ',' )}}`;
+
+  },
+
   editor: {
 
     isSupported ( textEditor?: vscode.TextEditor ) {
@@ -120,6 +128,38 @@ const Utils = {
       edit.set ( uri, edits );
 
       return vscode.workspace.applyEdit ( edit );
+
+    },
+
+    open ( content ) {
+
+      vscode.workspace.openTextDocument ({ language: Consts.languageId }).then ( ( textDocument: vscode.TextDocument ) => {
+
+        vscode.window.showTextDocument ( textDocument ).then ( ( textEditor: vscode.TextEditor ) => {
+
+          textEditor.edit ( edit => {
+
+            const pos = new vscode.Position ( 0, 0 );
+
+            edit.insert ( pos, content );
+
+            textEditor.document.save ();
+
+          });
+
+        });
+
+      });
+
+    },
+
+    async getDoc ( file ) {
+
+      try { // Maybe the file is binary or something
+
+        return await vscode.workspace.openTextDocument ( file );
+
+      } catch ( e ) {}
 
     }
 
@@ -249,6 +289,106 @@ const Utils = {
         };
 
       }
+
+    }
+
+  },
+
+  embedded: {
+
+    getRegex () {
+
+      const config = Config.get ();
+
+      return new RegExp ( config.embedded.regex, 'g' );
+
+    },
+
+    async getFiles () {
+
+      const config = Config.get (),
+            {include, exclude, limit} = config.embedded,
+            files = await vscode.workspace.findFiles ( Utils.parseGlobs ( include ), Utils.parseGlobs ( exclude ), limit ),
+            filesText = files.filter ( file => !isBinaryPath ( file.fsPath ) );
+
+      return filesText;
+
+    },
+
+    async getFilesTodos ( files, regex ) {
+
+      const todos = {}; // { [TYPE] => { [FILE] => [{ LINE, NR }] } }
+
+      for ( let file of files ) {
+
+        const doc = await Utils.editor.getDoc ( file );
+
+        if ( !doc ) continue;
+
+        const filePath = doc.uri.fsPath;
+
+        for ( let lineNr = 0, lineNrs = doc.lineCount; lineNr < lineNrs; lineNr++ ) {
+
+          const line = doc.lineAt ( lineNr ).text,
+                matches = stringMatches ( line, regex );
+
+          for ( let match of matches ) {
+
+            const type = match[1];
+
+            if ( !todos[type] ) todos[type] = {};
+
+            if ( !todos[type][filePath] ) todos[type][filePath] = [];
+
+            todos[type][filePath].push ({ line, lineNr });
+
+          }
+
+        }
+
+      }
+
+      return todos;
+
+    },
+
+    renderTodos ( todos ) {
+
+      const config = Config.get (),
+            { indentation, embedded: { groupByFile }, symbols: { box } } = config,
+            lines = [];
+
+      /* LINES */
+
+      const types = Object.keys ( todos ).sort ();
+
+      types.forEach ( type => {
+
+        const files = todos[type];
+
+        lines.push ( `${type}:` );
+
+        const filePaths = Object.keys ( files ).sort ();
+
+        filePaths.forEach ( filePath => {
+
+          const todos = files[filePath];
+
+          if ( groupByFile ) {
+            lines.push ( `${indentation}@file://${filePath}` );
+          }
+
+          todos.forEach ( ({ line, lineNr }) => {
+
+            lines.push ( `${indentation}${groupByFile ? indentation : ''}${box} ${_.trimStart ( line )} @file://${filePath}#${lineNr + 1}` );
+
+          });
+
+        });
+
+      });
+
+      return lines.length ? `${lines.join ( '\n' )}\n` : '';
 
     }
 

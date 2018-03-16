@@ -130,7 +130,7 @@ function toggleDone ( textEditor: vscode.TextEditor ) {
 
 async function open () {
 
-  const config = await Config.get (),
+  const config = Config.get (),
         {activeTextEditor} = vscode.window,
         editorPath = activeTextEditor && activeTextEditor.document.uri.fsPath,
         rootPath = Utils.folder.getRootPath ( editorPath );
@@ -157,6 +157,22 @@ async function open () {
 
 }
 
+async function openEmbedded () {
+
+  const files = await Utils.embedded.getFiles ();
+
+  if ( !files.length ) return vscode.window.showErrorMessage ( 'No text files found' );
+
+  const regex = Utils.embedded.getRegex (),
+        todos = await Utils.embedded.getFilesTodos ( files, regex ),
+        content = await Utils.embedded.renderTodos ( todos );
+
+  if ( !content ) return vscode.window.showInformationMessage ( 'No embedded todos found' );
+
+  Utils.editor.open ( content );
+
+}
+
 /* EXPORT */
 
-export {archive, start, toggleBox, toggleCancel, toggleDone, open};
+export {archive, start, toggleBox, toggleCancel, toggleDone, open, openEmbedded};

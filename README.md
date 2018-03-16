@@ -19,6 +19,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
 - **Custom special tags**: special tags' names and their colors can be customized
 - **Timekeeping**: you can mark todos as started and track elapsed time until completion
 - **Archive**: you can move completed todos to a special "Archive" section with a shortcut
+- **Embedded todos**: it's common to have //TODO or //FIXME comments to your code, this extension can detect those as well
 
 ## Install
 
@@ -30,10 +31,11 @@ ext install fabiospampinato.vscode-todo-plus
 
 ## Usage
 
-It adds 6 commands to the command palette:
+It adds 7 commands to the command palette:
 
 ```js
 'Todo: Open' // Open or create your project's todo file
+'Todo: Open Embedded' // Open embedded todos
 'Todo: Start' // Mark a todo as started
 'Todo: Toggle Box' // Toggle todo's box symbol
 'Todo: Toggle Cancel' // Toggle todo's done symbol
@@ -76,15 +78,30 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.timekeeping.finished.enabled": true, // Enable the @done/cancelled tag. It's always enabled if you explicitly start a todo
   "todo.timekeeping.finished.format": "YY-MM-DD HH:mm", // Format used for displaying time inside @done/cancelled
   "todo.timekeeping.elapsed.enabled": true, // Enable the @lasted/wasted tag
-  "todo.archive.name": "Archive" // Name of the special "Archive" section
+  "todo.archive.name": "Archive", // Name of the special "Archive" section
+  "todo.embedded.regex": "(?:#|//|/\\*) ?(TODO|FIXME|FIX|HACK|NOTE)(?: |:)", //Regex used for finding embedded todos, requires double escaping
+  "todo.embedded.include": ["**/*"], //Globs to use for including files
+  "todo.embedded.exclude": ["**/.git", ...], //Globs to use for excluding files
+  "todo.embedded.limit": 5120, //Maximum number of files to search
+  "todo.embedded.groupByFile": false // Group todos by file
 }
 ```
 
 Dates are formatted using [moment](https://momentjs.com/docs/#/displaying/format/).
 
-## [Demo](https://github.com/fabiospampinato/vscode-todo-plus/blob/master/resources/readme.todo)
+## Demo
+
+### [Example todo file](https://github.com/fabiospampinato/vscode-todo-plus/blob/master/resources/readme.todo)
 
 ![Demo](resources/demo.png)
+
+### Embedded todos
+
+![Embedded](resources/demo_embedded.gif)
+
+## Hints:
+
+- **Highlight embedded todos**: I recommend using [TODO Highlight](https://marketplace.visualstudio.com/items?itemName=wayou.vscode-todo-highlight) to highlight your embedded todos.
 
 ## Related:
 
