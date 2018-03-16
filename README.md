@@ -1,4 +1,4 @@
-# VSC Todo+
+# Todo+
 
 <p align="center">
 	<img src="https://raw.githubusercontent.com/fabiospampinato/vscode-todo-plus/master/resources/logo-128x128.png" alt="Logo">
@@ -23,7 +23,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
 
 ## Install
 
-Run the following in the command palette:
+Follow the instructions in the [Marketplace](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-todo-plus), or run the following in the command palette:
 
 ```shell
 ext install fabiospampinato.vscode-todo-plus
