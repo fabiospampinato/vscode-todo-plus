@@ -1,3 +1,6 @@
+### Version 1.9.1
+- Updated readme
+
 ### Version 1.9.0
 - Tags: removed restriction for the `_` character
 - Added support for embedded todos
