@@ -79,7 +79,7 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.timekeeping.finished.format": "YY-MM-DD HH:mm", // Format used for displaying time inside @done/cancelled
   "todo.timekeeping.elapsed.enabled": true, // Enable the @lasted/wasted tag
   "todo.archive.name": "Archive", // Name of the special "Archive" section
-  "todo.embedded.regex": "(?:#|//|/\\*) ?(TODO|FIXME|FIX|HACK|NOTE)(?: |:)", //Regex used for finding embedded todos, requires double escaping
+  "todo.embedded.regex": "(?:#|//|/\\*) ?(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?: |:)", //Regex used for finding embedded todos, requires double escaping
   "todo.embedded.include": ["**/*"], //Globs to use for including files
   "todo.embedded.exclude": ["**/.git", ...], //Globs to use for excluding files
   "todo.embedded.limit": 5120, //Maximum number of files to search
