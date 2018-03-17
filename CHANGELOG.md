@@ -1,3 +1,6 @@
+### Version 1.10.0
+- Recognizing a few more embedded todos
+
 ### Version 1.9.1
 - Updated readme
 
