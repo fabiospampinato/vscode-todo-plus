@@ -372,15 +372,16 @@ const Utils = {
 
         filePaths.forEach ( filePath => {
 
-          const todos = files[filePath];
+          const todos = files[filePath],
+                normalizedFilePath = `/${_.trimStart ( filePath, '/' )}`;
 
           if ( groupByFile ) {
-            lines.push ( `${indentation}@file://${filePath}` );
+            lines.push ( `${indentation}@file://${normalizedFilePath}` );
           }
 
           todos.forEach ( ({ line, lineNr }) => {
 
-            lines.push ( `${indentation}${groupByFile ? indentation : ''}${box} ${_.trimStart ( line )} @file://${filePath}#${lineNr + 1}` );
+            lines.push ( `${indentation}${groupByFile ? indentation : ''}${box} ${_.trimStart ( line )} @file://${normalizedFilePath}#${lineNr + 1}` );
 
           });
 
