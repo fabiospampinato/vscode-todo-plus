@@ -1,3 +1,7 @@
+### Version 1.10.1
+- Added support for embedded todos without a description
+- Embedded todos: fixed links to files in Windows
+
 ### Version 1.10.0
 - Recognizing a few more embedded todos
 
