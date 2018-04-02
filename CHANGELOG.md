@@ -1,3 +1,7 @@
+### Version 1.10.2
+- Readme: updated `todo.embedded.regex`
+- Updated `todo.file` description
+
 ### Version 1.10.1
 - Added support for embedded todos without a description
 - Embedded todos: fixed links to files in Windows
