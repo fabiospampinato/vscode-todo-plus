@@ -51,7 +51,7 @@
       "properties": {
         "todo.file": {
           "type": "string",
-          "description": "Todo file name",
+          "description": "Todo file name. Other supported names are: `*.todo`, `*.todos`, `*.task`, `*.tasks`, `*.taskpaper` and `todolist.txt`",
           "default": "TODO"
         },
         "todo.defaultContent": {

@@ -58,7 +58,7 @@ It adds 5 shortcuts when editing a `Todo` file:
 
 ```js
 {
-  "todo.file": "TODO", // Todo file name
+  "todo.file": "TODO", // Todo file name. Other supported names are: `*.todo`, `*.todos`, `*.task`, `*.tasks`, `*.taskpaper` and `todolist.txt`
   "todo.defaultContent": "\nTodo:\n  ☐ Item\n", // New todo files default content
   "todo.indentation": "  ", // String used for indentation
   "todo.symbols.box": "☐", // Box symbol
