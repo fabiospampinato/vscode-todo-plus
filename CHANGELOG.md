@@ -1,3 +1,7 @@
+### Version 1.10.3
+- Recommending the [Highlight](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-highlight) extension
+- Embedded: improved support for things like “//TODO”
+
 ### Version 1.10.2
 - Readme: updated `todo.embedded.regex`
 - Updated `todo.file` description
