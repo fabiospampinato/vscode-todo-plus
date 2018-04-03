@@ -99,11 +99,9 @@ Dates are formatted using [moment](https://momentjs.com/docs/#/displaying/format
 
 ![Embedded](resources/demo_embedded.gif)
 
-## Hints:
-
-- **Highlight embedded todos**: I recommend using [TODO Highlight](https://marketplace.visualstudio.com/items?itemName=wayou.vscode-todo-highlight) to highlight your embedded todos.
-
 ## Related:
+
+- **[Highlight](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-highlight)**: I recommend using this extension for highlighting your embedded todos.
 
 - **[Projects+ Todo+](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-projects-plus-todo-plus)**: Bird's-eye view over your projects, view all your todo files aggregated into one.
 
