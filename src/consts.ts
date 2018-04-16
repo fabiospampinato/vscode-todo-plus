@@ -30,13 +30,11 @@ const Consts = {
   },
   regexes: {
     impossible: /(?=a)b/,
-    // todo, todoToken, and todoBox expression changed to allow for no space, e.g. []
     todo: /^[^\S\n]*((?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])[^\n]*)/,
     todoToken: /^[^\S\n]*(?!--|––|——)([-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])/,
-    todoBox: /^[^\S\n]*((?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ {0,1}\])[^\n]*)/,
+    todoBox: /^[^\S\n]*((?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ ?\])[^\n]*)/,
     todoCancel: /^[^\S\n]*((?!--|––|——)(?:[✘xX]|\[-\])[^\n]*)/,
     todoDone: /^[^\S\n]*((?:[✔✓☑+]|\[[xX+]\])[^\n]*)/,
-    // project, archive, and comment expression changed to not recognize [], "[] Item" get highlighted as a task
     project: /^(?![^\S\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])[^\n]*)[^\S\n]*(.+:[^\S\n]*)(?:(?=@(?!.+ +[^@]))|$)/,
     archive: /^(?![^\S\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])[^\n]*)([^\S\n]*Archive:.*$)/,
     comment: /^(?![^\S\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])[^\n]*)(?![^\S\n]*.+:[^\S\n]*(?:(?=@(?!.+ +[^@]))|$))[^\S\n]*([^\n]+)/,
