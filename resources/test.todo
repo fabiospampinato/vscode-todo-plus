@@ -5,10 +5,10 @@ Project: @today
   Not a project: but a description
   Not a project: @tag, but a description
   Contains some `code`, nested
-  Contains some `
+  Contains some ```
     multi-line
     code
-  `, nested
+  ```, nested
   ---------------------------------
   –––––––––––––––––––––––––––––––––
   —————————————————————————————————
@@ -19,10 +19,10 @@ Project: @today
   ☐ `code () *bold* @tag @critical`
   ☐ `@tag`half
   ☐ `foo ()` and `bar ()` and ``
-  ☐ `
+  ☐ ```
      not a project:
      code () *bold* @tag @critical
-    `
+    ```
   ☐ ```
     nested `code` ``code``
     ```
