@@ -181,7 +181,7 @@
         "todo.embedded.regex": {
           "type": "string",
           "description": "Regex used for finding embedded todos, requires double escaping",
-          "default": "(?:#|//|/\\*+) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?: |:|\"|'|`|$)"
+          "default": "(?:<!-- *)?(?:#|//|/\\*+|<!--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?: |:|\"|'|`|-->|$)"
         },
         "todo.embedded.include": {
           "type": "array",
