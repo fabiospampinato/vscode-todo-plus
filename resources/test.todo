@@ -62,6 +62,7 @@ Box:
   ≡ Box
   → Box
   › Box
+  [] Box
   [ ] Box
 
 Done:
