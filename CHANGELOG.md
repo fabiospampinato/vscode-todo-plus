@@ -1,3 +1,6 @@
+### Version 1.10.4
+- Added support for `[]` as a box symbol
+
 ### Version 1.10.3
 - Recommending the [Highlight](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-highlight) extension
 - Embedded: improved support for things like “//TODO”
