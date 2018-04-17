@@ -1,3 +1,6 @@
+### Version 1.10.5
+- Updated `todo.embedded.regex`, adding support for todos inside HTML-style comments
+
 ### Version 1.10.4
 - Added support for `[]` as a box symbol
 
