@@ -388,11 +388,9 @@ const Utils = {
 
       types.forEach ( type => {
 
-        const files = todos[type];
-
-        lines.push ( `${type}:` );
-
-        const filePaths = Object.keys ( files ).sort ();
+        const files = todos[type],
+              filePaths = Object.keys ( files ).sort (),
+              typeLines = [];
 
         filePaths.forEach ( filePath => {
 
@@ -400,16 +398,19 @@ const Utils = {
                 normalizedFilePath = `/${_.trimStart ( filePath, '/' )}`;
 
           if ( groupByFile ) {
-            lines.push ( `${indentation}@file://${normalizedFilePath}` );
+            typeLines.push ( `${indentation}@file://${normalizedFilePath}` );
           }
 
           todos.forEach ( ({ line, lineNr }) => {
 
-            lines.push ( `${indentation}${groupByFile ? indentation : ''}${box} ${_.trimStart ( line )} @file://${normalizedFilePath}#${lineNr + 1}` );
+            typeLines.push ( `${indentation}${groupByFile ? indentation : ''}${box} ${_.trimStart ( line )} @file://${normalizedFilePath}#${lineNr + 1}` );
 
           });
 
         });
+
+        lines.push ( `${type} (${typeLines.length}):` );
+        lines.push ( ...typeLines );
 
       });
 
