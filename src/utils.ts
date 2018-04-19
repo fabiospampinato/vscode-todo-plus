@@ -324,7 +324,7 @@ const Utils = {
       rootPaths = _.castArray ( rootPaths );
 
       const config = Config.get (),
-            {include, exclude, limit} = config.embedded;
+            {include, exclude} = config.embedded;
 
       let filePaths = [];
 

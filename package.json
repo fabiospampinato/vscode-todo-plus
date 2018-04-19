@@ -211,11 +211,6 @@
             "**/*.map"
           ]
         },
-        "todo.embedded.limit": {
-          "type": "number",
-          "description": "Maximum number of files to search",
-          "default": 5120
-        },
         "todo.embedded.groupByFile": {
           "type": "boolean",
           "description": "Group todos by file",

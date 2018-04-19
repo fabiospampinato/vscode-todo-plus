@@ -82,7 +82,6 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.embedded.regex": "(?:<!-- *)?(?:#|//|/\\*+|<!--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?: |:|\"|'|`|-->|$)", // Regex used for finding embedded todos, requires double escaping
   "todo.embedded.include": ["**/*"], // Globs to use for including files
   "todo.embedded.exclude": ["**/.git", ...], // Globs to use for excluding files
-  "todo.embedded.limit": 5120, // Maximum number of files to search
   "todo.embedded.groupByFile": false // Group todos by file
 }
 ```
