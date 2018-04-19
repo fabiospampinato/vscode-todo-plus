@@ -151,16 +151,6 @@ const Utils = {
 
       });
 
-    },
-
-    async getDoc ( file ) {
-
-      try { // Maybe the file is binary or something
-
-        return await vscode.workspace.openTextDocument ( file );
-
-      } catch ( e ) {}
-
     }
 
   },
@@ -319,20 +309,20 @@ const Utils = {
 
       const todos = {}; // { [TYPE] => { [FILE] => [{ LINE, NR }] } }
 
-      for ( let file of files ) {
+      await Promise.all ( files.map ( async file => {
 
-        const doc = await Utils.editor.getDoc ( file );
+        const filePath = file.fsPath,
+              content = await Utils.file.read ( filePath );
 
-        if ( !doc ) continue;
+        if ( !content ) return;
 
-        const filePath = doc.uri.fsPath;
+        const lines = content.split ( '\n' );
 
-        for ( let lineNr = 0, lineNrs = doc.lineCount; lineNr < lineNrs; lineNr++ ) {
+        lines.forEach ( ( line, lineNr ) => {
 
-          const line = doc.lineAt ( lineNr ).text,
-                matches = stringMatches ( line, regex );
+          const matches = stringMatches ( line, regex );
 
-          for ( let match of matches ) {
+          matches.forEach ( match => {
 
             const type = match[1];
 
@@ -342,11 +332,11 @@ const Utils = {
 
             todos[type][filePath].push ({ line, lineNr });
 
-          }
+          });
 
-        }
+        });
 
-      }
+      }));
 
       return todos;
 
