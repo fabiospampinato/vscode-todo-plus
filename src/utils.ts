@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import * as absolute from 'absolute';
 import * as findUp from 'find-up';
 import * as fs from 'fs';
+import * as globby from 'globby';
 import * as isBinaryPath from 'is-binary-path';
 import * as mkdirp from 'mkdirp';
 import * as moment from 'moment';
@@ -214,6 +215,16 @@ const Utils = {
 
   folder: {
 
+    getAllRootPaths () {
+
+      const {workspaceFolders} = vscode.workspace;
+
+      if ( !workspaceFolders ) return [];
+
+      return workspaceFolders.map ( folder => folder.uri.fsPath );
+
+    },
+
     getRootPath ( basePath? ) {
 
       const {workspaceFolders} = vscode.workspace;
@@ -294,25 +305,34 @@ const Utils = {
 
     },
 
-    async getFiles () {
+    async getFilePaths ( rootPaths ) {
+
+      rootPaths = _.castArray ( rootPaths );
 
       const config = Config.get (),
-            {include, exclude, limit} = config.embedded,
-            files = await vscode.workspace.findFiles ( Utils.parseGlobs ( include ), Utils.parseGlobs ( exclude ), limit ),
-            filesText = files.filter ( file => !isBinaryPath ( file.fsPath ) );
+            {include, exclude, limit} = config.embedded;
 
-      return filesText;
+      let filePaths = [];
+
+      for ( let rootPath of rootPaths ) {
+
+        const rootFilePaths = await globby ( include, { cwd: rootPath, ignore: exclude, absolute: true } );
+
+        filePaths = filePaths.concat ( rootFilePaths );
+
+      }
+
+      return filePaths;
 
     },
 
-    async getFilesTodos ( files, regex ) {
+    async getFilesTodos ( filePaths, regex ) {
 
       const todos = {}; // { [TYPE] => { [FILE] => [{ LINE, NR }] } }
 
-      await Promise.all ( files.map ( async file => {
+      await Promise.all ( filePaths.map ( async filePath => {
 
-        const filePath = file.fsPath,
-              content = await Utils.file.read ( filePath );
+        const content = await Utils.file.read ( filePath );
 
         if ( !content ) return;
 

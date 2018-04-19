@@ -343,6 +343,7 @@
   "dependencies": {
     "absolute": "0.0.1",
     "find-up": "^2.1.0",
+    "globby": "^8.0.1",
     "is-binary-path": "^2.0.0",
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
