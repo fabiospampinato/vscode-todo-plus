@@ -207,6 +207,7 @@
             "**/out",
             "**/output",
             "**/_output",
+            "**/third_party",
             "**/*.min.*",
             "**/*.map"
           ]
