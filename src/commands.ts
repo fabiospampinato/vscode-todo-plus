@@ -160,17 +160,11 @@ async function open () {
 async function openEmbedded () {
 
   const rootPaths = Utils.folder.getAllRootPaths (),
-        filePaths = await Utils.embedded.getFilePaths ( rootPaths );
+        embedded = await Utils.embedded.get ( rootPaths );
 
-  if ( !filePaths.length ) return vscode.window.showErrorMessage ( 'No text files found' );
+  if ( !embedded ) return vscode.window.showInformationMessage ( 'No embedded todos found' );
 
-  const regex = Utils.embedded.getRegex (),
-        todos = await Utils.embedded.getFilesTodos ( filePaths, regex ),
-        content = await Utils.embedded.renderTodos ( todos );
-
-  if ( !content ) return vscode.window.showInformationMessage ( 'No embedded todos found' );
-
-  Utils.editor.open ( content );
+  Utils.editor.open ( embedded );
 
 }
 

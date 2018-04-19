@@ -297,6 +297,20 @@ const Utils = {
 
   embedded: {
 
+    async get ( rootPaths ) {
+
+      const filePaths = await Utils.embedded.getFilePaths ( rootPaths );
+
+      if ( !filePaths.length ) return;
+
+      const regex = Utils.embedded.getRegex (),
+            todos = await Utils.embedded.getFilesTodos ( filePaths, regex ),
+            content = await Utils.embedded.renderTodos ( todos );
+
+      return content;
+
+    },
+
     getRegex () {
 
       const config = Config.get ();
