@@ -1,3 +1,7 @@
+### Version 1.10.7
+- Removed `todo.embedded.limit` setting
+- Emebedded: filtering out `**/third_party` by default too
+
 ### Version 1.10.6
 - Embedded: showing a counter of todos under each type
 
