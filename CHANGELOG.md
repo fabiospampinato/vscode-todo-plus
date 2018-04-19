@@ -1,3 +1,6 @@
+### Version 1.10.6
+- Embedded: showing a counter of todos under each type
+
 ### Version 1.10.5
 - Updated `todo.embedded.regex`, adding support for todos inside HTML-style comments
 
