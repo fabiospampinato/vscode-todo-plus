@@ -35,11 +35,17 @@ class Todo extends Item {
 
     const is = this.getStatus ();
 
-    if ( ( ( was.done || was.cancelled ) && is.box ) || ( !was.other && is.other ) ) {
+    if ( is.box ) {
 
-      return this.unfinish ();
+      if ( was.done || was.cancelled ) this.unfinish ();
 
-    } else if ( ( was.box && !is.box ) || ( was.cancelled && is.done ) || ( was.done && is.cancelled ) || ( was.other && ( is.done || is.cancelled ) ) ) {
+      return this.create ();
+
+    } else if ( !was.other && is.other ) {
+      
+      return this.remove ();
+
+    }  else if ( ( was.box && !is.box ) || ( was.cancelled && is.done ) || ( was.done && is.cancelled ) || ( was.other && ( is.done || is.cancelled ) ) ) {
 
       return this.finish ();
 
@@ -86,6 +92,35 @@ class Todo extends Item {
   }
 
   /* TIMEKEEPING */
+
+  create () {
+    
+    if ( !Item.is ( this.text, Consts.regexes.tagCreated ) && Config.getKey ( 'timekeeping.created.enabled' ) ) {
+
+      const date = moment (),
+            format = Config.getKey ( 'timekeeping.created.format' ),
+            timestamp = date.format ( format ),
+            tag = `@created(${timestamp})`;
+
+      this.addTag ( tag );
+
+    }
+
+    return this.makeEdit ();
+    
+  }
+
+  remove () {
+
+    this.unfinish ();
+
+    this.removeTag ( Consts.regexes.tagStarted );
+
+    this.removeTag ( Consts.regexes.tagCreated );
+
+    return this.makeEdit ();
+
+  }
 
   start () {
 

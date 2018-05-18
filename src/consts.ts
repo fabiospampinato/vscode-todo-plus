@@ -43,6 +43,7 @@ const Consts = {
     tagStarted: /@started\(([^)]*)\)/,
     tagFinished: /@(?:done|cancelled)\(([^)]*)\)/,
     tagElapsed: /@(?:lasted|wasted)\(([^)]*)\)/,
+    tagCreated: /@created\(([^)]*)\)/,
     code: /((?:```[\s\S]*?```)|(?:`[^`\n]*`))/,
     bold: /(?:^|\s)(\*.+\*)(?:\s|$)/,
     italic: /(?:^|\s)(_.+_)(?:\s|$)/,

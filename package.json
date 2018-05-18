@@ -173,6 +173,16 @@
           "description": "Enable the @lasted/wasted tag",
           "default": true
         },
+        "todo.timekeeping.created.enabled": {
+          "type": "boolean",
+          "description": "Enable the @created tag",
+          "default": false
+        },
+        "todo.timekeeping.created.format": {
+          "type": "string",
+          "description": "Format used for displaying time inside @created",
+          "default": "YY-MM-DD HH:mm"
+        },
         "todo.archive.name": {
           "type": "string",
           "description": "Name of the special \"Archive\" project",

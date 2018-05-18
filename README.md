@@ -78,6 +78,8 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.timekeeping.finished.enabled": true, // Enable the @done/cancelled tag. It's always enabled if you explicitly start a todo
   "todo.timekeeping.finished.format": "YY-MM-DD HH:mm", // Format used for displaying time inside @done/cancelled
   "todo.timekeeping.elapsed.enabled": true, // Enable the @lasted/wasted tag
+  "todo.timekeeping.created.enabled": false, // Enable the @created tag
+  "todo.timekeeping.created.format": "YY-MM-DD HH:mm", // Format used for displaying time inside @created
   "todo.archive.name": "Archive", // Name of the special "Archive" section
   "todo.embedded.regex": "(?:<!-- *)?(?:#|//|/\\*+|<!--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?: |:|\"|'|`|-->|$)", // Regex used for finding embedded todos, requires double escaping
   "todo.embedded.include": ["**/*"], // Globs to use for including files
