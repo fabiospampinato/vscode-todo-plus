@@ -1,3 +1,7 @@
+### Version 1.11.0
+- Timekeeping: added support for a @created tag
+- Requiring a whitespace character after symbols
+
 ### Version 1.10.7
 - Removed `todo.embedded.limit` setting
 - Emebedded: filtering out `**/third_party` by default too
