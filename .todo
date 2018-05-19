@@ -5,8 +5,10 @@
   ☐ Move also entries' comments
 ☐ Moving projects up and down is buggy @high
 ☐ Due tag: @due(+timestamp)
-☐ Autocomplete these characters: *_~`
-☐ Style/Code commands (cmd+b/i/s/`)
-  ☐ https://github.com/neilsustc/vscode-markdown/blob/master/src/formatting.ts
 ☐ Statistics (Statusbar?)
   ☐ With the current todo, if any, as the tooltip
+☐ Formatting:
+  ☐ Autocomplete these characters: *_~`
+  ☐ Style/Code commands (cmd+b/i/s/`)
+    ☐ https://github.com/neilsustc/vscode-markdown/blob/master/src/formatting.ts
+  ☐ Maybe remove formatting in favor of `vscode-highlight`
