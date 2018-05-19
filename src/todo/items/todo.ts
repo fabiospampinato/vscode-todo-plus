@@ -35,25 +35,33 @@ class Todo extends Item {
 
     const is = this.getStatus ();
 
-    if ( is.box ) {
+    if ( was.other && !is.other ) {
 
-      if ( was.done || was.cancelled ) this.unfinish ();
-
-      return this.create ();
-
-    } else if ( !was.other && is.other ) {
-      
-      return this.remove ();
-
-    }  else if ( ( was.box && !is.box ) || ( was.cancelled && is.done ) || ( was.done && is.cancelled ) || ( was.other && ( is.done || is.cancelled ) ) ) {
-
-      return this.finish ();
-
-    } else {
-
-      return this.makeEdit ();
+      this.create ();
 
     }
+
+    if ( !was.other && is.other ) {
+
+      this.unfinish ();
+      this.unstart ();
+      this.uncreate ();
+
+    }
+
+    if ( ( was.done || was.cancelled ) && is.box ) {
+
+      this.unfinish ();
+
+    }
+
+    if ( ( ( was.box || was.other ) && ( is.done || is.cancelled ) ) || ( was.cancelled && is.done ) || ( was.done && is.cancelled ) ) {
+
+      this.finish ();
+
+    }
+
+    return this.makeEdit ();
 
   }
 
@@ -94,31 +102,25 @@ class Todo extends Item {
   /* TIMEKEEPING */
 
   create () {
-    
-    if ( !Item.is ( this.text, Consts.regexes.tagCreated ) && Config.getKey ( 'timekeeping.created.enabled' ) ) {
+
+    if ( Config.getKey ( 'timekeeping.created.enabled' ) ) {
 
       const date = moment (),
             format = Config.getKey ( 'timekeeping.created.format' ),
             timestamp = date.format ( format ),
             tag = `@created(${timestamp})`;
 
-      this.addTag ( tag );
+      return this.addTag ( tag );
 
     }
 
     return this.makeEdit ();
-    
+
   }
 
-  remove () {
+  uncreate () {
 
-    this.unfinish ();
-
-    this.removeTag ( Consts.regexes.tagStarted );
-
-    this.removeTag ( Consts.regexes.tagCreated );
-
-    return this.makeEdit ();
+    return this.removeTag ( Consts.regexes.tagCreated );
 
   }
 
