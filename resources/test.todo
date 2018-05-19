@@ -1,5 +1,6 @@
 
 Project: @today
+Xproject:
   Simple description, @tag, nested @critical
   Style *bold* _italic_ ~strikethrough~
   Not a project: but a description
@@ -35,7 +36,6 @@ Project: @today
   ✔ another done
   ✔ done `code`, nested
   ✔ done/cancel ✘
-  ☐toggle me
   ☐ @criticaluper
   ☐ @tag() @tag(foo) @tag(@critical) @tag(foo bar)
   ☐ baz @ @custom @tag(foo) @tag(@critical) @tag(foo bar)
