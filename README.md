@@ -74,12 +74,12 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.tags.backgroundColors": ["#e54545", "#e59f45", "#e5d145", "#ae81ff"], // Special tags' background colors
   "todo.tags.foregroundColors": ["#000000", "#000000", "#000000", "#000000"], // Special tags' foreground colors
   "todo.formatting.enabled": true, // Enable markdown-like formatting
+  "todo.timekeeping.created.enabled": false, // Enable the @created tag
+  "todo.timekeeping.created.format": "YY-MM-DD HH:mm", // Format used for displaying time inside @created
   "todo.timekeeping.started.format": "YY-MM-DD HH:mm", // Format used for displaying time inside @started
   "todo.timekeeping.finished.enabled": true, // Enable the @done/cancelled tag. It's always enabled if you explicitly start a todo
   "todo.timekeeping.finished.format": "YY-MM-DD HH:mm", // Format used for displaying time inside @done/cancelled
   "todo.timekeeping.elapsed.enabled": true, // Enable the @lasted/wasted tag
-  "todo.timekeeping.created.enabled": false, // Enable the @created tag
-  "todo.timekeeping.created.format": "YY-MM-DD HH:mm", // Format used for displaying time inside @created
   "todo.archive.name": "Archive", // Name of the special "Archive" section
   "todo.embedded.regex": "(?:<!-- *)?(?:#|//|/\\*+|<!--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?: |:|\"|'|`|-->|$)", // Regex used for finding embedded todos, requires double escaping
   "todo.embedded.include": ["**/*"], // Globs to use for including files
