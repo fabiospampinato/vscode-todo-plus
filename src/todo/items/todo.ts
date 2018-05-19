@@ -99,6 +99,12 @@ class Todo extends Item {
 
   }
 
+  hasTag ( tagRegex: RegExp ) {
+
+    return Item.is ( this.text, tagRegex );
+
+  }
+
   /* TIMEKEEPING */
 
   create () {
