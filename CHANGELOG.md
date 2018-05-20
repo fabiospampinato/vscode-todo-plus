@@ -1,3 +1,7 @@
+### Version 1.13.1
+- Improved tag removal logic
+- Preserving cursors positions
+
 ### Version 1.13.0
 - Statistics: simplified tokens retrieval logic
 - Added a `Go to Symbol` provider
