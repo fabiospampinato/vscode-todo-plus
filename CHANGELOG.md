@@ -1,3 +1,6 @@
+### Version 1.15.0
+- Archive: added a `@project` tag
+
 ### Version 1.14.0
 - Archive: archiving comments too
 
