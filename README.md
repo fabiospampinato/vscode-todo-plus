@@ -21,6 +21,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
 - **Archive**: you can move finished todos to a special "Archive" section with a shortcut
 - **Embedded todos**: it's common to have //TODO or //FIXME comments to your code, this extension can detect those as well
 - **Statistics**: some statistics about your todos
+- **Go To Symbol**: you can easily move between projects by using the `Go to Symbol in File...` command
 
 ## Install
 

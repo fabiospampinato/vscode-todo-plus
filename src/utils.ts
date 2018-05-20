@@ -16,7 +16,6 @@ import * as vscode from 'vscode';
 import * as Commands from './commands';
 import Config from './config';
 import Consts from './consts';
-import Item from './todo/items/item';
 
 /* UTILS */
 
