@@ -87,9 +87,9 @@ class Todo extends Item {
 
     if ( this.hasTag ( tagRegex ) ) {
 
-      this.text = _.trimEnd ( this.text.replace ( tagRegex, '' ) );
+      const re = new RegExp ( tagRegex.source + '\\s?' );
 
-      return this.makeEdit ();
+      this.text = _.trimEnd ( this.text.replace ( re, '' ) );
 
     }
 
