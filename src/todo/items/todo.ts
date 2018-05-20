@@ -2,6 +2,7 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
+import * as diff from 'diff';
 import * as moment from 'moment';
 import 'moment-precise-range-plugin';
 import * as vscode from 'vscode';
@@ -61,15 +62,27 @@ class Todo extends Item {
 
     }
 
-    return this.makeEdit ();
-
   }
 
   makeEdit () {
 
     if ( this.startLine.text === this.text ) return;
 
-    return Utils.editor.makeReplaceEdit ( this.startLine.lineNumber, this.text, this.startPos.character, this.endPos.character );
+    const changes = diff.diffWordsWithSpace ( this.startLine.text, this.text );
+
+    let index = 0;
+
+    return _.filter ( changes.map ( change => {
+      if ( change.added ) {
+        return Utils.editor.makeInsertEdit ( change.value, this.startLine.lineNumber, index );
+      } else if ( change.removed ) {
+        const edit = Utils.editor.makeDeleteEdit ( this.startLine.lineNumber, index, index + change.value.length );
+        index += change.value.length;
+        return edit;
+      } else {
+        index += change.value.length;
+      }
+    }));
 
   }
 
@@ -78,8 +91,6 @@ class Todo extends Item {
   addTag ( tag: string ) {
 
     this.text = `${_.trimEnd ( this.text )} ${tag}`;
-
-    return this.makeEdit ();
 
   }
 
@@ -98,8 +109,7 @@ class Todo extends Item {
   replaceTag ( tagRegex: RegExp, tag: string ) {
 
     this.removeTag ( tagRegex );
-
-    return this.addTag ( tag );
+    this.addTag ( tag );
 
   }
 
@@ -120,17 +130,15 @@ class Todo extends Item {
             timestamp = date.format ( format ),
             tag = `@created(${timestamp})`;
 
-      return this.addTag ( tag );
+      this.addTag ( tag );
 
     }
-
-    return this.makeEdit ();
 
   }
 
   uncreate () {
 
-    return this.removeTag ( Consts.regexes.tagCreated );
+    this.removeTag ( Consts.regexes.tagCreated );
 
   }
 
@@ -141,13 +149,13 @@ class Todo extends Item {
           timestamp = date.format ( format ),
           tag = `@started(${timestamp})`;
 
-    return this.replaceTag ( Consts.regexes.tagStarted, tag );
+    this.replaceTag ( Consts.regexes.tagStarted, tag );
 
   }
 
   unstart () {
 
-    return this.removeTag ( Consts.regexes.tagStarted );
+    this.removeTag ( Consts.regexes.tagStarted );
 
   }
 
@@ -180,21 +188,18 @@ class Todo extends Item {
               diff = moment['preciseDiff'] ( startedDate, finishedDate ),
               elapsedTag = `@${isPositive ? 'lasted' : 'wasted'}(${diff})`;
 
-        return this.addTag ( elapsedTag );
+        this.addTag ( elapsedTag );
 
       }
 
     }
-
-    return this.makeEdit ();
 
   }
 
   unfinish () {
 
     this.removeTag ( Consts.regexes.tagFinished );
-
-    return this.removeTag ( Consts.regexes.tagElapsed );
+    this.removeTag ( Consts.regexes.tagElapsed );
 
   }
 
@@ -245,55 +250,55 @@ class Todo extends Item {
 
   toggleBox ( force?: boolean ) {
 
-    return this.toggleToken ( Consts.symbols.box, '', Consts.symbols.box, force );
+    this.toggleToken ( Consts.symbols.box, '', Consts.symbols.box, force );
 
   }
 
   box () {
 
-    return this.toggleBox ( true );
+    this.toggleBox ( true );
 
   }
 
   unbox () {
 
-    return this.toggleBox ( false );
+    this.toggleBox ( false );
 
   }
 
   toggleCancel ( force?: boolean ) {
 
-    return this.toggleToken ( Consts.symbols.cancel, Consts.symbols.box, Consts.symbols.cancel, force );
+    this.toggleToken ( Consts.symbols.cancel, Consts.symbols.box, Consts.symbols.cancel, force );
 
   }
 
   cancel () {
 
-    return this.toggleCancel ( true );
+    this.toggleCancel ( true );
 
   }
 
   uncancel () {
 
-    return this.toggleCancel ( false );
+    this.toggleCancel ( false );
 
   }
 
   toggleDone ( force?: boolean ) {
 
-    return this.toggleToken ( Consts.symbols.done, Consts.symbols.box, Consts.symbols.done, force );
+    this.toggleToken ( Consts.symbols.done, Consts.symbols.box, Consts.symbols.done, force );
 
   }
 
   done () {
 
-    return this.toggleDone ( true );
+    this.toggleDone ( true );
 
   }
 
   undone () {
 
-    return this.toggleDone ( false );
+    this.toggleDone ( false );
 
   }
 

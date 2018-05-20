@@ -388,6 +388,7 @@
   ],
   "dependencies": {
     "absolute": "0.0.1",
+    "diff": "^3.5.0",
     "find-up": "^2.1.0",
     "globby": "^8.0.1",
     "is-binary-path": "^2.0.0",

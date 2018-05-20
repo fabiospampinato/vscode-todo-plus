@@ -112,12 +112,30 @@ const Utils = {
 
     },
 
-    makeReplaceEdit ( lineNr: number, replacement: string, fromCh: number, toCh?: number ) {
+    makeDeleteEdit ( lineNr: number, fromCh: number, toCh: number = fromCh ) {
 
-      const range = new vscode.Range ( lineNr, fromCh, lineNr, toCh || fromCh ),
-            replace = vscode.TextEdit.replace ( range, replacement );
+      const range = new vscode.Range ( lineNr, fromCh, lineNr, toCh ),
+            edit = vscode.TextEdit.delete ( range );
 
-      return replace;
+      return edit;
+
+    },
+
+    makeInsertEdit ( insertion: string, lineNr: number, charNr: number ) {
+
+      const position = new vscode.Position ( lineNr, charNr ),
+            edit = vscode.TextEdit.insert ( position, insertion );
+
+      return edit;
+
+    },
+
+    makeReplaceEdit ( replacement: string, lineNr: number, fromCh: number, toCh: number = fromCh ) {
+
+      const range = new vscode.Range ( lineNr, fromCh, lineNr, toCh ),
+            edit = vscode.TextEdit.replace ( range, replacement );
+
+      return edit;
 
     },
 

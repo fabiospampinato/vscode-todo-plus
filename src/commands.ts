@@ -43,11 +43,29 @@ async function callTodosMethod ( options? ) {
 
   if ( !todosFiltered.length ) return;
 
-  const edits = _.filter ( todosFiltered.map ( todo => todo[options.method]( ...options.args ) ) );
+  todosFiltered.map ( todo => todo[options.method]( ...options.args ) );
+
+  const edits = _.filter ( _.flattenDeep ( todosFiltered.map ( todo => todo['makeEdit']() ) ) );
 
   if ( !edits.length ) return;
 
+  const textEditor = vscode.window.activeTextEditor;
+
+  const selectionsTagIndexes = textEditor.selections.map ( selection => {
+    const line = textEditor.document.lineAt ( selection.start.line );
+    return line.text.indexOf ( Consts.symbols.tag );
+  });
+
   await Utils.editor.applyEdits ( options.textEditor, edits );
+
+  textEditor.selections = textEditor.selections.map ( ( selection, index ) => { // Putting the cursors before first new tag
+    if ( selectionsTagIndexes[index] >= 0 ) return selection;
+    const line = textEditor.document.lineAt ( selection.start.line );
+    if ( selection.start.character !== line.text.length ) return selection;
+    const tagIndex = line.text.indexOf ( Consts.symbols.tag );
+    const position = new vscode.Position ( selection.start.line, tagIndex );
+    return new vscode.Selection ( position, position );
+  });
 
   const Statusbar = require ( './statusbar' ).default; // Avoiding a cyclic dependency
 
