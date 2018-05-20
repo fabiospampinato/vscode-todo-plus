@@ -93,18 +93,37 @@ function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read imple
 
   const archivablePositions = archivableMatches.map ( match => doc.positionAt ( match.index ) );
 
-  let archivableLines = archivablePositions.map ( pos => doc.lineAt ( pos.line ) );
+  let archivableLines = archivablePositions.map ( pos => doc.lineAt ( pos.line ) ),
+      archivableTexts = {};
 
-  archivableLines.forEach ( archivableLine => { // Adding comments
+  archivableLines.forEach ( archivableLine => {
+
+    /* @PROJECT */
+
+    const projects = [];
+
+    Utils.ast.walkUp ( doc, archivableLine.lineNumber, true, function ({ line }) {
+      if ( !line.text.match ( Consts.regexes.project ) ) return;
+      const parts = line.text.match ( Consts.regexes.projectParts );
+      projects.push ( parts[2] );
+    });
+
+    if ( projects.length ) {
+      archivableTexts[archivableLine.lineNumber] = archivableLine.text + ` @project(${projects.reverse ().join ( '.' )})`;
+    }
+
+    /* COMMENTS */
+
     Utils.ast.walkDown ( doc, archivableLine.lineNumber, false, function ({ startLevel, line, level }) {
       if ( startLevel === level || !line.text.match ( Consts.regexes.comment ) ) return false;
       archivableLines.push ( line );
     });
+
   });
 
   archivableLines = _.sortBy ( archivableLines, line => line.lineNumber );
 
-  const archivedLines = archivableLines.map ( line => `${line.text.match ( Consts.regexes.comment ) ? indentation + indentation : indentation}${_.trimStart ( line.text )}` ),
+  const archivedLines = archivableLines.map ( line => `${line.text.match ( Consts.regexes.comment ) ? indentation + indentation : indentation}${_.trimStart ( archivableTexts[line.lineNumber] || line.text )}` ),
         archivedText =  '\n' + archivedLines.join ( '\n' ),
         insertText = archiveStartIndex === -1 ? `\n\n${archiveLabel}${archivedText}` : archivedText,
         insertPos = archiveEndIndex === -1 ? doc.positionAt ( text.length - 1 ) : doc.positionAt ( archiveEndIndex ),

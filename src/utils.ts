@@ -531,10 +531,15 @@ const Utils = {
               level = Utils.ast.getLevel ( line.text, indentation );
 
         if ( direction > 0 && level < startLevel ) break;
-        if ( strictlyMonotonic && ( ( direction > 0 && level <= prevLevel ) || ( direction < 0 && level >= prevLevel ) ) ) continue;
+
+        if ( strictlyMonotonic && ( ( direction > 0 && level <= prevLevel ) || ( direction < 0 && level >= prevLevel ) ) ) {
+          nextLine += direction;
+          continue;
+        }
 
         if ( callback ({ startLine, startLevel, line, level }) === false ) break;
 
+        prevLevel = level;
         nextLine += direction;
 
       }
