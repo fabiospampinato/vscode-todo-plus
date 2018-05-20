@@ -1,3 +1,7 @@
+### Version 1.13.0
+- Statistics: simplified tokens retrieval logic
+- Added a `Go to Symbol` provider
+
 ### Version 1.12.0
 - Added some statistics to the statusbar
 
