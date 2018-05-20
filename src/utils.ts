@@ -440,7 +440,7 @@ const Utils = {
 
       if ( Config.getKey ( 'statistics.ignoreArchive' ) ) {
 
-        const archiveMatch = _.last ( Utils.getAllMatches ( text, Consts.regexes.archive ) );
+        const archiveMatch = _.last ( Utils.getAllMatches ( text, Consts.regexes.archive ) ) as undefined | RegExpMatchArray;
 
         if ( archiveMatch ) {
 

@@ -63,7 +63,7 @@ function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read imple
         text = doc.getText (),
         indentation = Config.getKey ( 'indentation' ),
         archiveName = Config.getKey ( 'archive.name' ),
-        archiveLabelMatch = _.last ( Utils.getAllMatches ( textEditor.document.getText (), Consts.regexes.archive ) ),
+        archiveLabelMatch = _.last ( Utils.getAllMatches ( textEditor.document.getText (), Consts.regexes.archive ) ) as undefined | RegExpMatchArray,
         archiveLabel = archiveLabelMatch ? archiveLabelMatch[0] : `${archiveName}:`,
         archiveStartIndex = archiveLabelMatch ? archiveLabelMatch.index : -1,
         archiveEndIndex = archiveStartIndex === -1 ? -1 : archiveStartIndex + archiveLabel.length,
