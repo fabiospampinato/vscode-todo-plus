@@ -1,3 +1,6 @@
+### Version 1.11.1
+- Fixed a regression regarding toggling indented todos
+
 ### Version 1.11.0
 - Timekeeping: added support for a @created tag
 - Requiring a whitespace character after symbols
