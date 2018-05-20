@@ -1,3 +1,6 @@
+### Version 1.14.0
+- Archive: archiving comments too
+
 ### Version 1.13.1
 - Improved tag removal logic
 - Preserving cursors positions
