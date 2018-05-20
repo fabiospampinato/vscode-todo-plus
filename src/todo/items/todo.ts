@@ -208,7 +208,7 @@ class Todo extends Item {
 
       if ( force === true ) return;
 
-      const endIndex = tokenMatch.index + tokenMatch[1].length,
+      const endIndex = tokenMatch.index + _.trimEnd ( tokenMatch[0] ).length,
             startIndex = endIndex - tokenMatch[1].length,
             spaceNr = !removeToken && this.text.length >= ( endIndex + 1 ) && this.text[endIndex].match ( /\s/ ) ? 1 : 0;
 
@@ -222,7 +222,7 @@ class Todo extends Item {
 
       if ( force === false ) return;
 
-      const endIndex = otherMatch.index + otherMatch[1].length,
+      const endIndex = otherMatch.index + _.trimEnd ( otherMatch[0] ).length,
             startIndex = endIndex - otherMatch[1].length;
 
       return this.setToken ( token, startIndex, endIndex );
