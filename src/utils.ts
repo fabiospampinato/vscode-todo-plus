@@ -486,6 +486,64 @@ const Utils = {
 
     }
 
+  },
+
+  ast: {
+
+    getLevel ( str, indentation = Config.getKey ( 'indentation' ) ) {
+
+      let level = 0,
+          index = 0;
+
+      while ( index < str.length  ) {
+        if ( str.substr ( index, indentation.length ) !== indentation ) break;
+        level++;
+        index += indentation.length;
+      }
+
+      return level;
+
+    },
+
+    walk ( textDocument: vscode.TextDocument, lineNr: number = 0, direction: number = 1, strictlyMonotonic: boolean = false, callback: Function ) { // strictlyMonotonic: only go strictly up or down, don't process other elements at the same level
+
+      const indentation = Config.getKey ( 'indentation' ),
+            {lineCount} = textDocument;
+
+      const startLine = textDocument.lineAt ( lineNr ),
+            startLevel = Utils.ast.getLevel ( startLine.text, indentation );
+
+      let prevLevel = startLevel,
+          nextLine = lineNr + direction;
+
+      while ( nextLine >= 0 && nextLine < lineCount ) {
+
+        const line = textDocument.lineAt ( nextLine ),
+              level = Utils.ast.getLevel ( line.text, indentation );
+
+        if ( direction > 0 && level < startLevel ) break;
+        if ( strictlyMonotonic && ( ( direction > 0 && level <= prevLevel ) || ( direction < 0 && level >= prevLevel ) ) ) continue;
+
+        if ( callback ({ startLine, startLevel, line, level }) === false ) break;
+
+        nextLine += direction;
+
+      }
+
+    },
+
+    walkDown ( textDocument: vscode.TextDocument, lineNr: number, strictlyMonotonic: boolean, callback: Function ) {
+
+      return Utils.ast.walk ( textDocument, lineNr, 1, strictlyMonotonic, callback );
+
+    },
+
+    walkUp ( textDocument: vscode.TextDocument, lineNr: number, strictlyMonotonic: boolean, callback: Function ) {
+
+      return Utils.ast.walk ( textDocument, lineNr, -1, strictlyMonotonic, callback );
+
+    }
+
   }
 
 };
