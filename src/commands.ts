@@ -91,14 +91,24 @@ function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read imple
 
   if ( !archivableMatches.length ) return;
 
-  const archivablePositions = archivableMatches.map ( match => doc.positionAt ( match.index ) ),
-        archivableLines = archivablePositions.map ( pos => doc.lineAt ( pos.line ) ),
-        archivablePostPositions = archivableMatches.map ( ( match, i ) => doc.positionAt ( Math.min ( text.length - 1, match.index + archivableLines[i].text.length + 1 ) ) ), // In order to completely remove the line, including the new line
-        archivedLines = archivableLines.map ( line => `${indentation}${_.trimStart ( line.text )}` ),
+  const archivablePositions = archivableMatches.map ( match => doc.positionAt ( match.index ) );
+
+  let archivableLines = archivablePositions.map ( pos => doc.lineAt ( pos.line ) );
+
+  archivableLines.forEach ( archivableLine => { // Adding comments
+    Utils.ast.walkDown ( doc, archivableLine.lineNumber, false, function ({ startLevel, line, level }) {
+      if ( startLevel === level || !line.text.match ( Consts.regexes.comment ) ) return false;
+      archivableLines.push ( line );
+    });
+  });
+
+  archivableLines = _.sortBy ( archivableLines, line => line.lineNumber );
+
+  const archivedLines = archivableLines.map ( line => `${line.text.match ( Consts.regexes.comment ) ? indentation + indentation : indentation}${_.trimStart ( line.text )}` ),
         archivedText =  '\n' + archivedLines.join ( '\n' ),
         insertText = archiveStartIndex === -1 ? `\n\n${archiveLabel}${archivedText}` : archivedText,
         insertPos = archiveEndIndex === -1 ? doc.positionAt ( text.length - 1 ) : doc.positionAt ( archiveEndIndex ),
-        editsRemoveLines = archivableLines.map ( ( line, i ) => vscode.TextEdit.delete ( new vscode.Range ( line.range.start, archivablePostPositions[i] ) ) ),
+        editsRemoveLines = archivableLines.map ( ( line, i ) => Utils.editor.makeDeleteLineEdit ( line.lineNumber, line.range.start.character, line.range.end.character ) ),
         editsInsertArchived = vscode.TextEdit.insert ( insertPos, insertText ),
         edits = editsRemoveLines.concat ( editsInsertArchived );
 

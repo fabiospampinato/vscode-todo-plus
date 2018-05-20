@@ -112,6 +112,15 @@ const Utils = {
 
     },
 
+    makeDeleteLineEdit ( lineNr: number ) {
+
+      const range = new vscode.Range ( lineNr, 0, lineNr + 1, 0 ),
+            edit = vscode.TextEdit.delete ( range );
+
+      return edit;
+
+    },
+
     makeDeleteEdit ( lineNr: number, fromCh: number, toCh: number = fromCh ) {
 
       const range = new vscode.Range ( lineNr, fromCh, lineNr, toCh ),
