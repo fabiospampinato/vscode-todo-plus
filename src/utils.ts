@@ -427,15 +427,6 @@ const Utils = {
 
       if ( !Utils.editor.isSupported ( textEditor ) ) return;
 
-      const tokens = {
-        pending: 0,
-        done: 0,
-        cancelled: 0,
-        finished: 0,
-        all: 0,
-        percentage: 0
-      };
-
       let text = textEditor.document.getText ();
 
       if ( Config.getKey ( 'statistics.ignoreArchive' ) ) {
@@ -450,32 +441,14 @@ const Utils = {
 
       }
 
-      const lines = text.split ( '\n' );
+      let tokens: any = {
+        pending: Utils.getAllMatches ( text, Consts.regexes.todoBox ).length,
+        done: Utils.getAllMatches ( text, Consts.regexes.todoDone ).length,
+        cancelled: Utils.getAllMatches ( text, Consts.regexes.todoCancel ).length
+      };
 
-      lines.forEach ( line => {
-
-        if ( !Item.is ( line, Consts.regexes.todo ) ) return;
-
-        tokens.all += 1;
-
-        if ( Item.is ( line, Consts.regexes.todoBox ) ) {
-
-          tokens.pending += 1;
-
-        } else if ( Item.is ( line, Consts.regexes.todoDone ) ) {
-
-          tokens.done += 1;
-          tokens.finished += 1;
-
-        } else if ( Item.is ( line, Consts.regexes.todoCancel ) ) {
-
-          tokens.cancelled += 1;
-          tokens.finished += 1;
-
-        }
-
-      });
-
+      tokens.finished = tokens.done + tokens.cancelled;
+      tokens.all = tokens.pending + tokens.finished;
       tokens.percentage = tokens.all ? Math.round ( tokens.finished / tokens.all * 100 ) : 100;
 
       return tokens;
