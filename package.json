@@ -188,6 +188,16 @@
           "description": "Name of the special \"Archive\" project",
           "default": "Archive"
         },
+        "todo.archive.project.enabled": {
+          "type": "boolean",
+          "description": "Enable the @project tag",
+          "default": true
+        },
+        "todo.archive.project.separator": {
+          "type": "string",
+          "description": "String used for joining multiple projects",
+          "default": "."
+        },
         "todo.embedded.regex": {
           "type": "string",
           "description": "Regex used for finding embedded todos, requires double escaping",

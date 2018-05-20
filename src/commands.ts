@@ -100,16 +100,20 @@ function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read imple
 
     /* @PROJECT */
 
-    const projects = [];
+    if ( Config.getKey ( 'archive.project.enabled' ) ) {
 
-    Utils.ast.walkUp ( doc, archivableLine.lineNumber, true, function ({ line }) {
-      if ( !line.text.match ( Consts.regexes.project ) ) return;
-      const parts = line.text.match ( Consts.regexes.projectParts );
-      projects.push ( parts[2] );
-    });
+      const projects = [];
 
-    if ( projects.length ) {
-      archivableTexts[archivableLine.lineNumber] = archivableLine.text + ` @project(${projects.reverse ().join ( '.' )})`;
+      Utils.ast.walkUp ( doc, archivableLine.lineNumber, true, function ({ line }) {
+        if ( !line.text.match ( Consts.regexes.project ) ) return;
+        const parts = line.text.match ( Consts.regexes.projectParts );
+        projects.push ( parts[2] );
+      });
+
+      if ( projects.length ) {
+        archivableTexts[archivableLine.lineNumber] = archivableLine.text + ` @project(${projects.reverse ().join ( Config.getKey ( 'archive.project.separator' ) )})`;
+      }
+
     }
 
     /* COMMENTS */
