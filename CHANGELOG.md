@@ -1,3 +1,6 @@
+### Version 1.12.0
+- Added some statistics to the statusbar
+
 ### Version 1.11.1
 - Fixed a regression regarding toggling indented todos
 
