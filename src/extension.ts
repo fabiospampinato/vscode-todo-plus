@@ -6,6 +6,7 @@ import Consts from './consts';
 import CompletionProvider from './todo/providers/completion';
 import DocumentDecorator from './todo/decorators/document';
 import Utils from './utils';
+import './statusbar';
 
 /* ACTIVATE */
 

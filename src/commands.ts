@@ -23,7 +23,7 @@ const callTodosMethodOptions = {
   }
 };
 
-function callTodosMethod ( options? ) {
+async function callTodosMethod ( options? ) {
 
   options = _.merge ( {}, callTodosMethodOptions, options );
 
@@ -47,7 +47,11 @@ function callTodosMethod ( options? ) {
 
   if ( !edits.length ) return;
 
-  return Utils.editor.applyEdits ( options.textEditor, edits );
+  await Utils.editor.applyEdits ( options.textEditor, edits );
+
+  const Statusbar = require ( './statusbar' ).default; // Avoiding a cyclic dependency
+
+  Statusbar.update ();
 
 }
 

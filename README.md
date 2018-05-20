@@ -18,8 +18,9 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
 - **Custom colors**: all colors can be customized
 - **Custom special tags**: special tags' names and their colors can be customized
 - **Timekeeping**: you can mark todos as started and track elapsed time until completion
-- **Archive**: you can move completed todos to a special "Archive" section with a shortcut
+- **Archive**: you can move finished todos to a special "Archive" section with a shortcut
 - **Embedded todos**: it's common to have //TODO or //FIXME comments to your code, this extension can detect those as well
+- **Statistics**: some statistics about your todos
 
 ## Install
 
@@ -40,7 +41,7 @@ It adds 7 commands to the command palette:
 'Todo: Toggle Box' // Toggle todo's box symbol
 'Todo: Toggle Cancel' // Toggle todo's done symbol
 'Todo: Toggle Done' // Toggle todo's cancel symbol
-'Todo: Archive' // Archive completed todos
+'Todo: Archive' // Archive finished todos
 ```
 
 It adds 5 shortcuts when editing a `Todo` file:
@@ -84,11 +85,32 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.embedded.regex": "(?:<!-- *)?(?:#|//|/\\*+|<!--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?: |:|\"|'|`|-->|$)", // Regex used for finding embedded todos, requires double escaping
   "todo.embedded.include": ["**/*"], // Globs to use for including files
   "todo.embedded.exclude": ["**/.git", ...], // Globs to use for excluding files
-  "todo.embedded.groupByFile": false // Group todos by file
+  "todo.embedded.groupByFile": false, // Group todos by file
+  "todo.statistics.ignoreArchive": true, // Ignore the archive when rendering statistics
+  "todo.statistics.statusbar.enabled": true, // Show statistics in the statusbar
+  "todo.statistics.statusbar.alignment": "left", // Should the item be placed to the left or right?
+  "todo.statistics.statusbar.color": "", // The foreground color for this item
+  "todo.statistics.statusbar.command": "", // Command to execute on click
+  "todo.statistics.statusbar.priority": -1, // The priority of this item. Higher value means the item should be shown more to the left
+  "todo.statistics.statusbar.text": "$(check) [finished]/[all] ([percentage]%)", // Template used for rendering the text
+  "todo.statistics.statusbar.tooltip": "[pending] Pending - [done] Done - [cancelled] Cancelled" // Template used for rendering the tooltip
 }
 ```
 
 Dates are formatted using [moment](https://momentjs.com/docs/#/displaying/format/).
+
+## Statistics Tokens
+
+The following tokens can be used in `todo.statistics.statusbar.text` and `todo.statistics.statusbar.tooltip`, they will be replaced with the value they represent.
+
+| Token          | Value                        |
+|----------------|------------------------------|
+| `[pending]`    | Number of pending todos      |
+| `[done]`       | Number of done todos         |
+| `[cancelled]`  | Number of cancelled todos    |
+| `[finished]`   | Number of finished todos     |
+| `[all]`        | Number of todos              |
+| `[percentage]` | Percentage of finished todos |
 
 ## Demo
 
@@ -99,6 +121,14 @@ Dates are formatted using [moment](https://momentjs.com/docs/#/displaying/format
 ### Embedded todos
 
 ![Embedded](resources/demo_embedded.gif)
+
+### Statistics
+
+![Statistics](resources/demo_statistics.png)
+
+## Hints:
+
+- **Icons**: icons can be used in `todo.statistics.statusbar.text`. [Here](https://octicons.github.com/) you can browse a list of supported icons. If for instance you click the first icon, you'll get a page with `.octicon-alert` written in it, to get the string to use simply remove the `.octicon-` part, so in this case the icon name would be `alert`.
 
 ## Related:
 

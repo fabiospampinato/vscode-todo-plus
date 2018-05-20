@@ -226,6 +226,46 @@
           "type": "boolean",
           "description": "Group todos by file",
           "default": false
+        },
+        "todo.statistics.ignoreArchive": {
+          "type": "boolean",
+          "description": "Ignore the archive when rendering statistics",
+          "default": true
+        },
+        "todo.statistics.statusbar.enabled": {
+          "type": "boolean",
+          "description": "Show statistics in the statusbar",
+          "default": true
+        },
+        "todo.statistics.statusbar.alignment": {
+          "type": "string",
+          "description": "Should the item be placed to the left or right?",
+          "default": "left"
+        },
+        "todo.statistics.statusbar.color": {
+          "type": "string",
+          "description": "The foreground color for this item",
+          "default": ""
+        },
+        "todo.statistics.statusbar.command": {
+          "type": "string",
+          "description": "Command to execute on click",
+          "default": ""
+        },
+        "todo.statistics.statusbar.priority": {
+          "type": "number",
+          "description": "The priority of this item. Higher value means the item should be shown more to the left",
+          "default": -1
+        },
+        "todo.statistics.statusbar.text": {
+          "type": "string",
+          "description": "Template used for rendering the text",
+          "default": "$(check) [finished]/[all] ([percentage]%)"
+        },
+        "todo.statistics.statusbar.tooltip": {
+          "type": "string",
+          "description": "Template used for rendering the tooltip",
+          "default": "[pending] Pending - [done] Done - [cancelled] Cancelled"
         }
       }
     },

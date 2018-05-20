@@ -5,8 +5,6 @@
   ☐ Move also entries' comments
 ☐ Moving projects up and down is buggy @high
 ☐ Due tag: @due(+timestamp)
-☐ Statistics (Statusbar?)
-  ☐ With the current todo, if any, as the tooltip
 ☐ Formatting:
   ☐ Autocomplete these characters: *_~`
   ☐ Style/Code commands (cmd+b/i/s/`)

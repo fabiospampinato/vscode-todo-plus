@@ -16,6 +16,7 @@ import * as vscode from 'vscode';
 import * as Commands from './commands';
 import Config from './config';
 import Consts from './consts';
+import Item from './todo/items/item';
 
 /* UTILS */
 
@@ -415,6 +416,83 @@ const Utils = {
       });
 
       return lines.length ? `${lines.join ( '\n' )}\n` : '';
+
+    }
+
+  },
+
+  statistics: {
+
+    getTokens ( textEditor = vscode.window.activeTextEditor ) {
+
+      if ( !Utils.editor.isSupported ( textEditor ) ) return;
+
+      const tokens = {
+        pending: 0,
+        done: 0,
+        cancelled: 0,
+        finished: 0,
+        all: 0,
+        percentage: 0
+      };
+
+      let text = textEditor.document.getText ();
+
+      if ( Config.getKey ( 'statistics.ignoreArchive' ) ) {
+
+        const archiveMatch = _.last ( Utils.getAllMatches ( text, Consts.regexes.archive ) );
+
+        if ( archiveMatch ) {
+
+          text = text.substr ( 0, archiveMatch.index );
+
+        }
+
+      }
+
+      const lines = text.split ( '\n' );
+
+      lines.forEach ( line => {
+
+        if ( !Item.is ( line, Consts.regexes.todo ) ) return;
+
+        tokens.all += 1;
+
+        if ( Item.is ( line, Consts.regexes.todoBox ) ) {
+
+          tokens.pending += 1;
+
+        } else if ( Item.is ( line, Consts.regexes.todoDone ) ) {
+
+          tokens.done += 1;
+          tokens.finished += 1;
+
+        } else if ( Item.is ( line, Consts.regexes.todoCancel ) ) {
+
+          tokens.cancelled += 1;
+          tokens.finished += 1;
+
+        }
+
+      });
+
+      tokens.percentage = tokens.all ? Math.round ( tokens.finished / tokens.all * 100 ) : 100;
+
+      return tokens;
+
+    },
+
+    renderTemplate ( template: string, tokens = Utils.statistics.getTokens () ) {
+
+      if ( !tokens ) return;
+
+      _.forOwn ( tokens, ( val, token ) => {
+
+        template = template.replace ( `[${token}]`, val );
+
+      });
+
+      return template;
 
     }
 
