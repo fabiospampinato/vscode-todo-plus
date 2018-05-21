@@ -22,7 +22,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
 - **Time estimates**: you can estimate the time it will take to complete a todo by adding a tag to it that looks like this: `@est(3 hours)`, `@est(2h30m)` or `@2h30m`. Then you can use the `[est]` token in statistics
 - **Statistics**: some statistics about your file and/or about your individual projects
 - **Go To Symbol**: you can easily move between projects by using the `Go to Symbol in File...` command
-- **Embedded todos**: it's common to have //TODO or //FIXME comments to your code, this extension can detect those as well
+- **Embedded todos**: it's common to have `//TODO` or `//FIXME` comments to your code, this extension can detect those as well
 
 ## Install
 
