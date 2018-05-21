@@ -29,7 +29,7 @@ async function callTodosMethod ( options? ) {
 
   if ( !Utils.editor.isSupported ( options.textEditor ) ) return;
 
-  const doc = new Document ( options.textEditor.document ),
+  const doc = new Document ( options.textEditor ),
         lines = _.uniq ( options.textEditor.selections.map ( selection => selection.active.line ) ) as number[],
         todos = _.filter ( lines.map ( line => doc.getTodoAt ( line, options.checkValidity ) ) );
 

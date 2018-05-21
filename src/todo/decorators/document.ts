@@ -21,7 +21,7 @@ class Document {
 
     if ( !Utils.editor.isSupported ( textEditor ) ) return;
 
-    const doc = new DocumentModule ( textEditor.document ),
+    const doc = new DocumentModule ( textEditor ),
           lines = doc.getLines (),
           codes = doc.getCodes (),
           comments = doc.getComments (),

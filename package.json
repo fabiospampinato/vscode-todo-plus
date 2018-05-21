@@ -2,7 +2,7 @@
   "name": "vscode-todo-plus",
   "displayName": "Todo+",
   "description": "Manage todo lists with ease. Powerful, easy to use and customizable.",
-  "icon": "resources/logo-128x128.png",
+  "icon": "resources/logo/logo-128x128.png",
   "version": "1.15.0",
   "license": "MIT",
   "main": "out/src/extension.js",
@@ -103,6 +103,11 @@
           "type": "string",
           "description": "Project color",
           "default": "#66d9ef"
+        },
+        "todo.colors.projectStatistics": {
+          "type": "string",
+          "description": "Project statistics color",
+          "default": "#4694a3"
         },
         "todo.colors.tag": {
           "type": "string",
@@ -241,6 +246,16 @@
           "type": "boolean",
           "description": "Ignore the archive when rendering statistics",
           "default": true
+        },
+        "todo.statistics.project.enabled": {
+          "type": "boolean",
+          "description": "Show statistics next to a project",
+          "default": true
+        },
+        "todo.statistics.project.text": {
+          "type": "string",
+          "description": "Template used for rendering the text",
+          "default": "([all])"
         },
         "todo.statistics.statusbar.enabled": {
           "type": "boolean",

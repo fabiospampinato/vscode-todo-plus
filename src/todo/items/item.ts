@@ -8,6 +8,7 @@ import * as vscode from 'vscode';
 
 class Item {
 
+  textEditor: vscode.TextEditor;
   textDocument: vscode.TextDocument;
   startPos: vscode.Position;
   startOffset: number;
@@ -19,9 +20,10 @@ class Item {
   text: string;
   isMultiline: boolean;
 
-  constructor ( textDocument: vscode.TextDocument, startPos: vscode.Position, endPos: vscode.Position, startLine: vscode.TextLine, endLine: vscode.TextLine, text: string ) {
+  constructor ( textEditor: vscode.TextEditor, startPos: vscode.Position, endPos: vscode.Position, startLine: vscode.TextLine, endLine: vscode.TextLine, text: string ) {
 
-    this.textDocument = textDocument;
+    this.textEditor = textEditor;
+    this.textDocument = textEditor.document;
     this.startPos = startPos;
     this.startOffset = this.textDocument.offsetAt ( this.startPos );
     this.endPos = endPos;

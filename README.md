@@ -1,7 +1,7 @@
 # Todo+
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/fabiospampinato/vscode-todo-plus/master/resources/logo-128x128.png" alt="Logo">
+	<img src="https://raw.githubusercontent.com/fabiospampinato/vscode-todo-plus/master/resources/logo/logo-128x128.png" alt="Logo">
 </p>
 
 Manage todo lists with ease. Powerful, easy to use and customizable.
@@ -20,7 +20,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
 - **Timekeeping**: you can mark todos as started and track elapsed time until completion
 - **Archive**: you can move finished todos to a special "Archive" section with a shortcut
 - **Embedded todos**: it's common to have //TODO or //FIXME comments to your code, this extension can detect those as well
-- **Statistics**: some statistics about your todos
+- **Statistics**: some statistics about your file and/or about your individual projects
 - **Go To Symbol**: you can easily move between projects by using the `Go to Symbol in File...` command
 
 ## Install
@@ -71,6 +71,7 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.colors.code": "#fd971f", // Code color
   "todo.colors.comment": "#75715e", // Comment color
   "todo.colors.project": "#66d9ef", // Project color
+  "todo.colors.projectStatistics": "#4694a3", // Project statistics color
   "todo.colors.tag": "#e6db74", // Tag color
   "todo.tags.names": ["critical", "high", "low", "today"], // Special tags' names
   "todo.tags.backgroundColors": ["#e54545", "#e59f45", "#e5d145", "#ae81ff"], // Special tags' background colors
@@ -90,6 +91,8 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.embedded.exclude": ["**/.git", ...], // Globs to use for excluding files
   "todo.embedded.groupByFile": false, // Group todos by file
   "todo.statistics.ignoreArchive": true, // Ignore the archive when rendering statistics
+  "todo.statistics.project.enabled": true, // Show statistics next to a project
+  "todo.statistics.project.text": "([all])", // Template used for rendering the text
   "todo.statistics.statusbar.enabled": true, // Show statistics in the statusbar
   "todo.statistics.statusbar.alignment": "left", // Should the item be placed to the left or right?
   "todo.statistics.statusbar.color": "", // The foreground color for this item
@@ -104,7 +107,7 @@ Dates are formatted using [moment](https://momentjs.com/docs/#/displaying/format
 
 ## Statistics Tokens
 
-The following tokens can be used in `todo.statistics.statusbar.text` and `todo.statistics.statusbar.tooltip`, they will be replaced with the value they represent.
+The following tokens can be used in `todo.statistics.project.text`, `todo.statistics.statusbar.text` and `todo.statistics.statusbar.tooltip`, they will be replaced with the value they represent.
 
 | Token          | Value                        |
 |----------------|------------------------------|
@@ -119,15 +122,19 @@ The following tokens can be used in `todo.statistics.statusbar.text` and `todo.s
 
 ### [Example todo file](https://github.com/fabiospampinato/vscode-todo-plus/blob/master/resources/readme.todo)
 
-![Demo](resources/demo.png)
+![Syntax](resources/demo/syntax.png)
 
 ### Embedded todos
 
-![Embedded](resources/demo_embedded.gif)
+![Embedded](resources/demo/embedded.gif)
 
 ### Statistics
 
-![Statistics](resources/demo_statistics.png)
+![Statistics](resources/demo/statistics.png)
+
+![Project Statistics](resources/demo/project_statistics.png)
+
+![Project Statistics Advanced](resources/demo/project_statistics_adv.gif)
 
 ## Hints:
 

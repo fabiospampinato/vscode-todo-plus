@@ -15,11 +15,13 @@ import Utils from '../utils';
 
 class Document {
 
+  textEditor: vscode.TextEditor;
   textDocument: vscode.TextDocument;
 
-  constructor ( textDocument: vscode.TextDocument ) {
+  constructor ( textEditor: vscode.TextEditor ) {
 
-    this.textDocument = textDocument;
+    this.textEditor = textEditor;
+    this.textDocument = textEditor.document;
 
   }
 
@@ -38,7 +40,7 @@ class Document {
             endLine = this.textDocument.lineAt ( endPos ),
             text = _.last ( match ) as string;
 
-      return new Item ( this.textDocument, startPos, endPos, startLine, endLine, text );
+      return new Item ( this.textEditor, startPos, endPos, startLine, endLine, text );
 
     });
 
@@ -50,7 +52,7 @@ class Document {
 
     if ( checkValidity && !Item.is ( line.text ) ) return;
 
-    return new Item ( this.textDocument, line.range.start, line.range.end, line, line, line.text  );
+    return new Item ( this.textEditor, line.range.start, line.range.end, line, line, line.text  );
 
   }
 
@@ -58,7 +60,7 @@ class Document {
 
     return _.range ( this.textDocument.lineCount )
             .map ( lineNr => this.textDocument.lineAt ( lineNr ) )
-            .map ( line => new Line ( this.textDocument, line.range.start, line.range.end, line, line, line.text ) );
+            .map ( line => new Line ( this.textEditor, line.range.start, line.range.end, line, line, line.text ) );
 
   }
 

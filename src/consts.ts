@@ -21,6 +21,7 @@ const Consts = {
     code: Config.getKey ( 'colors.code' ),
     comment: Config.getKey ( 'colors.comment' ),
     project: Config.getKey ( 'colors.project' ),
+    projectStatistics: Config.getKey ( 'colors.projectStatistics' ),
     tag: Config.getKey ( 'colors.tag' )
   },
   tags: {
@@ -30,6 +31,7 @@ const Consts = {
   },
   regexes: {
     impossible: /(?=a)b/,
+    empty: /^\s*$/,
     todo: /^[^\S\n]*((?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])\s[^\n]*)/,
     todoToken: /^[^\S\n]*(?!--|––|——)([-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])\s/,
     todoBox: /^[^\S\n]*((?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ ?\])\s[^\n]*)/,

@@ -481,6 +481,33 @@ const Utils = {
 
     },
 
+    getTokensProject ( textEditor = vscode.window.activeTextEditor, lineNr: number ) {
+
+      const tokens: any = {
+        pending: 0,
+        done: 0,
+        cancelled: 0
+      };
+
+      Utils.ast.walkDown ( textEditor.document, lineNr, false, function ({ startLevel, line, level }) {
+        if ( level <= startLevel ) return false;
+        if ( line.text.match ( Consts.regexes.todoBox ) ) {
+          tokens.pending++;
+        } else if ( line.text.match ( Consts.regexes.todoDone ) ) {
+          tokens.done++;
+        } else if ( line.text.match ( Consts.regexes.todoCancel ) ) {
+          tokens.cancelled++;
+        }
+      });
+
+      tokens.finished = tokens.done + tokens.cancelled;
+      tokens.all = tokens.pending + tokens.finished;
+      tokens.percentage = tokens.all ? Math.round ( tokens.finished / tokens.all * 100 ) : 100;
+
+      return tokens;
+
+    },
+
     renderTemplate ( template: string, tokens = Utils.statistics.getTokens () ) {
 
       if ( !tokens ) return;
