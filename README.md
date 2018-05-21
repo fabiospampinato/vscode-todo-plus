@@ -14,14 +14,15 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
   - **Box**: - ❍ ❑ ■ ⬜ □ ☐ ▪ ▫ – — ≡ → › [] [ ]
   - **Done**: ✔ ✓ ☑ + [x] [X] [+]
   - **Cancel**: ✘ x X [-]
-- **Code blocks**: you can define code blocks by wrapping them in backticks (`)
+- **Code blocks**: you can define code blocks by wrapping them in backticks (` or ```)
 - **Custom colors**: all colors can be customized
 - **Custom special tags**: special tags' names and their colors can be customized
-- **Timekeeping**: you can mark todos as started and track elapsed time until completion
 - **Archive**: you can move finished todos to a special "Archive" section with a shortcut
-- **Embedded todos**: it's common to have //TODO or //FIXME comments to your code, this extension can detect those as well
+- **Timekeeping**: you can mark todos as started and track elapsed time until completion
+- **Time estimates**: you can estimate the time it will take to complete a todo by adding a tag to it that looks like this: `@est(3 hours)`, `@est(2h30m)` or `@2h30m`. Then you can use the `[est]` token in statistics
 - **Statistics**: some statistics about your file and/or about your individual projects
 - **Go To Symbol**: you can easily move between projects by using the `Go to Symbol in File...` command
+- **Embedded todos**: it's common to have //TODO or //FIXME comments to your code, this extension can detect those as well
 
 ## Install
 
@@ -84,6 +85,7 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.timekeeping.finished.format": "YY-MM-DD HH:mm", // Format used for displaying time inside @done/cancelled
   "todo.timekeeping.elapsed.enabled": true, // Enable the @lasted/wasted tag
   "todo.timekeeping.elapsed.format": "short-compact", // Format used for displaying time diff inside @lasted/waster
+  "todo.timekeeping.estimate.format": "short-compact", // Format used for the `[est]` token
   "todo.archive.name": "Archive", // Name of the special "Archive" section
   "todo.archive.project.enabled": true, // Enable the @project tag
   "todo.archive.project.separator": ".", // String used for joining multiple projects
@@ -93,7 +95,7 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.embedded.groupByFile": false, // Group todos by file
   "todo.statistics.ignoreArchive": true, // Ignore the archive when rendering statistics
   "todo.statistics.project.enabled": true, // Show statistics next to a project
-  "todo.statistics.project.text": "([all])", // Template used for rendering the text
+  "todo.statistics.project.text": "([all]) [est]", // Template used for rendering the text
   "todo.statistics.statusbar.enabled": true, // Show statistics in the statusbar
   "todo.statistics.statusbar.alignment": "left", // Should the item be placed to the left or right?
   "todo.statistics.statusbar.color": "", // The foreground color for this item
@@ -104,7 +106,7 @@ It adds 5 shortcuts when editing a `Todo` file:
 }
 ```
 
-Dates are formatted using [moment](https://momentjs.com/docs/#/displaying/format/).
+Dates are formatted using [moment](https://momentjs.com/docs/#/displaying/format), and are parsed using [sugar](https://sugarjs.com) and [to-time](https://www.npmjs.com/package/to-time).
 
 ## Statistics Tokens
 
@@ -118,6 +120,7 @@ The following tokens can be used in `todo.statistics.project.text`, `todo.statis
 | `[finished]`   | Number of finished todos     |
 | `[all]`        | Number of todos              |
 | `[percentage]` | Percentage of finished todos |
+| `[est]`        | Estimated time               |
 
 ## Demo
 

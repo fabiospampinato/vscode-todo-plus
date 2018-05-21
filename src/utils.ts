@@ -390,7 +390,7 @@ const Utils = {
 
     },
 
-    diffSeconds ( to: Date | string | number, from: Date = new Date () ) { //TODO: Memoize or something
+    diffSeconds ( to: Date | string | number, from: Date = new Date () ) {
 
       let toDate;
 
@@ -406,6 +406,8 @@ const Utils = {
 
         to = to.replace ( / and /gi, ' ' );
         to = to.replace ( /(\d)(ms|s|m|h|d|w|y)(\d)/gi, '$1$2 $3' );
+
+        if ( /^\s*\d+\s*$/.test ( to ) ) return 0;
 
         if ( !toDate ) { // sugar + ` from now` //FIXME: Should be + ` from ${date.toString ()}` or something
           const date = sugar.Date.create ( `${to} from now` );
@@ -430,7 +432,7 @@ const Utils = {
 
       }
 
-      return Math.round ( ( toDate.getTime () - from.getTime () ) / 1000 );
+      return toDate ? Math.round ( ( toDate.getTime () - from.getTime () ) / 1000 ) : 0;
 
     }
 
@@ -596,6 +598,25 @@ const Utils = {
 
   statistics: {
 
+    estimatesCache: {}, //TODO: Move this to a more appropriate place // It takes for granted that all estimates are relative to `now`
+
+    getEstimate ( str, from?: Date ) { //TODO: Move this to a more appropriate place
+
+      if ( Utils.statistics.estimatesCache[str] ) return Utils.statistics.estimatesCache[str];
+
+      const est = str.match ( Consts.regexes.tagEstimate );
+
+      if ( !est ) return 0;
+
+      const time = est[2] || est[1],
+            seconds = Utils.date.diffSeconds ( time, from );
+
+      Utils.statistics.estimatesCache[str] = seconds;
+
+      return seconds;
+
+    },
+
     getTokens ( textEditor = vscode.window.activeTextEditor ) {
 
       if ( !Utils.editor.isSupported ( textEditor ) ) return;
@@ -614,15 +635,20 @@ const Utils = {
 
       }
 
+      const now = new Date (),
+            pending = Utils.getAllMatches ( text, Consts.regexes.todoBox );
+
       let tokens: any = {
-        pending: Utils.getAllMatches ( text, Consts.regexes.todoBox ).length,
+        pending: pending.length,
         done: Utils.getAllMatches ( text, Consts.regexes.todoDone ).length,
-        cancelled: Utils.getAllMatches ( text, Consts.regexes.todoCancel ).length
+        cancelled: Utils.getAllMatches ( text, Consts.regexes.todoCancel ).length,
+        est: _.sum ( pending.map ( match => Utils.statistics.getEstimate ( match[1], now ) ) )
       };
 
       tokens.finished = tokens.done + tokens.cancelled;
       tokens.all = tokens.pending + tokens.finished;
       tokens.percentage = tokens.all ? Math.round ( tokens.finished / tokens.all * 100 ) : 100;
+      tokens.est = tokens.est ? Utils.date.diff ( now.getTime () + ( tokens.est * 1000 ), now, Config.getKey ( 'timekeeping.estimate.format' ) ) : '';
 
       return tokens;
 
@@ -630,16 +656,24 @@ const Utils = {
 
     getTokensProject ( textEditor = vscode.window.activeTextEditor, lineNr: number ) {
 
+      const now = new Date ();
+
       const tokens: any = {
         pending: 0,
         done: 0,
-        cancelled: 0
+        cancelled: 0,
+        est: 0
       };
 
       Utils.ast.walkDown ( textEditor.document, lineNr, false, function ({ startLevel, line, level }) {
         if ( level <= startLevel ) return false;
-        if ( Consts.regexes.todoBox.test ( line.text ) ) {
+        const todoBox = line.text.match ( Consts.regexes.todoBox );
+        if ( todoBox ) {
           tokens.pending++;
+          const est = Utils.statistics.getEstimate ( todoBox[1], now );
+          if ( est ) {
+            tokens.est += est;
+          }
         } else if ( Consts.regexes.todoDone.test ( line.text ) ) {
           tokens.done++;
         } else if ( Consts.regexes.todoCancel.test ( line.text ) ) {
@@ -650,6 +684,7 @@ const Utils = {
       tokens.finished = tokens.done + tokens.cancelled;
       tokens.all = tokens.pending + tokens.finished;
       tokens.percentage = tokens.all ? Math.round ( tokens.finished / tokens.all * 100 ) : 100;
+      tokens.est = tokens.est ? Utils.date.diff ( now.getTime () + ( tokens.est * 1000 ), now, Config.getKey ( 'timekeeping.estimate.format' ) ) : '';
 
       return tokens;
 
@@ -665,7 +700,7 @@ const Utils = {
 
       });
 
-      return template;
+      return _.trim ( template );
 
     }
 

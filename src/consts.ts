@@ -47,6 +47,7 @@ const Consts = {
     tagStarted: /@started\(([^)]*)\)/,
     tagFinished: /@(?:done|cancelled)\(([^)]*)\)/,
     tagElapsed: /@(?:lasted|wasted)\(([^)]*)\)/,
+    tagEstimate: /@est\(([^)]*)\)|@(\d[^\)]+)/,
     code: /((?:```[\s\S]*?```)|(?:`[^`\n]*`))/,
     bold: /(?:^|\s)(\*.+\*)(?:\s|$)/,
     italic: /(?:^|\s)(_.+_)(?:\s|$)/,

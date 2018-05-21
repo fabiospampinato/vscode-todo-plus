@@ -199,6 +199,17 @@
           "description": "Format used for displaying time diff inside @lasted/waster",
           "default": "short-compact"
         },
+        "todo.timekeeping.estimate.format": {
+          "type": "string",
+          "enum": [
+            "long",
+            "short",
+            "short-compact",
+            "clock"
+          ],
+          "description": "Format used for the `[est]` token",
+          "default": "short-compact"
+        },
         "todo.archive.name": {
           "type": "string",
           "description": "Name of the special \"Archive\" project",
@@ -266,7 +277,7 @@
         "todo.statistics.project.text": {
           "type": "string",
           "description": "Template used for rendering the text",
-          "default": "([all])"
+          "default": "([all]) [est]"
         },
         "todo.statistics.statusbar.enabled": {
           "type": "boolean",
