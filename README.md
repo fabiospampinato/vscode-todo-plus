@@ -98,7 +98,7 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.embedded.groupByFile": false, // Group todos by file
   "todo.statistics.ignoreArchive": true, // Ignore the archive when rendering statistics
   "todo.statistics.project.enabled": true, // Show statistics next to a project
-  "todo.statistics.project.text": "([all]) [est]", // Template used for rendering the text
+  "todo.statistics.project.text": "([pending]) [est]", // Template used for rendering the text
   "todo.statistics.statusbar.enabled": true, // Show statistics in the statusbar
   "todo.statistics.statusbar.alignment": "left", // Should the item be placed to the left or right?
   "todo.statistics.statusbar.color": "", // The foreground color for this item

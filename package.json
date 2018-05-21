@@ -292,7 +292,7 @@
         "todo.statistics.project.text": {
           "type": "string",
           "description": "Template used for rendering the text",
-          "default": "([all]) [est]"
+          "default": "([pending]) [est]"
         },
         "todo.statistics.statusbar.enabled": {
           "type": "boolean",
