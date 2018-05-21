@@ -527,8 +527,14 @@ const Utils = {
 
       while ( nextLine >= 0 && nextLine < lineCount ) {
 
-        const line = textDocument.lineAt ( nextLine ),
-              level = Utils.ast.getLevel ( line.text, indentation );
+        const line = textDocument.lineAt ( nextLine );
+
+        if ( !line.text.length || line.text.match ( Consts.regexes.empty ) ) {
+          nextLine += direction;
+          continue;
+        }
+
+        const level = Utils.ast.getLevel ( line.text, indentation );
 
         if ( direction > 0 && level < startLevel ) break;
 
