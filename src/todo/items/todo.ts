@@ -394,6 +394,12 @@ class Todo extends Item {
 
   }
 
+  isFinished () {
+
+    return this.isDone () || this.isCancelled ();
+
+  }
+
   static is ( str: string ) {
 
     return super.is ( str, Consts.regexes.todo );
