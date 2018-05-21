@@ -13,12 +13,13 @@ import 'moment-precise-range-plugin';
 import * as path from 'path';
 import * as pify from 'pify';
 import stringMatches from 'string-matches';
-import * as sugar from 'sugar-date';
 import * as toTime from 'to-time';
 import * as vscode from 'vscode';
 import * as Commands from './commands';
 import Config from './config';
 import Consts from './consts';
+
+const sugar = require ( 'sugar-date' ); //TSC
 
 /* UTILS */
 
