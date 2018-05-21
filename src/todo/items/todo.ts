@@ -16,6 +16,21 @@ class Todo extends Item {
 
   /* HELPERS */
 
+  makeStatus ( state: string ) {
+
+    const status = {
+      box: false,
+      done: false,
+      cancelled: false,
+      other: false
+    };
+
+    status[state] = true;
+
+    return status;
+
+  }
+
   getStatus () {
 
     const box = this.isBox (),
@@ -27,13 +42,9 @@ class Todo extends Item {
 
   }
 
-  setToken ( replacement: string, startIndex: number, endIndex: number = startIndex ) {
+  setStatus ( is, was = this.getStatus () ) {
 
-    const was = this.getStatus ();
-
-    this.text = `${this.text.substring ( 0, startIndex )}${replacement}${this.text.substring ( endIndex )}`;
-
-    const is = this.getStatus ();
+    if ( _.isEqual ( is, was ) ) return;
 
     if ( was.other && !is.other ) {
 
@@ -57,9 +68,15 @@ class Todo extends Item {
 
     if ( ( ( was.box || was.other ) && ( is.done || is.cancelled ) ) || ( was.cancelled && is.done ) || ( was.done && is.cancelled ) ) {
 
-      this.finish ();
+      this.finish ( is.done );
 
     }
+
+  }
+
+  setToken ( replacement: string, startIndex: number, endIndex: number = startIndex ) {
+
+    this.text = `${this.text.substring ( 0, startIndex )}${replacement}${this.text.substring ( endIndex )}`;
 
   }
 
@@ -178,15 +195,15 @@ class Todo extends Item {
 
   }
 
-  finish () {
+  finish ( isPositive?: boolean ) {
+
+    isPositive = _.isBoolean ( isPositive ) ? isPositive : this.isDone ();
 
     const started = this.text.match ( Consts.regexes.tagStarted );
 
-    if ( Config.getKey ( 'timekeeping.finished.enabled' ) || started ) {
+    if ( Config.getKey ( 'timekeeping.finished.enabled' ) || started || ( ( isPositive && Consts.symbols.box === Consts.symbols.done ) || ( !isPositive && Consts.symbols.box === Consts.symbols.cancel ) ) ) {
 
       this.unfinish ();
-
-      const isPositive = this.isDone ();
 
       /* FINISH */
 
@@ -236,7 +253,7 @@ class Todo extends Item {
 
   /* TOKENS */
 
-  toggleToken ( token: string, removeToken: string, insertToken?: string, force?: boolean ) {
+  toggleToken ( token: string, removeToken: string, insertToken?: string, force?: boolean ) { // Unless `force` is alwaws set, it won't work if all symbols are the same
 
     const tokenMatch = this.text.match ( new RegExp ( `^[^\\S\\n]*(${_.escapeRegExp ( token )})` ) );
 
@@ -281,7 +298,15 @@ class Todo extends Item {
 
   toggleBox ( force?: boolean ) {
 
+    force = _.isBoolean ( force ) ? force : !this.isBox ();
+
+    const prevStatus = this.getStatus ();
+
     this.toggleToken ( Consts.symbols.box, '', Consts.symbols.box, force );
+
+    const status = this.makeStatus ( force ? 'box' : 'other' );
+
+    this.setStatus ( status, prevStatus );
 
   }
 
@@ -299,7 +324,15 @@ class Todo extends Item {
 
   toggleCancel ( force?: boolean ) {
 
+    force = _.isBoolean ( force ) ? force : !this.isCancelled ();
+
+    const prevStatus = this.getStatus ();
+
     this.toggleToken ( Consts.symbols.cancel, Consts.symbols.box, Consts.symbols.cancel, force );
+
+    const status = this.makeStatus ( force ? 'cancelled' : 'box' );
+
+    this.setStatus ( status, prevStatus );
 
   }
 
@@ -317,7 +350,15 @@ class Todo extends Item {
 
   toggleDone ( force?: boolean ) {
 
+    force = _.isBoolean ( force ) ? force : !this.isDone ();
+
+    const prevStatus = this.getStatus ();
+
     this.toggleToken ( Consts.symbols.done, Consts.symbols.box, Consts.symbols.done, force );
+
+    const status = this.makeStatus ( force ? 'done' : 'box' );
+
+    this.setStatus ( status, prevStatus );
 
   }
 
