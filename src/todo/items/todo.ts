@@ -14,7 +14,31 @@ import Utils from '../../utils';
 
 class Todo extends Item {
 
-  /* HELPERS */
+  /* EDIT */
+
+  makeEdit () {
+
+    if ( this.startLine.text === this.text ) return;
+
+    const changes = diff.diffWordsWithSpace ( this.startLine.text, this.text );
+
+    let index = 0;
+
+    return _.filter ( changes.map ( change => {
+      if ( change.added ) {
+        return Utils.editor.makeInsertEdit ( change.value, this.startLine.lineNumber, index );
+      } else if ( change.removed ) {
+        const edit = Utils.editor.makeDeleteEdit ( this.startLine.lineNumber, index, index + change.value.length );
+        index += change.value.length;
+        return edit;
+      } else {
+        index += change.value.length;
+      }
+    }));
+
+  }
+
+  /* STATUS */
 
   makeStatus ( state: string ) {
 
@@ -71,34 +95,6 @@ class Todo extends Item {
       this.finish ( is.done );
 
     }
-
-  }
-
-  setToken ( replacement: string, startIndex: number, endIndex: number = startIndex ) {
-
-    this.text = `${this.text.substring ( 0, startIndex )}${replacement}${this.text.substring ( endIndex )}`;
-
-  }
-
-  makeEdit () {
-
-    if ( this.startLine.text === this.text ) return;
-
-    const changes = diff.diffWordsWithSpace ( this.startLine.text, this.text );
-
-    let index = 0;
-
-    return _.filter ( changes.map ( change => {
-      if ( change.added ) {
-        return Utils.editor.makeInsertEdit ( change.value, this.startLine.lineNumber, index );
-      } else if ( change.removed ) {
-        const edit = Utils.editor.makeDeleteEdit ( this.startLine.lineNumber, index, index + change.value.length );
-        index += change.value.length;
-        return edit;
-      } else {
-        index += change.value.length;
-      }
-    }));
 
   }
 
@@ -253,46 +249,14 @@ class Todo extends Item {
 
   /* TOKENS */
 
-  toggleToken ( token: string, removeToken: string, insertToken?: string, force?: boolean ) { // Unless `force` is alwaws set, it won't work if all symbols are the same
+  setToken ( token: string ) {
 
-    const tokenMatch = this.text.match ( new RegExp ( `^[^\\S\\n]*(${_.escapeRegExp ( token )})` ) );
+    const match = this.text.match ( Consts.regexes.todoToken ),
+          firstChar = this.text.match ( /\S/ ),
+          startIndex = match ? match[0].indexOf ( match[1] ) : ( firstChar ? firstChar.index : this.text.length ),
+          endIndex = match ? match[0].length : startIndex;
 
-    if ( tokenMatch ) { // Remove
-
-      if ( force === true ) return;
-
-      const endIndex = tokenMatch.index + _.trimEnd ( tokenMatch[0] ).length,
-            startIndex = endIndex - tokenMatch[1].length,
-            spaceNr = !removeToken && this.text.length >= ( endIndex + 1 ) && Consts.regexes.empty.test ( this.text[endIndex] ) ? 1 : 0;
-
-      return this.setToken ( removeToken, startIndex, endIndex + spaceNr );
-
-    }
-
-    const otherMatch = this.text.match ( Consts.regexes.todoToken );
-
-    if ( otherMatch ) { // Replace
-
-      if ( force === false ) return;
-
-      const endIndex = otherMatch.index + _.trimEnd ( otherMatch[0] ).length,
-            startIndex = endIndex - otherMatch[1].length;
-
-      return this.setToken ( token, startIndex, endIndex );
-
-    }
-
-    if ( insertToken ) { // Insert
-
-      if ( force === false ) return;
-
-      let startIndex = this.text.search ( /\S/ );
-
-      if ( startIndex === -1 ) startIndex = this.text.length;
-
-      return this.setToken ( `${insertToken} `, startIndex );
-
-    }
+    this.text = `${this.text.substring ( 0, startIndex )}${token ? `${token} ` : ''}${this.text.substring ( endIndex )}`;
 
   }
 
@@ -302,7 +266,7 @@ class Todo extends Item {
 
     const prevStatus = this.getStatus ();
 
-    this.toggleToken ( Consts.symbols.box, '', Consts.symbols.box, force );
+    this.setToken ( force ? Consts.symbols.box : false );
 
     const status = this.makeStatus ( force ? 'box' : 'other' );
 
@@ -328,7 +292,7 @@ class Todo extends Item {
 
     const prevStatus = this.getStatus ();
 
-    this.toggleToken ( Consts.symbols.cancel, Consts.symbols.box, Consts.symbols.cancel, force );
+    this.setToken ( force ? Consts.symbols.cancel : Consts.symbols.box );
 
     const status = this.makeStatus ( force ? 'cancelled' : 'box' );
 
@@ -354,7 +318,7 @@ class Todo extends Item {
 
     const prevStatus = this.getStatus ();
 
-    this.toggleToken ( Consts.symbols.done, Consts.symbols.box, Consts.symbols.done, force );
+    this.setToken ( force ? Consts.symbols.done : Consts.symbols.box );
 
     const status = this.makeStatus ( force ? 'done' : 'box' );
 
