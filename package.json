@@ -188,6 +188,17 @@
           "description": "Enable the @lasted/wasted tag",
           "default": true
         },
+        "todo.timekeeping.elapsed.format": {
+          "type": "string",
+          "enum": [
+            "long",
+            "short",
+            "short-compact",
+            "clock"
+          ],
+          "description": "Format used for displaying time diff inside @lasted/waster",
+          "default": "short-compact"
+        },
         "todo.archive.name": {
           "type": "string",
           "description": "Name of the special \"Archive\" project",

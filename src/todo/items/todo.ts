@@ -4,7 +4,6 @@
 import * as _ from 'lodash';
 import * as diff from 'diff';
 import * as moment from 'moment';
-import 'moment-precise-range-plugin';
 import * as vscode from 'vscode';
 import Item from './item';
 import Config from '../../config';
@@ -184,9 +183,11 @@ class Todo extends Item {
 
         const startedTimestamp = _.last ( started ),
               startedFormat = Config.getKey ( 'timekeeping.started.format' ),
-              startedDate = moment ( startedTimestamp, startedFormat ),
-              diff = moment['preciseDiff'] ( startedDate, finishedDate ),
-              elapsedTag = `@${isPositive ? 'lasted' : 'wasted'}(${diff})`;
+              startedMoment = moment ( startedTimestamp, startedFormat ),
+              startedDate = new Date ( startedMoment.valueOf () ),
+              elapsedFormat = Config.getKey ( 'timekeeping.elapsed.format' ),
+              timestamp = Utils.date.diff ( new Date (), startedDate, elapsedFormat ),
+              elapsedTag = `@${isPositive ? 'lasted' : 'wasted'}(${timestamp})`;
 
         this.addTag ( elapsedTag );
 

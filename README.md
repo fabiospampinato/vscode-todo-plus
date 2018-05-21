@@ -83,6 +83,7 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.timekeeping.finished.enabled": true, // Enable the @done/cancelled tag. It's always enabled if you explicitly start a todo
   "todo.timekeeping.finished.format": "YY-MM-DD HH:mm", // Format used for displaying time inside @done/cancelled
   "todo.timekeeping.elapsed.enabled": true, // Enable the @lasted/wasted tag
+  "todo.timekeeping.elapsed.format": "short-compact", // Format used for displaying time diff inside @lasted/waster
   "todo.archive.name": "Archive", // Name of the special "Archive" section
   "todo.archive.project.enabled": true, // Enable the @project tag
   "todo.archive.project.separator": ".", // String used for joining multiple projects

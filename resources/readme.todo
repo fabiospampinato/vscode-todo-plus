@@ -21,7 +21,7 @@ Todos:
   Timekeeping:
     ✔ Completed todos can show a timestamp @done(17-11-03 10:42)
     ☐ Press Alt+S to mark a todo as started @started(17-11-03 10:42)
-      ✔ Now it will show the elapsed time @started(17-11-03 10:42) @done(17-11-03 20:11) @lasted(9 hours 29 minutes)
+      ✔ Now it will show the elapsed time @started(17-11-03 10:42) @done(17-11-03 20:11) @lasted(9h29m)
 
 Style:
   We support a markdown-like syntax for styling text
