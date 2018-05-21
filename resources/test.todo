@@ -79,3 +79,12 @@ Cancel:
   x Cancel
   X Cancel
   [-] Cancel
+
+TaskPaper Compatibility:
+  - Box
+  - Done @done
+  - Done @done(17-11-03 20:10)
+  - Done @donenot
+  - Cancelled @cancelled
+  - Cancelled @cancelled(17-11-03 20:10)
+  - Cancelled @cancellednot

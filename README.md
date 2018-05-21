@@ -23,6 +23,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
 - **Statistics**: some statistics about your file and/or about your individual projects
 - **Go To Symbol**: you can easily move between projects by using the `Go to Symbol in File...` command
 - **Embedded todos**: it's common to have `//TODO` or `//FIXME` comments to your code, this extension can detect those as well
+- **TaskPaper compatible**: just set `todo.symbols.box`, `todo.symbols.done` and `todo.symbols.cancel` to `-`
 
 ## Install
 

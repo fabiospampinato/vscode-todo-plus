@@ -185,7 +185,7 @@
         },
         "todo.timekeeping.finished.enabled": {
           "type": "boolean",
-          "description": "Enable the @done/cancelled tag. It's always enabled if you explicitly start a todo",
+          "description": "Enable the @done/cancelled tag. It's always enabled if you explicitly start a todo or if you use only 1 symbol",
           "default": true
         },
         "todo.timekeeping.finished.time": {
