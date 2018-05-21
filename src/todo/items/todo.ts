@@ -215,7 +215,7 @@ class Todo extends Item {
 
       const endIndex = tokenMatch.index + _.trimEnd ( tokenMatch[0] ).length,
             startIndex = endIndex - tokenMatch[1].length,
-            spaceNr = !removeToken && this.text.length >= ( endIndex + 1 ) && this.text[endIndex].match ( /\s/ ) ? 1 : 0;
+            spaceNr = !removeToken && this.text.length >= ( endIndex + 1 ) && Consts.regexes.empty.test ( this.text[endIndex] ) ? 1 : 0;
 
       return this.setToken ( removeToken, startIndex, endIndex + spaceNr );
 

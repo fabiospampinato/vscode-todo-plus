@@ -491,11 +491,11 @@ const Utils = {
 
       Utils.ast.walkDown ( textEditor.document, lineNr, false, function ({ startLevel, line, level }) {
         if ( level <= startLevel ) return false;
-        if ( line.text.match ( Consts.regexes.todoBox ) ) {
+        if ( Consts.regexes.todoBox.test ( line.text ) ) {
           tokens.pending++;
-        } else if ( line.text.match ( Consts.regexes.todoDone ) ) {
+        } else if ( Consts.regexes.todoDone.test ( line.text ) ) {
           tokens.done++;
-        } else if ( line.text.match ( Consts.regexes.todoCancel ) ) {
+        } else if ( Consts.regexes.todoCancel.test ( line.text ) ) {
           tokens.cancelled++;
         }
       });
@@ -556,7 +556,7 @@ const Utils = {
 
         const line = textDocument.lineAt ( nextLine );
 
-        if ( !line.text.length || line.text.match ( Consts.regexes.empty ) ) {
+        if ( !line.text.length || Consts.regexes.empty.test ( line.text ) ) {
           nextLine += direction;
           continue;
         }

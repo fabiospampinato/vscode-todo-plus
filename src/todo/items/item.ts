@@ -38,7 +38,7 @@ class Item {
 
   static is ( str: string, regex: RegExp ) {
 
-    return !!str.match ( regex );
+    return !!regex.test ( str );
 
   }
 

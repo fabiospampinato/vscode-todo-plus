@@ -105,7 +105,7 @@ function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read imple
       const projects = [];
 
       Utils.ast.walkUp ( doc, archivableLine.lineNumber, true, function ({ line }) {
-        if ( !line.text.match ( Consts.regexes.project ) ) return;
+        if ( !Consts.regexes.project.test ( line.text ) ) return;
         const parts = line.text.match ( Consts.regexes.projectParts );
         projects.push ( parts[2] );
       });
@@ -119,7 +119,7 @@ function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read imple
     /* COMMENTS */
 
     Utils.ast.walkDown ( doc, archivableLine.lineNumber, false, function ({ startLevel, line, level }) {
-      if ( startLevel === level || !line.text.match ( Consts.regexes.comment ) ) return false;
+      if ( startLevel === level || !Consts.regexes.comment.test ( line.text ) ) return false;
       archivableLines.push ( line );
     });
 
@@ -127,7 +127,7 @@ function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read imple
 
   archivableLines = _.sortBy ( archivableLines, line => line.lineNumber );
 
-  const archivedLines = archivableLines.map ( line => `${line.text.match ( Consts.regexes.comment ) ? indentation + indentation : indentation}${_.trimStart ( archivableTexts[line.lineNumber] || line.text )}` ),
+  const archivedLines = archivableLines.map ( line => `${Consts.regexes.comment.test ( line.text ) ? indentation + indentation : indentation}${_.trimStart ( archivableTexts[line.lineNumber] || line.text )}` ),
         archivedText =  '\n' + archivedLines.join ( '\n' ),
         insertText = archiveStartIndex === -1 ? `\n\n${archiveLabel}${archivedText}` : archivedText,
         insertPos = archiveEndIndex === -1 ? doc.positionAt ( text.length - 1 ) : doc.positionAt ( archiveEndIndex ),
