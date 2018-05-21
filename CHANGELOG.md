@@ -1,3 +1,12 @@
+### Version 1.18.0
+- Readme: better separation between supported symbols
+- Readme: improved embedded todos description
+- Added some settings for disabling writing the time in `@created/started/done/cancelled`
+- Considering any todo with `@done` or `@cancelled` as finished
+- Project statistics: showing pending todos by default
+- Added support for using the same symbol for everything
+- Now compatible with TaskPaper
+
 ### Version 1.17.0
 - Using `RegExp#test` instead of `String#match` whenever possible
 - Added some date-diffing-related utilities
