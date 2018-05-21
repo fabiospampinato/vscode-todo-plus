@@ -643,7 +643,7 @@ const Utils = {
         pending: pending.length,
         done: Utils.getAllMatches ( text, Consts.regexes.todoDone ).length,
         cancelled: Utils.getAllMatches ( text, Consts.regexes.todoCancel ).length,
-        est: _.sum ( pending.map ( match => Utils.statistics.getEstimate ( match[1], now ) ) )
+        est: _.sum ( pending.map ( match => Utils.statistics.getEstimate ( match[0], now ) ) )
       };
 
       tokens.finished = tokens.done + tokens.cancelled;
@@ -671,7 +671,7 @@ const Utils = {
         const todoBox = line.text.match ( Consts.regexes.todoBox );
         if ( todoBox ) {
           tokens.pending++;
-          const est = Utils.statistics.getEstimate ( todoBox[1], now );
+          const est = Utils.statistics.getEstimate ( todoBox[0], now );
           if ( est ) {
             tokens.est += est;
           }
