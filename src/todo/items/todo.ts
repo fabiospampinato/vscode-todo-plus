@@ -124,12 +124,22 @@ class Todo extends Item {
 
     if ( Config.getKey ( 'timekeeping.created.enabled' ) ) {
 
-      const date = moment (),
-            format = Config.getKey ( 'timekeeping.created.format' ),
-            timestamp = date.format ( format ),
-            tag = `@created(${timestamp})`;
+      if ( Config.getKey ( 'timekeeping.created.time' ) ) {
 
-      this.addTag ( tag );
+        const date = moment (),
+              format = Config.getKey ( 'timekeeping.created.format' ),
+              timestamp = date.format ( format ),
+              tag = `@created(${timestamp})`;
+
+        this.addTag ( tag );
+
+      } else {
+
+        const tag = '@created';
+
+        this.addTag ( tag );
+
+      }
 
     }
 
@@ -143,12 +153,22 @@ class Todo extends Item {
 
   start () {
 
-    const date = moment (),
-          format = Config.getKey ( 'timekeeping.started.format' ),
-          timestamp = date.format ( format ),
-          tag = `@started(${timestamp})`;
+    if ( Config.getKey ( 'timekeeping.started.time' ) ) {
 
-    this.replaceTag ( Consts.regexes.tagStarted, tag );
+      const date = moment (),
+            format = Config.getKey ( 'timekeeping.started.format' ),
+            timestamp = date.format ( format ),
+            tag = `@started(${timestamp})`;
+
+      this.replaceTag ( Consts.regexes.tagStarted, tag );
+
+    } else {
+
+      const tag = '@started';
+
+      this.replaceTag ( Consts.regexes.tagStarted, tag );
+
+    }
 
   }
 
@@ -170,16 +190,26 @@ class Todo extends Item {
 
       /* FINISH */
 
-      const finishedDate = moment (),
-            finishedFormat = Config.getKey ( 'timekeeping.finished.format' ),
-            finishedTimestamp = finishedDate.format ( finishedFormat ),
-            finishedTag = `@${isPositive ? 'done' : 'cancelled' }(${finishedTimestamp})`;
+      if ( Config.getKey ( 'timekeeping.finished.time' ) ) {
 
-      this.addTag ( finishedTag );
+        const finishedDate = moment (),
+              finishedFormat = Config.getKey ( 'timekeeping.finished.format' ),
+              finishedTimestamp = finishedDate.format ( finishedFormat ),
+              finishedTag = `@${isPositive ? 'done' : 'cancelled'}(${finishedTimestamp})`;
+
+        this.addTag ( finishedTag );
+
+      } else {
+
+        const finishedTag = `@${isPositive ? 'done' : 'cancelled'}`;
+
+        this.addTag ( finishedTag );
+
+      }
 
       /* ELAPSED */
 
-      if ( Config.getKey ( 'timekeeping.elapsed.enabled' ) && started ) {
+      if ( Config.getKey ( 'timekeeping.elapsed.enabled' ) && started && started[1] ) {
 
         const startedTimestamp = _.last ( started ),
               startedFormat = Config.getKey ( 'timekeeping.started.format' ),

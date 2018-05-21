@@ -163,10 +163,20 @@
           "description": "Enable the @created tag",
           "default": false
         },
+        "todo.timekeeping.created.time": {
+          "type": "boolean",
+          "description": "Insert the time inside the @created tag",
+          "default": true
+        },
         "todo.timekeeping.created.format": {
           "type": "string",
           "description": "Format used for displaying time inside @created",
           "default": "YY-MM-DD HH:mm"
+        },
+        "todo.timekeeping.started.time": {
+          "type": "boolean",
+          "description": "Insert the time inside the @started tag",
+          "default": true
         },
         "todo.timekeeping.started.format": {
           "type": "string",
@@ -176,6 +186,11 @@
         "todo.timekeeping.finished.enabled": {
           "type": "boolean",
           "description": "Enable the @done/cancelled tag. It's always enabled if you explicitly start a todo",
+          "default": true
+        },
+        "todo.timekeeping.finished.time": {
+          "type": "boolean",
+          "description": "Insert the time inside the @done/cancelled tag",
           "default": true
         },
         "todo.timekeeping.finished.format": {

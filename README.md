@@ -79,9 +79,12 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.tags.foregroundColors": ["#000000", "#000000", "#000000", "#000000"], // Special tags' foreground colors
   "todo.formatting.enabled": true, // Enable markdown-like formatting
   "todo.timekeeping.created.enabled": false, // Enable the @created tag
+  "todo.timekeeping.created.time": true, // Insert the time inside the @created tag
   "todo.timekeeping.created.format": "YY-MM-DD HH:mm", // Format used for displaying time inside @created
+  "todo.timekeeping.started.time": true, // Insert the time inside the @started tag
   "todo.timekeeping.started.format": "YY-MM-DD HH:mm", // Format used for displaying time inside @started
   "todo.timekeeping.finished.enabled": true, // Enable the @done/cancelled tag. It's always enabled if you explicitly start a todo
+  "todo.timekeeping.finished.time": true, // Insert the time inside the @done/cancelled tag
   "todo.timekeeping.finished.format": "YY-MM-DD HH:mm", // Format used for displaying time inside @done/cancelled
   "todo.timekeeping.elapsed.enabled": true, // Enable the @lasted/wasted tag
   "todo.timekeeping.elapsed.format": "short-compact", // Format used for displaying time diff inside @lasted/waster
