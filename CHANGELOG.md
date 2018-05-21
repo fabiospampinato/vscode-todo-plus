@@ -1,3 +1,7 @@
+### Version 1.16.0
+- Added a couple of settings for customizing the `@project` tag
+- Added project-level statistics
+
 ### Version 1.15.0
 - Archive: added a `@project` tag
 

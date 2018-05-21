@@ -1,4 +1,6 @@
 
+☐ use `re.test` instead of `str.match`
+
 ☐ Archiving
   ☐ Sort entries by finished time if possible
 ☐ Moving projects up and down is buggy @high
