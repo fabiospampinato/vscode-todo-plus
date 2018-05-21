@@ -9,9 +9,12 @@ import * as globby from 'globby';
 import * as isBinaryPath from 'is-binary-path';
 import * as mkdirp from 'mkdirp';
 import * as moment from 'moment';
+import 'moment-precise-range-plugin';
 import * as path from 'path';
 import * as pify from 'pify';
 import stringMatches from 'string-matches';
+import * as sugar from 'sugar-date';
+import * as toTime from 'to-time';
 import * as vscode from 'vscode';
 import * as Commands from './commands';
 import Config from './config';
@@ -284,6 +287,150 @@ const Utils = {
         }
 
       }
+
+    }
+
+  },
+
+  date: {
+
+    diff ( to: Date | string | number, from: Date = new Date (), format: string = 'long' ) {
+
+      const toSeconds = Utils.date.diffSeconds ( to, from ),
+            toDate = new Date ( from.getTime () + ( toSeconds * 1000 ) );
+
+      switch ( format ) {
+        case 'long': return Utils.date.diffLong ( toDate, from );
+        case 'short': return Utils.date.diffShort ( toDate, from );
+        case 'short-compact': return Utils.date.diffShortCompact ( toDate, from );
+        case 'clock': return Utils.date.diffClock ( toDate, from );
+        case 'seconds': return Utils.date.diffSeconds ( toDate, from );
+      }
+
+    },
+
+    diffLong ( to: Date, from: Date = new Date () ) {
+
+      return moment['preciseDiff']( from, to );
+
+    },
+
+    diffShortRaw ( to: Date, from: Date = new Date () ) {
+
+      const seconds = Math.round ( ( to.getTime () - from.getTime () ) / 1000 ),
+            secondsAbs = Math.abs ( seconds ),
+            sign = Math.sign ( seconds );
+
+      let remaining = secondsAbs,
+          parts = [];
+
+      const sections: [string, number][] = [
+        ['y', 31536000 ],
+        ['w', 604800 ],
+        ['d', 86400 ],
+        ['h', 3600 ],
+        ['m', 60 ],
+        ['s', 1 ]
+      ];
+
+      sections.forEach ( ([ token, seconds ]) => {
+
+        const times = Math.floor ( remaining / seconds );
+
+        parts.push ({ times, token });
+
+        remaining -= seconds * times;
+
+      });
+
+      return { parts, sign };
+
+    },
+
+    diffShort ( to: Date, from?: Date ) {
+
+      const { parts, sign } = Utils.date.diffShortRaw ( to, from );
+
+      const shortParts = [];
+
+      parts.forEach ( ({ times, token }) => {
+
+        if ( !times ) return;
+
+        shortParts.push ( `${times}${token}` );
+
+      });
+
+      return `${sign < 0 ? '-' : ''}${shortParts.join ( ' ' )}`;
+
+    },
+
+    diffShortCompact ( to: Date, from?: Date ) {
+
+      return Utils.date.diffShort ( to, from ).replace ( /\s+/g, '' );
+
+    },
+
+    diffClock ( to: Date, from?: Date ) {
+
+      const { parts, sign } = Utils.date.diffShortRaw ( to, from );
+
+      const padTokens = ['h', 'm', 's'],
+            clockParts = [];
+
+      parts.forEach ( ({ times, token }) => {
+
+        if ( !times && !clockParts.length ) return;
+
+        clockParts.push ( `${padTokens.indexOf ( token ) >= 0 && clockParts.length ? _.padStart ( times, 2, '0' ) : times}` );
+
+      });
+
+      return `${sign < 0 ? '-' : ''}${clockParts.join ( ':' )}`;
+
+    },
+
+    diffSeconds ( to: Date | string | number, from: Date = new Date () ) { //TODO: Memoize or something
+
+      let toDate;
+
+      if ( to instanceof Date ) {
+
+        toDate = to;
+
+      } else if ( _.isNumber ( to ) ) {
+
+        toDate = new Date ( to );
+
+      } else {
+
+        to = to.replace ( / and /gi, ' ' );
+        to = to.replace ( /(\d)(ms|s|m|h|d|w|y)(\d)/gi, '$1$2 $3' );
+
+        if ( !toDate ) { // sugar + ` from now` //FIXME: Should be + ` from ${date.toString ()}` or something
+          const date = sugar.Date.create ( `${to} from now` );
+          if ( !_.isNaN ( date.getTime () ) ) {
+            toDate = date;
+          }
+        }
+
+        if ( !toDate ) { // sugar
+          const date = sugar.Date.create ( to );
+          if ( !_.isNaN ( date.getTime () ) ) {
+            toDate = date;
+          }
+        }
+
+        if ( !toDate ) { // to-time
+          try {
+            const milliseconds = toTime ( to ).milliseconds ();
+            toDate = new Date ( from.getTime () + milliseconds );
+          } catch ( e ) {}
+        }
+
+      }
+
+      return Math.round ( ( toDate.getTime () - from.getTime () ) / 1000 );
 
     }
 

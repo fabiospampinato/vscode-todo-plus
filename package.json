@@ -422,7 +422,9 @@
     "moment": "^2.19.1",
     "moment-precise-range-plugin": "^1.2.4",
     "pify": "^3.0.0",
-    "string-matches": "^1.0.1"
+    "string-matches": "^1.0.1",
+    "sugar-date": "^2.0.4",
+    "to-time": "^1.0.2"
   },
   "devDependencies": {
     "@types/node": "^6.0.40",
