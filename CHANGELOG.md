@@ -1,3 +1,9 @@
+### Version 1.17.0
+- Using `RegExp#test` instead of `String#match` whenever possible
+- Added some date-diffing-related utilities
+- Added an option for setting the time format inside `@lasted/wasted`
+- Added support for time estimates
+
 ### Version 1.16.0
 - Added a couple of settings for customizing the `@project` tag
 - Added project-level statistics
