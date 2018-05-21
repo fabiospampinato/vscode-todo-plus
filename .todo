@@ -1,8 +1,13 @@
 
+☐ Activity bar view
+  ☐ View 0: started tags
+  ☐ View 1: all todos
+  ☐ View 2: all tags (click one to filter by that tag)
 ☐ Archiving
   ☐ Sort entries by finished time if possible
-☐ Moving projects up and down is buggy @high
+☐ Moving projects up and down is buggy
 ☐ Due tag: @due(+timestamp)
+  ☐ Add something in the gutter or the overview ruler to higlight them
 ☐ Formatting:
   ☐ Autocomplete these characters: *_~`
   ☐ Style/Code commands (cmd+b/i/s/`)
