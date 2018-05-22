@@ -15,12 +15,9 @@ class Symbols implements vscode.DocumentSymbolProvider {
 
     const text = textDocument.getText (),
           projects = Utils.getAllMatches ( text, Consts.regexes.project ),
-          codes = Utils.getAllMatches ( text, Consts.regexes.code );
-
-    const projectsFiltered = projects.filter ( project => !codes.find ( code => _.inRange ( project.index, code.index, code.index + code[0].length ) ) ), // Filtering out "projects" inside code blocks
           projectsDatas = [];
 
-    return projectsFiltered.map ( project => {
+    return projects.map ( project => {
 
       const parts = project[0].match ( Consts.regexes.projectParts ),
             indentation = parts[1].replace ( ' ', '\u00A0\u00A0' ), // Normal spaces get trimmed, replacing them with NBSP

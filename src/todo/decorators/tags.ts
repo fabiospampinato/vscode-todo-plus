@@ -28,9 +28,9 @@ class Tags extends Line {
 
     return [
       ...names.map ( name => {
-        return this.getRangesRegex ( line.startLine, Consts.regexes.tagSpecials[name], undefined, negRange );
+        return this.getRangesRegex ( line.startLine, Consts.regexes.tagSpecials[name], Consts.regexes.code, negRange );
       }),
-      this.getRangesRegex ( line.startLine, Consts.regexes.tag, undefined, negRange )
+      this.getRangesRegex ( line.startLine, Consts.regexes.tag, Consts.regexes.code, negRange )
     ];
 
   }

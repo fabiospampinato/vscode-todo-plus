@@ -18,7 +18,7 @@ class Comment extends Line {
 
   getItemRanges ( comment: CommentItem, negRange?: vscode.Range | vscode.Range[] ) {
 
-    return [this.getRangesRegex ( comment.startLine, Consts.regexes.comment, Consts.regexes.tag, negRange )];
+    return [this.getRangesRegex ( comment.startLine, Consts.regexes.comment, [Consts.regexes.tag, Consts.regexes.code], negRange )];
 
   }
 

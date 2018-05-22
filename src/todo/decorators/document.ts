@@ -29,7 +29,7 @@ class Document {
           todosDone = doc.getTodosDone (),
           todosCancel = doc.getTodosCancel ();
 
-    const  decorations = Document.getDecorations ( lines, codes, comments, projects, todosDone, todosCancel );
+    const decorations = Document.getDecorations ( lines, codes, comments, projects, todosDone, todosCancel );
 
     decorations.forEach ( ({ type, ranges }) => textEditor.setDecorations ( type, ranges ) );
 
@@ -37,17 +37,14 @@ class Document {
 
   static getDecorations ( lines, codes, comments, projects, todosDone, todosCancel ) {
 
-    let codeRanges = new Code ().getRanges ( codes ),
-        negRanges = _.filter ( _.flatten ( _.flatten ( codeRanges ).map ( range => lines.map ( line => line.range.intersection ( range ) ) ) ) ).map ( range => ({ line: range.start.line, start: range.start.character, end: range.end.character }) ) as any; //FIXME: O(n²), ugly //TSC
-
     return _.concat (
-      new Tags ().getDecorations ( lines, negRanges ),
+      new Tags ().getDecorations ( lines ),
       new Code ().getDecorations ( codes ),
-      new Comment ().getDecorations ( comments, negRanges ),
-      new Project ().getDecorations ( projects, negRanges ),
-      new Done ().getDecorations ( todosDone, negRanges ),
-      new Cancel ().getDecorations ( todosCancel, negRanges ),
-      new Style ().getDecorations ( lines, negRanges )
+      new Comment ().getDecorations ( comments ),
+      new Project ().getDecorations ( projects ),
+      new Done ().getDecorations ( todosDone ),
+      new Cancel ().getDecorations ( todosCancel ),
+      new Style ().getDecorations ( lines )
     );
 
   }

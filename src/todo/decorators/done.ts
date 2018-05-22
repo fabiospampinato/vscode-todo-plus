@@ -18,7 +18,7 @@ class Done extends Line {
 
   getItemRanges ( todo: Todo, negRange?: vscode.Range | vscode.Range[] ) {
 
-    return [this.getRangesRegex ( todo.startLine, Consts.regexes.todoDone, Consts.regexes.tag, negRange )];
+    return [this.getRangesRegex ( todo.startLine, Consts.regexes.todoDone, [Consts.regexes.tag, Consts.regexes.code], negRange )];
 
   }
 

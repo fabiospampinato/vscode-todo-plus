@@ -28,9 +28,9 @@ class Style extends Line {
   getItemRanges ( line: LineItem, negRange?: vscode.Range | vscode.Range[] ) {
 
     return [
-      this.getRangesRegex ( line.startLine, Consts.regexes.bold, undefined, negRange ),
-      this.getRangesRegex ( line.startLine, Consts.regexes.italic, undefined, negRange ),
-      this.getRangesRegex ( line.startLine, Consts.regexes.strikethrough, undefined, negRange )
+      this.getRangesRegex ( line.startLine, Consts.regexes.bold, Consts.regexes.code, negRange ),
+      this.getRangesRegex ( line.startLine, Consts.regexes.italic, Consts.regexes.code, negRange ),
+      this.getRangesRegex ( line.startLine, Consts.regexes.strikethrough, Consts.regexes.code, negRange )
     ];
 
   }

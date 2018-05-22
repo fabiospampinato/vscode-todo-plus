@@ -6,10 +6,6 @@ Xproject:
   Not a project: but a description
   Not a project: @tag, but a description
   Contains some `code`, nested
-  Contains some ```
-    multi-line
-    code
-  ```, nested
   ---------------------------------
   –––––––––––––––––––––––––––––––––
   —————————————————————————————————
@@ -20,14 +16,6 @@ Xproject:
   ☐ `code () *bold* @tag @critical`
   ☐ `@tag`half
   ☐ `foo ()` and `bar ()` and ``
-  ☐ ```
-     not a project:
-     code () *bold* @tag @critical
-    ```
-  ☐ ```
-    nested `code` ``code``
-    ```
-  ☐ ```another triple backticks```
   ✘ cancel
   ✘ another cancel @critical @tag aftertag
   ✘ cancelled `code`, nested

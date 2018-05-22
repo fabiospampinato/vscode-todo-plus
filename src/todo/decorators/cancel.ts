@@ -18,7 +18,7 @@ class Cancel extends Line {
 
   getItemRanges ( todo: Todo, negRange?: vscode.Range | vscode.Range[] ) {
 
-    return [this.getRangesRegex ( todo.startLine, Consts.regexes.todoCancel, Consts.regexes.tag, negRange )];
+    return [this.getRangesRegex ( todo.startLine, Consts.regexes.todoCancel, [Consts.regexes.tag, Consts.regexes.code], negRange )];
 
   }
 

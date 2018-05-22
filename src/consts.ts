@@ -49,7 +49,7 @@ const Consts = {
     tagFinished: /(?:^|[^a-zA-Z0-9])@(?:done|cancelled)(?:(?:\(([^)]*)\))|(?![a-zA-Z]))/,
     tagElapsed: /(?:^|[^a-zA-Z0-9])@(?:lasted|wasted)(?:(?:\(([^)]*)\))|(?![a-zA-Z]))/,
     tagEstimate: /(?:^|[^a-zA-Z0-9])@est\(([^)]*)\)|@(\d[^\)]+)/,
-    code: /((?:```[\s\S]*?```)|(?:`[^`\n]*`))/gm,
+    code: /(`[^`\n]*`)/gm,
     bold: /(?:^|\s)(\*.+\*)(?:\s|$)/gm,
     italic: /(?:^|\s)(_.+_)(?:\s|$)/gm,
     strikethrough: /(?:^|\s)(~.+~)(?:\s|$)/gm

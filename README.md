@@ -14,9 +14,9 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
   - **Box**: `-` `❍` `❑` `■` `⬜` `□` `☐` `▪` `▫` `–` `—` `≡` `→` `›` `[]` `[ ]`
   - **Done**: `✔` `✓` `☑` `+` `[x]` `[X]` `[+]`
   - **Cancel**: `✘` `x` `X` `[-]`
-- **Code blocks**: you can define code blocks by wrapping them in backticks (` or ```)
 - **Custom colors**: all colors can be customized
 - **Custom special tags**: special tags' names and their colors can be customized
+- **Code blocks**: you can define inline code blocks by wrapping them in backticks (`)
 - **Archive**: you can move finished todos to a special "Archive" section with a shortcut
 - **Timekeeping**: you can mark todos as started and track elapsed time until completion
 - **Time estimates**: you can estimate the time it will take to complete a todo by adding a tag to it that looks like this: `@est(3 hours)`, `@est(2h30m)` or `@2h30m`. Then you can use the `[est]` token in statistics

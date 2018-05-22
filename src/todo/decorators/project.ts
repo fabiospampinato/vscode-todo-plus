@@ -58,7 +58,7 @@ class Project extends Line {
 
   getItemRanges ( project: ProjectItem, negRange?: vscode.Range | vscode.Range[] ) {
 
-    return [this.getRangesRegex ( project.startLine, Consts.regexes.project, Consts.regexes.tag, negRange )];
+    return [this.getRangesRegex ( project.startLine, Consts.regexes.project, [Consts.regexes.tag, Consts.regexes.code], negRange )];
 
   }
 
