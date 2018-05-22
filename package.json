@@ -230,6 +230,11 @@
           "description": "Name of the special \"Archive\" project",
           "default": "Archive"
         },
+        "todo.archive.remove.emptyProjects": {
+          "type": "boolean",
+          "description": "Remove projects without todos",
+          "default": true
+        },
         "todo.archive.project.enabled": {
           "type": "boolean",
           "description": "Enable the @project tag",

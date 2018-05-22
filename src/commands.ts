@@ -91,13 +91,11 @@ async function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read
         archiveEndIndex = archiveStartIndex === -1 ? -1 : archiveStartIndex + archiveLabel.length,
         archivableText = archiveStartIndex === -1 ? text : text.substr ( 0, archiveStartIndex ),
         archivableRegexes = [Consts.regexes.todoDone, Consts.regexes.todoCancel],
-        archivableMatches = _.flatten ( archivableRegexes.map ( re => Utils.getAllMatches ( archivableText, re ) ) );
-
-  if ( !archivableMatches.length ) return;
-
-  const archivablePositions = archivableMatches.map ( match => doc.positionAt ( match.index ) );
+        archivableMatches = _.flatten ( archivableRegexes.map ( re => Utils.getAllMatches ( archivableText, re ) ) ),
+        archivablePositions = archivableMatches.map ( match => doc.positionAt ( match.index ) );
 
   let archivableLines = archivablePositions.map ( pos => doc.lineAt ( pos.line ) ),
+      removableLines = [],
       archivableTexts = {};
 
   archivableLines.forEach ( archivableLine => {
@@ -129,13 +127,40 @@ async function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read
 
   });
 
-  archivableLines = _.sortBy ( archivableLines, line => line.lineNumber );
+  /* EMPTY PROJECTS */
 
-  const archivedLines = archivableLines.map ( line => `${Utils.testRe ( Consts.regexes.comment, line.text ) ? indentation + indentation : indentation}${_.trimStart ( archivableTexts[line.lineNumber] || line.text )}` ),
+  if ( Config.getKey ( 'archive.remove.emptyProjects' ) ) {
+
+    const projects = Utils.getAllMatches ( doc.getText (), Consts.regexes.project );
+
+    projects.forEach ( project => {
+      const position = textEditor.document.positionAt ( project.index ),
+            line = textEditor.document.lineAt ( position.line ),
+            lines = [line];
+      let removable = true;
+      Utils.ast.walkDown ( textEditor.document, position.line, false, function ({ startLevel, line, level }) {
+        if ( startLevel === level ) return false;
+        if ( Utils.testRe ( Consts.regexes.todoBox, line.text ) ) return removable = false;
+        lines.push ( line );
+      });
+      if ( !removable ) return;
+      removableLines.push ( ...lines );
+    });
+
+  }
+
+  /* EDITING */
+
+  if ( !archivableLines.length && !removableLines.length ) return;
+
+  archivableLines = _.sortBy ( _.uniqBy ( archivableLines, line => line.lineNumber ), line => line.lineNumber );
+
+  const editedLines = _.sortBy ( _.uniqBy ( archivableLines.concat ( removableLines ), line => line.lineNumber ), line => line.lineNumber ),
+        archivedLines = archivableLines.map ( line => `${Utils.testRe ( Consts.regexes.comment, line.text ) ? indentation + indentation : indentation}${_.trimStart ( archivableTexts[line.lineNumber] || line.text )}` ),
         archivedText =  '\n' + archivedLines.join ( '\n' ),
         insertText = archiveStartIndex === -1 ? `\n\n${archiveLabel}${archivedText}` : archivedText,
         insertPos = archiveEndIndex === -1 ? doc.positionAt ( text.length - 1 ) : doc.positionAt ( archiveEndIndex ),
-        editsRemoveLines = archivableLines.map ( ( line, i ) => Utils.editor.makeDeleteLineEdit ( line.lineNumber, line.range.start.character, line.range.end.character ) ),
+        editsRemoveLines = editedLines.map ( ( line, i ) => Utils.editor.makeDeleteLineEdit ( line.lineNumber ) ),
         editsInsertArchived = vscode.TextEdit.insert ( insertPos, insertText ),
         edits = editsRemoveLines.concat ( editsInsertArchived );
 
