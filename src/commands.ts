@@ -109,7 +109,7 @@ async function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read
       const projects = [];
 
       Utils.ast.walkUp ( doc, archivableLine.lineNumber, true, function ({ line }) {
-        if ( !Consts.regexes.project.test ( line.text ) ) return;
+        if ( !Utils.testRe ( Consts.regexes.project, line.text ) ) return;
         const parts = line.text.match ( Consts.regexes.projectParts );
         projects.push ( parts[2] );
       });

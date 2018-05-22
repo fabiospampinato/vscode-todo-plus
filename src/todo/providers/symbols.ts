@@ -4,6 +4,8 @@
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
 import Consts from '../../consts';
+import Utils from '../../utils';
+import Document from '../document';
 
 /* SYMBOLS */
 
@@ -11,27 +13,25 @@ class Symbols implements vscode.DocumentSymbolProvider {
 
   provideDocumentSymbols ( textDocument: vscode.TextDocument ) {
 
-    const lines = textDocument.getText ().split ( '\n' );
+    const text = textDocument.getText (),
+          projects = Utils.getAllMatches ( text, Consts.regexes.project ),
+          codes = Utils.getAllMatches ( text, Consts.regexes.code );
 
-    return _.filter ( lines.map ( ( line, lineNr ) => {
+    const projectsFiltered = projects.filter ( project => !codes.find ( code => _.inRange ( project.index, code.index, code.index + code[0].length ) ) ); // Filtering out "projects" inside code blocks
 
-      const match = line.match ( Consts.regexes.project );
+    return projectsFiltered.map ( project => {
 
-      if ( !match ) return;
-
-      const charNr = match[0].indexOf ( match[1] ),
-            position = new vscode.Position ( lineNr, charNr ),
-            location = new vscode.Location ( textDocument.uri, position );
-
-      const parts = line.match ( Consts.regexes.projectParts ),
+      const parts = project[0].match ( Consts.regexes.projectParts ),
             idendation = parts[1].replace ( ' ', '\u00A0\u00A0' ), // Normal spaces get trimmed, replacing them with NBSP
-            name = parts[2],
+            name = _.trim ( parts[2] ),
             description = _.trim ( parts[3] );
+
+      const position = textDocument.positionAt ( project.index + parts[1].length ),
+            location = new vscode.Location ( textDocument.uri, position );
 
       return new vscode.SymbolInformation ( `${idendation}${name}`, vscode.SymbolKind.Namespace, description, location );
 
-
-    }));
+    });
 
   }
 
