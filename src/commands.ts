@@ -106,7 +106,7 @@ async function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read
 
       const projects = [];
 
-      Utils.ast.walkUp ( doc, archivableLine.lineNumber, true, function ({ line }) {
+      Utils.ast.walkUp ( doc, archivableLine.lineNumber, true, true, function ({ line }) {
         if ( !Utils.testRe ( Consts.regexes.project, line.text ) ) return;
         const parts = line.text.match ( Consts.regexes.projectParts );
         projects.push ( parts[2] );
@@ -120,7 +120,7 @@ async function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read
 
     /* COMMENTS */
 
-    Utils.ast.walkDown ( doc, archivableLine.lineNumber, false, function ({ startLevel, line, level }) {
+    Utils.ast.walkDown ( doc, archivableLine.lineNumber, true, false, function ({ startLevel, line, level }) {
       if ( startLevel === level || !Utils.testRe ( Consts.regexes.comment, line.text ) ) return false;
       archivableLines.push ( line );
     });
@@ -138,13 +138,35 @@ async function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read
             line = textEditor.document.lineAt ( position.line ),
             lines = [line];
       let removable = true;
-      Utils.ast.walkDown ( textEditor.document, position.line, false, function ({ startLevel, line, level }) {
+      Utils.ast.walkDown ( textEditor.document, position.line, true, false, function ({ startLevel, line, level }) {
         if ( startLevel === level ) return false;
         if ( Utils.testRe ( Consts.regexes.todoBox, line.text ) ) return removable = false;
         lines.push ( line );
       });
       if ( !removable ) return;
       removableLines.push ( ...lines );
+    });
+
+  }
+
+  /* EXTRA EMPTY LINES */
+
+  const emptyLines = Config.getKey ( 'archive.remove.emptyLines' );
+
+  if ( emptyLines >= 0 ) {
+
+    let streak = 0;
+
+    Utils.ast.walkDown ( textEditor.document, -1, false, false, function ({ startLevel, line, level }) {
+      if ( archivableLines.find ( other => other === line ) || removableLines.find ( other => other === line ) ) return;
+      if ( line.text && !Consts.regexes.empty.test ( line.text ) ) {
+        streak = 0;
+      } else {
+        streak++;
+        if ( streak > emptyLines ) {
+          removableLines.push ( line );
+        }
+      }
     });
 
   }
@@ -158,7 +180,8 @@ async function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read
   const editedLines = _.sortBy ( _.uniqBy ( archivableLines.concat ( removableLines ), line => line.lineNumber ), line => line.lineNumber ),
         archivedLines = archivableLines.map ( line => `${Utils.testRe ( Consts.regexes.comment, line.text ) ? indentation + indentation : indentation}${_.trimStart ( archivableTexts[line.lineNumber] || line.text )}` ),
         archivedText =  '\n' + archivedLines.join ( '\n' ),
-        insertText = archiveStartIndex === -1 ? `\n\n${archiveLabel}${archivedText}` : archivedText,
+        archiveEmptyLines = ( emptyLines >= 0 ) ? _.repeat ( '\n', emptyLines ) : '\n',
+        insertText = archiveStartIndex === -1 ? `${archiveEmptyLines}\n${archiveLabel}${archivedText}` : archivedText,
         insertPos = archiveEndIndex === -1 ? doc.positionAt ( text.length - 1 ) : doc.positionAt ( archiveEndIndex ),
         editsRemoveLines = editedLines.map ( ( line, i ) => Utils.editor.makeDeleteLineEdit ( line.lineNumber ) ),
         editsInsertArchived = vscode.TextEdit.insert ( insertPos, insertText ),

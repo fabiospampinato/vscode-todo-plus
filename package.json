@@ -235,6 +235,11 @@
           "description": "Remove projects without todos",
           "default": true
         },
+        "todo.archive.remove.emptyLines": {
+          "type": "number",
+          "description": "Remove extra empty lines, keeping no more than `emptyLinesThreshold` consecutive empty lines",
+          "default": 1
+        },
         "todo.archive.project.enabled": {
           "type": "boolean",
           "description": "Enable the @project tag",

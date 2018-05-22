@@ -676,7 +676,7 @@ const Utils = {
         est: 0
       };
 
-      Utils.ast.walkDown ( textEditor.document, lineNr, false, function ({ startLevel, line, level }) {
+      Utils.ast.walkDown ( textEditor.document, lineNr, true, false, function ({ startLevel, line, level }) {
         if ( level <= startLevel ) return false;
         if ( Utils.testRe ( Consts.regexes.todoBox, line.text ) ) {
           tokens.pending++;
@@ -733,13 +733,13 @@ const Utils = {
 
     },
 
-    walk ( textDocument: vscode.TextDocument, lineNr: number = 0, direction: number = 1, strictlyMonotonic: boolean = false, callback: Function ) { // strictlyMonotonic: only go strictly up or down, don't process other elements at the same level
+    walk ( textDocument: vscode.TextDocument, lineNr: number = 0, direction: number = 1, skipEmptyLines: boolean = true, strictlyMonotonic: boolean = false, callback: Function ) { // strictlyMonotonic: only go strictly up or down, don't process other elements at the same level
 
       const indentation = Config.getKey ( 'indentation' ),
             {lineCount} = textDocument;
 
-      const startLine = textDocument.lineAt ( lineNr ),
-            startLevel = Utils.ast.getLevel ( startLine.text, indentation );
+      const startLine = lineNr > 0 ? textDocument.lineAt ( lineNr ) : null,
+            startLevel = startLine ? Utils.ast.getLevel ( startLine.text, indentation ) : -1;
 
       let prevLevel = startLevel,
           nextLine = lineNr + direction;
@@ -748,7 +748,7 @@ const Utils = {
 
         const line = textDocument.lineAt ( nextLine );
 
-        if ( !line.text.length || Consts.regexes.empty.test ( line.text ) ) {
+        if ( skipEmptyLines && ( !line.text || Consts.regexes.empty.test ( line.text ) ) ) {
           nextLine += direction;
           continue;
         }
@@ -771,15 +771,15 @@ const Utils = {
 
     },
 
-    walkDown ( textDocument: vscode.TextDocument, lineNr: number, strictlyMonotonic: boolean, callback: Function ) {
+    walkDown ( textDocument: vscode.TextDocument, lineNr: number, skipEmptyLines: boolean, strictlyMonotonic: boolean, callback: Function ) {
 
-      return Utils.ast.walk ( textDocument, lineNr, 1, strictlyMonotonic, callback );
+      return Utils.ast.walk ( textDocument, lineNr, 1, skipEmptyLines, strictlyMonotonic, callback );
 
     },
 
-    walkUp ( textDocument: vscode.TextDocument, lineNr: number, strictlyMonotonic: boolean, callback: Function ) {
+    walkUp ( textDocument: vscode.TextDocument, lineNr: number, skipEmptyLines: boolean, strictlyMonotonic: boolean, callback: Function ) {
 
-      return Utils.ast.walk ( textDocument, lineNr, -1, strictlyMonotonic, callback );
+      return Utils.ast.walk ( textDocument, lineNr, -1, skipEmptyLines, strictlyMonotonic, callback );
 
     }
 
