@@ -1,3 +1,7 @@
+### Version 1.18.1
+- Supporting interacting with all support-but-not-setted symbols
+- Performance improvements
+
 ### Version 1.18.0
 - Readme: better separation between supported symbols
 - Readme: improved embedded todos description
