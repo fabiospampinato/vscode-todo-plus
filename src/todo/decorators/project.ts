@@ -1,6 +1,7 @@
 
 /* IMPORT */
 
+import * as _ from 'lodash';
 import * as vscode from 'vscode';
 import CodeItem from '../items/code';
 import CommentItem from '../items/comment';
@@ -64,28 +65,47 @@ class Project extends Line {
 
   getDecorations ( items: ProjectItem[] | CodeItem[] | CommentItem[] | LineItem[], negRange?: vscode.Range | vscode.Range[] ) {
 
-    if ( !Config.getKey ( 'statistics.project.enabled' ) ) return super.getDecorations ( items, negRange );
+    const condition = Config.getKey ( 'statistics.project.enabled' );
+
+    if ( condition === false ) return super.getDecorations ( items, negRange );
 
     const textEditor = items.length ? items[0].textEditor : vscode.window.activeTextEditor;
 
     StatisticsTypes.reset ( textEditor );
 
-    if ( !items.length ) return [];
-
     const template = Config.getKey ( 'statistics.project.text' ),
-          [ranges] = this.getRanges ( items, negRange );
+          basicRanges = [],
+          statisticsData = [];
 
-    if ( !ranges ) return [];
+    items.forEach ( item => {
 
-    return ranges.map ( ( range, index ) => {
+      const ranges = this.getItemRanges ( item, negRange ),
+            range = ranges[0][0],
+            tokens = Utils.statistics.getTokensProject ( textEditor, range.start.line ),
+            withStatistics = Utils.statistics.isEnabled ( condition, tokens );
 
-      const tokens = Utils.statistics.getTokensProject ( textEditor, range.start.line ),
-            contentText = Utils.statistics.renderTemplate ( template, tokens ),
-            type = StatisticsTypes.get ( contentText, textEditor );
+      if ( withStatistics ) {
 
-      return { type, ranges: [range] };
+        const contentText = Utils.statistics.renderTemplate ( template, tokens ),
+              type = StatisticsTypes.get ( contentText, textEditor );
+
+        statisticsData.push ({ type, ranges: [range] });
+
+      } else {
+
+        basicRanges.push ( range );
+
+      }
 
     });
+
+    return [
+      {
+        type: PROJECT_BASIC,
+        ranges: basicRanges
+      },
+      ...statisticsData
+    ];
 
   }
 

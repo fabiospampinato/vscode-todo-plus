@@ -104,7 +104,8 @@ class Statusbar {
 
   updateVisibility () {
 
-    const visibility = !!this.config.statistics.statusbar.enabled && Utils.editor.isSupported ( vscode.window.activeTextEditor );
+    const condition = this.config.statistics.statusbar.enabled,
+          visibility = Utils.editor.isSupported ( vscode.window.activeTextEditor ) && Utils.statistics.isEnabled ( condition, this.tokens );
 
     if ( this._setItemProp ( 'visibility', visibility ) ) {
 

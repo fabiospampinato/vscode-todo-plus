@@ -609,6 +609,24 @@ const Utils = {
 
   statistics: {
 
+    isEnabled ( condition, tokens ) {
+
+      if ( _.isBoolean ( condition ) ) return condition;
+
+      try {
+
+        const {pending, done, cancelled, finished, all, percentage, est} = tokens;
+
+        return !!eval ( condition );
+
+      } catch ( e ) {
+
+        return false;
+
+      }
+
+    },
+
     estimatesCache: {}, //TODO: Move this to a more appropriate place // It takes for granted that all estimates are relative to `now`
 
     getEstimate ( str, from?: Date ) { //TODO: Move this to a more appropriate place

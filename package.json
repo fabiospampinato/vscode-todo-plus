@@ -295,9 +295,9 @@
           "default": true
         },
         "todo.statistics.project.enabled": {
-          "type": "boolean",
-          "description": "Show statistics next to a project",
-          "default": true
+          "type": ["boolean", "string"],
+          "description": "Show statistics next to a project, boolean or JS expression",
+          "default": "pending > 0"
         },
         "todo.statistics.project.text": {
           "type": "string",
@@ -305,9 +305,9 @@
           "default": "([pending]) [est]"
         },
         "todo.statistics.statusbar.enabled": {
-          "type": "boolean",
-          "description": "Show statistics in the statusbar",
-          "default": true
+          "type": ["boolean", "string"],
+          "description": "Show statistics in the statusbar, boolean or JS expression",
+          "default": "all > 0"
         },
         "todo.statistics.statusbar.alignment": {
           "type": "string",

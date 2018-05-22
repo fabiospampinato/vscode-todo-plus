@@ -100,9 +100,9 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.embedded.exclude": ["**/.git", ...], // Globs to use for excluding files
   "todo.embedded.groupByFile": false, // Group todos by file
   "todo.statistics.ignoreArchive": true, // Ignore the archive when rendering statistics
-  "todo.statistics.project.enabled": true, // Show statistics next to a project
+  "todo.statistics.project.enabled": "pending > 0", // Show statistics next to a project, boolean or JS expression
   "todo.statistics.project.text": "([pending]) [est]", // Template used for rendering the text
-  "todo.statistics.statusbar.enabled": true, // Show statistics in the statusbar
+  "todo.statistics.statusbar.enabled": "all > 0", // Show statistics in the statusbar, boolean or JS expression
   "todo.statistics.statusbar.alignment": "left", // Should the item be placed to the left or right?
   "todo.statistics.statusbar.color": "", // The foreground color for this item
   "todo.statistics.statusbar.command": "", // Command to execute on click
