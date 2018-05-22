@@ -66,12 +66,16 @@ class Project extends Line {
 
     if ( !Config.getKey ( 'statistics.project.enabled' ) ) return super.getDecorations ( items, negRange );
 
-    const textEditor = items.length ? items[0].textEditor : vscode.window.activeTextEditor;
+    if ( !items.length ) return [];
+
+    const textEditor = items[0].textEditor;
 
     StatisticsTypes.reset ( textEditor );
 
     const template = Config.getKey ( 'statistics.project.text' ),
           [ranges] = this.getRanges ( items, negRange );
+
+    if ( !ranges ) return [];
 
     return ranges.map ( ( range, index ) => {
 
