@@ -110,7 +110,7 @@ class Todo extends Item {
 
     if ( this.hasTag ( tagRegex ) ) {
 
-      const re = new RegExp ( tagRegex.source + '\\s?' );
+      const re = new RegExp ( tagRegex.source );
 
       this.text = _.trimEnd ( this.text.replace ( re, '' ) );
 
