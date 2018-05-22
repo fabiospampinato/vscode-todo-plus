@@ -1,6 +1,7 @@
 
 /* IMPORT */
 
+import * as _ from 'lodash';
 import * as vscode from 'vscode';
 import Consts from './consts';
 import CompletionProvider from './todo/providers/completion';
@@ -15,9 +16,11 @@ const activate = function ( context: vscode.ExtensionContext ) {
 
   Utils.initLanguage ();
 
+  const decorateDebounced = _.debounce ( () => DocumentDecorator.decorate (), 100 );
+
   context.subscriptions.push ( vscode.languages.registerCompletionItemProvider ( Consts.languageId, new CompletionProvider (), Consts.symbols.tag ) );
   context.subscriptions.push ( vscode.languages.registerDocumentSymbolProvider ( Consts.languageId, new SymbolsProvider () ) );
-  context.subscriptions.push ( vscode.workspace.onDidChangeTextDocument ( () => DocumentDecorator.decorate () ) );
+  context.subscriptions.push ( vscode.workspace.onDidChangeTextDocument ( decorateDebounced ) );
   context.subscriptions.push ( vscode.window.onDidChangeActiveTextEditor ( () => DocumentDecorator.decorate () ) );
 
   DocumentDecorator.decorate ();

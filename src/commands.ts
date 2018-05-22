@@ -7,6 +7,7 @@ import * as vscode from 'vscode';
 import Config from './config';
 import Consts from './consts';
 import Document from './todo/document';
+import DocumentDecorator from './todo/decorators/document';
 import Utils from './utils';
 
 /* CALL TODOS METHOD */
@@ -68,6 +69,8 @@ async function callTodosMethod ( options? ) {
     return new vscode.Selection ( position, position );
   });
 
+  DocumentDecorator.decorate ();
+
   const Statusbar = require ( './statusbar' ).default; // Avoiding a cyclic dependency
 
   Statusbar.update ();
@@ -76,7 +79,7 @@ async function callTodosMethod ( options? ) {
 
 /* COMMANDS */
 
-function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read implementation
+async function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read implementation
 
   const doc = textEditor.document,
         text = doc.getText (),
@@ -120,7 +123,7 @@ function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read imple
     /* COMMENTS */
 
     Utils.ast.walkDown ( doc, archivableLine.lineNumber, false, function ({ startLevel, line, level }) {
-      if ( startLevel === level || !Consts.regexes.comment.test ( line.text ) ) return false;
+      if ( startLevel === level || !Utils.testRe ( Consts.regexes.comment, line.text ) ) return false;
       archivableLines.push ( line );
     });
 
@@ -128,7 +131,7 @@ function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read imple
 
   archivableLines = _.sortBy ( archivableLines, line => line.lineNumber );
 
-  const archivedLines = archivableLines.map ( line => `${Consts.regexes.comment.test ( line.text ) ? indentation + indentation : indentation}${_.trimStart ( archivableTexts[line.lineNumber] || line.text )}` ),
+  const archivedLines = archivableLines.map ( line => `${Utils.testRe ( Consts.regexes.comment, line.text ) ? indentation + indentation : indentation}${_.trimStart ( archivableTexts[line.lineNumber] || line.text )}` ),
         archivedText =  '\n' + archivedLines.join ( '\n' ),
         insertText = archiveStartIndex === -1 ? `\n\n${archiveLabel}${archivedText}` : archivedText,
         insertPos = archiveEndIndex === -1 ? doc.positionAt ( text.length - 1 ) : doc.positionAt ( archiveEndIndex ),
@@ -136,7 +139,9 @@ function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read imple
         editsInsertArchived = vscode.TextEdit.insert ( insertPos, insertText ),
         edits = editsRemoveLines.concat ( editsInsertArchived );
 
-  return Utils.editor.applyEdits ( textEditor, edits );
+  await Utils.editor.applyEdits ( textEditor, edits );
+
+  DocumentDecorator.decorate ();
 
 }
 

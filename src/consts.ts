@@ -32,32 +32,38 @@ const Consts = {
   regexes: {
     impossible: /(?=a)b/,
     empty: /^\s*$/,
-    todo: /^[^\S\n]*((?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])\s[^\n]*)/,
+    todo: /^[^\S\n]*((?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])\s[^\n]*)/gm,
     todoToken: /^[^\S\n]*(?!--|––|——)([-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])\s/,
-    todoBox: /^[^\S\n]*((?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ ?\])\s(?![^\n]*@(?:done|cancelled)(?:(?:\([^)]*\))|$|\s))[^\n]*)/,
-    todoCancel: /^[^\S\n]*((?!--|––|——)(?:(?:(?:[✘xX]|\[-\])\s[^\n]*)|(?:(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ ?\])\s[^\n]*@cancelled(?:(?:\([^)]*\))|$|\s)[^\n]*)))/,
-    todoDone: /^[^\S\n]*((?!--|––|——)(?:(?:(?:[✔✓☑+]|\[[xX+]\])\s[^\n]*)|(?:(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ ?\])\s[^\n]*@done(?:(?:\([^)]*\))|$|\s)[^\n]*)))/,
+    todoBox: /^[^\S\n]*((?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ ?\])\s(?![^\n]*[^a-zA-Z0-9]@(?:done|cancelled)(?:(?:\([^)]*\))|(?![a-zA-Z])))[^\n]*)/gm,
+    todoCancel: /^[^\S\n]*((?!--|––|——)(?:(?:(?:[✘xX]|\[-\])\s[^\n]*)|(?:(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ ?\])\s[^\n]*[^a-zA-Z0-9]@cancelled(?:(?:\([^)]*\))|(?![a-zA-Z]))[^\n]*)))/gm,
+    todoDone: /^[^\S\n]*((?!--|––|——)(?:(?:(?:[✔✓☑+]|\[[xX+]\])\s[^\n]*)|(?:(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ ?\])\s[^\n]*[^a-zA-Z0-9]@done(?:(?:\([^)]*\))|(?![a-zA-Z]))[^\n]*)))/gm,
     project: /^(?![^\S\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])\s[^\n]*)[^\S\n]*(.+:[^\S\n]*)(?:(?=@(?!.+ +[^@]))|$)/,
     projectParts: /(\s*)([^:]+):(.*)/,
-    archive: /^(?![^\S\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])\s[^\n]*)([^\S\n]*Archive:.*$)/,
-    comment: /^(?![^\S\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])\s[^\n]*)(?![^\S\n]*.+:[^\S\n]*(?:(?=@(?!.+ +[^@]))|$))[^\S\n]*([^\n]+)/,
-    tag: /(?:^|[^a-zA-Z0-9`])(@[^\s*~(]+(?:\([^)]*\))?)/,
+    archive: /^(?![^\S\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])\s[^\n]*)([^\S\n]*Archive:.*$)/gm,
+    comment: /^(?![^\S\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])\s[^\n]*)(?![^\S\n]*.+:[^\S\n]*(?:(?=@(?!.+ +[^@]))|$))[^\S\n]*([^\n]+)/gm,
+    tag: /(?:^|[^a-zA-Z0-9`])(@[^\s*~(]+(?:\([^)]*\))?)/gm,
     tagSpecial: /(?=a)b/,
-    tagCreated: /@created(?:(?:\(([^)]*)\))|$|\s)/,
-    tagStarted: /@started(?:(?:\(([^)]*)\))|$|\s)/,
-    tagFinished: /@(?:done|cancelled)(?:(?:\(([^)]*)\))|$|\s)/,
-    tagElapsed: /@(?:lasted|wasted)(?:(?:\(([^)]*)\))|$|\s)/,
-    tagEstimate: /@est\(([^)]*)\)|@(\d[^\)]+)/,
-    code: /((?:```[\s\S]*?```)|(?:`[^`\n]*`))/,
-    bold: /(?:^|\s)(\*.+\*)(?:\s|$)/,
-    italic: /(?:^|\s)(_.+_)(?:\s|$)/,
-    strikethrough: /(?:^|\s)(~.+~)(?:\s|$)/
+    tagSpecials: {},
+    tagCreated: /(?:^|[^a-zA-Z0-9])@created(?:(?:\(([^)]*)\))|(?![a-zA-Z]))/,
+    tagStarted: /(?:^|[^a-zA-Z0-9])@started(?:(?:\(([^)]*)\))|(?![a-zA-Z]))/,
+    tagFinished: /(?:^|[^a-zA-Z0-9])@(?:done|cancelled)(?:(?:\(([^)]*)\))|(?![a-zA-Z]))/,
+    tagElapsed: /(?:^|[^a-zA-Z0-9])@(?:lasted|wasted)(?:(?:\(([^)]*)\))|(?![a-zA-Z]))/,
+    tagEstimate: /(?:^|[^a-zA-Z0-9])@est\(([^)]*)\)|@(\d[^\)]+)/,
+    code: /((?:```[\s\S]*?```)|(?:`[^`\n]*`))/gm,
+    bold: /(?:^|\s)(\*.+\*)(?:\s|$)/gm,
+    italic: /(?:^|\s)(_.+_)(?:\s|$)/gm,
+    strikethrough: /(?:^|\s)(~.+~)(?:\s|$)/gm
   }
 };
 
 if ( Consts.tags.names.length ) {
 
-  Consts.regexes.tagSpecial = new RegExp ( `(?:^|[^a-zA-Z0-9])(@(?:${Consts.tags.names.map ( n => _.escapeRegExp ( n ) ).join ( '|' )})(?:\\([^)]*\\))?)(?![a-zA-Z])` );
+  Consts.regexes.tagSpecial = new RegExp ( `(?:^|[^a-zA-Z0-9])(@(?:${Consts.tags.names.map ( n => _.escapeRegExp ( n ) ).join ( '|' )}))(?:(?:\\([^)]*\\))|(?![a-zA-Z]))`, 'gm' );
+
+  Consts.tags.names.forEach ( name => {
+    const re = new RegExp ( `(?:^|[^a-zA-Z0-9])(${_.escapeRegExp ( `@${name}` )})(?:(?:\\([^)]*\\))|(?![a-zA-Z]))`, 'gm' );
+    Consts.regexes.tagSpecials[name] = re;
+  });
 
 }
 
@@ -65,7 +71,7 @@ const archiveName = Config.getKey ( 'archive.name' );
 
 if ( archiveName ) {
 
-  Consts.regexes.archive = new RegExp ( Consts.regexes.archive.source.replace ( 'Archive', _.escapeRegExp ( archiveName ) ) );
+  Consts.regexes.archive = new RegExp ( Consts.regexes.archive.source.replace ( 'Archive', _.escapeRegExp ( archiveName ) ), 'gm' );
 
 }
 

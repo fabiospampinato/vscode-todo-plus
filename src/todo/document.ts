@@ -106,6 +106,24 @@ class Document {
 
   }
 
+  getTodosBox () {
+
+    return this.getItems ( Todo, Consts.regexes.todoBox );
+
+  }
+
+  getTodosDone () {
+
+    return this.getItems ( Todo, Consts.regexes.todoDone );
+
+  }
+
+  getTodosCancel () {
+
+    return this.getItems ( Todo, Consts.regexes.todoCancel );
+
+  }
+
   getTodoAt ( lineNumber: number, checkValidity? ) {
 
     return this.getItemAt ( Todo, lineNumber, checkValidity );

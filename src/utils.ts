@@ -68,9 +68,19 @@ const Utils = {
 
   },
 
+  testRe ( re: RegExp, str: string ) {
+
+    re.lastIndex = 0; // Ensuring it works also for regexes with the `g` flag
+
+    return re.test ( str );
+
+  },
+
   getAllMatches ( str: string, regex: RegExp, multi: boolean = true ) {
 
-    regex = multi ? new RegExp ( regex.source, 'gm' ) : regex;
+    regex = multi && regex.flags !== 'gm' ? new RegExp ( regex.source, 'gm' ) : regex;
+
+    regex.lastIndex = 0; // Ensuring all matches get returned
 
     let match,
         matches = [];
@@ -668,16 +678,15 @@ const Utils = {
 
       Utils.ast.walkDown ( textEditor.document, lineNr, false, function ({ startLevel, line, level }) {
         if ( level <= startLevel ) return false;
-        const todoBox = line.text.match ( Consts.regexes.todoBox );
-        if ( todoBox ) {
+        if ( Utils.testRe ( Consts.regexes.todoBox, line.text ) ) {
           tokens.pending++;
-          const est = Utils.statistics.getEstimate ( todoBox[0], now );
+          const est = Utils.statistics.getEstimate ( line.text, now );
           if ( est ) {
             tokens.est += est;
           }
-        } else if ( Consts.regexes.todoDone.test ( line.text ) ) {
+        } else if ( Utils.testRe ( Consts.regexes.todoDone, line.text ) ) {
           tokens.done++;
-        } else if ( Consts.regexes.todoCancel.test ( line.text ) ) {
+        } else if ( Utils.testRe ( Consts.regexes.todoCancel, line.text ) ) {
           tokens.cancelled++;
         }
       });

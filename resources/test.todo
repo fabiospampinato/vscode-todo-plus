@@ -42,7 +42,7 @@ Xproject:
   ☐ qux @critical @high @low @today @today
   ☐ @critical @mixed @high
   ✔ *@today* _@today_ ~@today~
-  ☐ no tag@example.com tag@critical.com
+  ☐ no tag@example.com tag@critical.com tag@done.com
   ☐ started @started(17-11-03 10:42)
   ✔ completed @started(17-11-03 10:42) @done(17-11-03 20:10) @lasted(9 hours 28 minutes 52 seconds)
   ✘ cancelled @started(17-11-03 10:42) @cancelled(17-11-03 20:10) @wasted(9 hours 28 minutes 53 seconds)

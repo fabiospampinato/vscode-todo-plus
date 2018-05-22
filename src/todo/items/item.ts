@@ -3,6 +3,7 @@
 
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
+import Utils from '../../utils';
 
 /* ITEM */
 
@@ -38,7 +39,7 @@ class Item {
 
   static is ( str: string, regex: RegExp ) {
 
-    return !!regex.test ( str );
+    return Utils.testRe ( regex, str );
 
   }
 

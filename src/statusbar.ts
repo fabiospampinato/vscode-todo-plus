@@ -16,7 +16,7 @@ class Statusbar {
 
     this.item = this._initItem ();
     this.itemProps = {};
-    this._updateDebounced = _.debounce ( this.update.bind ( this ), 250 );
+    this._updateDebounced = _.debounce ( this.update.bind ( this ), 1000 );
 
     vscode.workspace.onDidChangeConfiguration ( () => this._updateDebounced () );
     vscode.workspace.onDidChangeTextDocument ( () => this._updateDebounced () );
