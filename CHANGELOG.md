@@ -1,3 +1,7 @@
+### Version 1.18.2
+- Project decorations: ensuring they get cleared when there are no more projects
+- Fixed a regression when removing tags
+
 ### Version 1.18.1
 - Supporting interacting with all support-but-not-setted symbols
 - Performance improvements
