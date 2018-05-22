@@ -63,6 +63,7 @@ async function callTodosMethod ( options? ) {
     const line = textEditor.document.lineAt ( selection.start.line );
     if ( selection.start.character !== line.text.length ) return selection;
     const tagIndex = line.text.indexOf ( Consts.symbols.tag );
+    if ( tagIndex < 0 ) return selection;
     const position = new vscode.Position ( selection.start.line, tagIndex );
     return new vscode.Selection ( position, position );
   });
