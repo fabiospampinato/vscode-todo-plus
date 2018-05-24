@@ -1,3 +1,19 @@
+### Version 2.0.0
+- Major refactoring
+- Substantial performance improvements
+- Removed support for triple-backticks code blocks
+- Removed support for tags inside code blocks
+- Symbols: showing also the parent symbol
+- Archive: added an option for removing empty projects
+- Archive: added an option for removing extra empty lines
+- Statistics: added support for a JS expression as the `enabled` condition
+- Statistics: added a `[comments]` token
+- Statistics: added a `[projects]` token
+- Statistics: improved support for `\t` as the indentation character
+- Settings: renamed `todo.symbols.cancel` to `todo.symbols.cancelled`
+- Settings: renamed `todo.colors.cancel` to `todo.colors.cancelled`
+- Commands: renamed `todo.toggleCancel` to `todo.toggleCancelled`
+
 ### Version 1.18.2
 - Project decorations: ensuring they get cleared when there are no more projects
 - Fixed a regression when removing tags
