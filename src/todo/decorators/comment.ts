@@ -6,11 +6,14 @@ import Line from './line';
 import CommentItem from '../items/comment';
 import Consts from '../../consts';
 
-/* COMMENT */
+/* DECORATION TYPES */
 
 const COMMENT = vscode.window.createTextEditorDecorationType ({
-  color: Consts.colors.comment
+  color: Consts.colors.comment,
+  rangeBehavior: vscode.DecorationRangeBehavior.OpenOpen
 });
+
+/* COMMENT */
 
 class Comment extends Line {
 
@@ -18,7 +21,7 @@ class Comment extends Line {
 
   getItemRanges ( comment: CommentItem, negRange?: vscode.Range | vscode.Range[] ) {
 
-    return [this.getRangesRegex ( comment.startLine, Consts.regexes.comment, [Consts.regexes.tag, Consts.regexes.code], negRange )];
+    return [this.getRangeDifference ( comment.text, comment.range, negRange || [Consts.regexes.tag, Consts.regexes.formattedCode] )];
 
   }
 

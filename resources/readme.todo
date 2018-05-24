@@ -1,39 +1,42 @@
 
 Projects:
-  ☐ Anything with a colon at the end of the line is a project title
-  ☐ You can nest projects inside each other
+  ☐ Anything with a colon at the end of the line is a project
+  ☐ Projects will show some statistics next to them @1h
+    ✔ By default those statistics are the number of pending todos and the sum of their time estimates @30m
   Nested:
-    ☐ You can fold projects
+    ☐ You can nest projects inside each other and fold them
 
 Todos:
-  You can write plain text as notes or descriptions wherever you want
+  You can write plain text notes/descriptions wherever you want
   New:
     ☐ Press Cmd/Ctrl+Enter to add a new todo
   Done:
     ✔ Press Alt+D to mark a todo as done
     ✔ Press it again to undo the action
-  Cancel:
+  Cancelled:
     ✘ Press Alt+C to mark a todo as cancelled
     ✘ Press it again to undo the action
-  Code:
-    ☐ You can embed custom `code` pretty much anywhere
   Tagging:
-    ☐ You can add tags using the @ sign, like this @tag
+    ☐ You can add tags using the @ symbol, like this @tag
     ☐ There are some special, customizable tags: @critical @high @low @today
   Timekeeping:
     ✔ Completed todos can show a timestamp @done(17-11-03 10:42)
     ☐ Press Alt+S to mark a todo as started @started(17-11-03 10:42)
       ✔ Now it will show the elapsed time @started(17-11-03 10:42) @done(17-11-03 20:11) @lasted(9h29m)
+    ☐ You can provide time estimates for your todos @1h30m
+      ☐ We are even doing some natural language processing @est(1 day and 20 minutes)
 
-Style:
-  We support a markdown-like syntax for styling text
+Formatting:
+  You can format text in a markdown-like fashion
   Bold:
     ☐ Use asterisks for *bold*
   Italic:
     ☐ Use underscores for _italic_
   Strikethrough:
     ☐ Use tildes for ~strikethrough~
+  Code:
+    ☐ Use backticks for `code`
 
 Archive:
-  ✔ Completed todos will be moved here
+  ✔ You can archive finished todos here
   ✔ Congratulations, you are now a Todo+ master!

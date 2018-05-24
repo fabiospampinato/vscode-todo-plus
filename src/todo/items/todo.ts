@@ -2,39 +2,34 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
-import * as diff from 'diff';
 import * as moment from 'moment';
 import * as vscode from 'vscode';
-import Item from './item';
 import Config from '../../config';
 import Consts from '../../consts';
 import Utils from '../../utils';
+import Item from './item';
 
 /* TODO */
 
 class Todo extends Item {
 
+  /* GETTERS & SETTERS */
+
+  _lineNextText;
+  get lineNextText () {
+    if ( !_.isUndefined ( this._lineNextText ) ) return this._lineNextText;
+    return this._lineNextText = ( this.line ? this.line.text : this.text );
+  }
+
+  set lineNextText ( val ) {
+    this._lineNextText = val;
+  }
+
   /* EDIT */
 
   makeEdit () {
 
-    if ( this.startLine.text === this.text ) return;
-
-    const changes = diff.diffWordsWithSpace ( this.startLine.text, this.text );
-
-    let index = 0;
-
-    return _.filter ( changes.map ( change => {
-      if ( change.added ) {
-        return Utils.editor.makeInsertEdit ( change.value, this.startLine.lineNumber, index );
-      } else if ( change.removed ) {
-        const edit = Utils.editor.makeDeleteEdit ( this.startLine.lineNumber, index, index + change.value.length );
-        index += change.value.length;
-        return edit;
-      } else {
-        index += change.value.length;
-      }
-    }));
+    return Utils.editor.edits.makeDiff ( this.line.text, this.lineNextText, this.line.lineNumber );
 
   }
 
@@ -102,19 +97,15 @@ class Todo extends Item {
 
   addTag ( tag: string ) {
 
-    this.text = `${_.trimEnd ( this.text )} ${tag}`;
+    this.lineNextText = `${_.trimEnd ( this.lineNextText )} ${tag}`;
 
   }
 
   removeTag ( tagRegex: RegExp ) {
 
-    if ( this.hasTag ( tagRegex ) ) {
+    if ( !this.hasTag ( tagRegex ) ) return;
 
-      const re = new RegExp ( tagRegex.source );
-
-      this.text = _.trimEnd ( this.text.replace ( re, '' ) );
-
-    }
+    this.lineNextText = _.trimEnd ( this.lineNextText.replace ( tagRegex, '' ) );
 
   }
 
@@ -127,7 +118,7 @@ class Todo extends Item {
 
   hasTag ( tagRegex: RegExp ) {
 
-    return Item.is ( this.text, tagRegex );
+    return Item.is ( this.lineNextText, tagRegex );
 
   }
 
@@ -141,8 +132,8 @@ class Todo extends Item {
 
         const date = moment (),
               format = Config.getKey ( 'timekeeping.created.format' ),
-              timestamp = date.format ( format ),
-              tag = `@created(${timestamp})`;
+              time = date.format ( format ),
+              tag = `@created(${time})`;
 
         this.addTag ( tag );
 
@@ -170,8 +161,8 @@ class Todo extends Item {
 
       const date = moment (),
             format = Config.getKey ( 'timekeeping.started.format' ),
-            timestamp = date.format ( format ),
-            tag = `@started(${timestamp})`;
+            time = date.format ( format ),
+            tag = `@started(${time})`;
 
       this.replaceTag ( Consts.regexes.tagStarted, tag );
 
@@ -197,7 +188,7 @@ class Todo extends Item {
 
     const started = this.text.match ( Consts.regexes.tagStarted );
 
-    if ( Config.getKey ( 'timekeeping.finished.enabled' ) || started || ( ( isPositive && Consts.symbols.box === Consts.symbols.done ) || ( !isPositive && Consts.symbols.box === Consts.symbols.cancel ) ) ) {
+    if ( started || Config.getKey ( 'timekeeping.finished.enabled' ) || Consts.symbols.box === ( isPositive ? Consts.symbols.done : Consts.symbols.cancelled ) ) {
 
       this.unfinish ();
 
@@ -207,8 +198,8 @@ class Todo extends Item {
 
         const finishedDate = moment (),
               finishedFormat = Config.getKey ( 'timekeeping.finished.format' ),
-              finishedTimestamp = finishedDate.format ( finishedFormat ),
-              finishedTag = `@${isPositive ? 'done' : 'cancelled'}(${finishedTimestamp})`;
+              finishedTime = finishedDate.format ( finishedFormat ),
+              finishedTag = `@${isPositive ? 'done' : 'cancelled'}(${finishedTime})`;
 
         this.addTag ( finishedTag );
 
@@ -224,13 +215,13 @@ class Todo extends Item {
 
       if ( Config.getKey ( 'timekeeping.elapsed.enabled' ) && started && started[1] ) {
 
-        const startedTimestamp = _.last ( started ),
+        const startedTime = started[1],
               startedFormat = Config.getKey ( 'timekeeping.started.format' ),
-              startedMoment = moment ( startedTimestamp, startedFormat ),
+              startedMoment = moment ( startedTime, startedFormat ),
               startedDate = new Date ( startedMoment.valueOf () ),
               elapsedFormat = Config.getKey ( 'timekeeping.elapsed.format' ),
-              timestamp = Utils.date.diff ( new Date (), startedDate, elapsedFormat ),
-              elapsedTag = `@${isPositive ? 'lasted' : 'wasted'}(${timestamp})`;
+              time = Utils.time.diff ( new Date (), startedDate, elapsedFormat ),
+              elapsedTag = `@${isPositive ? 'lasted' : 'wasted'}(${time})`;
 
         this.addTag ( elapsedTag );
 
@@ -247,30 +238,37 @@ class Todo extends Item {
 
   }
 
-  /* TOKENS */
+  /* SYMBOLS */
 
-  setToken ( token: string ) {
+  setSymbol ( symbol: string ) {
 
-    const match = this.text.match ( Consts.regexes.todoToken ),
-          firstChar = this.text.match ( /\S/ ),
-          startIndex = match ? match[0].indexOf ( match[1] ) : ( firstChar ? firstChar.index : this.text.length ),
+    const match = this.lineNextText.match ( Consts.regexes.todoSymbol ),
+          firstChar = this.lineNextText.match ( /\S/ ),
+          startIndex = match ? match[0].indexOf ( match[1] ) : ( firstChar ? firstChar.index : this.lineNextText.length ),
           endIndex = match ? match[0].length : startIndex;
 
-    this.text = `${this.text.substring ( 0, startIndex )}${token ? `${token} ` : ''}${this.text.substring ( endIndex )}`;
+    this.lineNextText = `${this.lineNextText.substring ( 0, startIndex )}${symbol ? `${symbol} ` : ''}${this.lineNextText.substring ( endIndex )}`;
 
   }
 
-  toggleBox ( force?: boolean ) {
-
-    force = _.isBoolean ( force ) ? force : !this.isBox ();
+  setSymbolAndState ( symbol: string, state: string ) {
 
     const prevStatus = this.getStatus ();
 
-    this.setToken ( force ? Consts.symbols.box : false );
+    this.setSymbol ( symbol );
 
-    const status = this.makeStatus ( force ? 'box' : 'other' );
+    const nextStatus = this.makeStatus ( state );
 
-    this.setStatus ( status, prevStatus );
+    this.setStatus ( nextStatus, prevStatus );
+
+  }
+
+  toggleBox ( force: boolean = !this.isBox () ) {
+
+    const symbol = force ? Consts.symbols.box : '',
+          state = force ? 'box' : 'other';
+
+    this.setSymbolAndState ( symbol, state );
 
   }
 
@@ -286,43 +284,12 @@ class Todo extends Item {
 
   }
 
-  toggleCancel ( force?: boolean ) {
+  toggleDone ( force: boolean = !this.isDone () ) {
 
-    force = _.isBoolean ( force ) ? force : !this.isCancelled ();
+    const symbol = force ? Consts.symbols.done : Consts.symbols.box,
+          state = force ? 'done' : 'box';
 
-    const prevStatus = this.getStatus ();
-
-    this.setToken ( force ? Consts.symbols.cancel : Consts.symbols.box );
-
-    const status = this.makeStatus ( force ? 'cancelled' : 'box' );
-
-    this.setStatus ( status, prevStatus );
-
-  }
-
-  cancel () {
-
-    this.toggleCancel ( true );
-
-  }
-
-  uncancel () {
-
-    this.toggleCancel ( false );
-
-  }
-
-  toggleDone ( force?: boolean ) {
-
-    force = _.isBoolean ( force ) ? force : !this.isDone ();
-
-    const prevStatus = this.getStatus ();
-
-    this.setToken ( force ? Consts.symbols.done : Consts.symbols.box );
-
-    const status = this.makeStatus ( force ? 'done' : 'box' );
-
-    this.setStatus ( status, prevStatus );
+    this.setSymbolAndState ( symbol, state );
 
   }
 
@@ -335,6 +302,27 @@ class Todo extends Item {
   undone () {
 
     this.toggleDone ( false );
+
+  }
+
+  toggleCancelled ( force: boolean = !this.isCancelled () ) {
+
+    const symbol = force ? Consts.symbols.cancelled : Consts.symbols.box,
+          state = force ? 'cancelled' : 'box';
+
+    this.setSymbolAndState ( symbol, state );
+
+  }
+
+  cancelled () {
+
+    this.toggleCancelled ( true );
+
+  }
+
+  uncancelled () {
+
+    this.toggleCancelled ( false );
 
   }
 
@@ -354,7 +342,7 @@ class Todo extends Item {
 
   isCancelled () {
 
-    return Item.is ( this.text, Consts.regexes.todoCancel );
+    return Item.is ( this.text, Consts.regexes.todoCancelled );
 
   }
 

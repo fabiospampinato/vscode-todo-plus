@@ -2,77 +2,82 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
+import stringMatches from 'string-matches';
 import * as vscode from 'vscode';
-import Line from './items/line';
-import Code from './items/code';
-import Comment from './items/comment';
-import Project from './items/project';
-import Todo from './items/todo';
 import Consts from '../consts';
 import Utils from '../utils';
+import {Line, Archive, Comment, Formatted, Project, Tag, Todo, TodoBox, TodoDone, TodoCancelled} from './items';
 
 /* DOCUMENT */
 
 class Document {
 
-  textEditor: vscode.TextEditor;
-  textDocument: vscode.TextDocument;
+  textEditor?: vscode.TextEditor;
+  textDocument?: vscode.TextDocument;
+  text?: string;
 
-  constructor ( textEditor: vscode.TextEditor ) {
+  constructor ( res: string | vscode.TextEditor | vscode.TextDocument ) {
 
-    this.textEditor = textEditor;
-    this.textDocument = textEditor.document;
+    if ( _.isString ( res ) ) {
+
+      this.text = res;
+
+    } else {
+
+      if ( 'document' in res ) { // => vscode.TextEditor
+
+        this.textEditor = res as vscode.TextEditor; //TSC
+        this.textDocument = this.textEditor.document;
+
+      } else { // => vscode.TextDocument
+
+        this.textEditor = vscode.window.visibleTextEditors.find ( te => te.document === res ) || vscode.window.activeTextEditor;
+        this.textDocument = res as vscode.TextDocument; //TSC
+
+      }
+
+    }
 
   }
 
   /* GET */
 
-  getItems ( Item: typeof Todo | typeof Project | typeof Comment | typeof Line, regex: RegExp ) {
+  getItems ( Item: typeof Line | typeof Archive | typeof Comment | typeof Formatted | typeof Project | typeof Tag | typeof Todo | typeof TodoBox | typeof TodoDone | typeof TodoCancelled, regex: RegExp ) {
 
-    const matches = Utils.getAllMatches ( this.textDocument.getText (), regex );
+    const matchText = _.isString ( this.text ) ? this.text : this.textDocument.getText (),
+          matches = stringMatches ( matchText, regex );
 
     return matches.map ( match => {
-
-      const range = Utils.match2range ( match ),
-            startPos = this.textDocument.positionAt ( range.start ),
-            endPos = this.textDocument.positionAt ( range.end ),
-            startLine = this.textDocument.lineAt ( startPos ),
-            endLine = this.textDocument.lineAt ( endPos ),
-            text = _.last ( match ) as string;
-
-      return new Item ( this.textEditor, startPos, endPos, startLine, endLine, text );
-
+      return new Item ( this.textEditor, undefined, match );
     });
 
   }
 
-  getItemAt ( Item: typeof Todo | typeof Project | typeof Comment, lineNumber: number, checkValidity = true ) { //FIXME: Doesn't really work with code blocks (code blocks not recognized and todos inside code blocks recognized)
+  getItemAt ( Item: typeof Line | typeof Archive | typeof Comment | typeof Formatted | typeof Project | typeof Tag | typeof Todo | typeof TodoBox | typeof TodoDone | typeof TodoCancelled, lineNumber: number, checkValidity = true ) {
 
     const line = this.textDocument.lineAt ( lineNumber );
 
     if ( checkValidity && !Item.is ( line.text ) ) return;
 
-    return new Item ( this.textEditor, line.range.start, line.range.end, line, line, line.text  );
+    return new Item ( this.textEditor, line );
 
   }
 
   getLines () {
 
-    return _.range ( this.textDocument.lineCount )
-            .map ( lineNr => this.textDocument.lineAt ( lineNr ) )
-            .map ( line => new Line ( this.textEditor, line.range.start, line.range.end, line, line, line.text ) );
+    return _.range ( this.textDocument.lineCount ).map ( lineNr => this.getLineAt ( lineNr ) );
 
   }
 
-  getCodes () {
+  getLineAt ( lineNr: number ) {
 
-    return this.getItems ( Code, Consts.regexes.code );
+    return this.getItemAt ( Line, lineNr, false );
 
   }
 
-  getCodeAt ( lineNumber: number, checkValidity? ) {
+  getArchive () {
 
-    return this.getItemAt ( Code, lineNumber, checkValidity );
+    return this.getItems ( Archive, Consts.regexes.archive )[0];
 
   }
 
@@ -88,6 +93,12 @@ class Document {
 
   }
 
+  getFormatted () {
+
+    return this.getItems ( Formatted, Consts.regexes.formatted );
+
+  }
+
   getProjects () {
 
     return this.getItems ( Project, Consts.regexes.project );
@@ -100,33 +111,65 @@ class Document {
 
   }
 
+  getTags () {
+
+    return this.getItems ( Tag, Consts.regexes.tagSpecialNormal );
+
+  }
+
   getTodos () {
 
     return this.getItems ( Todo, Consts.regexes.todo );
 
   }
 
+  getTodoAt ( lineNumber: number, checkValidity? ) {
+
+    return this.getItemAt ( Todo, lineNumber, checkValidity );
+
+  }
+
   getTodosBox () {
 
-    return this.getItems ( Todo, Consts.regexes.todoBox );
+    return this.getItems ( TodoBox, Consts.regexes.todoBox );
+
+  }
+
+  getTodoBoxAt ( lineNumber: number, checkValidity? ) {
+
+    return this.getItemAt ( TodoBox, lineNumber, checkValidity );
 
   }
 
   getTodosDone () {
 
-    return this.getItems ( Todo, Consts.regexes.todoDone );
+    return this.getItems ( TodoDone, Consts.regexes.todoDone );
 
   }
 
-  getTodosCancel () {
+  getTodoDoneAt ( lineNumber: number, checkValidity? ) {
 
-    return this.getItems ( Todo, Consts.regexes.todoCancel );
+    return this.getItemAt ( TodoDone, lineNumber, checkValidity );
 
   }
 
-  getTodoAt ( lineNumber: number, checkValidity? ) {
+  getTodosCancelled () {
 
-    return this.getItemAt ( Todo, lineNumber, checkValidity );
+    return this.getItems ( TodoCancelled, Consts.regexes.todoCancelled );
+
+  }
+
+  getTodoCancelledAt ( lineNumber: number, checkValidity? ) {
+
+    return this.getItemAt ( TodoCancelled, lineNumber, checkValidity );
+
+  }
+
+  /* IS */
+
+  isSupported () {
+
+    return Utils.editor.isSupported ( this.textEditor );
 
   }
 

@@ -14,8 +14,8 @@
     "onCommand:todo.openEmbedded",
     "onCommand:todo.start",
     "onCommand:todo.toggleBox",
-    "onCommand:todo.toggleCancel",
-    "onCommand:todo.toggleDone"
+    "onCommand:todo.toggleDone",
+    "onCommand:todo.toggleCancelled"
   ],
   "contributes": {
     "languages": [
@@ -74,20 +74,20 @@
           "description": "Todo done string",
           "default": "✔"
         },
-        "todo.symbols.cancel": {
+        "todo.symbols.cancelled": {
           "type": "string",
-          "description": "Todo cancel string",
+          "description": "Todo cancelled string",
           "default": "✘"
-        },
-        "todo.colors.cancel": {
-          "type": "string",
-          "description": "Cancelled todo color",
-          "default": "#f92672"
         },
         "todo.colors.done": {
           "type": "string",
           "description": "Done todo color",
           "default": "#a6e22e"
+        },
+        "todo.colors.cancelled": {
+          "type": "string",
+          "description": "Cancelled todo color",
+          "default": "#f92672"
         },
         "todo.colors.code": {
           "type": "string",
@@ -152,6 +152,31 @@
             "#000000",
             "#000000"
           ]
+        },
+        "todo.archive.name": {
+          "type": "string",
+          "description": "Name of the special \"Archive\" project",
+          "default": "Archive"
+        },
+        "todo.archive.remove.emptyProjects": {
+          "type": "boolean",
+          "description": "Remove projects without todos",
+          "default": true
+        },
+        "todo.archive.remove.emptyLines": {
+          "type": "number",
+          "description": "Remove extra empty lines, keeping no more than `emptyLinesThreshold` consecutive empty lines",
+          "default": 1
+        },
+        "todo.archive.project.enabled": {
+          "type": "boolean",
+          "description": "Enable the @project tag",
+          "default": true
+        },
+        "todo.archive.project.separator": {
+          "type": "string",
+          "description": "String used for joining multiple projects",
+          "default": "."
         },
         "todo.formatting.enabled": {
           "type": "boolean",
@@ -225,30 +250,61 @@
           "description": "Format used for the `[est]` token",
           "default": "short-compact"
         },
-        "todo.archive.name": {
-          "type": "string",
-          "description": "Name of the special \"Archive\" project",
-          "default": "Archive"
-        },
-        "todo.archive.remove.emptyProjects": {
+        "todo.statistics.ignoreArchive": {
           "type": "boolean",
-          "description": "Remove projects without todos",
+          "description": "Ignore the archive when rendering statistics",
           "default": true
         },
-        "todo.archive.remove.emptyLines": {
+        "todo.statistics.project.enabled": {
+          "type": [
+            "boolean",
+            "string"
+          ],
+          "description": "Show statistics next to a project, boolean or JS expression",
+          "default": "global.projects < 100 && project.pending > 0"
+        },
+        "todo.statistics.project.text": {
+          "type": "string",
+          "description": "Template used for rendering the text",
+          "default": "([pending]) [est]"
+        },
+        "todo.statistics.statusbar.enabled": {
+          "type": [
+            "boolean",
+            "string"
+          ],
+          "description": "Show statistics in the statusbar, boolean or JS expression",
+          "default": "global.all > 0"
+        },
+        "todo.statistics.statusbar.alignment": {
+          "type": "string",
+          "description": "Should the item be placed to the left or right?",
+          "default": "left"
+        },
+        "todo.statistics.statusbar.color": {
+          "type": "string",
+          "description": "The foreground color for this item",
+          "default": ""
+        },
+        "todo.statistics.statusbar.command": {
+          "type": "string",
+          "description": "Command to execute on click",
+          "default": ""
+        },
+        "todo.statistics.statusbar.priority": {
           "type": "number",
-          "description": "Remove extra empty lines, keeping no more than `emptyLinesThreshold` consecutive empty lines",
-          "default": 1
+          "description": "The priority of this item. Higher value means the item should be shown more to the left",
+          "default": -1
         },
-        "todo.archive.project.enabled": {
-          "type": "boolean",
-          "description": "Enable the @project tag",
-          "default": true
-        },
-        "todo.archive.project.separator": {
+        "todo.statistics.statusbar.text": {
           "type": "string",
-          "description": "String used for joining multiple projects",
-          "default": "."
+          "description": "Template used for rendering the text",
+          "default": "$(check) [finished]/[all] ([percentage]%)"
+        },
+        "todo.statistics.statusbar.tooltip": {
+          "type": "string",
+          "description": "Template used for rendering the tooltip",
+          "default": "[pending] Pending - [done] Done - [cancelled] Cancelled"
         },
         "todo.embedded.regex": {
           "type": "string",
@@ -288,56 +344,6 @@
           "type": "boolean",
           "description": "Group todos by file",
           "default": false
-        },
-        "todo.statistics.ignoreArchive": {
-          "type": "boolean",
-          "description": "Ignore the archive when rendering statistics",
-          "default": true
-        },
-        "todo.statistics.project.enabled": {
-          "type": ["boolean", "string"],
-          "description": "Show statistics next to a project, boolean or JS expression",
-          "default": "pending > 0"
-        },
-        "todo.statistics.project.text": {
-          "type": "string",
-          "description": "Template used for rendering the text",
-          "default": "([pending]) [est]"
-        },
-        "todo.statistics.statusbar.enabled": {
-          "type": ["boolean", "string"],
-          "description": "Show statistics in the statusbar, boolean or JS expression",
-          "default": "all > 0"
-        },
-        "todo.statistics.statusbar.alignment": {
-          "type": "string",
-          "description": "Should the item be placed to the left or right?",
-          "default": "left"
-        },
-        "todo.statistics.statusbar.color": {
-          "type": "string",
-          "description": "The foreground color for this item",
-          "default": ""
-        },
-        "todo.statistics.statusbar.command": {
-          "type": "string",
-          "description": "Command to execute on click",
-          "default": ""
-        },
-        "todo.statistics.statusbar.priority": {
-          "type": "number",
-          "description": "The priority of this item. Higher value means the item should be shown more to the left",
-          "default": -1
-        },
-        "todo.statistics.statusbar.text": {
-          "type": "string",
-          "description": "Template used for rendering the text",
-          "default": "$(check) [finished]/[all] ([percentage]%)"
-        },
-        "todo.statistics.statusbar.tooltip": {
-          "type": "string",
-          "description": "Template used for rendering the tooltip",
-          "default": "[pending] Pending - [done] Done - [cancelled] Cancelled"
         }
       }
     },
@@ -363,12 +369,12 @@
         "title": "Todo: Toggle Box"
       },
       {
-        "command": "todo.toggleCancel",
-        "title": "Todo: Toggle Cancel"
-      },
-      {
         "command": "todo.toggleDone",
         "title": "Todo: Toggle Done"
+      },
+      {
+        "command": "todo.toggleCancelled",
+        "title": "Todo: Toggle Cancelled"
       }
     ],
     "keybindings": [
@@ -390,13 +396,13 @@
         "when": "editorTextFocus && editorLangId == todo"
       },
       {
-        "command": "todo.toggleCancel",
-        "key": "Alt+c",
+        "command": "todo.toggleDone",
+        "key": "Alt+d",
         "when": "editorTextFocus && editorLangId == todo"
       },
       {
-        "command": "todo.toggleDone",
-        "key": "Alt+d",
+        "command": "todo.toggleCancelled",
+        "key": "Alt+c",
         "when": "editorTextFocus && editorLangId == todo"
       }
     ],
@@ -415,7 +421,7 @@
           "when": "editorLangId == todo"
         },
         {
-          "command": "todo.toggleCancel",
+          "command": "todo.toggleCancelled",
           "when": "editorLangId == todo"
         },
         {
@@ -444,7 +450,7 @@
     "url": "https://github.com/fabiospampinato/vscode-todo-plus.git"
   },
   "engines": {
-    "vscode": "^1.15.0"
+    "vscode": "^1.20.0"
   },
   "keywords": [
     "vscode",

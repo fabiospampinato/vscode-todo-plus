@@ -4,13 +4,13 @@
 import Consts from '../../consts';
 import Item from './item';
 
-/* COMMENT */
+/* ARCHIVE */
 
-class Comment extends Item {
+class Archive extends Item {
 
   static is ( str: string ) {
 
-    return super.is ( str, Consts.regexes.comment );
+    return super.is ( str, Consts.regexes.archive );
 
   }
 
@@ -18,4 +18,4 @@ class Comment extends Item {
 
 /* EXPORT */
 
-export default Comment;
+export default Archive;

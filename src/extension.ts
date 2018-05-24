@@ -1,31 +1,31 @@
 
 /* IMPORT */
 
-import * as _ from 'lodash';
 import * as vscode from 'vscode';
 import Consts from './consts';
 import CompletionProvider from './todo/providers/completion';
 import SymbolsProvider from './todo/providers/symbols';
 import DocumentDecorator from './todo/decorators/document';
+import ChangesDecorator from './todo/decorators/changes';
 import Utils from './utils';
-import './statusbar';
 
 /* ACTIVATE */
 
 const activate = function ( context: vscode.ExtensionContext ) {
 
-  Utils.initLanguage ();
+  Utils.init.language ();
 
-  const decorateDebounced = _.debounce ( () => DocumentDecorator.decorate (), 100 );
+  context.subscriptions.push (
+    vscode.languages.registerCompletionItemProvider ( Consts.languageId, new CompletionProvider (), ...CompletionProvider.triggerCharacters ),
+    vscode.languages.registerDocumentSymbolProvider ( Consts.languageId, new SymbolsProvider () ),
+    vscode.window.onDidChangeActiveTextEditor ( () => DocumentDecorator.update () ),
+    vscode.workspace.onDidChangeConfiguration ( () => DocumentDecorator.update () ),
+    vscode.workspace.onDidChangeTextDocument ( ChangesDecorator.onChanges )
+  );
 
-  context.subscriptions.push ( vscode.languages.registerCompletionItemProvider ( Consts.languageId, new CompletionProvider (), Consts.symbols.tag ) );
-  context.subscriptions.push ( vscode.languages.registerDocumentSymbolProvider ( Consts.languageId, new SymbolsProvider () ) );
-  context.subscriptions.push ( vscode.workspace.onDidChangeTextDocument ( decorateDebounced ) );
-  context.subscriptions.push ( vscode.window.onDidChangeActiveTextEditor ( () => DocumentDecorator.decorate () ) );
+  DocumentDecorator.update ();
 
-  DocumentDecorator.decorate ();
-
-  return Utils.initCommands ( context );
+  return Utils.init.commands ( context );
 
 };
 

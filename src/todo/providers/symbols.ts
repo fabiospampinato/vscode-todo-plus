@@ -13,26 +13,24 @@ class Symbols implements vscode.DocumentSymbolProvider {
 
   provideDocumentSymbols ( textDocument: vscode.TextDocument ) {
 
-    const text = textDocument.getText (),
-          projects = Utils.getAllMatches ( text, Consts.regexes.project ),
+    const doc = new Document ( textDocument ),
+          projects = doc.getProjects (),
           projectsDatas = [];
 
-    return projects.map ( project => {
+    return projects.map ( ( project, i ) => {
 
-      const parts = project[0].match ( Consts.regexes.projectParts ),
+      const parts = project.line.text.match ( Consts.regexes.projectParts ),
             indentation = parts[1].replace ( ' ', '\u00A0\u00A0' ), // Normal spaces get trimmed, replacing them with NBSP
             level = Utils.ast.getLevel ( parts[1] ),
-            name = _.trim ( parts[2] );
+            name = _.trim ( parts[2] ),
+            parentData = _.findLast ( projectsDatas, data => data.level < level ),
+            parentName = parentData ? parentData.name : null;
 
-      projectsDatas.push ({ indentation, level, name });
+      projectsDatas.push ({ level, name });
 
-      const parent = _.findLast ( projectsDatas, data => data.level < level ),
-            parentName = parent ? parent.name : null;
+      const location = new vscode.Location ( textDocument.uri, project.range.start );
 
-      const position = textDocument.positionAt ( project.index + parts[1].length ),
-            location = new vscode.Location ( textDocument.uri, position );
-
-      return new vscode.SymbolInformation ( `${indentation}${name}`, vscode.SymbolKind.Namespace, parentName, location );
+      return new vscode.SymbolInformation ( `${indentation}${name}`, vscode.SymbolKind.Field, parentName, location );
 
     });
 

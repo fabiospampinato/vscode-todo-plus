@@ -1,5 +1,7 @@
 
 Project: @today
+Project @today:
+Project @today :
 Xproject:
   Simple description, @tag, nested @critical
   Style *bold* _italic_ ~strikethrough~
@@ -9,7 +11,7 @@ Xproject:
   ---------------------------------
   –––––––––––––––––––––––––––––––––
   —————————————————————————————————
-  ☐ *bold* _italic_ ~strikethrough~
+  ☐ *bold* _italic_ ~strikethrough~ `code`
   ☐ X*bold*X X_italic_X X~strikethrough~X (Smart)
   ☐ *_bold/italic_* *~bold/strikethrough~* _~italic/strikethrough~_
   ☐ *_~bold/italic/strikethrough~_*
@@ -25,15 +27,17 @@ Xproject:
   ✔ done `code`, nested
   ✔ done/cancel ✘
   ☐ @criticaluper
-  ☐ @tag() @tag(foo) @tag(@critical) @tag(foo bar)
+  ☐ @tag() @tag(foo) @tag(@critical) @tag(foo bar) @tag(`code`)
   ☐ baz @ @custom @tag(foo) @tag(@critical) @tag(foo bar)
   ☐ qux @critical @high @low @today @today
   ☐ @critical @mixed @high
-  ✔ *@today* _@today_ ~@today~
+  ☐ @critical(foo) @high(foo) @low(foo) @today(foo)
+  ✔ *@today* _@today_ ~@today~ `@today`
   ☐ no tag@example.com tag@critical.com tag@done.com
   ☐ started @started(17-11-03 10:42)
   ✔ completed @started(17-11-03 10:42) @done(17-11-03 20:10) @lasted(9 hours 28 minutes 52 seconds)
   ✘ cancelled @started(17-11-03 10:42) @cancelled(17-11-03 20:10) @wasted(9 hours 28 minutes 53 seconds)
+  ☐ estimate @1h @2h20m @est(10 days and 1 minute)
 
 Box:
   - Box

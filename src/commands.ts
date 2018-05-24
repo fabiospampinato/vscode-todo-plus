@@ -3,19 +3,18 @@
 
 import * as _ from 'lodash';
 import * as path from 'path';
+import stringMatches from 'string-matches';
 import * as vscode from 'vscode';
 import Config from './config';
 import Consts from './consts';
 import Document from './todo/document';
-import DocumentDecorator from './todo/decorators/document';
 import Utils from './utils';
 
 /* CALL TODOS METHOD */
 
 const callTodosMethodOptions = {
-  textEditor: undefined,
-  checkValidity: true,
-  filterer: undefined,
+  checkValidity: false,
+  filter: _.identity,
   method: undefined,
   args: [],
   errors: {
@@ -26,19 +25,22 @@ const callTodosMethodOptions = {
 
 async function callTodosMethod ( options? ) {
 
+  options = _.isString ( options ) ? { method: options } : options;
   options = _.merge ( {}, callTodosMethodOptions, options );
 
-  if ( !Utils.editor.isSupported ( options.textEditor ) ) return;
+  const textEditor = vscode.window.activeTextEditor,
+        doc = new Document ( textEditor );
 
-  const doc = new Document ( options.textEditor ),
-        lines = _.uniq ( options.textEditor.selections.map ( selection => selection.active.line ) ) as number[],
+  if ( !doc.isSupported () ) return;
+
+  const lines = _.uniq ( textEditor.selections.map ( selection => selection.active.line ) ),
         todos = _.filter ( lines.map ( line => doc.getTodoAt ( line, options.checkValidity ) ) );
 
   if ( todos.length !== lines.length ) vscode.window.showErrorMessage ( options.errors.invalid );
 
   if ( !todos.length ) return;
 
-  const todosFiltered = options.filterer ? todos.filter ( options.filterer ) : todos;
+  const todosFiltered = todos.filter ( options.filter );
 
   if ( todosFiltered.length !== todos.length ) vscode.window.showErrorMessage ( options.errors.filtered );
 
@@ -50,14 +52,12 @@ async function callTodosMethod ( options? ) {
 
   if ( !edits.length ) return;
 
-  const textEditor = vscode.window.activeTextEditor;
-
   const selectionsTagIndexes = textEditor.selections.map ( selection => {
     const line = textEditor.document.lineAt ( selection.start.line );
     return line.text.indexOf ( Consts.symbols.tag );
   });
 
-  await Utils.editor.applyEdits ( options.textEditor, edits );
+  await Utils.editor.edits.apply ( textEditor, edits );
 
   textEditor.selections = textEditor.selections.map ( ( selection, index ) => { // Putting the cursors before first new tag
     if ( selectionsTagIndexes[index] >= 0 ) return selection;
@@ -69,173 +69,9 @@ async function callTodosMethod ( options? ) {
     return new vscode.Selection ( position, position );
   });
 
-  DocumentDecorator.decorate ();
-
-  const Statusbar = require ( './statusbar' ).default; // Avoiding a cyclic dependency
-
-  Statusbar.update ();
-
 }
 
 /* COMMANDS */
-
-async function archive ( textEditor: vscode.TextEditor ) { //FIXME: Hard to read implementation
-
-  const doc = textEditor.document,
-        text = doc.getText (),
-        indentation = Config.getKey ( 'indentation' ),
-        archiveName = Config.getKey ( 'archive.name' ),
-        archiveLabelMatch = _.last ( Utils.getAllMatches ( textEditor.document.getText (), Consts.regexes.archive ) ) as undefined | RegExpMatchArray,
-        archiveLabel = archiveLabelMatch ? archiveLabelMatch[0] : `${archiveName}:`,
-        archiveStartIndex = archiveLabelMatch ? archiveLabelMatch.index : -1,
-        archiveEndIndex = archiveStartIndex === -1 ? -1 : archiveStartIndex + archiveLabel.length,
-        archivableText = archiveStartIndex === -1 ? text : text.substr ( 0, archiveStartIndex ),
-        archivableRegexes = [Consts.regexes.todoDone, Consts.regexes.todoCancel],
-        archivableMatches = _.flatten ( archivableRegexes.map ( re => Utils.getAllMatches ( archivableText, re ) ) ),
-        archivablePositions = archivableMatches.map ( match => doc.positionAt ( match.index ) );
-
-  let archivableLines = archivablePositions.map ( pos => doc.lineAt ( pos.line ) ),
-      removableLines = [],
-      archivableTexts = {};
-
-  archivableLines.forEach ( archivableLine => {
-
-    /* @PROJECT */
-
-    if ( Config.getKey ( 'archive.project.enabled' ) ) {
-
-      const projects = [];
-
-      Utils.ast.walkUp ( doc, archivableLine.lineNumber, true, true, function ({ line }) {
-        if ( !Utils.testRe ( Consts.regexes.project, line.text ) ) return;
-        const parts = line.text.match ( Consts.regexes.projectParts );
-        projects.push ( parts[2] );
-      });
-
-      if ( projects.length ) {
-        archivableTexts[archivableLine.lineNumber] = archivableLine.text + ` @project(${projects.reverse ().join ( Config.getKey ( 'archive.project.separator' ) )})`;
-      }
-
-    }
-
-    /* COMMENTS */
-
-    Utils.ast.walkDown ( doc, archivableLine.lineNumber, true, false, function ({ startLevel, line, level }) {
-      if ( startLevel === level || !Utils.testRe ( Consts.regexes.comment, line.text ) ) return false;
-      archivableLines.push ( line );
-    });
-
-  });
-
-  /* EMPTY PROJECTS */
-
-  if ( Config.getKey ( 'archive.remove.emptyProjects' ) ) {
-
-    const projects = Utils.getAllMatches ( doc.getText (), Consts.regexes.project );
-
-    projects.forEach ( project => {
-      const position = textEditor.document.positionAt ( project.index ),
-            line = textEditor.document.lineAt ( position.line ),
-            lines = [line];
-      let removable = true;
-      Utils.ast.walkDown ( textEditor.document, position.line, true, false, function ({ startLevel, line, level }) {
-        if ( startLevel === level ) return false;
-        if ( Utils.testRe ( Consts.regexes.todoBox, line.text ) ) return removable = false;
-        lines.push ( line );
-      });
-      if ( !removable ) return;
-      removableLines.push ( ...lines );
-    });
-
-  }
-
-  /* EXTRA EMPTY LINES */
-
-  const emptyLines = Config.getKey ( 'archive.remove.emptyLines' );
-
-  if ( emptyLines >= 0 ) {
-
-    let streak = 0;
-
-    Utils.ast.walkDown ( textEditor.document, -1, false, false, function ({ startLevel, line, level }) {
-      if ( archivableLines.find ( other => other === line ) || removableLines.find ( other => other === line ) ) return;
-      if ( line.text && !Consts.regexes.empty.test ( line.text ) ) {
-        streak = 0;
-      } else {
-        streak++;
-        if ( streak > emptyLines ) {
-          removableLines.push ( line );
-        }
-      }
-    });
-
-  }
-
-  /* EDITING */
-
-  if ( !archivableLines.length && !removableLines.length ) return;
-
-  archivableLines = _.sortBy ( _.uniqBy ( archivableLines, line => line.lineNumber ), line => line.lineNumber );
-
-  const editedLines = _.sortBy ( _.uniqBy ( archivableLines.concat ( removableLines ), line => line.lineNumber ), line => line.lineNumber ),
-        archivedLines = archivableLines.map ( line => `${Utils.testRe ( Consts.regexes.comment, line.text ) ? indentation + indentation : indentation}${_.trimStart ( archivableTexts[line.lineNumber] || line.text )}` ),
-        archivedText =  '\n' + archivedLines.join ( '\n' ),
-        archiveEmptyLines = ( emptyLines >= 0 ) ? _.repeat ( '\n', emptyLines ) : '\n',
-        insertText = archiveStartIndex === -1 ? `${archiveEmptyLines}\n${archiveLabel}${archivedText}` : archivedText,
-        insertPos = archiveEndIndex === -1 ? doc.positionAt ( text.length - 1 ) : doc.positionAt ( archiveEndIndex ),
-        editsRemoveLines = editedLines.map ( ( line, i ) => Utils.editor.makeDeleteLineEdit ( line.lineNumber ) ),
-        editsInsertArchived = vscode.TextEdit.insert ( insertPos, insertText ),
-        edits = editsRemoveLines.concat ( editsInsertArchived );
-
-  await Utils.editor.applyEdits ( textEditor, edits );
-
-  DocumentDecorator.decorate ();
-
-}
-
-function start ( textEditor: vscode.TextEditor ) {
-
-  return callTodosMethod ({
-    textEditor,
-    filterer: todo => todo.isBox (),
-    method: 'start',
-    errors: {
-      invalid: 'Only todos can be started',
-      filtered: 'Only not already cancelled/done todos can be started'
-    }
-  });
-
-}
-
-function toggleBox ( textEditor: vscode.TextEditor ) {
-
-  return callTodosMethod ({
-    textEditor,
-    checkValidity: false,
-    method: 'toggleBox'
-  });
-
-}
-
-function toggleCancel ( textEditor: vscode.TextEditor ) {
-
-  return callTodosMethod ({
-    textEditor,
-    checkValidity: false,
-    method: 'toggleCancel'
-  });
-
-}
-
-function toggleDone ( textEditor: vscode.TextEditor ) {
-
-  return callTodosMethod ({
-    textEditor,
-    checkValidity: false,
-    method: 'toggleDone'
-  });
-
-}
 
 async function open () {
 
@@ -249,14 +85,13 @@ async function open () {
   const projectPath = ( ( await Utils.folder.getWrapperPathOf ( rootPath, editorPath || rootPath, config.file ) ) || rootPath ) as string,
         todo = Utils.todo.get ( projectPath );
 
-  if ( !_.isUndefined ( todo ) ) {
+  if ( !_.isUndefined ( todo ) ) { // Open
 
     return Utils.file.open ( todo.path );
 
-  } else {
+  } else { // Create
 
-    const config = Config.get (),
-          defaultPath = path.join ( projectPath, config.file );
+    const defaultPath = path.join ( projectPath, config.file );
 
     await Utils.file.make ( defaultPath, config.defaultContent );
 
@@ -277,6 +112,49 @@ async function openEmbedded () {
 
 }
 
+function toggleBox () {
+
+  return callTodosMethod ( 'toggleBox' );
+
+}
+
+function toggleDone () {
+
+  return callTodosMethod ( 'toggleDone' );
+
+}
+
+function toggleCancelled () {
+
+  return callTodosMethod ( 'toggleCancelled' );
+
+}
+
+function start () {
+
+  return callTodosMethod ({
+    checkValidity: true,
+    filter: todo => todo.isBox (),
+    method: 'start',
+    errors: {
+      invalid: 'Only todos can be started',
+      filtered: 'Only not done/cancelled todos can be started'
+    }
+  });
+
+}
+
+function archive () {
+
+  const textEditor = vscode.window.activeTextEditor,
+        doc = new Document ( textEditor );
+
+  if ( !doc.isSupported () ) return;
+
+  Utils.archive.run ( doc );
+
+}
+
 /* EXPORT */
 
-export {archive, start, toggleBox, toggleCancel, toggleDone, open, openEmbedded};
+export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, start, archive};

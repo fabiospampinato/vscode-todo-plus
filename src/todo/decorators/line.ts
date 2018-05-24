@@ -2,13 +2,10 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
+import stringMatches from 'string-matches';
 import * as vscode from 'vscode';
-import Code from '../items/code';
-import Comment from '../items/comment';
-import LineItem from '../items/line';
-import Project from '../items/project';
-import Todo from '../items/todo';
 import Utils from '../../utils';
+import LineItem from '../items/line';
 
 /* LINE */
 
@@ -18,78 +15,99 @@ class Line {
 
   /* RANGE */
 
-  getRange ( textLine: vscode.TextLine, startCharacter: number, endCharacter: number ): vscode.Range {
+  parseRanges ( text: string, rangesRaw: vscode.Range | RegExp | vscode.Range[] | RegExp[] ) {
 
-    if ( startCharacter < 0 || endCharacter < 0 ) return;
+    let negRanges = _.flatten ( _.castArray ( rangesRaw as any ) ); //TSC
 
-    const line = textLine.range.start.line;
+    return _.filter ( _.flatten ( negRanges.map ( neg => {
 
-    return new vscode.Range ( line, startCharacter, line, endCharacter );
+      if ( !neg ) return;
+
+      if ( neg instanceof vscode.Range ) {
+
+        return {
+          start: neg.start.character,
+          startLine: neg.start.line,
+          end: neg.end.character,
+          endLine: neg.end.line
+        };
+
+      } else if ( neg instanceof RegExp ) {
+
+        const matches = stringMatches ( text, neg ),
+              ranges = Utils.regex.matches2ranges ( matches );
+
+        return ranges;
+
+      }
+
+    })));
 
   }
 
-  getRangesRegex ( textLine: vscode.TextLine, posRegex: RegExp, negRegex?: RegExp | RegExp[], negRange?: vscode.Range | vscode.Range[] ): vscode.Range[] {
+  getRangeDifference ( text: string, posRange: vscode.Range, negRangesRaw: vscode.Range | RegExp | vscode.Range[] | RegExp[] = [] ) {
 
-    function rangesDifference ( pos, neg, length ) {
-      const cells = _.fill ( Array ( length ), false );
-      pos.forEach ( ({ start, end }) => _.fill ( cells, true, start, end ) );
-      neg.forEach ( ({ start, end }) => _.fill ( cells, false, start, end ) );
-      const ranges = [];
-      let start = null,
-          end = null;
-      for ( let i = 0, l = cells.length; i < l; i++ ) {
-        const cell = cells[i];
-        const asd = textLine.text[i];
-        if ( start === null ) {
-          if ( cell ) start = i;
-        } else {
-          if ( !cell ) end = i;
-        }
-        if ( start !== null && ( end !== null || i === l - 1 ) ) { //FIXME: What if there's only 1 character?
-          end = end !== null ? end : l;
-          ranges.push ({ start, end });
-          start = null;
-          end = null;
-        }
+    const posOffset = posRange.start.character;
+
+    /* NEGATIVE RANGES */
+
+    const negRanges = this.parseRanges ( text, negRangesRaw ).filter ( range => range && range.start < range.end && ( !range['line'] || range['line'] === posRange.start.line ) ); //TSC
+
+    /* DIFFERENCE */
+
+    if ( !negRanges.length ) return posRange;
+
+    // Algorithm:
+    // 1. All cells start unfilled
+    // 2. Filling all the positive cells
+    // 3. Unfilling all the negative cells
+    // 4. Transforming consecutive positive cells to ranges
+
+    const cells = Array ( posOffset + text.length ); // 1.
+
+    _.fill ( cells, true, posRange.start.character, posRange.end.character ); // 2.
+
+    negRanges.forEach ( ({ start, end }) => _.fill ( cells, false, posOffset + start, posOffset + end ) ); // 3.
+
+    const ranges = [];
+
+    let start = null,
+        end = null;
+
+    for ( let i = 0, l = cells.length; i < l; i++ ) { // 4.
+
+      const cell = cells[i];
+
+      if ( start === null ) {
+        if ( cell ) start = i;
+      } else {
+        if ( !cell ) end = i;
       }
-      return ranges;
-    }
 
-    const posMatches = Utils.getAllMatches ( textLine.text, posRegex ),
-          posRanges = Utils.matches2ranges ( posMatches );
-
-    if ( !posRanges.length ) return []; // Early exit //TSC
-
-    let ranges = posRanges,
-        negRanges = _.castArray ( negRange as any || [] ).filter ( range => range.line === textLine.lineNumber );
-
-    if ( negRegex ) { // Getting negative ranges from negative regexes
-
-      _.castArray ( negRegex ).forEach ( negRegex => {
-
-        const negMatches = Utils.getAllMatches ( textLine.text, negRegex );
-
-        negRanges = negRanges.concat ( Utils.matches2ranges ( negMatches ) );
-
-      });
+      if ( start !== null && ( end !== null || i === l - 1 ) ) { //FIXME: What if there's only 1 character?
+        end = end !== null ? end : l;
+        ranges.push ( new vscode.Range ( posRange.start.line, start, posRange.start.line, end ) );
+        start = null;
+        end = null;
+      }
 
     }
 
-    if ( negRanges.length ) { // Filtering out negative ranges
-
-      ranges = rangesDifference ( ranges, negRanges, textLine.text.length );
-
-    }
-
-    return ranges.map ( ({ start, end }) => this.getRange ( textLine, start, end ) ) ;
+    return ranges;
 
   }
 
   /* ITEMS */
 
-  getRanges ( items: Todo[] | Project[] | Code[] | Comment[] | LineItem[], negRange?: vscode.Range | vscode.Range[] ) {
+  getItemRanges ( item: LineItem, negRanges?: vscode.Range | vscode.Range[] | RegExp | RegExp[] ) {
 
-    const ranges = (items.map as any)( item => this.getItemRanges ( item, negRange ) ), //TSC
+    return _.isEmpty ( negRanges ) ? [item.range] : [this.getRangeDifference ( item.text, item.range, negRanges )];
+
+  }
+
+  getItemsRanges ( items: LineItem[], negRanges?: vscode.Range | vscode.Range[] | RegExp | RegExp[] ) {
+
+    const ranges = items.map ( item => this.getItemRanges ( item, negRanges ) ),
           zipped = _.zip ( ...ranges ),
           compact = zipped.map ( _.compact ),
           concat = compact.map ( r => _.concat ( [], ...r ) );
@@ -98,15 +116,9 @@ class Line {
 
   }
 
-  getItemRanges ( item: Todo | Project | Code | Comment | LineItem, negRange?: vscode.Range | vscode.Range[] ): vscode.Range[] | vscode.Range[][] {
+  getDecorations ( items: LineItem[], negRanges?: vscode.Range | vscode.Range[] | RegExp | RegExp[] ) {
 
-    return [item.range];
-
-  }
-
-  getDecorations ( items: Todo[] | Project[] | Code[] | Comment[] | LineItem[], negRange?: vscode.Range | vscode.Range[] ) {
-
-    let ranges = this.getRanges ( items, negRange );
+    let ranges = this.getItemsRanges ( items, negRanges );
 
     return this.TYPES.map ( ( type, index ) => ({
       type,

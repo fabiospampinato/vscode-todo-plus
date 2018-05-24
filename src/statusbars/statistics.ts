@@ -3,12 +3,12 @@
 
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
-import Config from './config';
-import Utils from './utils';
+import Config from '../config';
+import Utils from '../utils';
 
-/* STATUSBAR */
+/* STATISTICS */
 
-class Statusbar {
+class Statistics {
 
   item; itemProps; config; tokens; _updateDebounced;
 
@@ -16,11 +16,6 @@ class Statusbar {
 
     this.item = this._initItem ();
     this.itemProps = {};
-    this._updateDebounced = _.debounce ( this.update.bind ( this ), 1000 );
-
-    vscode.workspace.onDidChangeConfiguration ( () => this._updateDebounced () );
-    vscode.workspace.onDidChangeTextDocument ( () => this._updateDebounced () );
-    vscode.window.onDidChangeActiveTextEditor ( () => this.update () );
 
     this.update ();
 
@@ -51,10 +46,10 @@ class Statusbar {
 
   }
 
-  update ( config? ) {
+  update () {
 
-    this.config = config || Config.get ();
-    this.tokens = Utils.statistics.getTokens ();
+    this.config = Config.get ();
+    this.tokens = Utils.statistics.tokens.global;
 
     this.updateColor ();
     this.updateCommand ();
@@ -105,7 +100,7 @@ class Statusbar {
   updateVisibility () {
 
     const condition = this.config.statistics.statusbar.enabled,
-          visibility = Utils.editor.isSupported ( vscode.window.activeTextEditor ) && Utils.statistics.isEnabled ( condition, this.tokens );
+          visibility = Utils.editor.isSupported ( vscode.window.activeTextEditor ) && Utils.statistics.condition.is ( condition, this.tokens, undefined );
 
     if ( this._setItemProp ( 'visibility', visibility ) ) {
 
@@ -119,4 +114,4 @@ class Statusbar {
 
 /* EXPORT */
 
-export default new Statusbar ();
+export default new Statistics ();

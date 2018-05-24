@@ -1,30 +1,27 @@
 
 /* IMPORT */
 
-import * as _ from 'lodash';
 import * as vscode from 'vscode';
-import CodeItem from '../items/code';
-import CommentItem from '../items/comment';
-import LineItem from '../items/line';
-import ProjectItem from '../items/project';
-import TodoItem from '../items/todo';
 import Config from '../../config';
 import Consts from '../../consts';
 import Utils from '../../utils';
+import ProjectItem from '../items/project';
 import Line from './line';
 
-/* PROJECT */
+/* DECORATION TYPES */
 
 const PROJECT_BASIC = vscode.window.createTextEditorDecorationType ({
-  color: Consts.colors.project
+  color: Consts.colors.project,
+  rangeBehavior: vscode.DecorationRangeBehavior.OpenClosed
 });
 
 const PROJECT_STATISTICS = () => ({
   color: Consts.colors.project,
+  rangeBehavior: vscode.DecorationRangeBehavior.OpenClosed,
   after: {
     contentText: undefined,
     color: Consts.colors.projectStatistics,
-    margin: '0 5px 0 5px',
+    margin: '.05em 5px .05em 5px',
     textDecoration: ';font-size: .9em'
   }
 });
@@ -52,24 +49,19 @@ const StatisticsTypes = {
 
 };
 
+/* PROJECT */
+
 class Project extends Line {
 
   TYPES = [PROJECT_BASIC];
-  TYPES_STATISTICS = [];
 
-  getItemRanges ( project: ProjectItem, negRange?: vscode.Range | vscode.Range[] ) {
-
-    return [this.getRangesRegex ( project.startLine, Consts.regexes.project, [Consts.regexes.tag, Consts.regexes.code], negRange )];
-
-  }
-
-  getDecorations ( items: ProjectItem[] | CodeItem[] | CommentItem[] | LineItem[], negRange?: vscode.Range | vscode.Range[] ) {
+  getDecorations ( projects: ProjectItem[] ) {
 
     const condition = Config.getKey ( 'statistics.project.enabled' );
 
-    if ( condition === false ) return super.getDecorations ( items, negRange );
+    if ( condition === false ) return super.getDecorations ( projects );
 
-    const textEditor = items.length ? items[0].textEditor : vscode.window.activeTextEditor;
+    const textEditor = projects.length ? projects[0].textEditor : vscode.window.activeTextEditor;
 
     StatisticsTypes.reset ( textEditor );
 
@@ -77,23 +69,22 @@ class Project extends Line {
           basicRanges = [],
           statisticsData = [];
 
-    items.forEach ( item => {
+    projects.forEach ( project => {
 
-      const ranges = this.getItemRanges ( item, negRange ),
-            range = ranges[0][0],
-            tokens = Utils.statistics.getTokensProject ( textEditor, range.start.line ),
-            withStatistics = Utils.statistics.isEnabled ( condition, tokens );
+      const ranges = this.getItemRanges ( project ),
+            tokens = Utils.statistics.tokens.projects[project.lineNumber],
+            withStatistics = Utils.statistics.condition.is ( condition, Utils.statistics.tokens.global, tokens );
 
       if ( withStatistics ) {
 
         const contentText = Utils.statistics.renderTemplate ( template, tokens ),
               type = StatisticsTypes.get ( contentText, textEditor );
 
-        statisticsData.push ({ type, ranges: [range] });
+        statisticsData.push ({ type, ranges });
 
       } else {
 
-        basicRanges.push ( range );
+        basicRanges.push ( ranges[0] );
 
       }
 

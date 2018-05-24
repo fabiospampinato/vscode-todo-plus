@@ -8,6 +8,8 @@ import Consts from '../../consts';
 
 class Completion implements vscode.CompletionItemProvider {
 
+  static triggerCharacters = [Consts.symbols.tag];
+
   provideCompletionItems ( textDocument: vscode.TextDocument, pos: vscode.Position ) {
 
     return Consts.tags.names.map ( name => {
