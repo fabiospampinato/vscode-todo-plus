@@ -18,7 +18,7 @@ const Init = {
 
       const commandName = _.last ( command.split ( '.' ) ) as string,
             handler = Commands[commandName],
-            disposable = vscode.commands.registerCommand ( command, () => handler () );
+            disposable = vscode.commands.registerCommand ( command, handler );
 
       context.subscriptions.push ( disposable );
 

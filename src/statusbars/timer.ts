@@ -97,6 +97,7 @@ class Timer {
       }
 
       this.data = {
+        filePath: doc.textDocument.uri.fsPath,
         line: todo.line,
         text: todo.text,
         startedDate,
@@ -133,7 +134,7 @@ class Timer {
 
   updateCommand () {
 
-    const {command} = this.config.timer.statusbar;
+    const command = Utils.command.get ( 'todo.open', [this.data.filePath, this.data.line.lineNumber] );
 
     this._setItemProp ( 'command', command );
 

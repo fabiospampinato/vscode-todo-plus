@@ -3,6 +3,7 @@
 
 import archive from './archive';
 import ast from './ast';
+import command from './command'
 import editor from './editor';
 import embedded from './embedded';
 import file from './file';
@@ -18,6 +19,7 @@ import statistics from './statistics';
 const Utils = {
   archive,
   ast,
+  command,
   editor,
   embedded,
   file,

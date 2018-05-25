@@ -106,7 +106,6 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.statistics.statusbar.enabled": "global.all > 0", // Show statistics in the statusbar, boolean or JS expression
   "todo.statistics.statusbar.alignment": "left", // Should the item be placed to the left or right?
   "todo.statistics.statusbar.color": "", // The foreground color for this item
-  "todo.statistics.statusbar.command": "", // Command to execute on click
   "todo.statistics.statusbar.priority": -1, // The priority of this item. Higher value means the item should be shown more to the left
   "todo.statistics.statusbar.text": "$(check) [finished]/[all] ([percentage]%)", // Template used for rendering the text
   "todo.statistics.statusbar.tooltip": "[pending] Pending - [done] Done - [cancelled] Cancelled", // Template used for rendering the tooltip

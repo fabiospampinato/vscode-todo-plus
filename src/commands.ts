@@ -74,29 +74,40 @@ async function callTodosMethod ( options? ) {
 
 /* COMMANDS */
 
-async function open () {
+async function open ( filePath?: string, lineNumber?: number ) {
 
-  const config = Config.get (),
-        {activeTextEditor} = vscode.window,
-        editorPath = activeTextEditor && activeTextEditor.document.uri.fsPath,
-        rootPath = Utils.folder.getRootPath ( editorPath );
+  filePath = _.isString ( filePath ) ? filePath : undefined;
+  lineNumber = _.isNumber ( lineNumber ) ? lineNumber : undefined;
 
-  if ( !rootPath ) return vscode.window.showErrorMessage ( 'You have to open a project before being able to open its todo file' );
+  if ( filePath ) {
 
-  const projectPath = ( ( await Utils.folder.getWrapperPathOf ( rootPath, editorPath || rootPath, config.file ) ) || rootPath ) as string,
-        todo = Utils.todo.get ( projectPath );
+    return Utils.file.open ( filePath, true, lineNumber );
 
-  if ( !_.isUndefined ( todo ) ) { // Open
+  } else {
 
-    return Utils.file.open ( todo.path );
+    const config = Config.get (),
+          {activeTextEditor} = vscode.window,
+          editorPath = activeTextEditor && activeTextEditor.document.uri.fsPath,
+          rootPath = Utils.folder.getRootPath ( editorPath );
 
-  } else { // Create
+    if ( !rootPath ) return vscode.window.showErrorMessage ( 'You have to open a project before being able to open its todo file' );
 
-    const defaultPath = path.join ( projectPath, config.file );
+    const projectPath = ( ( await Utils.folder.getWrapperPathOf ( rootPath, editorPath || rootPath, config.file ) ) || rootPath ) as string,
+          todo = Utils.todo.get ( projectPath );
 
-    await Utils.file.make ( defaultPath, config.defaultContent );
+    if ( !_.isUndefined ( todo ) ) { // Open
 
-    return Utils.file.open ( defaultPath );
+      return Utils.file.open ( todo.path, true, lineNumber );
+
+    } else { // Create
+
+      const defaultPath = path.join ( projectPath, config.file );
+
+      await Utils.file.make ( defaultPath, config.defaultContent );
+
+      return Utils.file.open ( defaultPath );
+
+    }
 
   }
 

@@ -1,6 +1,7 @@
 
 /* IMPORT */
 
+import * as _ from 'lodash';
 import * as fs from 'fs';
 import * as mkdirp from 'mkdirp';
 import * as path from 'path';
@@ -11,7 +12,7 @@ import * as vscode from 'vscode';
 
 const File = {
 
-  open ( filepath, isTextDocument = true ) {
+  open ( filepath, isTextDocument = true, lineNumber?: number ) {
 
     filepath = path.normalize ( filepath );
 
@@ -20,7 +21,15 @@ const File = {
     if ( isTextDocument ) {
 
       return vscode.workspace.openTextDocument ( fileuri )
-                              .then ( vscode.window.showTextDocument );
+                   .then ( vscode.window.showTextDocument )
+                   .then ( () => {
+                     if ( _.isUndefined ( lineNumber ) ) return;
+                     const textEditor = vscode.window.activeTextEditor;
+                     if ( !textEditor ) return;
+                     const pos = new vscode.Position ( lineNumber, 0 );
+                     const selection = new vscode.Selection ( pos, pos );
+                     textEditor.selection = selection;
+                   });
 
     } else {
 

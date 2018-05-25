@@ -272,11 +272,6 @@
           "description": "The foreground color for this item",
           "default": ""
         },
-        "todo.timer.statusbar.command": {
-          "type": "string",
-          "description": "Command to execute on click",
-          "default": "todo.open"
-        },
         "todo.timer.statusbar.priority": {
           "type": "boolean",
           "description": "The priority of this item. Higher value means the item should be shown more to the left",
