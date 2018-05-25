@@ -190,7 +190,7 @@ const Statistics = {
             tokens.cancelled += nextTokens.cancelled;
             tokens.estSeconds += nextTokens.estSeconds;
 
-            i += nextTokens.comments + nextTokens.projects + tokens.tags + nextTokens.pending + nextTokens.done + nextTokens.cancelled; // Jumping
+            i += nextTokens.comments + nextTokens.projects + nextTokens.tags + nextTokens.pending + nextTokens.done + nextTokens.cancelled; // Jumping
 
           } if ( nextItem instanceof Comment ) {
 
