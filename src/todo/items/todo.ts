@@ -155,6 +155,20 @@ class Todo extends Item {
 
   }
 
+  toggleStart () {
+
+    if ( this.hasTag ( Consts.regexes.tagStarted ) ) {
+
+      this.unstart ();
+
+    } else {
+
+      this.start ();
+
+    }
+
+  }
+
   start () {
 
     if ( Config.getKey ( 'timekeeping.started.time' ) ) {

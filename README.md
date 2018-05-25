@@ -43,7 +43,7 @@ It adds 7 commands to the command palette:
 'Todo: Toggle Box' // Toggle todo's box symbol
 'Todo: Toggle Done' // Toggle todo's done symbol
 'Todo: Toggle Cancelled' // Toggle todo's cancelled symbol
-'Todo: Start' // Mark a todo as started
+'Todo: Toggle Start' // Toggle a todo as started
 'Todo: Archive' // Archive finished todos
 ```
 
@@ -53,7 +53,7 @@ It adds 5 shortcuts when editing a `Todo` file:
 'Cmd/Ctrl+Enter' // Triggers `Todo: Toggle Box`
 'Alt+D' // Triggers `Todo: Toggle Done`
 'Alt+C' // Triggers `Todo: Toggle Cancelled`
-'Alt+S' // Triggers `Todo: Start`
+'Alt+S' // Triggers `Todo: Toggle Start`
 'Cmd/Ctrl+Shift+A' // Triggers  `Todo: Archive`
 ```
 

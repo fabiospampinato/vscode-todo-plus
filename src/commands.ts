@@ -130,12 +130,12 @@ function toggleCancelled () {
 
 }
 
-function start () {
+function toggleStart () {
 
   return callTodosMethod ({
     checkValidity: true,
     filter: todo => todo.isBox (),
-    method: 'start',
+    method: 'toggleStart',
     errors: {
       invalid: 'Only todos can be started',
       filtered: 'Only not done/cancelled todos can be started'
@@ -157,4 +157,4 @@ function archive () {
 
 /* EXPORT */
 
-export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, start, archive};
+export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, archive};

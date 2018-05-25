@@ -9,13 +9,13 @@
   "publisher": "fabiospampinato",
   "activationEvents": [
     "onLanguage:todo",
-    "onCommand:todo.archive",
     "onCommand:todo.open",
     "onCommand:todo.openEmbedded",
-    "onCommand:todo.start",
     "onCommand:todo.toggleBox",
     "onCommand:todo.toggleDone",
-    "onCommand:todo.toggleCancelled"
+    "onCommand:todo.toggleCancelled",
+    "onCommand:todo.toggleStart",
+    "onCommand:todo.archive"
   ],
   "contributes": {
     "languages": [
@@ -349,20 +349,12 @@
     },
     "commands": [
       {
-        "command": "todo.archive",
-        "title": "Todo: Archive"
-      },
-      {
         "command": "todo.open",
         "title": "Todo: Open"
       },
       {
         "command": "todo.openEmbedded",
         "title": "Todo: Open Embedded"
-      },
-      {
-        "command": "todo.start",
-        "title": "Todo: Start"
       },
       {
         "command": "todo.toggleBox",
@@ -375,20 +367,17 @@
       {
         "command": "todo.toggleCancelled",
         "title": "Todo: Toggle Cancelled"
+      },
+      {
+        "command": "todo.toggleStart",
+        "title": "Todo: Toggle Start"
+      },
+      {
+        "command": "todo.archive",
+        "title": "Todo: Archive"
       }
     ],
     "keybindings": [
-      {
-        "command": "todo.archive",
-        "key": "Shift+Ctrl+a",
-        "mac": "Shift+Cmd+a",
-        "when": "editorTextFocus && editorLangId == todo"
-      },
-      {
-        "command": "todo.start",
-        "key": "Alt+s",
-        "when": "editorTextFocus && editorLangId == todo"
-      },
       {
         "command": "todo.toggleBox",
         "key": "Ctrl+Enter",
@@ -404,18 +393,21 @@
         "command": "todo.toggleCancelled",
         "key": "Alt+c",
         "when": "editorTextFocus && editorLangId == todo"
+      },
+      {
+        "command": "todo.toggleStart",
+        "key": "Alt+s",
+        "when": "editorTextFocus && editorLangId == todo"
+      },
+      {
+        "command": "todo.archive",
+        "key": "Shift+Ctrl+a",
+        "mac": "Shift+Cmd+a",
+        "when": "editorTextFocus && editorLangId == todo"
       }
     ],
     "menus": {
       "commandPalette": [
-        {
-          "command": "todo.archive",
-          "when": "editorLangId == todo"
-        },
-        {
-          "command": "todo.start",
-          "when": "editorLangId == todo"
-        },
         {
           "command": "todo.toggleBox",
           "when": "editorLangId == todo"
@@ -426,6 +418,14 @@
         },
         {
           "command": "todo.toggleDone",
+          "when": "editorLangId == todo"
+        },
+        {
+          "command": "todo.toggleStart",
+          "when": "editorLangId == todo"
+        },
+        {
+          "command": "todo.archive",
           "when": "editorLangId == todo"
         }
       ]
