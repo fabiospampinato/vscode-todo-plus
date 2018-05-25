@@ -116,7 +116,7 @@ const Embedded = {
 
       });
 
-      lines.push ( `${type} (${typeLines.length}):` );
+      lines.push ( `${type}:` );
       lines.push ( ...typeLines );
 
     });
