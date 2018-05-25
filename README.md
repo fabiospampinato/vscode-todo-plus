@@ -36,7 +36,7 @@ ext install fabiospampinato.vscode-todo-plus
 
 ## Usage
 
-It adds 7 commands to the command palette:
+It adds 8 commands to the command palette:
 
 ```js
 'Todo: Open' // Open or create your project's todo file
@@ -45,6 +45,7 @@ It adds 7 commands to the command palette:
 'Todo: Toggle Done' // Toggle todo's done symbol
 'Todo: Toggle Cancelled' // Toggle todo's cancelled symbol
 'Todo: Toggle Start' // Toggle a todo as started
+'Todo: Toggle Timer' // Toggle the timer
 'Todo: Archive' // Archive finished todos
 ```
 
