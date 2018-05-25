@@ -37,8 +37,8 @@ const Archive = {
 
   async run ( doc: Document ) {
 
-    const archive = await Archive.get ( doc, true ),
-          archivableRange = new vscode.Range ( 0, 0, archive.line.range.start.line, archive.line.range.start.character ),
+    const archive = await Archive.get ( doc ),
+          archivableRange = new vscode.Range ( 0, 0, archive ? archive.line.range.start.line : Infinity, archive ? archive.line.range.start.character : Infinity ),
           archivableText = doc.textDocument.getText ( archivableRange ),
           archivableDoc = new Document ( doc.textDocument );
 
@@ -59,19 +59,24 @@ const Archive = {
 
   },
 
-  edit ( doc: Document, data ) {
+  async edit ( doc: Document, data ) {
 
-    const archive = doc.getArchive (),
-          removeLines = _.uniqBy ( data.remove, line => line['lineNumber'] ) as any, //TSC
+    const removeLines = _.uniqBy ( data.remove, line => line['lineNumber'] ) as any, //TSC
           insertLines = _.sortBy ( _.map ( data.insert, ( text, lineNumber ) => ({ text, lineNumber }) ), [line => line.lineNumber] ).map ( line => line['text'] ), //TSC
-          insertText = `${Consts.indentation}${insertLines.join ( `\n${Consts.indentation}` )}\n`,
           edits = [];
 
     removeLines.forEach ( line => {
       edits.push ( Editor.edits.makeDeleteLine ( line.lineNumber ) );
     });
 
-    edits.push ( Editor.edits.makeInsert ( insertText, archive.line.range.start.line + 1, 0 ) );
+    if ( insertLines.length ) {
+
+      const archive = await Archive.get ( doc, true ),
+            insertText = `${Consts.indentation}${insertLines.join ( `\n${Consts.indentation}` )}\n`;
+
+      edits.push ( Editor.edits.makeInsert ( insertText, archive.line.range.start.line + 1, 0 ) );
+
+    }
 
     Editor.edits.apply ( doc.textEditor, edits );
 
