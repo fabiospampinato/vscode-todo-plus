@@ -157,7 +157,7 @@ class Timer {
 
   updateVisibility () {
 
-    const condition = this.config.timer.statusbar.enabled,
+    const condition = Consts.timer,
           visibility = this.data.text && ( condition === true || ( condition === 'estimate' && this.data.estDate ) );
 
     if ( this._setItemProp ( 'visibility', visibility ) ) {

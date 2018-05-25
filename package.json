@@ -15,6 +15,7 @@
     "onCommand:todo.toggleDone",
     "onCommand:todo.toggleCancelled",
     "onCommand:todo.toggleStart",
+    "onCommand:todo.toggleTimer",
     "onCommand:todo.archive"
   ],
   "contributes": {
@@ -402,6 +403,10 @@
       {
         "command": "todo.toggleStart",
         "title": "Todo: Toggle Start"
+      },
+      {
+        "command": "todo.toggleTimer",
+        "title": "Todo: Toggle Timer"
       },
       {
         "command": "todo.archive",

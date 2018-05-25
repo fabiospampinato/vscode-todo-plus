@@ -8,6 +8,7 @@ import * as vscode from 'vscode';
 import Config from './config';
 import Consts from './consts';
 import Document from './todo/document';
+import StatusbarTimer from './statusbars/timer';
 import Utils from './utils';
 
 /* CALL TODOS METHOD */
@@ -144,6 +145,17 @@ function toggleStart () {
 
 }
 
+function toggleTimer () {
+
+  Consts.timer = !Consts.timer;
+
+  StatusbarTimer.updateVisibility ();
+  StatusbarTimer.updateTimer ();
+
+  vscode.window.showInformationMessage ( `Timer ${Consts.timer ? 'enabled' : 'disabled'}` );
+
+}
+
 function archive () {
 
   const textEditor = vscode.window.activeTextEditor,
@@ -157,4 +169,4 @@ function archive () {
 
 /* EXPORT */
 
-export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, archive};
+export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive};
