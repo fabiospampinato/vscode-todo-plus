@@ -1,3 +1,10 @@
+### Version 2.1.0
+- Statistics: ensuring the statusbar item gets hidden when there are no files open
+- Replaced `Todo: Start` with `Todo: Toggle Start`
+- Estimate tag: improved regex
+- Added a timer for started todos
+- Added a `Todo: Toggle Timer` command
+
 ### Version 2.0.2
 - Embedded: removed todos counter in favor of project-level statistics
 - Statistics: fixed a typo
