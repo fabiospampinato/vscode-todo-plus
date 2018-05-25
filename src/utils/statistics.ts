@@ -91,6 +91,7 @@ const Statistics = {
       const tokens: any = {
         comments: items.comments.length,
         projects: items.projects.length,
+        tags: items.tags.length,
         pending: items.todosBox.length,
         done: items.todosDone.length,
         cancelled: items.todosCancelled.length,
@@ -148,6 +149,7 @@ const Statistics = {
       const tokens: any = {
         comments: 0,
         projects: 0,
+        tags: 0,
         pending: 0,
         done: 0,
         cancelled: 0,
@@ -161,6 +163,8 @@ const Statistics = {
         const nextItem = lines[i];
 
         if ( nextItem instanceof Tag ) {
+
+          tokens.tags++;
 
           if ( !wasPending ) continue;
 
@@ -180,12 +184,13 @@ const Statistics = {
 
             tokens.comments += nextTokens.comments;
             tokens.projects += 1 + nextTokens.projects;
+            tokens.tags += nextTokens.tags;
             tokens.pending += nextTokens.pending;
             tokens.done += nextTokens.done;
             tokens.cancelled += nextTokens.cancelled;
             tokens.estSeconds += nextTokens.estSeconds;
 
-            i += nextTokens.comments + nextTokens.projects + nextTokens.pending + nextTokens.done + nextTokens.cancelled; // Jumping
+            i += nextTokens.comments + nextTokens.projects + tokens.tags + nextTokens.pending + nextTokens.done + nextTokens.cancelled; // Jumping
 
           } if ( nextItem instanceof Comment ) {
 

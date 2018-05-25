@@ -123,6 +123,7 @@ The following tokens can be used in `todo.statistics.project.text`, `todo.statis
 |----------------|------------------------------|
 | `[comments]`   | Number of comments           |
 | `[projects]`   | Number of projects           |
+| `[tags]`       | Number of tags               |
 | `[pending]`    | Number of pending todos      |
 | `[done]`       | Number of done todos         |
 | `[cancelled]`  | Number of cancelled todos    |
