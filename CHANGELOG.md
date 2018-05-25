@@ -1,3 +1,7 @@
+### Version 2.0.2
+- Embedded: removed todos counter in favor of project-level statistics
+- Statistics: fixed a typo
+
 ### Version 2.0.1
 - Statistics: added a `[tags]` token
 - Archive: avoiding creating it if there’s nothing to write in it
