@@ -21,7 +21,7 @@ const PROJECT_STATISTICS = () => ({
   after: {
     contentText: undefined,
     color: Consts.colors.projectStatistics,
-    margin: '.05em 5px .05em 5px',
+    margin: '.05em 0 .05em .5em',
     textDecoration: ';font-size: .9em'
   }
 });
