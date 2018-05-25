@@ -95,6 +95,14 @@ class Todo extends Item {
 
   /* TAGS */
 
+  getTag ( re: RegExp ) {
+
+    const match = this.lineNextText.match ( re );
+
+    return match && match[0];
+
+  }
+
   addTag ( tag: string ) {
 
     this.lineNextText = `${_.trimEnd ( this.lineNextText )} ${tag}`;
@@ -200,7 +208,7 @@ class Todo extends Item {
 
     isPositive = _.isBoolean ( isPositive ) ? isPositive : this.isDone ();
 
-    const started = this.text.match ( Consts.regexes.tagStarted );
+    const started = this.getTag ( Consts.regexes.tagStarted );
 
     if ( started || Config.getKey ( 'timekeeping.finished.enabled' ) || Consts.symbols.box === ( isPositive ? Consts.symbols.done : Consts.symbols.cancelled ) ) {
 
@@ -227,11 +235,10 @@ class Todo extends Item {
 
       /* ELAPSED */
 
-      if ( Config.getKey ( 'timekeeping.elapsed.enabled' ) && started && started[1] ) {
+      if ( Config.getKey ( 'timekeeping.elapsed.enabled' ) && started ) {
 
-        const startedTime = started[1],
-              startedFormat = Config.getKey ( 'timekeeping.started.format' ),
-              startedMoment = moment ( startedTime, startedFormat ),
+        const startedFormat = Config.getKey ( 'timekeeping.started.format' ),
+              startedMoment = moment ( started, startedFormat ),
               startedDate = new Date ( startedMoment.valueOf () ),
               elapsedFormat = Config.getKey ( 'timekeeping.elapsed.format' ),
               time = Utils.time.diff ( new Date (), startedDate, elapsedFormat ),

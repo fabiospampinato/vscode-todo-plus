@@ -141,6 +141,12 @@ class Document {
 
   }
 
+  getTodosBoxStarted () {
+
+    return this.getItems ( TodoBox, Consts.regexes.todoBoxStarted );
+
+  }
+
   getTodosDone () {
 
     return this.getItems ( TodoDone, Consts.regexes.todoDone );

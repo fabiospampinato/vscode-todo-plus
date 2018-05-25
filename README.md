@@ -21,6 +21,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
 - **Go To Symbol**: you can easily move between projects by using the `Go to Symbol in File...` command
 - **[TaskPaper](https://www.taskpaper.com) compatible**: just set `todo.symbols.box`, `todo.symbols.done` and `todo.symbols.cancelled` to `-`
 - **Timekeeping**: you can mark todos as started and track elapsed time until completion
+- **Timer**: a timer can be displayed in the statusbar for started todos
 - **Time estimates**: you can estimate the time it will take to complete a todo by adding a tag to it that looks like this: `@est(3 hours)`, `@est(2h30m)` or `@2h30m`. Then you can use the `[est]` token in statistics
 - **Statistics**: statistics about your entire file and/or project-level statistics about your individual projects
 - **Embedded todos**: it's common to have `//TODO` or `//FIXME` comments in our code, this extension can find those as well
@@ -94,6 +95,11 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.timekeeping.elapsed.enabled": true, // Enable the @lasted/wasted tag
   "todo.timekeeping.elapsed.format": "short-compact", // Format used for displaying time diff inside @lasted/waster
   "todo.timekeeping.estimate.format": "short-compact", // Format used for the `[est]` token
+  "todo.timer.statusbar.enabled": true, // Show a timer for started todos in the statusbar
+  "todo.timer.statusbar.alignment": "left", // Should the item be placed to the left or right?
+  "todo.timer.statusbar.color": "", // The foreground color for this item
+  "todo.timer.statusbar.command": "todo.open", // Command to execute on click
+  "todo.timer.statusbar.priority": -10, // The priority of this item. Higher value means the item should be shown more to the left
   "todo.statistics.ignoreArchive": true, // Ignore the archive when rendering statistics
   "todo.statistics.project.enabled": "global.projects < 100 && project.pending > 0", // Show statistics next to a project, boolean or JS expression
   "todo.statistics.project.text": "([pending]) [est]", // Template used for rendering the text
@@ -149,6 +155,10 @@ The following tokens can be used in `todo.statistics.project.text`, `todo.statis
 ![Project Statistics](resources/demo/project_statistics.png)
 
 ![Project Statistics Advanced](resources/demo/project_statistics_adv.gif)
+
+### Timekeeping & Timer
+
+![Timekeeping & Timer](resources/demo/timer.gif)
 
 ## Hints:
 

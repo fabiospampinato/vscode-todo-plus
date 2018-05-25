@@ -93,6 +93,10 @@ const Document = {
           doc.textEditor.setDecorations ( type, ranges );
         });
 
+        const StatusbarTimer = require ( '../../statusbars/timer' ).default; // Avoiding a cyclic dependency
+
+        StatusbarTimer.update ( doc );
+
       }
 
     }

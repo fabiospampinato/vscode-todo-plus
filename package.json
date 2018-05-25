@@ -250,6 +250,37 @@
           "description": "Format used for the `[est]` token",
           "default": "short-compact"
         },
+        "todo.timer.statusbar.enabled": {
+          "type": [
+            "boolean",
+            "string"
+          ],
+          "enum": [
+            "estimate"
+          ],
+          "description": "Show a timer for started todos in the statusbar",
+          "default": true
+        },
+        "todo.timer.statusbar.alignment": {
+          "type": "string",
+          "description": "Should the item be placed to the left or right?",
+          "default": "left"
+        },
+        "todo.timer.statusbar.color": {
+          "type": "string",
+          "description": "The foreground color for this item",
+          "default": ""
+        },
+        "todo.timer.statusbar.command": {
+          "type": "string",
+          "description": "Command to execute on click",
+          "default": "todo.open"
+        },
+        "todo.timer.statusbar.priority": {
+          "type": "boolean",
+          "description": "The priority of this item. Higher value means the item should be shown more to the left",
+          "default": -10
+        },
         "todo.statistics.ignoreArchive": {
           "type": "boolean",
           "description": "Ignore the archive when rendering statistics",

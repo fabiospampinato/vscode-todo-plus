@@ -1,7 +1,6 @@
 
 /* IMPORT */
 
-import * as _ from 'lodash';
 import * as vscode from 'vscode';
 import Config from '../config';
 import Utils from '../utils';
@@ -10,7 +9,7 @@ import Utils from '../utils';
 
 class Statistics {
 
-  item; itemProps; config; tokens; _updateDebounced;
+  item; itemProps; config; tokens;
 
   constructor () {
 
@@ -51,11 +50,14 @@ class Statistics {
     this.config = Config.get ();
     this.tokens = Utils.statistics.tokens.global;
 
+    this.updateVisibility ();
+
+    if ( !this.itemProps.visibility ) return;
+
     this.updateColor ();
     this.updateCommand ();
     this.updateTooltip ();
     this.updateText ();
-    this.updateVisibility ();
 
   }
 
