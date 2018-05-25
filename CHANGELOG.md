@@ -1,3 +1,8 @@
+### Version 2.0.1
+- Statistics: added a `[tags]` token
+- Archive: avoiding creating it if there’s nothing to write in it
+- Improved support for tagging projects
+
 ### Version 2.0.0
 - Major refactoring
 - Substantial performance improvements
