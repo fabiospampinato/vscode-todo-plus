@@ -84,9 +84,10 @@ class Timer {
       const startedTag = todo['getTag']( Consts.regexes.tagStarted ), //TSC
             startedFormat = this.config.timekeeping.started.format,
             startedMoment = moment ( startedTag, startedFormat ),
-            startedDate = new Date ( startedMoment.valueOf () );
+            startedMilliseconds = startedFormat.indexOf ( 's' ) >= 0 ? startedMoment.valueOf () : ( Math.floor ( startedMoment.valueOf () / 60000 ) * 60000 ) + ( Date.now () % 60000 ),// Syncing the seconds with the current time if they are not provided
+            startedDate = new Date ( startedMilliseconds );
 
-      if ( this.data.line && this.data.line.lineNumber === todo.line.lineNumber && this.data.startedDate.getTime () === startedDate.getTime () ) { // Support for editing the todo without resetting the timer
+      if ( this.data.line && this.data.line.lineNumber === todo.line.lineNumber && this.data.startedTag === startedTag ) { // Support for editing the todo without resetting the timer
 
         this.data.text = todo.text;
 
@@ -100,8 +101,8 @@ class Timer {
         filePath: doc.textDocument.uri.fsPath,
         line: todo.line,
         text: todo.text,
-        startedDate,
-        timerDate: new Date ()
+        startedTag,
+        startedDate
       };
 
       const estTag = todo['getTag']( Consts.regexes.tagEstimate ); //TSC
@@ -148,7 +149,7 @@ class Timer {
 
   updateText () {
 
-    const fromDate = this.data.estDate ? new Date ( this.data.startedDate.getTime () + ( Date.now () - this.data.timerDate.getTime () ) ) : this.data.timerDate,
+    const fromDate = this.data.estDate ? new Date ( this.data.startedDate.getTime () + ( Date.now () - this.data.startedDate.getTime () ) ) : this.data.startedDate,
           toDate = this.data.estDate ? this.data.estDate : new Date (),
           clock = Utils.time.diffClock ( toDate, fromDate );
 
