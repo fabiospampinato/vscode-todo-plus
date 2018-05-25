@@ -65,30 +65,35 @@ const Document = {
   update ( res: vscode.TextEditor | vscode.TextDocument = vscode.window.activeTextEditor, force: boolean = false ) {
 
     const statisticsStatusbar = Config.getKey ( 'statistics.statusbar.enabled' ) !== false,
-          statisticsProjects = Config.getKey ( 'statistics.project.enabled' ) !== false,
-          doc = new DocumentModule ( res );
+          statisticsProjects = Config.getKey ( 'statistics.project.enabled' ) !== false;
 
-    if ( doc.isSupported () ) {
+    if ( res ) {
 
-      // if ( !force && !DocumentsLinesCache.didChange ( doc ) ) return; //FIXME: Decorations might get trashed, so we can't skip this work //URL: https://github.com/Microsoft/vscode/issues/50415
+      const doc = new DocumentModule ( res );
 
-      DocumentsLinesCache.update ( doc.textEditor );
+      if ( doc.isSupported () ) {
 
-      const items = Document.getItems ( doc );
+        // if ( !force && !DocumentsLinesCache.didChange ( doc ) ) return; //FIXME: Decorations might get trashed, so we can't skip this work //URL: https://github.com/Microsoft/vscode/issues/50415
 
-      if ( statisticsStatusbar || statisticsProjects ) {
-        Utils.statistics.tokens.updateGlobal ( items );
+        DocumentsLinesCache.update ( doc.textEditor );
+
+        const items = Document.getItems ( doc );
+
+        if ( statisticsStatusbar || statisticsProjects ) {
+          Utils.statistics.tokens.updateGlobal ( items );
+        }
+
+        if ( statisticsProjects ) {
+          Utils.statistics.tokens.updateProjects ( items );
+        }
+
+        const decorations = Document.getItemsDecorations ( items );
+
+        decorations.forEach ( ({ type, ranges }) => {
+          doc.textEditor.setDecorations ( type, ranges );
+        });
+
       }
-
-      if ( statisticsProjects ) {
-        Utils.statistics.tokens.updateProjects ( items );
-      }
-
-      const decorations = Document.getItemsDecorations ( items );
-
-      decorations.forEach ( ({ type, ranges }) => {
-        doc.textEditor.setDecorations ( type, ranges );
-      });
 
     }
 
