@@ -20,11 +20,11 @@ const Changes = {
 
     Changes.changes.push ( ...contentChanges );
 
-    Changes._decorate ( document );
+    Changes.decorate ( document );
 
   },
 
-  _decorate ( document: vscode.TextDocument ) {
+  decorate ( document: vscode.TextDocument ) {
 
     const areSingleLines = Changes.changes.every ( ({ range }) => range.isSingleLine );
 
@@ -45,8 +45,6 @@ const Changes = {
   }
 
 };
-
-Changes['decorate'] = _.throttle ( Changes._decorate, 50 );
 
 /* EXPORT */
 
