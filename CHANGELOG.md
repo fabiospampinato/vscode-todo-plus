@@ -1,3 +1,7 @@
+### Version 2.1.1
+- Readme: documented `Toggle Timer` command
+- Ensuring only non-preview editors get opened
+
 ### Version 2.1.0
 - Statistics: ensuring the statusbar item gets hidden when there are no files open
 - Replaced `Todo: Start` with `Todo: Toggle Start`
