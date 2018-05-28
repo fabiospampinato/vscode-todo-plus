@@ -21,7 +21,7 @@ const File = {
     if ( isTextDocument ) {
 
       return vscode.workspace.openTextDocument ( fileuri )
-                   .then ( vscode.window.showTextDocument )
+                   .then ( doc => vscode.window.showTextDocument ( doc, { preview: false } ) )
                    .then ( () => {
                      if ( _.isUndefined ( lineNumber ) ) return;
                      const textEditor = vscode.window.activeTextEditor;
