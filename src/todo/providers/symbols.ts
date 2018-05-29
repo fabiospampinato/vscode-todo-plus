@@ -20,7 +20,7 @@ class Symbols implements vscode.DocumentSymbolProvider {
     return projects.map ( ( project, i ) => {
 
       const parts = project.line.text.match ( Consts.regexes.projectParts ),
-            indentation = parts[1].replace ( ' ', '\u00A0\u00A0' ), // Normal spaces get trimmed, replacing them with NBSP
+            indentation = parts[1].replace ( /\s/g, '\u00A0\u00A0' ), // Normal spaces get trimmed, replacing them with NBSP
             level = Utils.ast.getLevel ( parts[1] ),
             name = _.trim ( parts[2] ),
             parentData = _.findLast ( projectsDatas, data => data.level < level ),
