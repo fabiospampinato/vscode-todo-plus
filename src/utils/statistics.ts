@@ -229,17 +229,37 @@ const Statistics = {
 
   /* TEMPLATE */
 
-  renderTemplate ( template: string, tokens = Statistics.getTokens () ) {
+  template: {
 
-    if ( !tokens ) return;
+    tokensRe: {}, // Map of `token => tokenRe`
 
-    for ( let token in tokens ) {
+    getTokenRe ( token ) {
 
-      template = template.replace ( `[${token}]`, tokens[token] );
+      if ( Statistics.template.tokensRe[token] ) return Statistics.template.tokensRe[token];
+
+      const re = new RegExp ( `\\[${_.escapeRegExp ( token )}\\]`, 'g' );
+
+      Statistics.template.tokensRe[token] = re;
+
+      return re;
+
+    },
+
+    render ( template: string, tokens = Statistics.getTokens () ) {
+
+      if ( !tokens ) return;
+
+      for ( let token in tokens ) {
+
+        const re = Statistics.template.getTokenRe ( token );
+
+        template = template.replace ( re, tokens[token] );
+
+      }
+
+      return template;
 
     }
-
-    return template;
 
   }
 

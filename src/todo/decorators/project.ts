@@ -77,7 +77,7 @@ class Project extends Line {
 
       if ( withStatistics ) {
 
-        const contentText = Utils.statistics.renderTemplate ( template, tokens ),
+        const contentText = Utils.statistics.template.render ( template, tokens ),
               type = StatisticsTypes.get ( contentText, textEditor );
 
         statisticsData.push ({ type, ranges });

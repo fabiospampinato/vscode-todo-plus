@@ -80,7 +80,7 @@ class Statistics {
   updateTooltip () {
 
     let template = this.config.statistics.statusbar.tooltip,
-        tooltip = Utils.statistics.renderTemplate ( template, this.tokens );
+        tooltip = Utils.statistics.template.render ( template, this.tokens );
 
     if ( !tooltip ) return;
 
@@ -91,7 +91,7 @@ class Statistics {
   updateText () {
 
     let template = this.config.statistics.statusbar.text,
-        text = Utils.statistics.renderTemplate ( template, this.tokens );
+        text = Utils.statistics.template.render ( template, this.tokens );
 
     if ( !text ) return;
 
