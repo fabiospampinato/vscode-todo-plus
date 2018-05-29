@@ -1,3 +1,7 @@
+### Version 2.1.2
+- Symbols: improved indentation
+- Statistics: ensuring all instances of each token get replaced
+
 ### Version 2.1.1
 - Readme: documented `Toggle Timer` command
 - Ensuring only non-preview editors get opened
