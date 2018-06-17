@@ -159,6 +159,7 @@ const Document = {
   getItems ( doc: DocumentModule ) {
 
     return {
+      archive: doc.getArchive (),
       comments: doc.getComments (),
       formatted: Config.getKey ( 'formatting.enabled' ) ? doc.getFormatted () : [],
       projects: doc.getProjects (),

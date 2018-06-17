@@ -2,13 +2,10 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
-import * as vscode from 'vscode';
 import Config from '../config';
 import Consts from '../consts';
 import {Comment, Project, Tag, TodoBox, TodoDone, TodoCancelled} from '../todo/items';
 import AST from './ast';
-import Editor from './editor';
-import Regex from './regex';
 import Time from './time';
 
 /* STATISTICS */
@@ -87,6 +84,20 @@ const Statistics = {
     global: {},
 
     updateGlobal ( items ) {
+
+      if ( items.archive && Config.getKey ( 'statistics.statusbar.ignoreArchive' ) ) { // Keeping only items before the archive
+
+        items = _.reduce ( items, ( acc, value, key ) => {
+
+          const newValue = _.isArray ( value ) ? value.filter ( item => item.lineNumber < items.archive.lineNumber ) : value;
+
+          acc[key] = newValue;
+
+          return acc;
+
+        }, {} );
+
+      }
 
       const tokens: any = {
         comments: items.comments.length,

@@ -277,11 +277,6 @@
           "description": "The priority of this item. Higher value means the item should be shown more to the left",
           "default": -10
         },
-        "todo.statistics.ignoreArchive": {
-          "type": "boolean",
-          "description": "Ignore the archive when rendering statistics",
-          "default": true
-        },
         "todo.statistics.project.enabled": {
           "type": [
             "boolean",
@@ -302,6 +297,11 @@
           ],
           "description": "Show statistics in the statusbar, boolean or JS expression",
           "default": "global.all > 0"
+        },
+        "todo.statistics.statusbar.ignoreArchive": {
+          "type": "boolean",
+          "description": "Ignore the archive when rendering statistics in the statusbar",
+          "default": true
         },
         "todo.statistics.statusbar.alignment": {
           "type": "string",
