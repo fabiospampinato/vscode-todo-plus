@@ -1,3 +1,6 @@
+### Version 2.1.3
+- Fixed the `todo.statistics.statusbar.ignoreArchive` setting
+
 ### Version 2.1.2
 - Symbols: improved indentation
 - Statistics: ensuring all instances of each token get replaced
