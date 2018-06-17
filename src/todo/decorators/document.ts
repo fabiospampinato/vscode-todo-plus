@@ -140,7 +140,7 @@ const Document = {
 
         return _.isEqualWith ( prevItems, currItems, ( prevItem, currItem ) => {
           if ( prevItem instanceof Item && currItem instanceof Item ) {
-            return ( prevItem.matchRange.start === currItem.matchRange.start && ( prevItem.matchRange.end === currItem.matchRange.end || ( _.trim ( prevItem.match.input ) === _.trim ( prevItem.text ) && ( _.trim ( currItem.match.input ) === _.trim ( currItem.text ) && !_.find ( currItems, items => items.find ( item => item !== currItem && _.trim( currItem.text ).endsWith ( item.text ) ) ) ) ) ) ); //TODO: Write it better
+            return ( prevItem.matchRange.start === currItem.matchRange.start && ( prevItem.matchRange.end === currItem.matchRange.end || ( _.trim ( prevItem.match.input ) === _.trim ( prevItem.text ) && ( _.trim ( currItem.match.input ) === _.trim ( currItem.text ) && !_.find ( currItems, items => _.isArray ( items ) && items.find ( item => item !== currItem && _.trim( currItem.text ).endsWith ( item.text ) ) ) ) ) ) ); //TODO: Write it better
           }
         });
 
