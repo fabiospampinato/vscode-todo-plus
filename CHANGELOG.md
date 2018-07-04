@@ -1,3 +1,6 @@
+### Version 2.1.4
+- Embedded: fixed support for folders and files names containing special characters
+
 ### Version 2.1.3
 - Fixed the `todo.statistics.statusbar.ignoreArchive` setting
 
