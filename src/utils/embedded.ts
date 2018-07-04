@@ -4,6 +4,7 @@
 import * as _ from 'lodash';
 import * as globby from 'globby';
 import * as isBinaryPath from 'is-binary-path';
+import * as querystring from 'querystring';
 import stringMatches from 'string-matches';
 import Config from '../config';
 import Consts from '../consts';
@@ -85,7 +86,8 @@ const Embedded = {
 
   renderTodos ( todos ) {
 
-    const config = Config.get (),
+    const sepRe = new RegExp ( querystring.escape ( '/' ), 'g' ),
+          config = Config.get (),
           { indentation, embedded: { groupByFile }, symbols: { box } } = config,
           lines = [];
 
@@ -102,15 +104,16 @@ const Embedded = {
       filePaths.forEach ( filePath => {
 
         const todos = files[filePath],
-              normalizedFilePath = `/${_.trimStart ( filePath, '/' )}`;
+              normalizedFilePath = `/${_.trimStart ( filePath, '/' )}`,
+              encodedFilePath = querystring.escape ( normalizedFilePath ).replace ( sepRe, '/' );
 
         if ( groupByFile ) {
-          typeLines.push ( `${indentation}@file://${normalizedFilePath}` );
+          typeLines.push ( `${indentation}@file://${encodedFilePath}` );
         }
 
         todos.forEach ( ({ line, lineNr }) => {
 
-          typeLines.push ( `${indentation}${groupByFile ? indentation : ''}${box} ${_.trimStart ( line )} @file://${normalizedFilePath}#${lineNr + 1}` );
+          typeLines.push ( `${indentation}${groupByFile ? indentation : ''}${box} ${_.trimStart ( line )} @file://${encodedFilePath}#${lineNr + 1}` );
 
         });
 
