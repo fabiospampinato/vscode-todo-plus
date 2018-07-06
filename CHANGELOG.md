@@ -1,3 +1,6 @@
+### Version 2.2.0
+- Added support for the new “Outline” view
+
 ### Version 2.1.4
 - Embedded: fixed support for folders and files names containing special characters
 
