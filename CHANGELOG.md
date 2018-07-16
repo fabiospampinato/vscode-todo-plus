@@ -1,3 +1,6 @@
+### Version 2.2.1
+- Embedded: added support for AppleScript-like style comments
+
 ### Version 2.2.0
 - Added support for the new “Outline” view
 
