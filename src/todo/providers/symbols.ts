@@ -20,14 +20,32 @@ class Symbols implements vscode.DocumentSymbolProvider {
 
     projects.forEach ( project => {
 
+      /* SYMBOL */
+
       const parts = project.line.text.match ( Consts.regexes.projectParts ),
             level = Utils.ast.getLevel ( parts[1] ),
             name = _.trim ( parts[2] ),
-            parentData = _.findLast ( projectsDatas, data => data.level < level ) || {},
-            { symbol: parentSymbol } = parentData,
-            symbol = new vscode.DocumentSymbol ( name, undefined, vscode.SymbolKind.Field, project.range, project.range );
+            selectionRange = project.range,
+            startLine = selectionRange.start.line,
+            startCharacter = selectionRange.start.character;
+
+      let endLine = startLine;
+
+      Utils.ast.walkDown ( doc.textDocument, startLine, true, false, ({ startLevel, level, line }) => {
+        if ( level <= startLevel ) return false;
+        endLine = line.lineNumber;
+      });
+
+      const endCharacter = doc.textDocument.lineAt ( endLine ).range.end.character,
+            fullRange = new vscode.Range ( startLine, startCharacter, endLine, endCharacter ),
+            symbol = new vscode.DocumentSymbol ( name, undefined, vscode.SymbolKind.Field, fullRange, selectionRange );
 
       projectsDatas.push ({ level, name, symbol });
+
+      /* PARENT */
+
+      const parentData = _.findLast ( projectsDatas, data => data.level < level ) || {},
+            { symbol: parentSymbol } = parentData;
 
       if ( parentSymbol ) {
 
