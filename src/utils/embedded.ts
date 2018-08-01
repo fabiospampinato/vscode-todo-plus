@@ -58,7 +58,7 @@ const Embedded = {
 
       if ( !content ) return;
 
-      const lines = content.split ( '\n' );
+      const lines = content.split ( /\r?\n/ );
 
       lines.forEach ( ( line, lineNr ) => {
 
