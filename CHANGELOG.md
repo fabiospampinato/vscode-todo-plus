@@ -1,3 +1,7 @@
+### Version 2.3.0
+- Added breadcrumb support
+- Embedded: fixed support for CRLF mode
+
 ### Version 2.2.1
 - Embedded: added support for AppleScript-like style comments
 
