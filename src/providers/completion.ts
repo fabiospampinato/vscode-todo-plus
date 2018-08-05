@@ -2,7 +2,7 @@
 /* IMPORT */
 
 import * as vscode from 'vscode';
-import Consts from '../../consts';
+import Consts from '../consts';
 
 /* COMPLETION */
 

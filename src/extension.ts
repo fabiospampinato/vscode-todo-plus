@@ -3,8 +3,8 @@
 
 import * as vscode from 'vscode';
 import Consts from './consts';
-import CompletionProvider from './todo/providers/completion';
-import SymbolsProvider from './todo/providers/symbols';
+import CompletionProvider from './providers/completion';
+import SymbolsProvider from './providers/symbols';
 import DocumentDecorator from './todo/decorators/document';
 import ChangesDecorator from './todo/decorators/changes';
 import Utils from './utils';

@@ -3,9 +3,9 @@
 
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
-import Consts from '../../consts';
-import Utils from '../../utils';
-import Document from '../document';
+import Consts from '../consts';
+import Utils from '../utils';
+import Document from '../todo/document';
 
 /* SYMBOLS */
 
