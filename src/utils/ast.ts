@@ -1,7 +1,6 @@
 
 /* IMPORT */
 
-import * as _ from 'lodash';
 import * as vscode from 'vscode';
 import Consts from '../consts';
 
@@ -81,7 +80,23 @@ const AST = {
 
     return AST.walk ( textDocument, lineNr, -1, skipEmptyLines, strictlyMonotonic, callback );
 
+  },
+
+  walkChildren ( textDocument: vscode.TextDocument, lineNr: number, callback: Function ) {
+
+    return AST.walkDown ( textDocument, lineNr, true, false, function ({ startLine, startLevel, line, level }) {
+
+      if ( level <= startLevel ) return false;
+
+      if ( level > ( startLevel + 1 ) ) return;
+
+      callback.apply ( undefined, arguments );
+
+    });
+
   }
+
+  //TODO: Add a `walkParents` method
 
 };
 

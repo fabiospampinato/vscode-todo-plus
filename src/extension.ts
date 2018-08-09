@@ -10,6 +10,7 @@ import DocumentDecorator from './todo/decorators/document';
 import ChangesDecorator from './todo/decorators/changes';
 import Utils from './utils';
 import ViewEmbedded from './views/embedded';
+import ViewFile from './views/file';
 
 /* ACTIVATE */
 
@@ -21,6 +22,10 @@ const activate = function ( context: vscode.ExtensionContext ) {
 
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-expanded', ViewEmbedded.expanded );
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', !!ViewEmbedded.filter );
+
+  ViewFile.expanded = config.file.view.expanded;
+
+  vscode.commands.executeCommand ( 'setContext', 'todo-file-expanded', ViewFile.expanded );
 
   Utils.context = context;
   Utils.folder.initRootsRe ();

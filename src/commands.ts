@@ -11,6 +11,7 @@ import ItemTodo from './views/items/todo';
 import StatusbarTimer from './statusbars/timer';
 import Utils from './utils';
 import ViewEmbedded from './views/embedded';
+import ViewFile from './views/file';
 
 /* CALL TODOS METHOD */
 
@@ -93,7 +94,7 @@ async function open ( filePath?: string, lineNumber?: number ) {
 
     if ( !rootPath ) return vscode.window.showErrorMessage ( 'You have to open a project before being able to open its todo file' );
 
-    const projectPath = ( ( await Utils.folder.getWrapperPathOf ( rootPath, editorPath || rootPath, config.file ) ) || rootPath ) as string,
+    const projectPath = ( ( await Utils.folder.getWrapperPathOf ( rootPath, editorPath || rootPath, config.file.name ) ) || rootPath ) as string,
           todo = Utils.todo.get ( projectPath );
 
     if ( !_.isUndefined ( todo ) ) { // Open
@@ -102,9 +103,9 @@ async function open ( filePath?: string, lineNumber?: number ) {
 
     } else { // Create
 
-      const defaultPath = path.join ( projectPath, config.file );
+      const defaultPath = path.join ( projectPath, config.file.name );
 
-      await Utils.file.make ( defaultPath, config.defaultContent );
+      await Utils.file.make ( defaultPath, config.file.defaultContent );
 
       return Utils.file.open ( defaultPath );
 
@@ -186,6 +187,30 @@ function viewOpenTodo ( todo: ItemTodo ) {
   Utils.file.open ( todo.obj.filePath, true, todo.obj.lineNr );
 }
 
+/* VIEW FILE */
+
+function viewFileOpen () {
+  open ();
+}
+
+function viewFileRefresh () {
+  ViewFile.refresh ();
+}
+
+function viewFileCollapse () {
+  ViewFile.expanded = false;
+  vscode.commands.executeCommand ( 'setContext', 'todo-file-expanded', false );
+  ViewFile.refresh ( true );
+}
+
+function viewFileExpand () {
+  ViewFile.expanded = true;
+  vscode.commands.executeCommand ( 'setContext', 'todo-file-expanded', true );
+  ViewFile.refresh ( true );
+}
+
+/* VIEW EMBEDDED */
+
 function viewEmbeddedRefresh () {
   ViewEmbedded.refresh ();
 }
@@ -222,4 +247,4 @@ function viewEmbeddedClearFilter () {
 
 /* EXPORT */
 
-export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewEmbeddedRefresh, viewOpenTodo, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter};
+export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenTodo, viewFileOpen, viewFileRefresh, viewFileCollapse, viewFileExpand, viewEmbeddedRefresh, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter};

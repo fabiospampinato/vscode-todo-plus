@@ -42,15 +42,20 @@
       "type": "object",
       "title": "Todo - Configuration",
       "properties": {
-        "todo.file": {
+        "todo.file.name": {
           "type": "string",
           "description": "Todo file name. Other supported names are: `*.todo`, `*.todos`, `*.task`, `*.tasks`, `*.taskpaper` and `todolist.txt`",
           "default": "TODO"
         },
-        "todo.defaultContent": {
+        "todo.file.defaultContent": {
           "type": "string",
           "description": "New todo files default content",
           "default": "\nTodo:\n  ☐ Item\n"
+        },
+        "todo.file.view.expanded": {
+          "type": "boolean",
+          "description": "Start the tree in an expanded state",
+          "default": true
         },
         "todo.indentation": {
           "type": "string",
@@ -476,6 +481,38 @@
         "title": "Todo: Archive"
       },
       {
+        "command": "todo.viewFileOpen",
+        "title": "Open",
+        "icon": {
+          "light": "resources/icons/open_file_light.svg",
+          "dark": "resources/icons/open_file_dark.svg"
+        }
+      },
+      {
+        "command": "todo.viewFileCollapse",
+        "title": "Collapse",
+        "icon": {
+          "light": "resources/icons/collapse_light.svg",
+          "dark": "resources/icons/collapse_dark.svg"
+        }
+      },
+      {
+        "command": "todo.viewFileExpand",
+        "title": "Expand",
+        "icon": {
+          "light": "resources/icons/expand_light.svg",
+          "dark": "resources/icons/expand_dark.svg"
+        }
+      },
+      {
+        "command": "todo.viewFileRefresh",
+        "title": "Refresh",
+        "icon": {
+          "light": "resources/icons/refresh_light.svg",
+          "dark": "resources/icons/refresh_dark.svg"
+        }
+      },
+      {
         "command": "todo.viewEmbeddedRefresh",
         "title": "Refresh",
         "icon": {
@@ -552,7 +589,11 @@
     "views": {
       "todo": [
         {
-          "id": "todo.views.embedded",
+          "id": "todo.views.1file",
+          "name": "File"
+        },
+        {
+          "id": "todo.views.2embedded",
           "name": "Embedded"
         }
       ]
@@ -589,6 +630,22 @@
           "when": "editorLangId == todo"
         },
         {
+          "command": "todo.viewFileOpen",
+          "when": "false"
+        },
+        {
+          "command": "todo.viewFileCollapse",
+          "when": "false"
+        },
+        {
+          "command": "todo.viewFileExpand",
+          "when": "false"
+        },
+        {
+          "command": "todo.viewFileRefresh",
+          "when": "false"
+        },
+        {
           "command": "todo.viewEmbeddedRefresh",
           "when": "false"
         },
@@ -615,28 +672,48 @@
       ],
       "view/title": [
         {
+          "command": "todo.viewFileOpen",
+          "when": "view == todo.views.1file",
+          "group": "navigation@1"
+        },
+        {
+          "command": "todo.viewFileCollapse",
+          "when": "view == todo.views.1file && todo-file-expanded == true",
+          "group": "navigation@2"
+        },
+        {
+          "command": "todo.viewFileExpand",
+          "when": "view == todo.views.1file && todo-file-expanded == false",
+          "group": "navigation@2"
+        },
+        {
+          "command": "todo.viewFileRefresh",
+          "when": "view == todo.views.1file",
+          "group": "navigation@3"
+        },
+        {
           "command": "todo.viewEmbeddedRefresh",
-          "when": "view == todo.views.embedded",
+          "when": "view == todo.views.2embedded",
           "group": "navigation@3"
         },
         {
           "command": "todo.viewEmbeddedCollapse",
-          "when": "view == todo.views.embedded && todo-embedded-expanded == true",
+          "when": "view == todo.views.2embedded && todo-embedded-expanded == true",
           "group": "navigation@2"
         },
         {
           "command": "todo.viewEmbeddedExpand",
-          "when": "view == todo.views.embedded && todo-embedded-expanded == false",
+          "when": "view == todo.views.2embedded && todo-embedded-expanded == false",
           "group": "navigation@2"
         },
         {
           "command": "todo.viewEmbeddedFilter",
-          "when": "view == todo.views.embedded && todo-embedded-filtered == false",
+          "when": "view == todo.views.2embedded && todo-embedded-filtered == false",
           "group": "navigation@1"
         },
         {
           "command": "todo.viewEmbeddedClearFilter",
-          "when": "view == todo.views.embedded && todo-embedded-filtered == true",
+          "when": "view == todo.views.2embedded && todo-embedded-filtered == true",
           "group": "navigation@1"
         }
       ]

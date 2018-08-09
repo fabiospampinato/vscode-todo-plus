@@ -25,7 +25,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
 - **Time estimates**: you can estimate the time it will take to complete a todo by adding a tag to it that looks like this: `@est(3 hours)`, `@est(2h30m)` or `@2h30m`. Then you can use the `[est]` token in statistics
 - **Statistics**: statistics about your entire file and/or project-level statistics about your individual projects
 - **Embedded todos**: it's common to have `//TODO` or `//FIXME` comments in our code, this extension can find those as well
-- **Embedded todos view**: it displays your embedded todos in custom activity bar view
+- **Activity bar views**: you can view your todo file and your embedded todos from a custom activity bar section
 
 ## Install
 
@@ -64,8 +64,9 @@ It adds 5 shortcuts when editing a `Todo` file:
 
 ```js
 {
-  "todo.file": "TODO", // Todo file name. Other supported names are: `*.todo`, `*.todos`, `*.task`, `*.tasks`, `*.taskpaper` and `todolist.txt`
-  "todo.defaultContent": "\nTodo:\n  ☐ Item\n", // New todo files default content
+  "todo.file.name": "TODO", // Todo file name. Other supported names are: `*.todo`, `*.todos`, `*.task`, `*.tasks`, `*.taskpaper` and `todolist.txt`
+  "todo.file.defaultContent": "\nTodo:\n  ☐ Item\n", // New todo files default content
+  "todo.file.view.expanded": true, // Start the tree in an expanded state
   "todo.indentation": "  ", // String used for indentation
   "todo.symbols.box": "☐", // Box symbol
   "todo.symbols.done": "✔", // Done symbol
@@ -157,13 +158,13 @@ The following tokens can be used in `todo.statistics.project.text`, `todo.statis
 
 ![Example todo file](resources/demo/syntax.png)
 
-### Embedded todos (File)
+### Embedded todos
 
 ![Embedded](resources/demo/embedded.gif)
 
-### Embedded todos (View)
+### Activity bar views
 
-![Embedded View](resources/demo/embedded_view.png)
+![Activity bar views](resources/demo/activity_bar_views.png)
 
 ### Statistics
 

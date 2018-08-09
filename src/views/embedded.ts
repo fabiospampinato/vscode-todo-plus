@@ -16,7 +16,7 @@ import View from './view';
 
 class Embedded extends View {
 
-  id = 'todo.views.embedded';
+  id = 'todo.views.2embedded';
   clear = false;
   expanded = true;
   filter: string | false = false;
