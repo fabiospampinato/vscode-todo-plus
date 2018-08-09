@@ -54,6 +54,31 @@ const Folder = {
 
     }
 
+  },
+
+  rootsRe: undefined,
+
+  initRootsRe () {
+
+    const roots = Folder.getAllRootPaths ().sort ().reverse (),
+          rootsRe = new RegExp ( `^(${roots.map ( root => _.escapeRegExp ( root ) ).join ( '|' )})(.*)$` );
+
+    Folder.rootsRe = rootsRe;
+
+  },
+
+  parsePath ( filePath ) {
+
+    const match = Folder.rootsRe.exec ( filePath );
+
+    if ( !match ) return;
+
+    return {
+      root: path.basename ( match[1] ),
+      rootPath: match[1],
+      relativePath: match[2]
+    };
+
   }
 
 };

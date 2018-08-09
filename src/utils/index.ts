@@ -1,6 +1,7 @@
 
 /* IMPORT */
 
+import * as vscode from 'vscode';
 import archive from './archive';
 import ast from './ast';
 import command from './command'
@@ -13,10 +14,12 @@ import regex from './regex';
 import time from './time';
 import todo from './todo';
 import statistics from './statistics';
+import view from './view';
 
 /* UTILS */
 
 const Utils = {
+  context: <vscode.ExtensionContext> undefined,
   archive,
   ast,
   command,
@@ -28,7 +31,8 @@ const Utils = {
   regex,
   time,
   todo,
-  statistics
+  statistics,
+  view
 };
 
 /* EXPORT */

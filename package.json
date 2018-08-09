@@ -8,15 +8,7 @@
   "main": "out/src/extension.js",
   "publisher": "fabiospampinato",
   "activationEvents": [
-    "onLanguage:todo",
-    "onCommand:todo.open",
-    "onCommand:todo.openEmbedded",
-    "onCommand:todo.toggleBox",
-    "onCommand:todo.toggleDone",
-    "onCommand:todo.toggleCancelled",
-    "onCommand:todo.toggleStart",
-    "onCommand:todo.toggleTimer",
-    "onCommand:todo.archive"
+    "*"
   ],
   "contributes": {
     "languages": [
@@ -114,6 +106,36 @@
           "type": "string",
           "description": "Tag color",
           "default": "#e6db74"
+        },
+        "todo.colors.types": {
+          "type": "object",
+          "description": "Object mapping todo types to their color",
+          "default": {
+            "TODO": "#ffcc00",
+            "FIXME": "#cc0000",
+            "FIX": "#cc0000",
+            "BUG": "#cc0000",
+            "UGLY": "#cc0000",
+            "DEBUG": "#cc0000",
+            "HACK": "#cc0000",
+            "REVIEW": "#00ccff",
+            "OPTIMIZE": "#00ccff",
+            "TSC": "#00ccff",
+            "NOTE": "#cc00cc",
+            "IDEA": "#cc00cc",
+            "todo": "#ffcc00",
+            "fixme": "#cc0000",
+            "fix": "#cc0000",
+            "bug": "#cc0000",
+            "ugly": "#cc0000",
+            "debug": "#cc0000",
+            "hack": "#cc0000",
+            "review": "#00ccff",
+            "optimize": "#00ccff",
+            "tsc": "#00ccff",
+            "note": "#cc00cc",
+            "idea": "#cc00cc"
+          }
         },
         "todo.tags.names": {
           "type": "array",
@@ -336,7 +358,7 @@
         "todo.embedded.regex": {
           "type": "string",
           "description": "Regex used for finding embedded todos, requires double escaping",
-          "default": "(?:<!-- *)?(?:#|//|/\\*+|<!--|--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?: |:|\"|'|`|-->|--|$)"
+          "default": "(?:<!-- *)?(?:#|//|/\\*+|<!--|--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE):?(?!\\w)((?: +[^\n@]+?)(?= *(?:[^:]//|/\\*+|<!--|@|--))|(?: +[^@\n]+)?)"
         },
         "todo.embedded.include": {
           "type": "array",
@@ -349,6 +371,7 @@
           "type": "array",
           "description": "Globs to use for excluding files",
           "default": [
+            "**/.DS_Store",
             "**/.git",
             "**/.svn",
             "**/.hg",
@@ -367,10 +390,55 @@
             "**/*.map"
           ]
         },
-        "todo.embedded.groupByFile": {
+        "todo.embedded.file.wholeLine": {
           "type": "boolean",
-          "description": "Group todos by file",
+          "description": "Show the whole line",
+          "default": true
+        },
+        "todo.embedded.file.groupByRoot": {
+          "type": "boolean",
+          "description": "Group embedded todos by workspace root",
+          "default": true
+        },
+        "todo.embedded.file.groupByType": {
+          "type": "boolean",
+          "description": "Group embedded todos by type",
+          "default": true
+        },
+        "todo.embedded.file.groupByFile": {
+          "type": "boolean",
+          "description": "Group embedded todos by file",
+          "default": true
+        },
+        "todo.embedded.view.wholeLine": {
+          "type": "boolean",
+          "description": "Show the whole line",
           "default": false
+        },
+        "todo.embedded.view.groupByRoot": {
+          "type": "boolean",
+          "description": "Group embedded todos by workspace root",
+          "default": true
+        },
+        "todo.embedded.view.groupByType": {
+          "type": "boolean",
+          "description": "Group embedded todos by type",
+          "default": true
+        },
+        "todo.embedded.view.groupByFile": {
+          "type": "boolean",
+          "description": "Group embedded todos by file",
+          "default": true
+        },
+        "todo.embedded.view.expanded": {
+          "type": "boolean",
+          "description": "Start the tree in an expanded state",
+          "default": true
+        },
+        "todo.embedded.view.icons": {
+          "type": "boolean",
+          "description": "Show icons next to todos and types",
+          "default": true
         }
       }
     },
@@ -406,6 +474,50 @@
       {
         "command": "todo.archive",
         "title": "Todo: Archive"
+      },
+      {
+        "command": "todo.viewEmbeddedRefresh",
+        "title": "Refresh",
+        "icon": {
+          "light": "resources/icons/refresh_light.svg",
+          "dark": "resources/icons/refresh_dark.svg"
+        }
+      },
+      {
+        "command": "todo.viewEmbeddedCollapse",
+        "title": "Collapse",
+        "icon": {
+          "light": "resources/icons/collapse_light.svg",
+          "dark": "resources/icons/collapse_dark.svg"
+        }
+      },
+      {
+        "command": "todo.viewEmbeddedExpand",
+        "title": "Expand",
+        "icon": {
+          "light": "resources/icons/expand_light.svg",
+          "dark": "resources/icons/expand_dark.svg"
+        }
+      },
+      {
+        "command": "todo.viewEmbeddedFilter",
+        "title": "Filter",
+        "icon": {
+          "light": "resources/icons/filter_light.svg",
+          "dark": "resources/icons/filter_dark.svg"
+        }
+      },
+      {
+        "command": "todo.viewEmbeddedClearFilter",
+        "title": "Clear Filter",
+        "icon": {
+          "light": "resources/icons/clear_filter_light.svg",
+          "dark": "resources/icons/clear_filter_dark.svg"
+        }
+      },
+      {
+        "command": "todo.viewOpenTodo",
+        "title": "Open"
       }
     ],
     "keybindings": [
@@ -437,6 +549,23 @@
         "when": "editorTextFocus && editorLangId == todo"
       }
     ],
+    "views": {
+      "todo": [
+        {
+          "id": "todo.views.embedded",
+          "name": "Embedded"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "todo",
+          "title": "Todo",
+          "icon": "resources/icons/activity_bar_logo.svg"
+        }
+      ]
+    },
     "menus": {
       "commandPalette": [
         {
@@ -458,6 +587,57 @@
         {
           "command": "todo.archive",
           "when": "editorLangId == todo"
+        },
+        {
+          "command": "todo.viewEmbeddedRefresh",
+          "when": "false"
+        },
+        {
+          "command": "todo.viewEmbeddedCollapse",
+          "when": "false"
+        },
+        {
+          "command": "todo.viewEmbeddedExpand",
+          "when": "false"
+        },
+        {
+          "command": "todo.viewEmbeddedFilter",
+          "when": "false"
+        },
+        {
+          "command": "todo.viewEmbeddedClearFilter",
+          "when": "false"
+        },
+        {
+          "command": "todo.viewOpenTodo",
+          "when": "false"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "todo.viewEmbeddedRefresh",
+          "when": "view == todo.views.embedded",
+          "group": "navigation@3"
+        },
+        {
+          "command": "todo.viewEmbeddedCollapse",
+          "when": "view == todo.views.embedded && todo-embedded-expanded == true",
+          "group": "navigation@2"
+        },
+        {
+          "command": "todo.viewEmbeddedExpand",
+          "when": "view == todo.views.embedded && todo-embedded-expanded == false",
+          "group": "navigation@2"
+        },
+        {
+          "command": "todo.viewEmbeddedFilter",
+          "when": "view == todo.views.embedded && todo-embedded-filtered == false",
+          "group": "navigation@1"
+        },
+        {
+          "command": "todo.viewEmbeddedClearFilter",
+          "when": "view == todo.views.embedded && todo-embedded-filtered == true",
+          "group": "navigation@1"
         }
       ]
     }
@@ -497,6 +677,7 @@
   ],
   "dependencies": {
     "absolute": "0.0.1",
+    "chokidar": "^2.0.4",
     "diff": "^3.5.0",
     "find-up": "^2.1.0",
     "globby": "^8.0.1",
@@ -506,6 +687,7 @@
     "moment": "^2.19.1",
     "moment-precise-range-plugin": "^1.2.4",
     "pify": "^3.0.0",
+    "sha1": "^1.1.1",
     "string-matches": "^1.0.1",
     "sugar-date": "^2.0.4",
     "to-time": "^1.0.2"

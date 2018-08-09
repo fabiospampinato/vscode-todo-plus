@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import * as vscode from 'vscode';
 import Consts from '../consts';
 import * as Commands from '../commands';
+import Views from '../views';
 
 /* INIT */
 
@@ -36,6 +37,18 @@ const Init = {
         increaseIndentPattern: Consts.regexes.project,
         decreaseIndentPattern: Consts.regexes.impossible
       }
+    });
+
+  },
+
+  views () {
+
+    Views.forEach ( View => {
+      vscode.window.registerTreeDataProvider ( View.id, View );
+    });
+
+    vscode.workspace.onDidChangeConfiguration ( () => {
+     Views.forEach ( View => View.refresh () );
     });
 
   }

@@ -25,6 +25,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
 - **Time estimates**: you can estimate the time it will take to complete a todo by adding a tag to it that looks like this: `@est(3 hours)`, `@est(2h30m)` or `@2h30m`. Then you can use the `[est]` token in statistics
 - **Statistics**: statistics about your entire file and/or project-level statistics about your individual projects
 - **Embedded todos**: it's common to have `//TODO` or `//FIXME` comments in our code, this extension can find those as well
+- **Embedded todos view**: it displays your embedded todos in custom activity bar view
 
 ## Install
 
@@ -76,6 +77,7 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.colors.project": "#66d9ef", // Project color
   "todo.colors.projectStatistics": "#4694a3", // Project statistics color
   "todo.colors.tag": "#e6db74", // Tag color
+  "todo.colors.types": { "TODO": "#ffcc00", "FIXME": "#cc0000" ... }, // Object mapping todo types to their color
   "todo.tags.names": ["critical", "high", "low", "today"], // Special tags' names
   "todo.tags.backgroundColors": ["#e54545", "#e59f45", "#e5d145", "#ae81ff"], // Special tags' background colors
   "todo.tags.foregroundColors": ["#000000", "#000000", "#000000", "#000000"], // Special tags' foreground colors
@@ -110,14 +112,25 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.statistics.statusbar.priority": -1, // The priority of this item. Higher value means the item should be shown more to the left
   "todo.statistics.statusbar.text": "$(check) [finished]/[all] ([percentage]%)", // Template used for rendering the text
   "todo.statistics.statusbar.tooltip": "[pending] Pending - [done] Done - [cancelled] Cancelled", // Template used for rendering the tooltip
-  "todo.embedded.regex": "(?:<!-- *)?(?:#|//|/\\*+|<!--|--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?: |:|\"|'|`|-->|--|$)", // Regex used for finding embedded todos, requires double escaping
+  "todo.embedded.regex": "(?:<!-- *)?(?:#|//|/\\*+|<!--|--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE):?(?!\\w)((?: +[^\n@]+?)(?= *(?:[^:]//|/\\*+|<!--|@|--))|(?: +[^@\n]+)?)", // Regex used for finding embedded todos, requires double escaping
   "todo.embedded.include": ["**/*"], // Globs to use for including files
   "todo.embedded.exclude": ["**/.git", ...], // Globs to use for excluding files
-  "todo.embedded.groupByFile": false // Group todos by file
+  "todo.embedded.file.wholeLine": true, // Show the whole line
+  "todo.embedded.file.groupByRoot": true, // Group embedded todos by workspace root
+  "todo.embedded.file.groupByType": true, // Group embedded todos by type
+  "todo.embedded.file.groupByFile": true, // Group embedded todos by file
+  "todo.embedded.view.wholeLine": false, // Show the whole line
+  "todo.embedded.view.groupByRoot": true, // Group embedded todos by workspace root
+  "todo.embedded.view.groupByType": true, // Group embedded todos by type
+  "todo.embedded.view.groupByFile": true, // Group embedded todos by file
+  "todo.embedded.view.expanded": true, // Start the tree in an expanded state
+  "todo.embedded.view.icons": true // Show icons next to todos and types"
 }
 ```
 
 Changing some settings (indentation, symbols, colors, tags...) requires a restart.
+
+An actual regex will be generated from the value of the `todo.embedded.regex` setting. It uses 2 capturing groups, the first one captures the type of the todo (`TODO`, `FIXME` etc.) and the second one captures an optional description (`TODO: description`).
 
 Dates are formatted using [moment](https://momentjs.com/docs/#/displaying/format), and are parsed using [sugar](https://sugarjs.com) and [to-time](https://www.npmjs.com/package/to-time).
 
@@ -144,9 +157,13 @@ The following tokens can be used in `todo.statistics.project.text`, `todo.statis
 
 ![Example todo file](resources/demo/syntax.png)
 
-### Embedded todos
+### Embedded todos (File)
 
 ![Embedded](resources/demo/embedded.gif)
+
+### Embedded todos (View)
+
+![Embedded View](resources/demo/embedded_view.png)
 
 ### Statistics
 
@@ -161,6 +178,8 @@ The following tokens can be used in `todo.statistics.project.text`, `todo.statis
 ![Timekeeping & Timer](resources/demo/timer.gif)
 
 ## Hints:
+
+- **Activity Bar**: you can switch the focus to the `Todo` activity bar view by assigning a shortcut to the `workbench.view.extension.todo` command.
 
 - **Icons**: icons can be used in `todo.statistics.statusbar.text`. [Here](https://octicons.github.com/) you can browse a list of supported icons. If for instance you click the first icon, you'll get a page with `.octicon-alert` written in it, to get the string to use simply remove the `.octicon-` part, so in this case the icon name would be `alert`.
 

@@ -29,6 +29,7 @@ const File = {
                      const pos = new vscode.Position ( lineNumber, 0 );
                      const selection = new vscode.Selection ( pos, pos );
                      textEditor.selection = selection;
+                     textEditor.revealRange ( selection, vscode.TextEditorRevealType.Default );
                    });
 
     } else {

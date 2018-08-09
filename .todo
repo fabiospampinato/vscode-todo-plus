@@ -1,8 +1,5 @@
 
-☐ Activity bar view
-  ☐ View 1: all todos
-  ☐ View 2: all embedded todos
-  ☐ View 3: all tags (click one to filter by that tag)
+☐ Add a `File` view to the activity bar
 ☐ Archiving
   ☐ Sort entries by finished time if possible
 ☐ Moving projects up and down is buggy
