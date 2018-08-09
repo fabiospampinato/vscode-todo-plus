@@ -1,3 +1,9 @@
+### Version 3.0.0
+- Embedded: added a custom view to the activity bar
+- Embedded: added some settings for improved grouping customization
+- Embedded: ignoring binary files
+- Embedded: improved performance on subsequent queries
+
 ### Version 2.3.0
 - Added breadcrumb support
 - Embedded: fixed support for CRLF mode
