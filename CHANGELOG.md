@@ -1,3 +1,8 @@
+### Version 4.0.0
+- Renamed `todo.file` setting to `todo.file.name`
+- Renamed `todo.defaultContent` setting to `todo.file.defaultContent`
+- Added a `File` activity bar view
+
 ### Version 3.0.0
 - Embedded: added a custom view to the activity bar
 - Embedded: added some settings for improved grouping customization
