@@ -95,7 +95,7 @@ const Embedded = {
 
   },
 
-  async unwatchFilePaths () {
+  unwatchFilePaths () {
 
     if ( !Embedded.watcher ) return;
 
@@ -197,6 +197,8 @@ const Embedded = {
   },
 
   renderTodos ( todos ) {
+
+    if ( !todos ) return '';
 
     const sepRe = new RegExp ( querystring.escape ( '/' ), 'g' ),
           config = Config.get (),

@@ -69,9 +69,11 @@ const Folder = {
 
   parsePath ( filePath ) {
 
+    if ( !Folder.rootsRe ) return {};
+
     const match = Folder.rootsRe.exec ( filePath );
 
-    if ( !match ) return;
+    if ( !match ) return {};
 
     return {
       root: path.basename ( match[1] ),
