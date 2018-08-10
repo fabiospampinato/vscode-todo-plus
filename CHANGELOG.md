@@ -1,3 +1,7 @@
+### Version 4.0.3
+- Views: showing a message in the absence of actual content
+- Embedded view: removed filetype icons in favor of more robust labels
+
 ### Version 4.0.0
 - Renamed `todo.file` setting to `todo.file.name`
 - Renamed `todo.defaultContent` setting to `todo.file.defaultContent`
