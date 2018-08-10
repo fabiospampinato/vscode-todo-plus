@@ -7,8 +7,18 @@ import Group from './group';
 /* FILE */
 
 class File extends Group {
+
   contextValue = 'file';
-  // iconPath = vscode.ThemeIcon.File; //FIXME: https://github.com/Microsoft/vscode/issues/56106
+  iconPath = vscode.ThemeIcon.File;
+
+  constructor ( obj, uri ) {
+
+    super ( obj, uri.label );
+
+    this.resourceUri = uri;
+
+  }
+
 }
 
 /* EXPORT */

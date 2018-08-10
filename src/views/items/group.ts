@@ -15,7 +15,17 @@ class Group extends Item {
     super ( obj, label, vscode.TreeItemCollapsibleState.Expanded );
 
     if ( icon ) {
-      this.setTypeIcon ( label );
+
+      const type = label.toUpperCase ();
+
+      this.setTypeIcon ( type );
+
+      if ( this.iconPath ) {
+
+        this.label = type;
+
+      }
+
     }
 
   }

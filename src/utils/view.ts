@@ -19,20 +19,13 @@ const View = {
 
     if ( View.uris[filePath] ) return View.uris[filePath];
 
-    const uri = vscode.Uri.file ( filePath ) as any;
+    const uri = vscode.Uri.file ( filePath );
 
-    uri.fsPath; // Accessing it before replacing `.path`, so that its value will be preserved
-    uri.path = _.trimStart ( relativePath, '/' ).replace ( /\//g, '⧸' ); // Regular slashes get removed
+    uri['label'] = _.trimStart ( relativePath, '/' );
 
     View.uris[filePath] = uri;
 
     return uri;
-
-  },
-
-  getRelativePath ([{ relativePath }]) {
-
-    return _.trimStart ( relativePath, '/' );
 
   },
 
