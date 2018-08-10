@@ -65,10 +65,13 @@ const Embedded = {
 
     const config = Config.get ();
 
+    const pathNormalizer = filePath => filePath.replace ( /\\/g, '/' );
+
     /* HANDLERS */
 
     function add ( filePath ) {
       if ( !Embedded.filePaths ) return;
+      filePath = pathNormalizer ( filePath );
       if ( Embedded.filePaths.includes ( filePath ) ) return;
       if ( isBinaryPath ( filePath ) ) return;
       Embedded.filePaths.push ( filePath );
@@ -76,11 +79,13 @@ const Embedded = {
 
     function change ( filePath ) {
       if ( !Embedded.filePaths ) return;
+      filePath = pathNormalizer ( filePath );
       delete Embedded.fileData[filePath];
     }
 
     function unlink ( filePath ) {
       if ( !Embedded.filePaths ) return;
+      filePath = pathNormalizer ( filePath );
       Embedded.filePaths = Embedded.filePaths.filter ( other => other !== filePath );
       change ( filePath );
     }
