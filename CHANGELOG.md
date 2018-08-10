@@ -1,3 +1,8 @@
+### Version 4.0.4
+- Embedded view: forcing types to be uppercase
+- Embedded view: added back filetype icons
+- Embedded view: fixed file labels under Windows
+
 ### Version 4.0.3
 - Views: showing a message in the absence of actual content
 - Embedded view: removed filetype icons in favor of more robust labels
