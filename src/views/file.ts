@@ -6,6 +6,7 @@ import Config from '../config';
 import Utils from '../utils';
 import Item from './items/item';
 import Group from './items/group';
+import Placeholder from './items/placeholder';
 import Todo from './items/todo';
 import View from './view';
 
@@ -46,7 +47,7 @@ class File extends View {
 
     }
 
-    if ( !this.textEditor ) return [];
+    if ( !this.textEditor ) return [new Placeholder ( 'No todo file found' )];
 
     const items = [],
           lineNr = item ? item.obj.line.lineNumber : -1;
@@ -68,6 +69,8 @@ class File extends View {
       items.push ( item );
 
     });
+
+    if ( !items.length && !item ) return [new Placeholder ( 'The file is empty' )];
 
     return items;
 

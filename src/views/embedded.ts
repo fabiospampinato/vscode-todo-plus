@@ -7,6 +7,7 @@ import Utils from '../utils';
 import File from './items/file';
 import Item from './items/item';
 import Group from './items/group';
+import Placeholder from './items/placeholder';
 import Todo from './items/todo';
 import View from './view';
 
@@ -43,7 +44,7 @@ class Embedded extends View {
 
     let obj = item ? item.obj : await Utils.embedded.get ( undefined, this.config.embedded.view.groupByRoot, this.config.embedded.view.groupByType, this.config.embedded.view.groupByFile, this.filter );
 
-    if ( !obj ) return;
+    if ( _.isEmpty ( obj ) ) return [new Placeholder ( 'No embedded todos found' )];
 
     while ( obj[''] ) obj = obj['']; // Collpsing unnecessary groups
 
@@ -67,7 +68,7 @@ class Embedded extends View {
 
           const uri = Utils.view.getURI ( val );
 
-          return new File ( val, uri );
+          return new File ( val, relativePath );
 
         } else {
 
