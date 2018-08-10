@@ -1,3 +1,6 @@
+### Version 4.0.5
+- Normalizing paths under Windows
+
 ### Version 4.0.4
 - Embedded view: forcing types to be uppercase
 - Embedded view: added back filetype icons
