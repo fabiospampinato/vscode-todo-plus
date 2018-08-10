@@ -25,7 +25,7 @@ const Consts = {
     project: Config.getKey ( 'colors.project' ),
     projectStatistics: Config.getKey ( 'colors.projectStatistics' ),
     tag: Config.getKey ( 'colors.tag' ),
-    types: Config.getKey ( 'colors.types' )
+    types: _.transform ( Config.getKey ( 'colors.types' ), ( acc, val, key: string ) => { acc[key.toUpperCase ()] = val }, {} )
   },
   tags: {
     names: Config.getKey ( 'tags.names' ) || [],

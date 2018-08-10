@@ -127,19 +127,7 @@
             "OPTIMIZE": "#00ccff",
             "TSC": "#00ccff",
             "NOTE": "#cc00cc",
-            "IDEA": "#cc00cc",
-            "todo": "#ffcc00",
-            "fixme": "#cc0000",
-            "fix": "#cc0000",
-            "bug": "#cc0000",
-            "ugly": "#cc0000",
-            "debug": "#cc0000",
-            "hack": "#cc0000",
-            "review": "#00ccff",
-            "optimize": "#00ccff",
-            "tsc": "#00ccff",
-            "note": "#cc00cc",
-            "idea": "#cc00cc"
+            "IDEA": "#cc00cc"
           }
         },
         "todo.tags.names": {

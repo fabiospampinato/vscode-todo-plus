@@ -164,7 +164,7 @@ const Embedded = {
         if ( filterRe && !filterRe.test ( line ) ) return;
 
         const todo = match[0],
-              type = match[1],
+              type = match[1].toUpperCase (),
               message = match[2],
               code = line.slice ( 0, line.indexOf ( match[0] ) ),
               rootGroup = groupByRoot ? root : '',
