@@ -18,6 +18,8 @@ const activate = function ( context: vscode.ExtensionContext ) {
 
   const config = Config.get ();
 
+  Config.check ( config );
+
   ViewEmbedded.expanded = config.embedded.view.expanded;
 
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-expanded', ViewEmbedded.expanded );

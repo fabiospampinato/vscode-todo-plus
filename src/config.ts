@@ -18,6 +18,23 @@ const Config = {
 
     return _.get ( Config.get (), key ) as any;
 
+  },
+
+  check ( config ) { // Check if the configuration is valid
+
+    const checkers = [
+      config => _.isString ( _.get ( config, 'file' ) ) && 'Todo+: "todo.file" has been renamed to "todo.file.name"',
+      config => _.isString ( _.get ( config, 'defaultContent' ) ) && 'Todo+: "todo.defaultContent" has been renamed to "todo.file.defaultContent"'
+    ];
+
+    const errors = _.compact ( checkers.map ( checker => checker ( config ) ) );
+
+    if ( !errors.length ) return;
+
+    errors.forEach ( err => vscode.window.showErrorMessage ( err ) );
+
+    throw new Error ( 'Invalid configuration, check the changelog' );
+
   }
 
 };
