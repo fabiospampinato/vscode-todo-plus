@@ -30,6 +30,12 @@ const View = {
 
   },
 
+  getRelativePath ([{ relativePath }]) {
+
+    return _.trimStart ( relativePath, '/' );
+
+  },
+
   icons: {},
 
   getTypeIcon ( type ) {

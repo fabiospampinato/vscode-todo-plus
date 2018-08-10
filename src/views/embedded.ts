@@ -66,7 +66,8 @@ class Embedded extends View {
 
         if ( _.startsWith ( key, '/' ) ) {
 
-          const uri = Utils.view.getURI ( val );
+          // const uri = Utils.view.getURI ( val ); //FIXME: https://github.com/Microsoft/vscode/issues/56106
+          const relativePath = Utils.view.getRelativePath ( val );
 
           return new File ( val, relativePath );
 
