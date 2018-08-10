@@ -1,3 +1,6 @@
+### Version 4.0.6
+- Checking if the configuration is valid
+
 ### Version 4.0.5
 - Normalizing paths under Windows
 
