@@ -21,6 +21,7 @@ class Embedded extends View {
   clear = false;
   expanded = true;
   filter: string | false = false;
+  directoryRe = /\\|\//;
 
 	getTreeItem ( item: Item ): vscode.TreeItem {
 
@@ -64,7 +65,7 @@ class Embedded extends View {
 
         const val = obj[key];
 
-        if ( _.startsWith ( key, '/' ) ) {
+        if ( this.directoryRe.test ( key ) ) {
 
           const uri = Utils.view.getURI ( val );
 

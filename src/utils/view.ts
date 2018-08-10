@@ -21,7 +21,7 @@ const View = {
 
     const uri = vscode.Uri.file ( filePath );
 
-    uri['label'] = _.trimStart ( relativePath, '/' );
+    uri['label'] = _.trimStart ( relativePath, '\\/' );
 
     View.uris[filePath] = uri;
 

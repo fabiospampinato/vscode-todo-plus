@@ -61,7 +61,7 @@ const Folder = {
   initRootsRe () {
 
     const roots = Folder.getAllRootPaths ().sort ().reverse (),
-          rootsRe = new RegExp ( `^(${roots.map ( root => _.escapeRegExp ( root ) ).join ( '|' )})(.*)$` );
+          rootsRe = new RegExp ( `^(${roots.map ( root => _.escapeRegExp ( root ).replace ( /\\\\/g, '(?:\\\\|/)' ) ).join ( '|' )})(.*)$` );
 
     Folder.rootsRe = rootsRe;
 
