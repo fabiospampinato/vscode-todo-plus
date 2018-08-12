@@ -12,7 +12,7 @@ import * as vscode from 'vscode';
 
 const File = {
 
-  open ( filepath, isTextDocument = true, lineNumber?: number ) {
+  open ( filepath, isTextDocument = true, lineNumber?: number, startIndex: number = 0, endIndex: number = startIndex ) {
 
     filepath = path.normalize ( filepath );
 
@@ -26,8 +26,9 @@ const File = {
                      if ( _.isUndefined ( lineNumber ) ) return;
                      const textEditor = vscode.window.activeTextEditor;
                      if ( !textEditor ) return;
-                     const pos = new vscode.Position ( lineNumber, 0 );
-                     const selection = new vscode.Selection ( pos, pos );
+                     const startPos = new vscode.Position ( lineNumber, startIndex );
+                     const endPos = new vscode.Position ( lineNumber, endIndex );
+                     const selection = new vscode.Selection ( startPos, endPos );
                      textEditor.selection = selection;
                      textEditor.revealRange ( selection, vscode.TextEditorRevealType.Default );
                    });

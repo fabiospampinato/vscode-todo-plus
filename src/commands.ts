@@ -184,7 +184,20 @@ function archive () {
 /* VIEW */
 
 function viewOpenTodo ( todo: ItemTodo ) {
-  Utils.file.open ( todo.obj.filePath, true, todo.obj.lineNr );
+
+  if ( todo.obj.todo ) {
+
+    const startIndex = todo.obj.rawLine.indexOf ( todo.obj.todo ),
+          endIndex = startIndex + todo.obj.todo.length;
+
+    Utils.file.open ( todo.obj.filePath, true, todo.obj.lineNr, startIndex, endIndex );
+
+  } else {
+
+    Utils.file.open ( todo.obj.filePath, true, todo.obj.lineNr );
+
+  }
+
 }
 
 /* VIEW FILE */
