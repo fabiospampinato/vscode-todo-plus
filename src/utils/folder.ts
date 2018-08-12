@@ -67,7 +67,7 @@ const Folder = {
 
   },
 
-  parsePath ( filePath ) {
+  parsePath ( filePath ): any { //TSC
 
     if ( !Folder.rootsRe ) return {};
 

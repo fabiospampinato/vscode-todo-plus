@@ -96,8 +96,6 @@ const AST = {
 
   }
 
-  //TODO: Add a `walkParents` method
-
 };
 
 /* EXPORT */

@@ -37,7 +37,7 @@ const View = {
 
     if ( !Consts.colors.types[type] ) return;
 
-    const {context} = require ( '.' ).default,
+    const {context} = require ( '.' ).default, // Avoiding a cyclic dependency
           color = Consts.colors.types[type],
           colorHash = sha1 ( color ),
           iconPath = path.join ( context.storagePath, `type-color-${colorHash}.svg` );

@@ -40,7 +40,7 @@ const activate = function ( context: vscode.ExtensionContext ) {
     vscode.window.onDidChangeActiveTextEditor ( () => DocumentDecorator.update () ),
     vscode.workspace.onDidChangeConfiguration ( () => DocumentDecorator.update () ),
     vscode.workspace.onDidChangeTextDocument ( ChangesDecorator.onChanges ),
-    vscode.workspace.onDidChangeWorkspaceFolders ( Utils.embedded.unwatchFilePaths ),
+    vscode.workspace.onDidChangeWorkspaceFolders ( Utils.embedded.unwatchPaths ),
     vscode.workspace.onDidChangeWorkspaceFolders ( Utils.folder.initRootsRe )
   );
 

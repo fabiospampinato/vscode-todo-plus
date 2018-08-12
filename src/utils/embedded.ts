@@ -3,207 +3,130 @@
 
 import * as _ from 'lodash';
 import * as chokidar from 'chokidar';
-import * as globby from 'globby';
-import * as isBinaryPath from 'is-binary-path';
 import * as querystring from 'querystring';
-import stringMatches from 'string-matches';
 import Config from '../config';
-import Consts from '../consts';
-import File from './file';
+import EmbeddedProvider from './embedded_provider';
 import Folder from './folder';
 
 /* EMBEDDED */
 
-const Embedded = {
+class Embedded extends EmbeddedProvider {
+
+  filesData = undefined; // { [filePath]: todo[] | undefined }
+  rootPaths = undefined;
+  watcher = undefined;
 
   async get ( rootPaths = Folder.getAllRootPaths (), groupByRoot = true, groupByType = true, groupByFile = true, filter: string | false = false ) {
 
-    const filePaths = await Embedded.getFilePaths ( rootPaths );
-
-    if ( !filePaths.length ) return;
-
-    return await Embedded.getFilesTodos ( filePaths, Consts.regexes.todoEmbedded, groupByRoot, groupByType, groupByFile, filter );
-
-  },
-
-  filePaths: undefined,
-
-  async getFilePaths ( rootPaths ) {
-
-    if ( Embedded.filePaths ) return Embedded.filePaths;
-
     rootPaths = _.castArray ( rootPaths );
 
-    const config = Config.get (),
-          {include, exclude} = config.embedded;
+    const config = Config.get ();
 
-    let filePaths = [];
+    if ( !this.filesData || !_.isEqual ( this.rootPaths, rootPaths ) ) {
 
-    for ( let rootPath of rootPaths ) {
+      this.rootPaths = rootPaths;
+      this.unwatchPaths ();
+      await this.initFilesData ( rootPaths );
+      this.watchPaths ( rootPaths, config.embedded.exclude );
 
-      const rootFilePaths = await globby ( include, { cwd: rootPath, ignore: exclude, absolute: true } );
+    } else {
 
-      filePaths = filePaths.concat ( rootFilePaths );
+      await this.updateFilesData ();
 
     }
 
-    filePaths = filePaths.filter ( filePath => !isBinaryPath ( filePath ) );
+    return this.getTodos ( groupByRoot, groupByType, groupByFile, filter );
 
-    Embedded.filePaths = filePaths;
+  }
 
-    Embedded.watchFilePaths ();
+  async watchPaths ( rootPaths, exclude = [] ) {
 
-    return filePaths;
-
-  },
-
-  watcher: undefined,
-
-  async watchFilePaths () {
-
-    Embedded.unwatchFilePaths ();
-
-    const config = Config.get ();
+    /* HELPERS */
 
     const pathNormalizer = filePath => filePath.replace ( /\\/g, '/' );
 
     /* HANDLERS */
 
-    function add ( filePath ) {
-      if ( !Embedded.filePaths ) return;
+    const add = ( filePath ) => {
+      if ( !this.filesData ) return;
       filePath = pathNormalizer ( filePath );
-      if ( Embedded.filePaths.includes ( filePath ) ) return;
-      if ( isBinaryPath ( filePath ) ) return;
-      Embedded.filePaths.push ( filePath );
-    }
+      if ( this.filesData.hasOwnProperty ( filePath ) ) return;
+      this.filesData[filePath] = undefined;
+    };
 
-    function change ( filePath ) {
-      if ( !Embedded.filePaths ) return;
+    const change = ( filePath ) => {
+      if ( !this.filesData ) return;
       filePath = pathNormalizer ( filePath );
-      delete Embedded.fileData[filePath];
-    }
+      this.filesData[filePath] = undefined;
+    };
 
-    function unlink ( filePath ) {
-      if ( !Embedded.filePaths ) return;
+    const unlink = ( filePath ) => {
+      if ( !this.filesData ) return;
       filePath = pathNormalizer ( filePath );
-      Embedded.filePaths = Embedded.filePaths.filter ( other => other !== filePath );
-      change ( filePath );
-    }
+      delete this.filesData[filePath];
+    };
 
     /* WATCHING */
 
-    const roots = Folder.getAllRootPaths ();
+    if ( !rootPaths.length ) return;
 
-    if ( !roots.length ) return;
+    this.watcher = chokidar.watch ( rootPaths, { ignored: exclude } ).on ( 'add', add ).on ( 'change', change ).on ( 'unlink', unlink );
 
-    Embedded.watcher = chokidar.watch ( roots, { ignored: config.embedded.exclude } ).on ( 'add', add ).on ( 'change', change ).on ( 'unlink', unlink );
+  }
 
-  },
+  unwatchPaths () {
 
-  unwatchFilePaths () {
+    if ( !this.watcher ) return;
 
-    if ( !Embedded.watcher ) return;
+    this.watcher.close ();
 
-    Embedded.watcher.close ();
-    Embedded.filePaths = undefined;
-    Embedded.fileData = {};
+  }
 
-  },
+  getTodos ( groupByRoot, groupByType, groupByFile, filter ) {
 
-  fileData: {},
-
-  async getFileData ( filePath, regex ) {
-
-    if ( Embedded.fileData[filePath] ) return Embedded.fileData[filePath];
-
-    const content = await File.read ( filePath );
-
-    if ( !content ) return [];
-
-    const data = [],
-          lines = content.split ( /\r?\n/ );
-
-    let pathData;
-
-    lines.forEach ( ( line, lineNr ) => {
-
-      const matches = stringMatches ( line, regex );
-
-      if ( !matches.length ) return;
-
-      if ( !pathData ) {
-
-        pathData = Folder.parsePath ( filePath );
-
-      }
-
-      matches.forEach ( match => {
-
-        data.push ([ pathData, line, lineNr, match ]);
-
-      });
-
-    });
-
-    Embedded.fileData[filePath] = data;
-
-    return data;
-
-  },
-
-  async getFilesTodos ( filePaths, regex, groupByRoot, groupByType, groupByFile, filter ) {
+    if ( _.isEmpty ( this.filesData ) ) return;
 
     const todos = {}, // { [ROOT] { [TYPE] => { [FILEPATH] => [DATA] } } }
-          filterRe = filter ? new RegExp ( _.escapeRegExp ( filter ), 'i' ) : false;
+          filterRe = filter ? new RegExp ( _.escapeRegExp ( filter ), 'i' ) : false,
+          filePaths = Object.keys ( this.filesData );
 
-    await Promise.all ( filePaths.map ( async filePath => {
+    filePaths.forEach ( filePath => {
 
-      const data = await Embedded.getFileData ( filePath, regex );
+      const data = this.filesData[filePath];
 
-      if ( !data.length ) return;
+      if ( !data || !data.length ) return;
 
       const filePathGroup = groupByFile ? filePath : '';
 
-      data.forEach ( ([ { root, rootPath, relativePath }, line, lineNr, match ]) => {
+      data.forEach ( datum => {
 
-        if ( filterRe && !filterRe.test ( line ) ) return;
+        if ( filterRe && !filterRe.test ( datum.line ) ) return;
 
-        const todo = match[0],
-              type = match[1].toUpperCase (),
-              message = match[2],
-              code = line.slice ( 0, line.indexOf ( match[0] ) ),
-              rootGroup = groupByRoot ? root : '',
-              typeGroup = groupByType ? type : '';
+        const rootGroup = groupByRoot ? datum.root : '';
 
         if ( !todos[rootGroup] ) todos[rootGroup] = {};
+
+        const typeGroup = groupByType ? datum.type : '';
 
         if ( !todos[rootGroup][typeGroup] ) todos[rootGroup][typeGroup] = {};
 
         if ( !todos[rootGroup][typeGroup][filePathGroup] ) todos[rootGroup][typeGroup][filePathGroup] = [];
 
-        todos[rootGroup][typeGroup][filePathGroup].push ({ root, rootPath, relativePath, filePath, line, lineNr, todo, type, message, code });
+        todos[rootGroup][typeGroup][filePathGroup].push ( datum );
 
       });
 
-    }));
+    });
 
     const roots = Object.keys ( todos );
 
-    if ( roots.length === 1 && roots[0] ) {
+    return roots.length > 1 ? todos : { '': todos[roots[0]] };
 
-      return { '': todos[roots[0]] };
-
-    } else {
-
-      return todos;
-
-    }
-
-  },
+  }
 
   renderTodos ( todos ) {
 
-    if ( !todos ) return '';
+    if ( _.isEmpty ( todos ) ) return '';
 
     const sepRe = new RegExp ( querystring.escape ( '/' ), 'g' ),
           config = Config.get (),
@@ -241,14 +164,14 @@ const Embedded = {
 
           }
 
-          const datas = todos[root][type][filePath];
+          const data = todos[root][type][filePath];
 
-          datas.forEach ( ({ filePath: todoFilePath, line, lineNr, message }) => {
+          data.forEach ( datum => {
 
-            const normalizedFilePath = `/${_.trimStart ( todoFilePath, '/' )}`,
+            const normalizedFilePath = `/${_.trimStart ( datum.filePath, '/' )}`,
                   encodedFilePath = querystring.escape ( normalizedFilePath ).replace ( sepRe, '/' );
 
-            lines.push ( `${root ? indentation : ''}${type ? indentation : ''}${filePath ? indentation : ''}${box} ${_.trimStart ( wholeLine ? line : message )} @file://${encodedFilePath}#${lineNr + 1}` );
+            lines.push ( `${root ? indentation : ''}${type ? indentation : ''}${filePath ? indentation : ''}${box} ${_.trimStart ( wholeLine ? datum.line : datum.message )} @file://${encodedFilePath}#${datum.lineNr + 1}` );
 
           });
 
@@ -262,8 +185,8 @@ const Embedded = {
 
   }
 
-};
+}
 
 /* EXPORT */
 
-export default Embedded;
+export default new Embedded ();

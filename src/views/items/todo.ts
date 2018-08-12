@@ -1,7 +1,6 @@
 
 /* IMPORT */
 
-import * as _ from 'lodash';
 import Item from './item';
 
 /* TODO */
@@ -14,7 +13,7 @@ class Todo extends Item {
 
     super ( obj, label );
 
-    this.tooltip = _.trim ( obj.code );
+    this.tooltip = obj.code || obj.line;
 
     this.command = {
       title: 'Open',

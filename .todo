@@ -1,4 +1,6 @@
 
+☐ AG: add support for include/exclude patterns
+☐ RG: add support for include/exclude patterns
 ☐ Add multi-root support to the `File` activity bar view
 ☐ Archiving
   ☐ Sort entries by finished time if possible

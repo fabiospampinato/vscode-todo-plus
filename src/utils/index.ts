@@ -2,6 +2,7 @@
 /* IMPORT */
 
 import * as vscode from 'vscode';
+import ackmate from './ackmate';
 import archive from './archive';
 import ast from './ast';
 import command from './command'
@@ -20,6 +21,7 @@ import view from './view';
 
 const Utils = {
   context: <vscode.ExtensionContext> undefined,
+  ackmate,
   archive,
   ast,
   command,

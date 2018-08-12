@@ -113,6 +113,7 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.statistics.statusbar.priority": -1, // The priority of this item. Higher value means the item should be shown more to the left
   "todo.statistics.statusbar.text": "$(check) [finished]/[all] ([percentage]%)", // Template used for rendering the text
   "todo.statistics.statusbar.tooltip": "[pending] Pending - [done] Done - [cancelled] Cancelled", // Template used for rendering the tooltip
+  "todo.embedded.provider": "ag", // The tool to use for searching for embedded todos
   "todo.embedded.regex": "(?:<!-- *)?(?:#|//|/\\*+|<!--|--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE):?(?!\\w)((?: +[^\n@]+?)(?= *(?:[^:]//|/\\*+|<!--|@|--))|(?: +[^@\n]+)?)", // Regex used for finding embedded todos, requires double escaping
   "todo.embedded.include": ["**/*"], // Globs to use for including files
   "todo.embedded.exclude": ["**/.git", ...], // Globs to use for excluding files
@@ -129,11 +130,21 @@ It adds 5 shortcuts when editing a `Todo` file:
 }
 ```
 
-Changing some settings (indentation, symbols, colors, tags...) requires a restart.
+Changing some settings (indentation, symbols, colors, tags, providers, regexes...) requires a restart.
 
 An actual regex will be generated from the value of the `todo.embedded.regex` setting. It uses 2 capturing groups, the first one captures the type of the todo (`TODO`, `FIXME` etc.) and the second one captures an optional description (`TODO: description`).
 
 Dates are formatted using [moment](https://momentjs.com/docs/#/displaying/format), and are parsed using [sugar](https://sugarjs.com) and [to-time](https://www.npmjs.com/package/to-time).
+
+## Embedded Todos Providers
+
+This extension supports various tools for searching for embedded todos, by default we'll use `ag`, if available, or `javascript` otherwise. You can change provider by changing the `todo.embedded.provider` setting.
+
+We currently support:
+
+- **javascript**: It supports all regex features supported by JavaScript, including lookaheads and lookbehinds, but it's quite slow. This is the fallback provider.
+- **[ag / The Silver Searcher](https://github.com/ggreer/the_silver_searcher)**: About 50 times faster than `javascript`, but it doesn't support double-star (`**`) globs. If you want to use `ag` you'll have to install it in your system.
+- **[rg / ripgrep](https://github.com/BurntSushi/ripgrep)**: About 50 times faster than `javascript`, but it doesn't support lookaheads and lookbehinds. If you want to use `rg`, and you don't have it installed in your system, we'll use the version included with Visual Studio Code.
 
 ## Statistics Tokens
 
