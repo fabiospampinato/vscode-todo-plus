@@ -1,3 +1,7 @@
+### Version 4.1.0
+- Embedded: selecting the actual todo on click
+- Embedded: added support for The Silver Searcher and ripgrep
+
 ### Version 4.0.6
 - Checking if the configuration is valid
 
