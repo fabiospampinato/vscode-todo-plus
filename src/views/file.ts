@@ -1,6 +1,7 @@
 
 /* IMPORT */
 
+import * as _ from 'lodash';
 import * as vscode from 'vscode';
 import Config from '../config';
 import Utils from '../utils';
@@ -64,7 +65,8 @@ class File extends View {
         return false;
       });
 
-      const item = isGroup ? new Group ( obj, obj.line.text ) : new Todo ( obj, obj.line.text );
+      const label = _.trimStart ( obj.line.text ),
+            item = isGroup ? new Group ( obj, label ) : new Todo ( obj, label );
 
       items.push ( item );
 
