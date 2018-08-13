@@ -100,6 +100,8 @@ class EmbeddedProviderAG {
 
     this.ackmate2data ( ackmate );
 
+    this.filesData = _.filter ( this.filesData, _.identity );
+
   }
 
 }
