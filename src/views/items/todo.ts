@@ -16,8 +16,8 @@ class Todo extends Item {
     this.tooltip = obj.code || obj.line;
 
     this.command = {
-      title: 'Open',
-      command: 'todo.viewOpenTodo',
+      title: 'Reveal',
+      command: 'todo.viewRevealTodo',
       arguments: [this]
     };
 

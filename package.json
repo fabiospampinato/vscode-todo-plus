@@ -555,7 +555,7 @@
         "title": "Open"
       },
       {
-        "command": "todo.viewOpenTodo",
+        "command": "todo.viewRevealTodo",
         "title": "Open"
       }
     ],
@@ -672,7 +672,7 @@
           "when": "false"
         },
         {
-          "command": "todo.viewOpenTodo",
+          "command": "todo.viewRevealTodo",
           "when": "false"
         }
       ],

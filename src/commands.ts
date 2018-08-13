@@ -190,7 +190,7 @@ function viewOpenFile ( file: ItemFile ) {
 
 }
 
-function viewOpenTodo ( todo: ItemTodo ) {
+function viewRevealTodo ( todo: ItemTodo ) {
 
   if ( todo.obj.todo ) {
 
@@ -267,4 +267,4 @@ function viewEmbeddedClearFilter () {
 
 /* EXPORT */
 
-export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenFile, viewOpenTodo, viewFileOpen, viewFileRefresh, viewFileCollapse, viewFileExpand, viewEmbeddedRefresh, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter};
+export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenFile, viewRevealTodo, viewFileOpen, viewFileRefresh, viewFileCollapse, viewFileExpand, viewEmbeddedRefresh, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter};
