@@ -4,7 +4,9 @@
 import * as execa from 'execa';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as vscode from 'vscode';
 import Config from '../config';
+import Consts from '../consts';
 import AG from './embedded_provider_ag';
 import JS from './embedded_provider_js';
 import RG from './embedded_provider_rg';
@@ -32,6 +34,16 @@ const Providers = {
   },
 
   rg () {
+
+    const lookaroundRe = /\(\?<?(!|=)/;
+
+    if ( lookaroundRe.test ( Consts.regexes.todoEmbedded.source ) ) {
+
+      vscode.window.showErrorMessage ( 'ripgrep doesn\'t support lookaheads and lookbehinds, you have to update your "todo.embedded.regex" setting if you want to use ripgrep' );
+
+      return;
+
+    }
 
     try {
 
