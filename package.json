@@ -363,6 +363,11 @@
           "description": "Regex used for finding embedded todos, requires double escaping",
           "default": "(?:<!-- *)?(?:#|//|/\\*+|<!--|--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE):?(?!\\w)((?: +[^\n@]+?)(?= *(?:[^:]//|/\\*+|<!--|@|--))|(?: +[^@\n]+)?)"
         },
+        "todo.embedded.regexFlags": {
+          "type": "string",
+          "description": "Regex flags to use",
+          "default": "gi"
+        },
         "todo.embedded.include": {
           "type": "array",
           "description": "Globs to use for including files",
