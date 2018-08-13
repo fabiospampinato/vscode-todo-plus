@@ -7,6 +7,7 @@ import * as vscode from 'vscode';
 import Config from './config';
 import Consts from './consts';
 import Document from './todo/document';
+import ItemFile from './views/items/item';
 import ItemTodo from './views/items/todo';
 import StatusbarTimer from './statusbars/timer';
 import Utils from './utils';
@@ -183,6 +184,12 @@ function archive () {
 
 /* VIEW */
 
+function viewOpenFile ( file: ItemFile ) {
+
+  Utils.file.open ( file.resourceUri.fsPath, true, 0 );
+
+}
+
 function viewOpenTodo ( todo: ItemTodo ) {
 
   if ( todo.obj.todo ) {
@@ -260,4 +267,4 @@ function viewEmbeddedClearFilter () {
 
 /* EXPORT */
 
-export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenTodo, viewFileOpen, viewFileRefresh, viewFileCollapse, viewFileExpand, viewEmbeddedRefresh, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter};
+export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenFile, viewOpenTodo, viewFileOpen, viewFileRefresh, viewFileCollapse, viewFileExpand, viewEmbeddedRefresh, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter};

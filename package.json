@@ -551,6 +551,10 @@
         }
       },
       {
+        "command": "todo.viewOpenFile",
+        "title": "Open"
+      },
+      {
         "command": "todo.viewOpenTodo",
         "title": "Open"
       }
@@ -664,6 +668,10 @@
           "when": "false"
         },
         {
+          "command": "todo.viewOpenFile",
+          "when": "false"
+        },
+        {
           "command": "todo.viewOpenTodo",
           "when": "false"
         }
@@ -713,6 +721,12 @@
           "command": "todo.viewEmbeddedClearFilter",
           "when": "view == todo.views.2embedded && todo-embedded-filtered == true",
           "group": "navigation@1"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "todo.viewOpenFile",
+          "when": "view == todo.views.2embedded && viewItem == file"
         }
       ]
     }
