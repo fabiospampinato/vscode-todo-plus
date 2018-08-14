@@ -17,7 +17,7 @@ class AG extends Abstract {
 
   execa ( filePaths ) {
 
-    return execa ( AG.bin, ['--ackmate', '--nobreak', '--nocolor', '--ignore-case', '--print-long-lines', '--silent', Consts.regexes.todoEmbedded.source, ...filePaths] );
+    return execa ( AG.bin, ['--ackmate', '--nobreak', '--nocolor', '--heading', '--ignore-case', '--print-long-lines', '--silent', Consts.regexes.todoEmbedded.source, ...filePaths] );
 
   }
 

@@ -13,7 +13,7 @@ class RG extends AG {
 
   execa ( filePaths ) {
 
-    return execa ( RG.bin, ['--color', 'never', '--pretty', '--ignore-case', Consts.regexes.todoEmbedded.source, ...filePaths] );
+    return execa ( RG.bin, ['--color', 'never', '--with-filename', '--pretty', '--ignore-case', Consts.regexes.todoEmbedded.source, ...filePaths] );
 
   }
 
