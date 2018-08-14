@@ -3,6 +3,7 @@
 
 import * as _ from 'lodash';
 import * as chokidar from 'chokidar';
+import * as micromatch from 'micromatch';
 import * as querystring from 'querystring';
 import Config from '../../../config';
 import Folder from '../../folder';
@@ -11,8 +12,11 @@ import Folder from '../../folder';
 
 class Abstract {
 
-  filesData = undefined; // { [filePath]: todo[] | undefined }
+  include = undefined;
+  exclude = undefined;
+  globs = undefined;
   rootPaths = undefined;
+  filesData = undefined; // { [filePath]: todo[] | undefined }
   watcher = undefined;
 
   async get ( rootPaths = Folder.getAllRootPaths (), groupByRoot = true, groupByType = true, groupByFile = true, filter: string | false = false ) {
@@ -21,12 +25,20 @@ class Abstract {
 
     const config = Config.get ();
 
+    if ( !_.isEqual ( this.include, config.embedded.include ) || !_.isEqual ( this.exclude, config.embedded.exclude ) ) {
+
+      this.include = config.embedded.include;
+      this.exclude = config.embedded.exclude;
+      this.globs = this.include.concat ( this.exclude.map ( pattern => `!${pattern}` ) );
+
+    }
+
     if ( !this.filesData || !_.isEqual ( this.rootPaths, rootPaths ) ) {
 
       this.rootPaths = rootPaths;
       this.unwatchPaths ();
       await this.initFilesData ( rootPaths );
-      this.watchPaths ( rootPaths, config.embedded.exclude );
+      this.watchPaths ( rootPaths );
 
     } else {
 
@@ -38,7 +50,7 @@ class Abstract {
 
   }
 
-  async watchPaths ( rootPaths, exclude = [] ) {
+  async watchPaths ( rootPaths ) {
 
     /* HELPERS */
 
@@ -46,20 +58,22 @@ class Abstract {
 
     /* HANDLERS */
 
-    const add = ( filePath ) => {
+    const add = filePath => {
       if ( !this.filesData ) return;
       filePath = pathNormalizer ( filePath );
       if ( this.filesData.hasOwnProperty ( filePath ) ) return;
+      if ( !this.isIncluded ( filePath ) ) return;
       this.filesData[filePath] = undefined;
     };
 
-    const change = ( filePath ) => {
+    const change = filePath => {
       if ( !this.filesData ) return;
       filePath = pathNormalizer ( filePath );
+      if ( !this.filesData.hasOwnProperty ( filePath ) ) return;
       this.filesData[filePath] = undefined;
     };
 
-    const unlink = ( filePath ) => {
+    const unlink = filePath => {
       if ( !this.filesData ) return;
       filePath = pathNormalizer ( filePath );
       delete this.filesData[filePath];
@@ -69,7 +83,7 @@ class Abstract {
 
     if ( !rootPaths.length ) return;
 
-    this.watcher = chokidar.watch ( rootPaths, { ignored: exclude } ).on ( 'add', add ).on ( 'change', change ).on ( 'unlink', unlink );
+    this.watcher = chokidar.watch ( rootPaths, { ignored: this.exclude } ).on ( 'add', add ).on ( 'change', change ).on ( 'unlink', unlink );
 
   }
 
@@ -78,6 +92,18 @@ class Abstract {
     if ( !this.watcher ) return;
 
     this.watcher.close ();
+
+  }
+
+  getIncluded ( filePaths ) {
+
+    return micromatch ( filePaths, this.globs );
+
+  }
+
+  isIncluded ( filePath ) {
+
+    return !!this.getIncluded ([ filePath ]).length;
 
   }
 

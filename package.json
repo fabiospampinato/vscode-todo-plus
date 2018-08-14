@@ -772,6 +772,7 @@
     "find-up": "^2.1.0",
     "globby": "^8.0.1",
     "lodash": "^4.17.4",
+    "micromatch": "^3.1.10",
     "mkdirp": "^0.5.1",
     "moment": "^2.19.1",
     "moment-precise-range-plugin": "^1.2.4",

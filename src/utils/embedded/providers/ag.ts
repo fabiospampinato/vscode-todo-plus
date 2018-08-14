@@ -43,6 +43,15 @@ class AG extends Abstract {
 
   }
 
+  filterAckmate ( ackmate ) {
+
+    const filePaths = _.uniq ( ackmate.map ( obj => obj.filePath ) ),
+          includedFilePaths = this.getIncluded ( filePaths );
+
+    return ackmate.filter ( obj => includedFilePaths.includes ( obj.filePath ) );
+
+  }
+
   ackmate2data ( ackmate ) {
 
     ackmate.forEach ( ({ filePath, line: rawLine, lineNr }) => {
@@ -82,7 +91,7 @@ class AG extends Abstract {
 
   async initFilesData ( rootPaths ) {
 
-    const ackmate = await this.getAckmate ( rootPaths );
+    const ackmate = this.filterAckmate ( await this.getAckmate ( rootPaths ) );
 
     this.filesData = {};
 

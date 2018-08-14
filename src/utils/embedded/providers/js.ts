@@ -4,7 +4,6 @@
 import * as _ from 'lodash';
 import * as globby from 'globby';
 import stringMatches from 'string-matches';
-import Config from '../../../config';
 import Consts from '../../../consts';
 import File from '../../file';
 import Folder from '../../folder';
@@ -16,10 +15,7 @@ class JS extends Abstract {
 
   async getFilePaths ( rootPaths ) {
 
-    const config = Config.get (),
-          {include, exclude} = config.embedded;
-
-    return _.flatten ( await Promise.all ( rootPaths.map ( cwd => globby ( include, { cwd, ignore: exclude, absolute: true } ) ) ) );
+    return _.flatten ( await Promise.all ( rootPaths.map ( cwd => globby ( this.include, { cwd, ignore: this.exclude, absolute: true } ) ) ) );
 
   }
 
