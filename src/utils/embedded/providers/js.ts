@@ -4,16 +4,15 @@
 import * as _ from 'lodash';
 import * as globby from 'globby';
 import stringMatches from 'string-matches';
-import Config from '../config';
-import Consts from '../consts';
-import File from './file';
-import Folder from './folder';
+import Config from '../../../config';
+import Consts from '../../../consts';
+import File from '../../file';
+import Folder from '../../folder';
+import Abstract from './abstract';
 
-/* EMBEDDED PROVIDER JS */
+/* JS */
 
-class EmbeddedProviderJS {
-
-  filesData = undefined; // { [filePath]: todo[] | undefined }
+class JS extends Abstract {
 
   async getFilePaths ( rootPaths ) {
 
@@ -104,4 +103,4 @@ class EmbeddedProviderJS {
 
 /* EXPORT */
 
-export default EmbeddedProviderJS;
+export default JS;

@@ -4,13 +4,12 @@
 import * as _ from 'lodash';
 import * as chokidar from 'chokidar';
 import * as querystring from 'querystring';
-import Config from '../config';
-import EmbeddedProvider from './embedded_provider';
-import Folder from './folder';
+import Config from '../../../config';
+import Folder from '../../folder';
 
-/* EMBEDDED */
+/* ABSTRACT */
 
-class Embedded extends EmbeddedProvider {
+class Abstract {
 
   filesData = undefined; // { [filePath]: todo[] | undefined }
   rootPaths = undefined;
@@ -81,6 +80,14 @@ class Embedded extends EmbeddedProvider {
     this.watcher.close ();
 
   }
+
+  async initFilesData ( rootPaths ) {
+
+    this.filesData = {};
+
+  }
+
+  async updateFilesData () {}
 
   getTodos ( groupByRoot, groupByType, groupByFile, filter ) {
 
@@ -189,4 +196,4 @@ class Embedded extends EmbeddedProvider {
 
 /* EXPORT */
 
-export default new Embedded ();
+export default Abstract;

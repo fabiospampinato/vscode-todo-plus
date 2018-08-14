@@ -4,23 +4,20 @@
 import * as _ from 'lodash';
 import * as execa from 'execa';
 import stringMatches from 'string-matches';
-import Consts from '../consts';
-import Ackmate from './ackmate';
-import Folder from './folder';
+import Consts from '../../../consts';
+import Ackmate from '../../ackmate';
+import Folder from '../../folder';
+import Abstract from './abstract';
 
-/* EMBEDDED PROVIDER AG */
+/* AG */ // The Silver Searcher //URL: https://github.com/ggreer/the_silver_searcher
 
-// AG = The Silver Searcher //URL: https://github.com/ggreer/the_silver_searcher
-
-class EmbeddedProviderAG {
+class AG extends Abstract {
 
   static bin = 'ag';
 
-  filesData = undefined; // { [filePath]: todo[] | undefined }
-
   execa ( filePaths ) {
 
-    return execa ( EmbeddedProviderAG.bin, ['--ackmate', '--nobreak', '--nocolor', '--ignore-case', '--print-long-lines', '--silent', Consts.regexes.todoEmbedded.source, ...filePaths] );
+    return execa ( AG.bin, ['--ackmate', '--nobreak', '--nocolor', '--ignore-case', '--print-long-lines', '--silent', Consts.regexes.todoEmbedded.source, ...filePaths] );
 
   }
 
@@ -108,4 +105,4 @@ class EmbeddedProviderAG {
 
 /* EXPORT */
 
-export default EmbeddedProviderAG;
+export default AG;

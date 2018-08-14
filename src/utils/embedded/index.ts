@@ -5,11 +5,11 @@ import * as execa from 'execa';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
-import Config from '../config';
-import Consts from '../consts';
-import AG from './embedded_provider_ag';
-import JS from './embedded_provider_js';
-import RG from './embedded_provider_rg';
+import Config from '../../config';
+import Consts from '../../consts';
+import AG from './providers/ag';
+import JS from './providers/js';
+import RG from './providers/rg';
 
 /* PROVIDERS */
 
@@ -81,4 +81,4 @@ const provider = Config.get ().embedded.provider,
 
 /* EXPORT */
 
-export default Provider;
+export default new Provider ();
