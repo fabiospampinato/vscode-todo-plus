@@ -97,7 +97,10 @@ class AG extends Abstract {
 
     this.ackmate2data ( ackmate );
 
-    this.filesData = _.filter ( this.filesData, _.identity );
+    this.filesData = _.transform ( this.filesData, ( acc, val, key ) => {
+      if ( !val ) return;
+      acc[key] = val;
+    }, {} );
 
   }
 
