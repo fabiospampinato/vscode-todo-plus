@@ -1,3 +1,12 @@
+### Version 4.1.1
+- ripgrep: checking if lookarounds are being used
+- Added a `todo.embedded.regexFlags` setting
+- File view: trimming labels
+- Embedded regex: improved description capturing
+- Embedded: added support for todos like `//TODO(bob)`
+- Embedded view: added a context menu option for opening files
+- AG/RG: added support for `include` and `exclude` patterns
+
 ### Version 4.1.0
 - Embedded: selecting the actual todo on click
 - Embedded: added support for The Silver Searcher and ripgrep
