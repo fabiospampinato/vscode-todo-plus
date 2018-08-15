@@ -384,6 +384,7 @@
             "**/bower_components",
             "**/dist",
             "**/build",
+            "**/target",
             "**/out",
             "**/output",
             "**/_output",
