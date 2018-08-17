@@ -83,7 +83,12 @@ class Abstract {
 
     if ( !rootPaths.length ) return;
 
-    this.watcher = chokidar.watch ( rootPaths, { ignored: this.exclude } ).on ( 'add', add ).on ( 'change', change ).on ( 'unlink', unlink );
+    const chokidarOptions = {
+      ignored: this.exclude,
+      ignoreInitial: true
+    };
+
+    this.watcher = chokidar.watch ( rootPaths, chokidarOptions ).on ( 'add', add ).on ( 'change', change ).on ( 'unlink', unlink );
 
   }
 
