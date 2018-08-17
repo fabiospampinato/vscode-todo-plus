@@ -4,6 +4,7 @@
 import * as _ from 'lodash';
 import * as execa from 'execa';
 import stringMatches from 'string-matches';
+import Config from '../../../config';
 import Consts from '../../../consts';
 import Ackmate from '../../ackmate';
 import Folder from '../../folder';
@@ -17,7 +18,9 @@ class AG extends Abstract {
 
   execa ( filePaths ) {
 
-    return execa ( AG.bin, ['--ackmate', '--nobreak', '--nocolor', '--heading', '--ignore-case', '--print-long-lines', '--silent', Consts.regexes.todoEmbedded.source, ...filePaths] );
+    const config = Config.get ();
+
+    return execa ( AG.bin, ['--ackmate', '--nobreak', '--nocolor', '--heading', '--print-long-lines', '--silent', ...config.embedded.providers.ag.args, config.embedded.providers.ag.regex, ...filePaths] );
 
   }
 

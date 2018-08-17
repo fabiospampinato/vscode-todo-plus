@@ -113,11 +113,15 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.statistics.statusbar.priority": -1, // The priority of this item. Higher value means the item should be shown more to the left
   "todo.statistics.statusbar.text": "$(check) [finished]/[all] ([percentage]%)", // Template used for rendering the text
   "todo.statistics.statusbar.tooltip": "[pending] Pending - [done] Done - [cancelled] Cancelled", // Template used for rendering the tooltip
-  "todo.embedded.provider": "ag", // The tool to use for searching for embedded todos
   "todo.embedded.regex": "(?:<!-- *)?(?:#|//|/\\*+|<!--|--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?:\\([^(]+\\))?:?(?!\\w)(?: *-->| *\\*/|(?= *(?:[^:]//|/\\*+|<!--|@|--))|((?: +[^\n@]*?)(?= *(?:[^:]//|/\\*+|<!--|@|--))|(?: +[^@\n]+)?))", // Regex used for finding embedded todos, requires double escaping
   "todo.embedded.regexFlags": "gi", // Regex flags to use
   "todo.embedded.include": ["**/*"], // Globs to use for including files
   "todo.embedded.exclude": ["**/.git", ...], // Globs to use for excluding files
+  "todo.embedded.provider": "", // The provider to use when searching for embedded todos
+  "todo.embedded.providers.ag.regex": "(?:#|//|/\\*+|<!--|--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)", // Regex used by ag, requires double escaping
+  "todo.embedded.providers.ag.args": ['--ignore-case'], // Extra arguments to pass to ag
+  "todo.embedded.providers.rg.regex": "(?:#|//|/\\*+|<!--|--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)", // Regex used by rg, requires double escaping
+  "todo.embedded.providers.rg.args": ['--ignore-case'], // Extra arguments to pass to rg
   "todo.embedded.file.wholeLine": true, // Show the whole line
   "todo.embedded.file.groupByRoot": true, // Group embedded todos by workspace root
   "todo.embedded.file.groupByType": true, // Group embedded todos by type
@@ -139,13 +143,13 @@ Dates are formatted using [moment](https://momentjs.com/docs/#/displaying/format
 
 ## Embedded Todos Providers
 
-This extension supports various tools for searching for embedded todos, by default we'll use `ag`, if available, or `javascript` otherwise. You can change provider by changing the `todo.embedded.provider` setting.
+This extension supports various providers for searching for embedded todos, it'll use the one you set via the `todo.embedded.provider` setting or the first one available between:
 
-We currently support:
+1. **[ag / The Silver Searcher](https://github.com/ggreer/the_silver_searcher)**: About 50x faster than the `javascript` provider, it'll use the regex defined under `todo.embedded.providers.ag.regex`. It must be installed in your system.
+2. **[rg / ripgrep](https://github.com/BurntSushi/ripgrep)**: About 50x faster than the `javascript` provider, it'll use the regex defined under `todo.embedded.providers.rg.regex`. It doesn't support lookaheads and lookbehinds. It must be installed in your system, or Visual Studio Code must include it.
+3. **javascript**: Works on every system, but it's quite slow. This is the fallback provider.
 
-- **javascript**: It supports all regex features supported by JavaScript, including lookaheads and lookbehinds, but it's quite slow. This is the fallback provider.
-- **[ag / The Silver Searcher](https://github.com/ggreer/the_silver_searcher)**: About 50 times faster than `javascript`, but it doesn't support double-star (`**`) globs. If you want to use `ag` you'll have to install it in your system.
-- **[rg / ripgrep](https://github.com/BurntSushi/ripgrep)**: About 50 times faster than `javascript`, but it doesn't support lookaheads and lookbehinds. If you want to use `rg`, and you don't have it installed in your system, we'll use the version included with Visual Studio Code.
+`ag` and `rg` will use their specific regexes for finding the lines containing embedded todos, then those lines will be searched in using the regex defined under `todo.embedded.regex`.
 
 ## Statistics Tokens
 
@@ -198,7 +202,7 @@ The following tokens can be used in `todo.statistics.project.text`, `todo.statis
 
 - **CLI**: you can view your embedded todos from the command line with the `todo` command if you install [ag](https://github.com/ggreer/the_silver_searcher) and add the following to your shell configuration file:
 
-```shell
+```bash
 alias todo="ag --color-line-number '1;36' --color-path '1;36' --ignore-case --print-long-lines --silent '(?:<!-- *)?(?:#|//|/\*+|<!--|--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?:\([^(]+\))?:?(?!\w)(?: *-->| *\*/|(?= *(?:[^:]//|/\*+|<!--|@|--))|((?: +[^\n@]*?)(?= *(?:[^:]//|/\*+|<!--|@|--))|(?: +[^@\n]+)?))'"
 ```
 

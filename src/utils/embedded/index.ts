@@ -6,7 +6,6 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import Config from '../../config';
-import Consts from '../../consts';
 import AG from './providers/ag';
 import JS from './providers/js';
 import RG from './providers/rg';
@@ -35,11 +34,12 @@ const Providers = {
 
   rg () {
 
-    const lookaroundRe = /\(\?<?(!|=)/;
+    const config = Config.get (),
+          lookaroundRe = /\(\?<?(!|=)/;
 
-    if ( lookaroundRe.test ( Consts.regexes.todoEmbedded.source ) ) {
+    if ( lookaroundRe.test ( config.embedded.providers.rg.regex ) ) {
 
-      vscode.window.showErrorMessage ( 'ripgrep doesn\'t support lookaheads and lookbehinds, you have to update your "todo.embedded.regex" setting if you want to use ripgrep' );
+      vscode.window.showErrorMessage ( 'ripgrep doesn\'t support lookaheads and lookbehinds, you have to update your "todo.embedded.providers.rg.regex" setting if you want to use ripgrep' );
 
       return;
 
@@ -77,7 +77,7 @@ const Providers = {
 /* PROVIDER */
 
 const provider = Config.get ().embedded.provider,
-      Provider = Providers[provider]() || Providers.javascript ();
+      Provider = provider ? Providers[provider]() || Providers.javascript () : Providers.ag () || Providers.rg () || Providers.javascript ();
 
 /* EXPORT */
 
