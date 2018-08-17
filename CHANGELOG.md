@@ -1,3 +1,7 @@
+### Version 4.2.0
+- Ensuring dot files are considered
+- Files view: added multi-root and multi-file support
+
 ### Version 4.1.2
 - Exclude directory `target`, used in Rust
 - Added an hint about the `todo` command
