@@ -7,9 +7,11 @@ import Config from './config';
 /* CONSTS */
 
 const Consts = {
-  languageId: 'todo',
   indentation: Config.getKey ( 'indentation' ),
   timer: Config.getKey ( 'timer.statusbar.enabled' ),
+  language: {
+    id: 'todo',
+  },
   symbols: {
     project: ':',
     box: Config.getKey ( 'symbols.box' ),
