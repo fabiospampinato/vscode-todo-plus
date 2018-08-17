@@ -500,7 +500,7 @@
         "title": "Todo: Archive"
       },
       {
-        "command": "todo.viewFileOpen",
+        "command": "todo.viewFilesOpen",
         "title": "Open",
         "icon": {
           "light": "resources/icons/open_file_light.svg",
@@ -508,7 +508,7 @@
         }
       },
       {
-        "command": "todo.viewFileCollapse",
+        "command": "todo.viewFilesCollapse",
         "title": "Collapse",
         "icon": {
           "light": "resources/icons/collapse_light.svg",
@@ -516,7 +516,7 @@
         }
       },
       {
-        "command": "todo.viewFileExpand",
+        "command": "todo.viewFilesExpand",
         "title": "Expand",
         "icon": {
           "light": "resources/icons/expand_light.svg",
@@ -524,7 +524,7 @@
         }
       },
       {
-        "command": "todo.viewFileRefresh",
+        "command": "todo.viewFilesRefresh",
         "title": "Refresh",
         "icon": {
           "light": "resources/icons/refresh_light.svg",
@@ -612,8 +612,8 @@
     "views": {
       "todo": [
         {
-          "id": "todo.views.1file",
-          "name": "File"
+          "id": "todo.views.1files",
+          "name": "Files"
         },
         {
           "id": "todo.views.2embedded",
@@ -653,19 +653,19 @@
           "when": "editorLangId == todo"
         },
         {
-          "command": "todo.viewFileOpen",
+          "command": "todo.viewFilesOpen",
           "when": "false"
         },
         {
-          "command": "todo.viewFileCollapse",
+          "command": "todo.viewFilesCollapse",
           "when": "false"
         },
         {
-          "command": "todo.viewFileExpand",
+          "command": "todo.viewFilesExpand",
           "when": "false"
         },
         {
-          "command": "todo.viewFileRefresh",
+          "command": "todo.viewFilesRefresh",
           "when": "false"
         },
         {
@@ -699,23 +699,23 @@
       ],
       "view/title": [
         {
-          "command": "todo.viewFileOpen",
-          "when": "view == todo.views.1file",
+          "command": "todo.viewFilesOpen",
+          "when": "view == todo.views.1files && todo-files-open-button == true",
           "group": "navigation@1"
         },
         {
-          "command": "todo.viewFileCollapse",
-          "when": "view == todo.views.1file && todo-file-expanded == true",
+          "command": "todo.viewFilesCollapse",
+          "when": "view == todo.views.1files && todo-files-expanded == true",
           "group": "navigation@2"
         },
         {
-          "command": "todo.viewFileExpand",
-          "when": "view == todo.views.1file && todo-file-expanded == false",
+          "command": "todo.viewFilesExpand",
+          "when": "view == todo.views.1files && todo-files-expanded == false",
           "group": "navigation@2"
         },
         {
-          "command": "todo.viewFileRefresh",
-          "when": "view == todo.views.1file",
+          "command": "todo.viewFilesRefresh",
+          "when": "view == todo.views.1files",
           "group": "navigation@3"
         },
         {
@@ -747,7 +747,7 @@
       "view/item/context": [
         {
           "command": "todo.viewOpenFile",
-          "when": "view == todo.views.2embedded && viewItem == file"
+          "when": "view =~ /todo\\.views/ && viewItem == file"
         }
       ]
     }

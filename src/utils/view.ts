@@ -15,7 +15,7 @@ const View = {
 
   uris: {},
 
-  getURI ([{ filePath, relativePath }]) {
+  getURI ({ filePath, relativePath }) {
 
     if ( View.uris[filePath] ) return View.uris[filePath];
 

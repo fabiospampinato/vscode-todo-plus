@@ -11,6 +11,7 @@ const Consts = {
   timer: Config.getKey ( 'timer.statusbar.enabled' ),
   language: {
     id: 'todo',
+    globs: ['**/TODO', '**/*.todo', '**/*.todos', '**/*.task', '**/*.tasks', '**/*.taskpaper', '**/todolist.txt']
   },
   symbols: {
     project: ':',

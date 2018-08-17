@@ -9,6 +9,7 @@ import command from './command'
 import editor from './editor';
 import embedded from './embedded';
 import file from './file';
+import files from './files';
 import folder from './folder';
 import init from './init';
 import regex from './regex';
@@ -28,6 +29,7 @@ const Utils = {
   editor,
   embedded,
   file,
+  files,
   folder,
   init,
   regex,

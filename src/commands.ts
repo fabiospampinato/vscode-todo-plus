@@ -12,7 +12,7 @@ import ItemTodo from './views/items/todo';
 import StatusbarTimer from './statusbars/timer';
 import Utils from './utils';
 import ViewEmbedded from './views/embedded';
-import ViewFile from './views/file';
+import ViewFiles from './views/files';
 
 /* CALL TODOS METHOD */
 
@@ -209,24 +209,24 @@ function viewRevealTodo ( todo: ItemTodo ) {
 
 /* VIEW FILE */
 
-function viewFileOpen () {
+function viewFilesOpen () {
   open ();
 }
 
-function viewFileRefresh () {
-  ViewFile.refresh ();
+function viewFilesRefresh () {
+  ViewFiles.refresh ();
 }
 
-function viewFileCollapse () {
-  ViewFile.expanded = false;
-  vscode.commands.executeCommand ( 'setContext', 'todo-file-expanded', false );
-  ViewFile.refresh ( true );
+function viewFilesCollapse () {
+  ViewFiles.expanded = false;
+  vscode.commands.executeCommand ( 'setContext', 'todo-files-expanded', false );
+  ViewFiles.refresh ( true );
 }
 
-function viewFileExpand () {
-  ViewFile.expanded = true;
-  vscode.commands.executeCommand ( 'setContext', 'todo-file-expanded', true );
-  ViewFile.refresh ( true );
+function viewFilesExpand () {
+  ViewFiles.expanded = true;
+  vscode.commands.executeCommand ( 'setContext', 'todo-files-expanded', true );
+  ViewFiles.refresh ( true );
 }
 
 /* VIEW EMBEDDED */
@@ -267,4 +267,4 @@ function viewEmbeddedClearFilter () {
 
 /* EXPORT */
 
-export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenFile, viewRevealTodo, viewFileOpen, viewFileRefresh, viewFileCollapse, viewFileExpand, viewEmbeddedRefresh, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter};
+export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenFile, viewRevealTodo, viewFilesOpen, viewFilesRefresh, viewFilesCollapse, viewFilesExpand, viewEmbeddedRefresh, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter};

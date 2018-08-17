@@ -2,8 +2,8 @@
 /* IMPORT */
 
 import Embedded from './embedded';
-import File from './file';
+import Files from './files';
 
 /* EXPORT */
 
-export default [File, Embedded];
+export default [Files, Embedded];

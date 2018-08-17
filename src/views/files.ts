@@ -11,16 +11,15 @@ import Placeholder from './items/placeholder';
 import Todo from './items/todo';
 import View from './view';
 
-/* EMBEDDED */
+/* FILES */
 
 //TODO: Collapse/Expand without rebuilding the tree https://github.com/Microsoft/vscode/issues/54192
 
-class Embedded extends View {
+class Files extends View {
 
-  id = 'todo.views.2embedded';
+  id = 'todo.views.1files';
   clear = false;
-  expanded = true;
-  filter: string | false = false;
+  expanded = false;
   directorySepRe = /\\|\//;
 
 	getTreeItem ( item: Item ): vscode.TreeItem {
@@ -43,21 +42,42 @@ class Embedded extends View {
 
     }
 
-    let obj = item ? item.obj : await Utils.embedded.get ( undefined, this.config.embedded.view.groupByRoot, this.config.embedded.view.groupByType, this.config.embedded.view.groupByFile, this.filter );
+    let obj = item ? item.obj: await Utils.files.get ();
 
-    if ( _.isEmpty ( obj ) ) return [new Placeholder ( 'No embedded todos found' )];
+    if ( _.isEmpty ( obj ) ) return [new Placeholder ( 'No todo files found' )];
 
     while ( obj[''] ) obj = obj['']; // Collpsing unnecessary groups
 
-    if ( _.isArray ( obj ) ) {
+    if ( obj.textEditor ) {
 
-      return obj.map ( obj => {
+      const items = [],
+            lineNr = obj.hasOwnProperty ( 'lineNr' ) ? obj.lineNr : -1;
 
-        return new Todo ( obj, this.config.embedded.view.wholeLine ? obj.line : obj.message || obj.todo, this.config.embedded.view.icons );
+      Utils.ast.walkChildren ( obj.textEditor, lineNr, data => {
+
+        data.textEditor = obj.textEditor;
+        data.filePath = obj.filePath;
+        data.lineNr = data.line.lineNumber;
+
+        let isGroup = false;
+
+        Utils.ast.walkChildren ( obj.textEditor, data.line.lineNumber, () => {
+          isGroup = true;
+          return false;
+        });
+
+        const label = _.trimStart ( data.line.text ),
+              item = isGroup ? new Group ( data, label ) : new Todo ( data, label );
+
+        items.push ( item );
 
       });
 
-    } else if ( _.isObject ( obj ) ) {
+      if ( !items.length ) return [new Placeholder ( 'The file is empty' )];
+
+      return items;
+
+    } else {
 
       const keys = Object.keys ( obj ).sort ();
 
@@ -67,7 +87,7 @@ class Embedded extends View {
 
         if ( this.directorySepRe.test ( key ) ) {
 
-          const uri = Utils.view.getURI ( val[0] );
+          const uri = Utils.view.getURI ( val );
 
           return new File ( val, uri );
 
@@ -95,4 +115,4 @@ class Embedded extends View {
 
 /* EXPORT */
 
-export default new Embedded ();
+export default new Files ();
