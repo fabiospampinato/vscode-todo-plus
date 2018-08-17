@@ -139,7 +139,7 @@ Changing some settings (indentation, symbols, colors, tags, providers, regexes..
 
 An actual regex will be generated from the value of the `todo.embedded.regex` setting. It uses 2 capturing groups, the first one captures the type of the todo (`TODO`, `FIXME` etc.) and the second one captures an optional description (`TODO: description`).
 
-Dates are formatted using [moment](https://momentjs.com/docs/#/displaying/format), and are parsed using [sugar](https://sugarjs.com) and [to-time](https://www.npmjs.com/package/to-time).
+Dates are formatted using [moment](https://momentjs.com/docs/#/displaying/format).
 
 ## Embedded Todos Providers
 

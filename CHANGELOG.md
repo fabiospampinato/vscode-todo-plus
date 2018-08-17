@@ -1,3 +1,8 @@
+### Version 4.1.2
+- Exclude directory `target`, used in Rust
+- Added an hint about the `todo` command
+- Improved support for `ag` and `rg`
+
 ### Version 4.1.1
 - ripgrep: checking if lookarounds are being used
 - Added a `todo.embedded.regexFlags` setting
