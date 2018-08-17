@@ -15,7 +15,7 @@ class JS extends Abstract {
 
   async getFilePaths ( rootPaths ) {
 
-    return _.flatten ( await Promise.all ( rootPaths.map ( cwd => globby ( this.include, { cwd, ignore: this.exclude, absolute: true } ) ) ) );
+    return _.flatten ( await Promise.all ( rootPaths.map ( cwd => globby ( this.include, { cwd, ignore: this.exclude, dot: true, absolute: true } ) ) ) );
 
   }
 

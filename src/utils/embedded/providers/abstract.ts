@@ -102,7 +102,7 @@ class Abstract {
 
   getIncluded ( filePaths ) {
 
-    return micromatch ( filePaths, this.globs );
+    return micromatch ( filePaths, this.globs, { dot: true } );
 
   }
 
