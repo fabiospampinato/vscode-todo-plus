@@ -1,3 +1,6 @@
+### Version 4.3.0
+- Autocompletion: added support for tags inference
+
 ### Version 4.2.1
 - Updating the configuration dynamically
 - Embedded: updated exclude globs
