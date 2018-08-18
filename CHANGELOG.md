@@ -1,3 +1,7 @@
+### Version 4.3.1
+- Added `todo.file.include` and `todo.file.exclude` settings
+- RG: finding the binary faster
+
 ### Version 4.3.0
 - Autocompletion: added support for tags inference
 
