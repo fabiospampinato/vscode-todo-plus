@@ -14,7 +14,6 @@ class Abstract {
 
   include = undefined;
   exclude = undefined;
-  globs = undefined;
   rootPaths = undefined;
   filesData = undefined; // { [filePath]: todo[] | undefined }
   watcher = undefined;
@@ -25,13 +24,8 @@ class Abstract {
 
     const config = Config.get ();
 
-    if ( !_.isEqual ( this.include, config.embedded.include ) || !_.isEqual ( this.exclude, config.embedded.exclude ) ) {
-
-      this.include = config.embedded.include;
-      this.exclude = config.embedded.exclude;
-      this.globs = this.include.concat ( this.exclude.map ( pattern => `!${pattern}` ) );
-
-    }
+    this.include = config.embedded.include;
+    this.exclude = config.embedded.exclude;
 
     if ( !this.filesData || !_.isEqual ( this.rootPaths, rootPaths ) ) {
 
@@ -102,7 +96,7 @@ class Abstract {
 
   getIncluded ( filePaths ) {
 
-    return micromatch ( filePaths, this.globs, { dot: true } );
+    return micromatch ( filePaths, this.include, { ignore: this.exclude, dot: true } );
 
   }
 

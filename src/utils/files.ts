@@ -13,7 +13,6 @@ import Folder from './folder';
 
 class Files { //FIXME: There's some code duplication between this and `embedded`
 
-  globs = Consts.language.globs;
   rootPaths = undefined;
   filesData = undefined; // { [filePath]: todo | undefined }
   watcher = undefined;
@@ -92,7 +91,7 @@ class Files { //FIXME: There's some code duplication between this and `embedded`
 
   getIncluded ( filePaths ) {
 
-    return micromatch ( filePaths, this.globs, { dot: true } );
+    return micromatch ( filePaths, Consts.language.globs, { dot: true } );
 
   }
 
@@ -104,7 +103,7 @@ class Files { //FIXME: There's some code duplication between this and `embedded`
 
   async getFilePaths ( rootPaths ) {
 
-    return _.flatten ( await Promise.all ( rootPaths.map ( cwd => globby ( this.globs, { cwd, dot: true, absolute: true } ) ) ) );
+    return _.flatten ( await Promise.all ( rootPaths.map ( cwd => globby ( Consts.language.globs, { cwd, dot: true, absolute: true } ) ) ) );
 
   }
 
