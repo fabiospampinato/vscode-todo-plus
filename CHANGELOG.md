@@ -1,3 +1,6 @@
+### Version 4.3.2
+- Embedded: updated regex
+
 ### Version 4.3.1
 - Added `todo.file.include` and `todo.file.exclude` settings
 - RG: finding the binary faster
