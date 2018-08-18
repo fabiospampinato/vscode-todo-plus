@@ -1,3 +1,9 @@
+### Version 4.2.1
+- Updating the configuration dynamically
+- Embedded: updated exclude globs
+- Embedded: excluding the `vendor` directory
+- RG: properly checking if it’s included with VSC
+
 ### Version 4.2.0
 - Ensuring dot files are considered
 - Files view: added multi-root and multi-file support
