@@ -135,7 +135,7 @@ It adds 5 shortcuts when editing a `Todo` file:
 }
 ```
 
-Changing some settings (indentation, symbols, colors, tags, providers, regexes...) requires a restart.
+Changing some settings (symbols, colors, providers...) requires a restart.
 
 An actual regex will be generated from the value of the `todo.embedded.regex` setting. It uses 2 capturing groups, the first one captures the type of the todo (`TODO`, `FIXME` etc.) and the second one captures an optional description (`TODO: description`).
 
