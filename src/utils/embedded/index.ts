@@ -62,11 +62,15 @@ const Providers = {
 
     for ( let filePath of filePaths ) {
 
-      if ( !fs.accessSync ( filePath ) ) continue;
+      try {
 
-      RG.bin = filePath;
+        fs.accessSync ( filePath );
 
-      return RG;
+        RG.bin = filePath;
+
+        return RG;
+
+      } catch ( e ) {}
 
     }
 
