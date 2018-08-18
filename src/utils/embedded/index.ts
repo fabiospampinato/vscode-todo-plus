@@ -56,8 +56,8 @@ const Providers = {
     const name = /^win/.test ( process.platform ) ? 'rg.exe' : 'rg',
           basePath = path.dirname ( path.dirname ( require.main.filename ) ),
           filePaths = [
-            path.join ( basePath, `node_modules/vscode-ripgrep/bin/${name}` ),
-            path.join ( basePath, `node_modules.asar.unpacked/vscode-ripgrep/bin/${name}` )
+            path.join ( basePath, `node_modules.asar.unpacked/vscode-ripgrep/bin/${name}` ),
+            path.join ( basePath, `node_modules/vscode-ripgrep/bin/${name}` )
           ];
 
     for ( let filePath of filePaths ) {
