@@ -1,8 +1,11 @@
 
 /* IMPORT */
 
+import * as _ from 'lodash';
 import * as vscode from 'vscode';
+import Config from '../config';
 import Consts from '../consts';
+import Document from '../todo/document';
 
 /* COMPLETION */
 
@@ -12,16 +15,42 @@ class Completion implements vscode.CompletionItemProvider {
 
   provideCompletionItems ( textDocument: vscode.TextDocument, pos: vscode.Position ) {
 
-    return Consts.tags.names.map ( name => {
+    const config = Config.get ();
 
-      const tag = `@${name}`,
-            item = new vscode.CompletionItem ( tag );
+    /* SPECIAL */
 
-      item.insertText = `${tag} `;
+    const tagsSpecial = Consts.tags.names.map ( tag => {
+
+      const text = `@${tag}`,
+            item = new vscode.CompletionItem ( text );
+
+      item.insertText = `${text} `;
 
       return item;
 
     });
+
+    if ( !config.tags.namesInference ) return tagsSpecial;
+
+    /* SMART */
+
+    const doc = new Document ( textDocument  ),
+          tags = _.uniq ( doc.getTags ().map ( tag => tag.text ) ),
+          tagsFiltered = tags.filter ( tag => Consts.regexes.tagNormal.test ( tag ) );
+
+    const tagsSmart = tagsFiltered.map ( text => {
+
+      const item = new vscode.CompletionItem ( text );
+
+      item.insertText = `${text} `;
+
+      return item;
+
+    });
+
+    /* RETURN */
+
+    return tagsSpecial.concat ( tagsSmart );
 
   }
 

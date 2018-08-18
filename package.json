@@ -143,6 +143,11 @@
             "today"
           ]
         },
+        "todo.tags.namesInference": {
+          "type": "boolean",
+          "description": "Infer commonly used tags' names",
+          "default": true
+        },
         "todo.tags.backgroundColors": {
           "type": "array",
           "items": {

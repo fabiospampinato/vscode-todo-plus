@@ -80,6 +80,7 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.colors.tag": "#e6db74", // Tag color
   "todo.colors.types": { "TODO": "#ffcc00", "FIXME": "#cc0000" ... }, // Object mapping todo types to their color
   "todo.tags.names": ["critical", "high", "low", "today"], // Special tags' names
+  "todo.tags.namesInference": true, // Infer commonly used tags' names
   "todo.tags.backgroundColors": ["#e54545", "#e59f45", "#e5d145", "#ae81ff"], // Special tags' background colors
   "todo.tags.foregroundColors": ["#000000", "#000000", "#000000", "#000000"], // Special tags' foreground colors
   "todo.archive.name": "Archive", // Name of the special "Archive" section

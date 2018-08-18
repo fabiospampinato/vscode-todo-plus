@@ -59,7 +59,7 @@ const Consts = {
         tag: /(?:^|[^a-zA-Z0-9`])(@[^\s*~(]+(?:\([^)]*\))?)/gm,
         tagSpecial: new RegExp ( `(?:^|[^a-zA-Z0-9])@(${tagsNames.map ( n => _.escapeRegExp ( n ) ).join ( '|' )})(?:(?:\\([^)]*\\))|(?![a-zA-Z]))`, 'gm' ),
         tagSpecialNormal: new RegExp ( `(?:^|[^a-zA-Z0-9])(?:${tagsNames.map ( n => `(@${_.escapeRegExp ( n )}(?:(?:\\([^)]*\\))|(?![a-zA-Z])))` ).join ( '|' )}|(@[^\\s*~(]+(?:(?:\\([^)]*\\))|(?![a-zA-Z]))))`, 'gm' ),
-        tagNormal: /(?:^|[^a-zA-Z0-9`])@(?!created|done|cancelled|started|lasted|wasted|est|\d)[^\s*~(]+(?:\([^)]*\))?/,
+        tagNormal: new RegExp ( `(?:^|[^a-zA-Z0-9])@(?!${tagsNames.map ( n => _.escapeRegExp ( n ) ).join ( '|' )}|created|done|cancelled|started|lasted|wasted|est|\\d)[^\\s*~(]+(?:\\([^)]*\\))?` ),
         tagCreated: /(?:^|[^a-zA-Z0-9])@created(?:(?:\(([^)]*)\))|(?![a-zA-Z]))/,
         tagStarted: /(?:^|[^a-zA-Z0-9])@started(?:(?:\(([^)]*)\))|(?![a-zA-Z]))/,
         tagFinished: /(?:^|[^a-zA-Z0-9])@(?:done|cancelled)(?:(?:\(([^)]*)\))|(?![a-zA-Z]))/,
