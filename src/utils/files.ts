@@ -6,13 +6,15 @@ import * as chokidar from 'chokidar';
 import * as globby from 'globby';
 import * as micromatch from 'micromatch';
 import * as vscode from 'vscode';
-import Consts from '../consts';
+import Config from '../config';
 import Folder from './folder';
 
 /* FILES */
 
 class Files { //FIXME: There's some code duplication between this and `embedded`
 
+  include = undefined;
+  exclude = undefined;
   rootPaths = undefined;
   filesData = undefined; // { [filePath]: todo | undefined }
   watcher = undefined;
@@ -20,6 +22,11 @@ class Files { //FIXME: There's some code duplication between this and `embedded`
   async get ( rootPaths = Folder.getAllRootPaths () ) {
 
     rootPaths = _.castArray ( rootPaths );
+
+    const config = Config.get ();
+
+    this.include = config.file.include;
+    this.exclude = config.file.exclude;
 
     if ( !this.filesData || !_.isEqual ( this.rootPaths, rootPaths ) ) {
 
@@ -74,6 +81,7 @@ class Files { //FIXME: There's some code duplication between this and `embedded`
     if ( !rootPaths.length ) return;
 
     const chokidarOptions = {
+      ignored: this.exclude,
       ignoreInitial: true
     };
 
@@ -91,7 +99,7 @@ class Files { //FIXME: There's some code duplication between this and `embedded`
 
   getIncluded ( filePaths ) {
 
-    return micromatch ( filePaths, Consts.language.globs, { dot: true } );
+    return micromatch ( filePaths, this.include, { ignore: this.exclude, dot: true } );
 
   }
 
@@ -103,7 +111,7 @@ class Files { //FIXME: There's some code duplication between this and `embedded`
 
   async getFilePaths ( rootPaths ) {
 
-    return _.flatten ( await Promise.all ( rootPaths.map ( cwd => globby ( Consts.language.globs, { cwd, dot: true, absolute: true } ) ) ) );
+    return _.flatten ( await Promise.all ( rootPaths.map ( cwd => globby ( this.include, { cwd, ignore: this.exclude, dot: true, absolute: true } ) ) ) );
 
   }
 

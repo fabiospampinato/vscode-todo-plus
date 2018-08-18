@@ -42,7 +42,7 @@ class Files extends View {
 
     }
 
-    let obj = item ? item.obj: await Utils.files.get ();
+    let obj = item ? item.obj : await Utils.files.get ();
 
     if ( _.isEmpty ( obj ) ) return [new Placeholder ( 'No todo files found' )];
 

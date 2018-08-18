@@ -31,7 +31,7 @@ const Init = {
 
   language () {
 
-    vscode.languages.setLanguageConfiguration ( Consts.language.id, {
+    vscode.languages.setLanguageConfiguration ( Consts.languageId, {
       wordPattern: /(-?\d*\.\d\w*)|([^\-\`\~\!\#\%\^\&\*\(\)\=\+\[\{\]\}\\\|\;\:\'\"\,\.\<\>\/\?\s]+)/g,
       indentationRules: {
         increaseIndentPattern: Consts.regexes.project,

@@ -66,6 +66,8 @@ It adds 5 shortcuts when editing a `Todo` file:
 {
   "todo.file.name": "TODO", // Todo file name. Other supported names are: `*.todo`, `*.todos`, `*.task`, `*.tasks`, `*.taskpaper` and `todolist.txt`
   "todo.file.defaultContent": "\nTodo:\n  ☐ Item\n", // New todo files default content
+  "todo.file.include": ["**/TODO", ...], // Globs to use for including files
+  "todo.file.exclude": ["**/node_modules", ...], // Globs to use for excluding files
   "todo.file.view.expanded": true, // Start the tree in an expanded state
   "todo.indentation": "  ", // String used for indentation
   "todo.symbols.box": "☐", // Box symbol

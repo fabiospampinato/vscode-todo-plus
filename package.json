@@ -52,6 +52,51 @@
           "description": "New todo files default content",
           "default": "\nTodo:\n  ☐ Item\n"
         },
+        "todo.file.include": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Globs to use for including files",
+          "default": [
+            "**/TODO",
+            "**/*.todo",
+            "**/*.todos",
+            "**/*.task",
+            "**/*.tasks",
+            "**/*.taskpaper",
+            "**/todolist.txt"
+          ]
+        },
+        "todo.file.exclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Globs to use for excluding files",
+          "default": [
+            "**/_output",
+            "**/_output/**",
+            "**/bower_components",
+            "**/bower_components/**",
+            "**/build",
+            "**/build/**",
+            "**/dist",
+            "**/dist/**",
+            "**/node_modules",
+            "**/node_modules/**",
+            "**/out",
+            "**/out/**",
+            "**/output",
+            "**/output/**",
+            "**/target",
+            "**/target/**",
+            "**/third_party",
+            "**/third_party/**",
+            "**/vendor",
+            "**/vendor/**"
+          ]
+        },
         "todo.file.view.expanded": {
           "type": "boolean",
           "description": "Start the tree in an expanded state",
@@ -376,22 +421,22 @@
           "default": [
             "**/.*",
             "**/.*/**",
-            "**/node_modules",
-            "**/node_modules/**",
+            "**/_output",
+            "**/_output/**",
             "**/bower_components",
             "**/bower_components/**",
-            "**/dist",
-            "**/dist/**",
             "**/build",
             "**/build/**",
-            "**/target",
-            "**/target/**",
+            "**/dist",
+            "**/dist/**",
+            "**/node_modules",
+            "**/node_modules/**",
             "**/out",
             "**/out/**",
             "**/output",
             "**/output/**",
-            "**/_output",
-            "**/_output/**",
+            "**/target",
+            "**/target/**",
             "**/third_party",
             "**/third_party/**",
             "**/vendor",

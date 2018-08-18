@@ -14,12 +14,9 @@ const Consts = {
           tagsNames = Config.getKey ( 'tags.names' );
 
     return {
+      languageId: 'todo',
       indentation: Config.getKey ( 'indentation' ),
       timer: Config.getKey ( 'timer.statusbar.enabled' ),
-      language: {
-        id: 'todo',
-        globs: ['**/TODO', '**/*.todo', '**/*.todos', '**/*.task', '**/*.tasks', '**/*.taskpaper', '**/todolist.txt']
-      },
       symbols: {
         project: ':',
         box: Config.getKey ( 'symbols.box' ),

@@ -36,8 +36,8 @@ const activate = function ( context: vscode.ExtensionContext ) {
   Utils.init.views ();
 
   context.subscriptions.push (
-    vscode.languages.registerCompletionItemProvider ( Consts.language.id, new CompletionProvider (), ...CompletionProvider.triggerCharacters ),
-    vscode.languages.registerDocumentSymbolProvider ( Consts.language.id, new SymbolsProvider () ),
+    vscode.languages.registerCompletionItemProvider ( Consts.languageId, new CompletionProvider (), ...CompletionProvider.triggerCharacters ),
+    vscode.languages.registerDocumentSymbolProvider ( Consts.languageId, new SymbolsProvider () ),
     vscode.window.onDidChangeActiveTextEditor ( () => DocumentDecorator.update () ),
     vscode.workspace.onDidChangeConfiguration ( Consts.update ),
     vscode.workspace.onDidChangeConfiguration ( () => delete Utils.embedded.filesData && delete Utils.files.filesData ),

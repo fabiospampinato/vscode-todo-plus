@@ -12,13 +12,13 @@ const Editor = {
 
   isSupported ( textEditor?: vscode.TextEditor ) {
 
-    return textEditor && ( textEditor.document.languageId === Consts.language.id );
+    return textEditor && ( textEditor.document.languageId === Consts.languageId );
 
   },
 
   open ( content ) {
 
-    vscode.workspace.openTextDocument ({ language: Consts.language.id }).then ( ( textDocument: vscode.TextDocument ) => {
+    vscode.workspace.openTextDocument ({ language: Consts.languageId }).then ( ( textDocument: vscode.TextDocument ) => {
 
       vscode.window.showTextDocument ( textDocument, { preview: false } ).then ( ( textEditor: vscode.TextEditor ) => {
 

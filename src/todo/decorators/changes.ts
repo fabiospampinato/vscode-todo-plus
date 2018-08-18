@@ -14,7 +14,7 @@ const Changes = {
 
   onChanges ({ document, contentChanges }) {
 
-    if ( document.languageId !== Consts.language.id ) return;
+    if ( document.languageId !== Consts.languageId ) return;
 
     if ( !contentChanges.length ) return; //URL: https://github.com/Microsoft/vscode/issues/50344
 
