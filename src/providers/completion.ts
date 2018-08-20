@@ -3,7 +3,6 @@
 
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
-import Config from '../config';
 import Consts from '../consts';
 import Document from '../todo/document';
 
@@ -15,42 +14,44 @@ class Completion implements vscode.CompletionItemProvider {
 
   provideCompletionItems ( textDocument: vscode.TextDocument, pos: vscode.Position ) {
 
-    const config = Config.get ();
+    const character = textDocument.lineAt ( pos.line ).text[pos.character - 1];
 
-    /* SPECIAL */
+    if ( !character || !_.trim ( character ).length || _.includes ( Completion.triggerCharacters, character ) ) {
 
-    const tagsSpecial = Consts.tags.names.map ( tag => {
+      /* SPECIAL */
 
-      const text = `@${tag}`,
-            item = new vscode.CompletionItem ( text );
+      const tagsSpecial = Consts.tags.names.map ( tag => {
 
-      item.insertText = `${text} `;
+        const text = `@${tag}`,
+              item = new vscode.CompletionItem ( text );
 
-      return item;
+        item.insertText = `${text} `;
 
-    });
+        return item;
 
-    if ( !config.tags.namesInference ) return tagsSpecial;
+      });
 
-    /* SMART */
+      /* SMART */
 
-    const doc = new Document ( textDocument  ),
-          tags = _.uniq ( doc.getTags ().map ( tag => tag.text ) ),
-          tagsFiltered = tags.filter ( tag => Consts.regexes.tagNormal.test ( tag ) );
+      const doc = new Document ( textDocument  ),
+            tags = _.uniq ( doc.getTags ().map ( tag => tag.text ) ),
+            tagsFiltered = tags.filter ( tag => Consts.regexes.tagNormal.test ( tag ) );
 
-    const tagsSmart = tagsFiltered.map ( text => {
+      const tagsSmart = tagsFiltered.map ( text => {
 
-      const item = new vscode.CompletionItem ( text );
+        const item = new vscode.CompletionItem ( text );
 
-      item.insertText = `${text} `;
+        item.insertText = `${text} `;
 
-      return item;
+        return item;
 
-    });
+      });
 
-    /* RETURN */
+      return tagsSpecial.concat ( tagsSmart );
 
-    return tagsSpecial.concat ( tagsSmart );
+    }
+
+    return null; // Word-based suggestions
 
   }
 

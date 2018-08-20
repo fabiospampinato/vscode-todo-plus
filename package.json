@@ -38,6 +38,11 @@
         "path": "./syntax/grammar.tmLanguage"
       }
     ],
+    "configurationDefaults": {
+      "[todo]": {
+        "editor.quickSuggestions": false
+      }
+    },
     "configuration": {
       "type": "object",
       "title": "Todo - Configuration",
