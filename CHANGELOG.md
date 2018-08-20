@@ -1,3 +1,6 @@
+### Version 4.4.0
+- Added word-based suggestions
+
 ### Version 4.3.2
 - Embedded: updated regex
 
