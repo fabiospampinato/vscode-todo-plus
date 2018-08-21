@@ -1,3 +1,6 @@
+### Version 4.4.1
+- RG: normalizing paths under Windows
+
 ### Version 4.4.0
 - Added word-based suggestions
 
