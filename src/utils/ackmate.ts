@@ -11,6 +11,12 @@ const Ackmate = {
   filePathRe: /^(?=\D):?(.*)$/,
   matchLineRe: /^(\d+)(?:;\d+ \d+)?:(.*)$/,
 
+  normalizePath ( filePath ) {
+
+    return filePath.replace ( /\\/g, '/' );
+
+  },
+
   parse ( str ) {
 
     const lines = str.split ( Ackmate.newLineRe );
@@ -21,7 +27,7 @@ const Ackmate = {
 
       if ( match = line.match ( Ackmate.filePathRe ) ) {
 
-        filePath = match[1];
+        filePath = Ackmate.normalizePath ( match[1] );
 
       } else if ( match = line.match ( Ackmate.matchLineRe ) ) {
 
