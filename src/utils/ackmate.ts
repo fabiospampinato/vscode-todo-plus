@@ -8,8 +8,8 @@ import * as _ from 'lodash';
 const Ackmate = {
 
   newLineRe: /\r?\n/g,
-  filePathRe: /^(?=\D):?(.*)$/,
-  matchLineRe: /^(\d+)(?:;\d+ \d+)?:(.*)$/,
+  filePathRe: /^(?=\D):?([^]*)$/,
+  matchLineRe: /^(\d+)(?:;\d+ \d+)?:([^]*)$/,
 
   normalizePath ( filePath ) {
 
