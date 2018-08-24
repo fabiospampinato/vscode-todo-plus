@@ -1,3 +1,6 @@
+### Version 4.4.2
+- Ackmate: ensuring new line characters are matched
+
 ### Version 4.4.1
 - RG: normalizing paths under Windows
 
