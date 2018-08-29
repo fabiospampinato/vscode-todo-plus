@@ -17,7 +17,7 @@ const AST = {
       if ( str.substr ( index, indentation.length ) === indentation ) {
         level++;
         index += indentation.length;
-      } else if ( str[0] === '\t' ) {
+      } else if ( str[index] === '\t' ) {
         level++;
         index += 1;
       } else {
