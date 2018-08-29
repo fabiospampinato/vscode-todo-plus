@@ -1,3 +1,6 @@
+### Version 4.4.3
+- Properly detecting the level of tab-indented todos
+
 ### Version 4.4.2
 - Ackmate: ensuring new line characters are matched
 
