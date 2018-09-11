@@ -1,3 +1,6 @@
+### Version 4.4.4
+- Excluding the “**/static” directory by default
+
 ### Version 4.4.3
 - Properly detecting the level of tab-indented todos
 
