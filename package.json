@@ -867,10 +867,10 @@
     "execa": "^0.10.0",
     "find-up": "^2.1.0",
     "globby": "^8.0.1",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.11",
     "micromatch": "^3.1.10",
     "mkdirp": "^0.5.1",
-    "moment": "^2.19.1",
+    "moment": "^2.22.2",
     "moment-precise-range-plugin": "^1.2.4",
     "pify": "^3.0.0",
     "sha1": "^1.1.1",
@@ -882,6 +882,6 @@
     "@types/node": "^6.0.40",
     "tslint": "^4.4.2",
     "typescript": "^2.8.0",
-    "vscode": "^1.1.4"
+    "vscode": "^1.1.21"
   }
 }
