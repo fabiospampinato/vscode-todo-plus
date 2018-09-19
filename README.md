@@ -17,6 +17,8 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
+  - [Usage with the Command Palette](#usage-with-the-command-palette)
+  - [Usage with keyboard shortcuts](#usage-with-keyboard-shortcuts)
 - [Settings](#settings)
 - [Embedded Todos Providers](#embedded-todos-providers)
 - [Statistics Tokens](#statistics-tokens)
@@ -109,27 +111,31 @@ ext install fabiospampinato.vscode-todo-plus
 
 ## Usage
 
-It adds 8 commands to the command palette:
+### Usage with the Command Palette
+8 commands are available through the command palette:
 
 ```js
-'Todo: Open' // Open or create your project's todo file
-'Todo: Open Embedded' // Open embedded todos
-'Todo: Toggle Box' // Toggle todo's box symbol
-'Todo: Toggle Done' // Toggle todo's done symbol
+'Todo: Open'             // Open or create your project's todo file
+'Todo: Open Embedded'    // Open embedded todos
+'Todo: Toggle Box'       // Toggle todo's box symbol
+'Todo: Toggle Done'      // Toggle todo's done symbol
 'Todo: Toggle Cancelled' // Toggle todo's cancelled symbol
-'Todo: Toggle Start' // Toggle a todo as started
-'Todo: Toggle Timer' // Toggle the timer
-'Todo: Archive' // Archive finished todos
+'Todo: Toggle Start'     // Toggle a todo as started
+'Todo: Toggle Timer'     // Toggle the timer
+'Todo: Archive'          // Archive finished todos
 ```
 
-It adds 5 shortcuts when editing a `Todo` file:
+
+### Usage with keyboard shortcuts
+
+When editing a `Todo` file, 5 commands shortcuts are available :
 
 ```js
-'Cmd/Ctrl+Enter' // Triggers `Todo: Toggle Box`
-'Alt+D' // Triggers `Todo: Toggle Done`
-'Alt+C' // Triggers `Todo: Toggle Cancelled`
-'Alt+S' // Triggers `Todo: Toggle Start`
-'Cmd/Ctrl+Shift+A' // Triggers  `Todo: Archive`
+'Cmd/Ctrl+Enter'   // Triggers `Todo: Toggle Box`
+'Alt+D'            // Triggers `Todo: Toggle Done`
+'Alt+C'            // Triggers `Todo: Toggle Cancelled`
+'Alt+S'            // Triggers `Todo: Toggle Start`
+'Cmd/Ctrl+Shift+A' // Triggers `Todo: Archive`
 ```
 
 
