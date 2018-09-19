@@ -15,7 +15,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
   - [Todos Statistics](#todos-statistics)
   - [Timekeeping & Timer](#timekeeping--timer)
 - [Features](#features)
-- [Install](#install)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Settings](#settings)
 - [Embedded Todos Providers](#embedded-todos-providers)
@@ -98,7 +98,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
 - **Activity bar views**: you can view your todo file and your embedded todos from a custom activity bar section
 
 
-## Install
+## Installation
 
 Follow the instructions in the [Marketplace](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-todo-plus), or run the following in the command palette:
 
