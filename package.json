@@ -81,6 +81,7 @@
           "description": "Globs to use for excluding files",
           "default": [
             "**/_output",
+            "**/.*/**",
             "**/_output/**",
             "**/bower_components",
             "**/bower_components/**",
