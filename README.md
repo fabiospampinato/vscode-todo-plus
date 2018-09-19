@@ -1,10 +1,29 @@
 # Todo+
 
-<p align="center">
-	<img src="https://raw.githubusercontent.com/fabiospampinato/vscode-todo-plus/master/resources/logo/logo-128x128.png" alt="Logo">
+<p style="text-align: center;">
+  <img src="https://raw.githubusercontent.com/fabiospampinato/vscode-todo-plus/master/resources/logo/logo-128x128.png" alt="Logo" />
 </p>
 
 Manage todo lists with ease. Powerful, easy to use and customizable.
+
+
+## Table of Contents
+- [Features](#features)
+- [Install](#install)
+- [Usage](#usage)
+- [Settings](#settings)
+- [Embedded Todos Providers](#embedded-todos-providers)
+- [Statistics Tokens](#statistics-tokens)
+- [Demo](#demo)
+  - [Example todo file](#example-todo-file)
+  - [Embedded todos](#embedded-todos)
+  - [Activity bar views](#activity-bar-views)
+  - [Statistics](#statistics)
+  - [Timekeeping & Timer](#timekeeping-&-timer)
+- [Hints](#hints)
+- [Related](#related)
+- [License](#license)
+
 
 ## Features
 
@@ -27,6 +46,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
 - **Embedded todos**: it's common to have `//TODO` or `//FIXME` comments in our code, this extension can find those as well
 - **Activity bar views**: you can view your todo file and your embedded todos from a custom activity bar section
 
+
 ## Install
 
 Follow the instructions in the [Marketplace](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-todo-plus), or run the following in the command palette:
@@ -34,6 +54,7 @@ Follow the instructions in the [Marketplace](https://marketplace.visualstudio.co
 ```shell
 ext install fabiospampinato.vscode-todo-plus
 ```
+
 
 ## Usage
 
@@ -59,6 +80,7 @@ It adds 5 shortcuts when editing a `Todo` file:
 'Alt+S' // Triggers `Todo: Toggle Start`
 'Cmd/Ctrl+Shift+A' // Triggers  `Todo: Archive`
 ```
+
 
 ## Settings
 
@@ -144,6 +166,7 @@ An actual regex will be generated from the value of the `todo.embedded.regex` se
 
 Dates are formatted using [moment](https://momentjs.com/docs/#/displaying/format).
 
+
 ## Embedded Todos Providers
 
 This extension supports various providers for searching for embedded todos, it'll use the one you set via the `todo.embedded.provider` setting or the first one available between:
@@ -153,6 +176,7 @@ This extension supports various providers for searching for embedded todos, it'l
 3. **javascript**: Works on every system, but it's quite slow. This is the fallback provider.
 
 `ag` and `rg` will use their specific regexes for finding the lines containing embedded todos, then those lines will be searched in using the regex defined under `todo.embedded.regex`.
+
 
 ## Statistics Tokens
 
@@ -171,19 +195,23 @@ The following tokens can be used in `todo.statistics.project.text`, `todo.statis
 | `[percentage]` | Percentage of finished todos |
 | `[est]`        | Estimated time               |
 
+
 ## Demo
 
 ### [Example todo file](https://github.com/fabiospampinato/vscode-todo-plus/blob/master/resources/readme.todo)
 
 ![Example todo file](resources/demo/syntax.png)
 
+
 ### Embedded todos
 
 ![Embedded](resources/demo/embedded.gif)
 
+
 ### Activity bar views
 
 ![Activity bar views](resources/demo/activity_bar_views.png)
+
 
 ### Statistics
 
@@ -193,11 +221,13 @@ The following tokens can be used in `todo.statistics.project.text`, `todo.statis
 
 ![Project Statistics Advanced](resources/demo/project_statistics_adv.gif)
 
+
 ### Timekeeping & Timer
 
 ![Timekeeping & Timer](resources/demo/timer.gif)
 
-## Hints:
+
+## Hints
 
 - **Activity Bar**: you can switch the focus to the `Todo` activity bar view by assigning a shortcut to the `workbench.view.extension.todo` command.
 
@@ -209,13 +239,15 @@ The following tokens can be used in `todo.statistics.project.text`, `todo.statis
 alias todo="ag --color-line-number '1;36' --color-path '1;36' --ignore-case --print-long-lines --silent '(?:<!-- *)?(?:#|//|/\*+|<!--|--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?:\([^(]+\))?:?(?!\w)(?: *-->| *\*/|(?= *(?:[^:]//|/\*+|<!--|@|--))|((?: +[^\n@]*?)(?= *(?:[^:]//|/\*+|<!--|@|--))|(?: +[^@\n]+)?))'"
 ```
 
-## Related:
+
+## Related
 
 - **[Highlight](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-highlight)**: I recommend using this extension for highlighting your embedded todos.
 
 - **[Projects+ Todo+](https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-projects-plus-todo-plus)**: Bird's-eye view over your projects, view all your todo files aggregated into one.
 
 - **[Noty](https://github.com/fabiospampinato/noty)**: Autosaving sticky note with support for multiple notes, find/replace, programmers shortcuts and more. It implements a subset of the functionalities provided by this extension.
+
 
 ## License
 
