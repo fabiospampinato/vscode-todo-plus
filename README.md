@@ -8,21 +8,72 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
 
 
 ## Table of Contents
+- [Quick Overview](#quick-overview)
+  - [Example Todo File](#example-todo-file)
+  - [Embedded Todos](#embedded-todos)
+  - [Activity Bar Views](#activity-bar-views)
+  - [Todos Statistics](#todos-statistics)
+  - [Timekeeping & Timer](#timekeeping--timer)
 - [Features](#features)
 - [Install](#install)
 - [Usage](#usage)
 - [Settings](#settings)
 - [Embedded Todos Providers](#embedded-todos-providers)
 - [Statistics Tokens](#statistics-tokens)
-- [Demo](#demo)
-  - [Example todo file](#example-todo-file)
-  - [Embedded todos](#embedded-todos)
-  - [Activity bar views](#activity-bar-views)
-  - [Statistics](#statistics)
-  - [Timekeeping & Timer](#timekeeping-&-timer)
 - [Hints](#hints)
 - [Related](#related)
 - [License](#license)
+
+
+## Quick Overview
+
+### Example Todo File
+<details>
+
+  [See source code of this file](resources/readme.todo)
+  ![Example todo file](resources/demo/syntax.png)
+</details>
+
+
+### Embedded Todos
+<details>
+
+  ![Embedded](resources/demo/embedded.gif)
+</details>
+
+
+### Activity Bar Views
+<details>
+
+  ![Activity bar views](resources/demo/activity_bar_views.png)
+</details>
+
+
+### Todos Statistics
+<details>
+  <summary>Statistics in Status Bar</summary>
+
+  ![Statistics](resources/demo/statistics.png)
+</details>
+
+<details>
+  <summary>Statistics in TODO file</summary>
+
+  ![Project Statistics](resources/demo/project_statistics.png)
+</details>
+
+<details>
+  <summary>Statistics and progress in TODO file</summary>
+
+  ![Project Statistics Advanced](resources/demo/project_statistics_adv.gif)
+</details>
+
+
+### Timekeeping & Timer
+<details>
+
+  ![Timekeeping & Timer](resources/demo/timer.gif)
+</details>
 
 
 ## Features
@@ -194,37 +245,6 @@ The following tokens can be used in `todo.statistics.project.text`, `todo.statis
 | `[all]`        | Number of todos              |
 | `[percentage]` | Percentage of finished todos |
 | `[est]`        | Estimated time               |
-
-
-## Demo
-
-### [Example todo file](https://github.com/fabiospampinato/vscode-todo-plus/blob/master/resources/readme.todo)
-
-![Example todo file](resources/demo/syntax.png)
-
-
-### Embedded todos
-
-![Embedded](resources/demo/embedded.gif)
-
-
-### Activity bar views
-
-![Activity bar views](resources/demo/activity_bar_views.png)
-
-
-### Statistics
-
-![Statistics](resources/demo/statistics.png)
-
-![Project Statistics](resources/demo/project_statistics.png)
-
-![Project Statistics Advanced](resources/demo/project_statistics_adv.gif)
-
-
-### Timekeeping & Timer
-
-![Timekeeping & Timer](resources/demo/timer.gif)
 
 
 ## Hints
