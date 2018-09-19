@@ -8,6 +8,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable.
 
 
 ## Table of Contents
+
 - [Quick Overview](#quick-overview)
   - [Example Todo File](#example-todo-file)
   - [Embedded Todos](#embedded-todos)
@@ -141,87 +142,237 @@ When editing a `Todo` file, 5 commands shortcuts are available :
 
 ## Settings
 
-```js
-{
-  "todo.file.name": "TODO", // Todo file name. Other supported names are: `*.todo`, `*.todos`, `*.task`, `*.tasks`, `*.taskpaper` and `todolist.txt`
-  "todo.file.defaultContent": "\nTodo:\n  ☐ Item\n", // New todo files default content
-  "todo.file.include": ["**/TODO", ...], // Globs to use for including files
-  "todo.file.exclude": ["**/.*/**", ...], // Globs to use for excluding files
-  "todo.file.view.expanded": true, // Start the tree in an expanded state
-  "todo.indentation": "  ", // String used for indentation
-  "todo.symbols.box": "☐", // Box symbol
-  "todo.symbols.done": "✔", // Done symbol
-  "todo.symbols.cancelled": "✘", // Cancelled symbol
-  "todo.colors.done": "#a6e22e", // Done todo color
-  "todo.colors.cancelled": "#f92672", // Cancelled todo color
-  "todo.colors.code": "#fd971f", // Code color
-  "todo.colors.comment": "#75715e", // Comment color
-  "todo.colors.project": "#66d9ef", // Project color
-  "todo.colors.projectStatistics": "#4694a3", // Project statistics color
-  "todo.colors.tag": "#e6db74", // Tag color
-  "todo.colors.types": { "TODO": "#ffcc00", "FIXME": "#cc0000" ... }, // Object mapping todo types to their color
-  "todo.tags.names": ["critical", "high", "low", "today"], // Special tags' names
-  "todo.tags.namesInference": true, // Infer commonly used tags' names
-  "todo.tags.backgroundColors": ["#e54545", "#e59f45", "#e5d145", "#ae81ff"], // Special tags' background colors
-  "todo.tags.foregroundColors": ["#000000", "#000000", "#000000", "#000000"], // Special tags' foreground colors
-  "todo.archive.name": "Archive", // Name of the special "Archive" section
-  "todo.archive.remove.emptyProjects": true, // Remove projects without todos
-  "todo.archive.remove.emptyLines": 1, // Remove extra empty lines, keeping no more than `emptyLinesThreshold` consecutive empty lines
-  "todo.archive.project.enabled": true, // Enable the @project tag
-  "todo.archive.project.separator": ".", // String used for joining multiple projects
-  "todo.formatting.enabled": true, // Enable markdown-like formatting
-  "todo.timekeeping.created.enabled": false, // Enable the @created tag
-  "todo.timekeeping.created.time": true, // Insert the time inside the @created tag
-  "todo.timekeeping.created.format": "YY-MM-DD HH:mm", // Format used for displaying time inside @created
-  "todo.timekeeping.started.time": true, // Insert the time inside the @started tag
-  "todo.timekeeping.started.format": "YY-MM-DD HH:mm", // Format used for displaying time inside @started
-  "todo.timekeeping.finished.enabled": true, // Enable the @done/cancelled tag. It's always enabled if you explicitly start a todo or if you use only 1 symbol
-  "todo.timekeeping.finished.time": true, // Insert the time inside the @done/cancelled tag
-  "todo.timekeeping.finished.format": "YY-MM-DD HH:mm", // Format used for displaying time inside @done/cancelled
-  "todo.timekeeping.elapsed.enabled": true, // Enable the @lasted/wasted tag
-  "todo.timekeeping.elapsed.format": "short-compact", // Format used for displaying time diff inside @lasted/waster
-  "todo.timekeeping.estimate.format": "short-compact", // Format used for the `[est]` token
-  "todo.timer.statusbar.enabled": true, // Show a timer for started todos in the statusbar
-  "todo.timer.statusbar.alignment": "left", // Should the item be placed to the left or right?
-  "todo.timer.statusbar.color": "", // The foreground color for this item
-  "todo.timer.statusbar.priority": -10, // The priority of this item. Higher value means the item should be shown more to the left
-  "todo.statistics.project.enabled": "global.projects < 100 && project.pending > 0", // Show statistics next to a project, boolean or JS expression
-  "todo.statistics.project.text": "([pending]) [est]", // Template used for rendering the text
-  "todo.statistics.statusbar.enabled": "global.all > 0", // Show statistics in the statusbar, boolean or JS expression
-  "todo.statistics.statusbar.ignoreArchive": true, // Ignore the archive when rendering statistics in the statusbar
-  "todo.statistics.statusbar.alignment": "left", // Should the item be placed to the left or right?
-  "todo.statistics.statusbar.color": "", // The foreground color for this item
-  "todo.statistics.statusbar.command": "", // Command to execute on click
-  "todo.statistics.statusbar.priority": -1, // The priority of this item. Higher value means the item should be shown more to the left
-  "todo.statistics.statusbar.text": "$(check) [finished]/[all] ([percentage]%)", // Template used for rendering the text
-  "todo.statistics.statusbar.tooltip": "[pending] Pending - [done] Done - [cancelled] Cancelled", // Template used for rendering the tooltip
-  "todo.embedded.regex": "(?:<!-- *)?(?:#|//|/\\*+|<!--|--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?:\\([^)]+\\))?:?(?!\\w)(?: *-->| *\\*/|(?= *(?:[^:]//|/\\*+|<!--|@|--))|((?: +[^\\n@]*?)(?= *(?:[^:]//|/\\*+|<!--|@|--(?!>)))|(?: +[^@\\n]+)?))", // Regex used for finding embedded todos, requires double escaping
-  "todo.embedded.regexFlags": "gi", // Regex flags to use
-  "todo.embedded.include": ["**/*"], // Globs to use for including files
-  "todo.embedded.exclude": ["**/.*", "**/.*/**", ...], // Globs to use for excluding files
-  "todo.embedded.provider": "", // The provider to use when searching for embedded todos
-  "todo.embedded.providers.ag.regex": "(?:#|//|/\\*+|<!--|--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)", // Regex used by ag, requires double escaping
-  "todo.embedded.providers.ag.args": ['--ignore-case'], // Extra arguments to pass to ag
-  "todo.embedded.providers.rg.regex": "(?:#|//|/\\*+|<!--|--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)", // Regex used by rg, requires double escaping
-  "todo.embedded.providers.rg.args": ['--ignore-case'], // Extra arguments to pass to rg
-  "todo.embedded.file.wholeLine": true, // Show the whole line
-  "todo.embedded.file.groupByRoot": true, // Group embedded todos by workspace root
-  "todo.embedded.file.groupByType": true, // Group embedded todos by type
-  "todo.embedded.file.groupByFile": true, // Group embedded todos by file
-  "todo.embedded.view.wholeLine": false, // Show the whole line
-  "todo.embedded.view.groupByRoot": true, // Group embedded todos by workspace root
-  "todo.embedded.view.groupByType": true, // Group embedded todos by type
-  "todo.embedded.view.groupByFile": true, // Group embedded todos by file
-  "todo.embedded.view.expanded": true, // Start the tree in an expanded state
-  "todo.embedded.view.icons": true // Show icons next to todos and types"
-}
-```
-
-Changing some settings (symbols, colors, providers...) requires a restart.
+You can customize each setting by duplicating it in your own User Settings File. (some will require a restart to be applied, like symbols, colors, providers...)
 
 An actual regex will be generated from the value of the `todo.embedded.regex` setting. It uses 2 capturing groups, the first one captures the type of the todo (`TODO`, `FIXME` etc.) and the second one captures an optional description (`TODO: description`).
 
-Dates are formatted using [moment](https://momentjs.com/docs/#/displaying/format).
+Dates are formatted using [Moment.js](https://momentjs.com/docs/#/displaying/format).
+
+<details>
+  <summary>See the full list of settings</summary>
+
+  ```js
+  {
+    // Todo file name.
+    // Other supported names are: `*.todo`, `*.todos`, `*.task`, `*.tasks`, `*.taskpaper` and `todolist.txt`
+    "todo.file.name": "TODO",
+
+    // New todo files default content
+    "todo.file.defaultContent": "\nTodo:\n  ☐ Item\n",
+
+    // Globs to use for including files
+    "todo.file.include": ["**/TODO", ...],
+
+    // Globs to use for excluding files
+    "todo.file.exclude": ["**/.*/**", ...],
+
+    // Start the tree in an expanded state
+    "todo.file.view.expanded": true,
+
+    // String used for indentation
+    "todo.indentation": "  ",
+
+    // Box symbol
+    "todo.symbols.box": "☐",
+
+    // Done symbol
+    "todo.symbols.done": "✔",
+
+    // Cancelled symbol
+    "todo.symbols.cancelled": "✘",
+
+    // Done todo color
+    "todo.colors.done": "#a6e22e",
+
+    // Cancelled todo color
+    "todo.colors.cancelled": "#f92672",
+
+    // Code color
+    "todo.colors.code": "#fd971f",
+
+    // Comment color
+    "todo.colors.comment": "#75715e",
+
+    // Project color
+    "todo.colors.project": "#66d9ef",
+
+    // Project statistics color
+    "todo.colors.projectStatistics": "#4694a3",
+
+    // Tag color
+    "todo.colors.tag": "#e6db74",
+
+    // Object mapping todo types to their color
+    "todo.colors.types": { "TODO": "#ffcc00", "FIXME": "#cc0000" ... },
+
+    // Special tags' names
+    "todo.tags.names": ["critical", "high", "low", "today"],
+
+    // Infer commonly used tags' names
+    "todo.tags.namesInference": true,
+
+    // Special tags' background colors
+    "todo.tags.backgroundColors": ["#e54545", "#e59f45", "#e5d145", "#ae81ff"],
+
+    // Special tags' foreground colors
+    "todo.tags.foregroundColors": ["#000000", "#000000", "#000000", "#000000"],
+
+    // Name of the special "Archive" section
+    "todo.archive.name": "Archive",
+
+    // Remove projects without todos
+    "todo.archive.remove.emptyProjects": true,
+
+    // Remove extra empty lines,
+    // keeping no more than `emptyLinesThreshold` consecutive empty lines
+    "todo.archive.remove.emptyLines": 1,
+
+    // Enable the @project tag
+    "todo.archive.project.enabled": true,
+
+    // String used for joining multiple projects
+    "todo.archive.project.separator": ".",
+
+    // Enable markdown-like formatting
+    "todo.formatting.enabled": true,
+
+    // Enable the @created tag
+    "todo.timekeeping.created.enabled": false,
+
+    // Insert the time inside the @created tag
+    "todo.timekeeping.created.time": true,
+
+    // Format used for displaying time inside @created
+    "todo.timekeeping.created.format": "YY-MM-DD HH:mm",
+
+    // Insert the time inside the @started tag
+    "todo.timekeeping.started.time": true,
+
+    // Format used for displaying time inside @started
+    "todo.timekeeping.started.format": "YY-MM-DD HH:mm",
+
+    // Enable the @done/cancelled tag.
+    // Always enabled if you explicitly start a todo or if you use only 1 symbol
+    "todo.timekeeping.finished.enabled": true,
+
+    // Insert the time inside the @done/cancelled tag
+    "todo.timekeeping.finished.time": true,
+
+    // Format used for displaying time inside @done/cancelled
+    "todo.timekeeping.finished.format": "YY-MM-DD HH:mm",
+
+    // Enable the @lasted/wasted tag
+    "todo.timekeeping.elapsed.enabled": true,
+
+    // Format used for displaying time diff inside @lasted/waster
+    "todo.timekeeping.elapsed.format": "short-compact",
+
+    // Format used for the `[est]` token
+    "todo.timekeeping.estimate.format": "short-compact",
+
+    // Show a timer for started todos in the statusbar
+    "todo.timer.statusbar.enabled": true,
+
+    // Should the item be placed to the left or right?
+    "todo.timer.statusbar.alignment": "left",
+
+    // The foreground color for this item
+    "todo.timer.statusbar.color": "",
+
+    // The priority of this item.
+    // Higher value means the item should be shown more to the left
+    "todo.timer.statusbar.priority": -10,
+
+    // Show statistics next to a project, boolean or JS expression
+    "todo.statistics.project.enabled": "global.projects < 100 && project.pending > 0",
+
+    // Template used for rendering the text
+    "todo.statistics.project.text": "([pending]) [est]",
+
+    // Show statistics in the statusbar, boolean or JS expression
+    "todo.statistics.statusbar.enabled": "global.all > 0",
+
+    // Ignore the archive when rendering statistics in the statusbar
+    "todo.statistics.statusbar.ignoreArchive": true,
+
+    // Should the item be placed to the left or right?
+    "todo.statistics.statusbar.alignment": "left",
+
+    // The foreground color for this item
+    "todo.statistics.statusbar.color": "",
+
+    // Command to execute on click
+    "todo.statistics.statusbar.command": "",
+
+    // The priority of this item.
+    // Higher value means the item should be shown more to the left
+    "todo.statistics.statusbar.priority": -1,
+
+    // Template used for rendering the text
+    "todo.statistics.statusbar.text": "$(check) [finished]/[all] ([percentage]%)",
+
+    // Template used for rendering the tooltip
+    "todo.statistics.statusbar.tooltip": "[pending] Pending - [done] Done - [cancelled] Cancelled",
+
+    // Regex used for finding embedded todos, requires double escaping
+    "todo.embedded.regex": "(?:<!-- *)?(?:#|//|/\\*+|<!--|--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?:\\([^)]+\\))?:?(?!\\w)(?: *-->| *\\*/|(?= *(?:[^:]//|/\\*+|<!--|@|--))|((?: +[^\\n@]*?)(?= *(?:[^:]//|/\\*+|<!--|@|--(?!>)))|(?: +[^@\\n]+)?))",
+
+    // Regex flags to use
+    "todo.embedded.regexFlags": "gi",
+
+    // Globs to use for including files
+    "todo.embedded.include": ["**/*"],
+
+    // Globs to use for excluding files
+    "todo.embedded.exclude": ["**/.*", "**/.*/**", ...],
+
+    // The provider to use when searching for embedded todos
+    "todo.embedded.provider": "",
+
+    // Regex used by ag, requires double escaping
+    "todo.embedded.providers.ag.regex": "(?:#|//|/\\*+|<!--|--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)",
+
+    // Extra arguments to pass to ag
+    "todo.embedded.providers.ag.args": ['--ignore-case'],
+
+    // Regex used by rg, requires double escaping
+    "todo.embedded.providers.rg.regex": "(?:#|//|/\\*+|<!--|--) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)",
+
+    // Extra arguments to pass to rg
+    "todo.embedded.providers.rg.args": ['--ignore-case'],
+
+    // Show the whole line
+    "todo.embedded.file.wholeLine": true,
+
+    // Group embedded todos by workspace root
+    "todo.embedded.file.groupByRoot": true,
+
+    // Group embedded todos by type
+    "todo.embedded.file.groupByType": true,
+
+    // Group embedded todos by file
+    "todo.embedded.file.groupByFile": true,
+
+    // Show the whole line
+    "todo.embedded.view.wholeLine": false,
+
+    // Group embedded todos by workspace root
+    "todo.embedded.view.groupByRoot": true,
+
+    // Group embedded todos by type
+    "todo.embedded.view.groupByType": true,
+
+    // Group embedded todos by file
+    "todo.embedded.view.groupByFile": true,
+
+    // Start the tree in an expanded state
+    "todo.embedded.view.expanded": true,
+
+    // Show icons next to todos and types"
+    "todo.embedded.view.icons": true,
+  }
+  ```
+</details>
 
 
 ## Embedded Todos Providers
