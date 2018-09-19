@@ -66,7 +66,7 @@ class Files { //FIXME: There's some code duplication between this and `embedded`
     const change = filePath => {
       if ( !this.filesData ) return;
       filePath = pathNormalizer ( filePath );
-      if ( !this.filesData.hasOwnProperty ( filePath ) ) return;
+      if ( !this.isIncluded ( filePath ) ) return;
       this.filesData[filePath] = undefined;
     };
 
