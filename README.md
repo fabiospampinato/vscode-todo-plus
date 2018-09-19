@@ -1,10 +1,14 @@
 # Todo+
 
-<p style="text-align: center;">
-  <img src="https://raw.githubusercontent.com/fabiospampinato/vscode-todo-plus/master/resources/logo/logo-128x128.png" alt="Logo" />
+<p align="center">
+  <img
+    src="https://raw.githubusercontent.com/fabiospampinato/vscode-todo-plus/master/resources/logo/logo-128x128.png"
+    alt="Logo"
+  />
+  <br />
+  Manage todo lists with ease.<br />
+  Powerful, easy to use and customizable.
 </p>
-
-Manage todo lists with ease. Powerful, easy to use and customizable.
 
 
 ## Table of Contents
