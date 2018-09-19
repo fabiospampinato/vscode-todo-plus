@@ -1,3 +1,8 @@
+### Version 4.4.5
+- Fixed file-change detection
+- Files: excluding dot-directories by default
+- Simplified exclude globs
+
 ### Version 4.4.4
 - Excluding the “**/static” directory by default
 
