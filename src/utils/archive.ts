@@ -3,6 +3,7 @@
 
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
+import * as moment from 'moment';
 import {Comment, Project, Todo, TodoBox} from '../todo/items';
 import Document from '../todo/document';
 import Config from '../config';
@@ -61,8 +62,33 @@ const Archive = {
 
   async edit ( doc: Document, data ) {
 
+    const finishedFormat = Config.getKey ( 'timekeeping.finished.format' );
+    let previousParsedDate;
+    const minimalDate = moment('1970-01-01')
+
+    let extractDate = (line: string) => {
+
+      let result = line.match ( Consts.regexes.tagFinished );
+      if ( result ) {
+
+        previousParsedDate = moment( result[1], finishedFormat );
+        return previousParsedDate;
+
+      }
+
+      if ( line.match ( Consts.regexes.todoDone ) || line.match ( Consts.regexes.todoCancelled ) ) {
+
+        previousParsedDate = minimalDate;
+        return previousParsedDate;
+
+      }
+
+      return previousParsedDate;
+
+    };
+
     const removeLines = _.uniqBy ( data.remove, line => line['lineNumber'] ) as any, //TSC
-          insertLines = _.sortBy ( _.map ( data.insert, ( text, lineNumber ) => ({ text, lineNumber }) ), [line => line.lineNumber] ).map ( line => line['text'] ), //TSC
+          insertLines = _.sortBy ( _.map ( data.insert, ( text, lineNumber ) => ({ text, lineNumber }) ), [line => extractDate(line.text)] ).map ( line => line['text']), //TSC
           edits = [];
 
     removeLines.forEach ( line => {
