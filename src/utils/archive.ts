@@ -62,6 +62,31 @@ const Archive = {
 
   async edit ( doc: Document, data ) {
 
+    const finishedFormat = Config.getKey ( 'timekeeping.finished.format' );
+    let previousParsedDate;
+    const minimalDate = moment('1970-01-01')
+
+    let extractDate = (line: string) => {
+
+      let result = line.match ( Consts.regexes.tagFinished );
+      if ( result ) {
+
+        previousParsedDate = moment( result[1], finishedFormat );
+        return previousParsedDate;
+
+      }
+
+      if ( line.match ( Consts.regexes.todoDone ) || line.match ( Consts.regexes.todoCancelled ) ) {
+
+        previousParsedDate = minimalDate;
+        return previousParsedDate;
+
+      }
+
+      return previousParsedDate;
+
+    };
+
     const removeLines = _.uniqBy ( data.remove, line => line['lineNumber'] ) as any, //TSC
           insertLines = _.sortBy ( _.map ( data.insert, ( text, lineNumber ) => ({ text, lineNumber }) ), [line => extractDate(line.text)] ).map ( line => line['text']), //TSC
           edits = [];
@@ -80,16 +105,6 @@ const Archive = {
     }
 
     Editor.edits.apply ( doc.textEditor, edits );
-
-    var previousParsedDate;
-
-    function extractDate (line: string) {
-      let result = line.match ( Consts.regexes.tagFinished );
-      if (!result) return previousParsedDate;
-      var format = Config.getKey ( 'timekeeping.finished.format' );
-      previousParsedDate = moment(result[1], format);
-      return previousParsedDate;
-    }
 
   },
 
