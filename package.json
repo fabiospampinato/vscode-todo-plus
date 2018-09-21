@@ -241,6 +241,11 @@
           "description": "String used for joining multiple projects",
           "default": "."
         },
+        "todo.archive.sortByDate": {
+          "type": "boolean",
+          "description": "Sort lines by finished date",
+          "default": false
+        },
         "todo.formatting.enabled": {
           "type": "boolean",
           "description": "Enable markdown-like formatting",

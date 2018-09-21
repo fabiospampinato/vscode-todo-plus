@@ -63,32 +63,28 @@ const Archive = {
   async edit ( doc: Document, data ) {
 
     const finishedFormat = Config.getKey ( 'timekeeping.finished.format' );
-    let previousParsedDate;
-    const minimalDate = moment('1970-01-01')
 
-    let extractDate = (line: string) => {
+    let prevFinishedDate: number | Date = -1; // Ensuring comments' position relative to their parent todo is preserved
 
-      let result = line.match ( Consts.regexes.tagFinished );
-      if ( result ) {
+    function getFinishedDate ( line ) {
 
-        previousParsedDate = moment( result[1], finishedFormat );
-        return previousParsedDate;
+      if ( Consts.regexes.todoFinished.test ( line ) ) {
 
-      }
+        const match = line.match ( Consts.regexes.tagFinished );
 
-      if ( line.match ( Consts.regexes.todoDone ) || line.match ( Consts.regexes.todoCancelled ) ) {
+        if ( match ) return prevFinishedDate = moment ( match[1], finishedFormat ).toDate ();
 
-        previousParsedDate = minimalDate;
-        return previousParsedDate;
+        return prevFinishedDate = -1;
 
       }
 
-      return previousParsedDate;
+      return prevFinishedDate;
 
-    };
+    }
 
-    const removeLines = _.uniqBy ( data.remove, line => line['lineNumber'] ) as any, //TSC
-          insertLines = _.sortBy ( _.map ( data.insert, ( text, lineNumber ) => ({ text, lineNumber }) ), [line => extractDate(line.text)] ).map ( line => line['text']), //TSC
+    const sorter = Config.getKey ( 'archive.sortByDate' ) ? line => getFinishedDate ( line.text ) : line => line.lineNumber,
+          removeLines = _.uniqBy ( data.remove, line => line['lineNumber'] ) as any, //TSC
+          insertLines = _.sortBy ( _.map ( data.insert, ( text, lineNumber ) => ({ text, lineNumber }) ), [sorter] ).map ( line => line['text']), //TSC
           edits = [];
 
     removeLines.forEach ( line => {
