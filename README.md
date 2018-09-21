@@ -4,7 +4,7 @@
 	<img src="https://raw.githubusercontent.com/fabiospampinato/vscode-todo-plus/master/resources/logo/logo-128x128.png" alt="Logo">
 </p>
 
-Manage todo lists with ease. Powerful, easy to use and customizable.
+Manage todo lists with ease. Powerful, easy to use and customizable. [View the demo](#demo).
 
 ## Features
 
