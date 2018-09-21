@@ -1,3 +1,7 @@
+### Version 4.5.0
+- Added an `archive.sortByDate` option
+- Archive: fixed a few bugs and improved formance
+
 ### Version 4.4.5
 - Fixed file-change detection
 - Files: excluding dot-directories by default
