@@ -1,5 +1,5 @@
-### Version 4.5.0
-- Added an `archive.sortByDate` option
+### Version 4.5.1
+- Added an `todo.archive.sortByDate` option
 - Archive: fixed a few bugs and improved performance
 
 ### Version 4.4.5
