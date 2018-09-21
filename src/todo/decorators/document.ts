@@ -133,10 +133,10 @@ const Document = {
 
         const prevLine = prevLines[lineNr],
               prevDoc = new DocumentModule ( prevLine ),
-              prevItems = Document.getItems ( prevDoc ),
+              prevItems = Document.getItems ( prevDoc ) as any, //TSC
               currLine = doc.textDocument.lineAt ( lineNr ).text,
               currDoc = new DocumentModule ( currLine ),
-              currItems = Document.getItems ( currDoc );
+              currItems = Document.getItems ( currDoc ) as any; //TSC
 
         return _.isEqualWith ( prevItems, currItems, ( prevItem, currItem ) => {
           if ( prevItem instanceof Item && currItem instanceof Item ) {

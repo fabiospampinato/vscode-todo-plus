@@ -60,7 +60,7 @@ const Archive = {
 
   },
 
-  async edit ( doc: Document, data ) {
+  async edit ( doc: Document, data ) { //FIXME: Refactor, this is getting quite ugly
 
     const finishedFormat = Config.getKey ( 'timekeeping.finished.format' );
 
@@ -82,9 +82,11 @@ const Archive = {
 
     }
 
-    const sorter = Config.getKey ( 'archive.sortByDate' ) ? line => getFinishedDate ( line.text ) : line => line.lineNumber,
-          removeLines = _.uniqBy ( data.remove, line => line['lineNumber'] ) as any, //TSC
-          insertLines = _.sortBy ( _.map ( data.insert, ( text, lineNumber ) => ({ text, lineNumber }) ), [sorter] ).map ( line => line['text']), //TSC
+    const line2number = line => line.lineNumber,
+          line2date = Config.getKey ( 'archive.sortByDate' ) ? line => getFinishedDate ( line.text ) : _.constant ( -1 ),
+          natSort = ( a, b ) => a.lineNumber - b.lineNumber,
+          removeLines = _.uniqBy ( data.remove, line2number ) as any, //TSC
+          insertLines = _.orderBy ( _.map ( data.insert, ( text, lineNumber ) => ({ text, lineNumber }) ).sort ( natSort ), [line2date], ['desc'] ).map ( line => line['text']), //TSC
           edits = [];
 
     removeLines.forEach ( line => {
@@ -106,26 +108,12 @@ const Archive = {
 
   transformations: { // Transformations to apply to the document
 
-    order: ['addTodosDone', 'addTodosCancelled', 'addTodosComments', 'addProjectTag', 'removeEmptyProjects', 'removeEmptyLines'], // The order in which to apply the transformations
+    order: ['addTodosFinished', 'addTodosComments', 'addProjectTag', 'removeEmptyProjects', 'removeEmptyLines'], // The order in which to apply the transformations
 
-    addTodosDone ( doc: Document, data ) {
+    addTodosFinished ( doc: Document, data ) {
 
-      const todosDone = doc.getTodosDone (),
-            lines = todosDone.map ( todo => todo.line );
-
-      lines.forEach ( line => {
-
-        data.remove.push ( line );
-        data.insert[line.lineNumber] = _.trimStart ( line.text );
-
-      });
-
-    },
-
-    addTodosCancelled ( doc: Document, data ) {
-
-      const todosCancelled = doc.getTodosCancelled (),
-            lines = todosCancelled.map ( todo => todo.line );
+      const todosFinished = doc.getTodosFinished (),
+            lines = todosFinished.map ( todo => todo.line );
 
       lines.forEach ( line => {
 

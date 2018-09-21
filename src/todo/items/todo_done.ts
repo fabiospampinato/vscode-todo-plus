@@ -3,11 +3,11 @@
 
 import Consts from '../../consts';
 import Item from './item';
-import Todo from './todo';
+import TodoFinished from './todo';
 
 /* TODO DONE */
 
-class TodoDone extends Todo {
+class TodoDone extends TodoFinished {
 
   static is ( str: string ) {
 

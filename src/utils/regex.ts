@@ -26,7 +26,7 @@ const Regex = {
   match2range ( match: RegExpMatchArray ) {
 
     const first = match[0],
-          last = _.findLast ( match, txt => txt && txt.length ),
+          last = _.findLast ( match, txt => txt && txt.length ) as string, //TSC
           start = match.index + first.indexOf ( last ),
           end = start + last.length;
 
