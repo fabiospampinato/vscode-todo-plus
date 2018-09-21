@@ -90,6 +90,7 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.archive.remove.emptyLines": 1, // Remove extra empty lines, keeping no more than `emptyLinesThreshold` consecutive empty lines
   "todo.archive.project.enabled": true, // Enable the @project tag
   "todo.archive.project.separator": ".", // String used for joining multiple projects
+  "todo.archive.sortByDate": false, // Sort lines by finished date
   "todo.formatting.enabled": true, // Enable markdown-like formatting
   "todo.timekeeping.created.enabled": false, // Enable the @created tag
   "todo.timekeeping.created.time": true, // Insert the time inside the @created tag
