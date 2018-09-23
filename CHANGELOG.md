@@ -1,3 +1,6 @@
+### Version 4.6.0
+- Improved mouse support
+
 ### Version 4.5.2
 - Readme: added an option for jumping to the demo section
 
