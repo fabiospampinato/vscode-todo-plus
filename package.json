@@ -637,7 +637,23 @@
       {
         "command": "todo.viewRevealTodo",
         "title": "Open"
-      }
+      },
+      {
+        "command": "todo.toggleBox",
+        "title": "Todo: Toggle Box"
+      },
+      {
+        "command": "todo.toggleDone",
+        "title": "Todo: Toggle Done"
+      },
+      {
+        "command": "todo.toggleCancelled",
+        "title": "Todo: Toggle Cancelled"
+      },
+      {
+        "command": "todo.archive",
+        "title": "Todo: Archive"
+      },
     ],
     "keybindings": [
       {
@@ -801,6 +817,33 @@
           "command": "todo.viewEmbeddedClearFilter",
           "when": "view == todo.views.2embedded && todo-embedded-filtered == true",
           "group": "navigation@1"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "todo.toggleDone",
+          "group": "todos",
+          "when": "editorTextFocus && editorLangId == todo"
+        },
+        {
+          "command": "todo.toggleCancelled",
+          "group": "todos",
+          "when": "editorTextFocus && editorLangId == todo"
+        },
+        {
+          "command": "todo.toggleStart",
+          "group": "todos",
+          "when": "editorTextFocus && editorLangId == todo"
+        },
+        {
+          "command": "todo.toggleBox",
+          "group": "todos",
+          "when": "editorTextFocus && editorLangId == todo"
+        },
+        {
+          "command": "todo.archive",
+          "group": "todos",
+          "when": "editorTextFocus && editorLangId == todo"
         }
       ],
       "view/item/context": [
