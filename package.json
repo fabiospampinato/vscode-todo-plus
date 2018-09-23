@@ -637,6 +637,26 @@
       {
         "command": "todo.viewRevealTodo",
         "title": "Open"
+      },
+      {
+        "command": "todo.editorToggleBox",
+        "title": "Toggle Box"
+      },
+      {
+        "command": "todo.editorToggleDone",
+        "title": "Toggle Done"
+      },
+      {
+        "command": "todo.editorToggleCancelled",
+        "title": "Toggle Cancelled"
+      },
+      {
+        "command": "todo.editorToggleStart",
+        "title": "Toggle Start"
+      },
+      {
+        "command": "todo.editorArchive",
+        "title": "Archive"
       }
     ],
     "keybindings": [
@@ -754,6 +774,53 @@
         {
           "command": "todo.viewRevealTodo",
           "when": "false"
+        },
+        {
+          "command": "todo.editorToggleBox",
+          "when": "false"
+        },
+        {
+          "command": "todo.editorToggleDone",
+          "when": "false"
+        },
+        {
+          "command": "todo.editorToggleCancelled",
+          "when": "false"
+        },
+        {
+          "command": "todo.editorToggleStart",
+          "when": "false"
+        },
+        {
+          "command": "todo.editorArchive",
+          "when": "false"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "todo.editorToggleBox",
+          "group": "todo@1",
+          "when": "editorTextFocus && editorLangId == todo"
+        },
+        {
+          "command": "todo.editorToggleDone",
+          "group": "todo@2",
+          "when": "editorTextFocus && editorLangId == todo"
+        },
+        {
+          "command": "todo.editorToggleCancelled",
+          "group": "todo@3",
+          "when": "editorTextFocus && editorLangId == todo"
+        },
+        {
+          "command": "todo.editorToggleStart",
+          "group": "todo@4",
+          "when": "editorTextFocus && editorLangId == todo"
+        },
+        {
+          "command": "todo.editorArchive",
+          "group": "todo@5",
+          "when": "editorTextFocus && editorLangId == todo"
         }
       ],
       "view/title": [
