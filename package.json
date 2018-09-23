@@ -536,7 +536,7 @@
       },
       {
         "command": "todo.toggleBox",
-        "title": "Todo: Toggle Box"
+        "title": "Todo: Toggle CheckBox"
       },
       {
         "command": "todo.toggleDone",
@@ -803,6 +803,33 @@
           "group": "navigation@1"
         }
       ],
+      "editor/context": [
+				{
+					"command": "todo.toggleDone",
+					"group": "todos",
+					"when": "editorTextFocus && editorLangId == todo"
+				},
+				{
+					"command": "todo.toggleCancelled",
+					"group": "todos",
+					"when": "editorTextFocus && editorLangId == todo"
+				},
+				{
+					"command": "todo.toggleStart",
+					"group": "todos",
+					"when": "editorTextFocus && editorLangId == todo"
+				},
+				{
+					"command": "todo.toggleBox",
+					"group": "todos",
+					"when": "editorTextFocus && editorLangId == todo"
+				},
+				{
+					"command": "todo.archive",
+					"group": "todos",
+					"when": "editorTextFocus && editorLangId == todo"
+				}
+			],
       "view/item/context": [
         {
           "command": "todo.viewOpenFile",
