@@ -80,7 +80,7 @@
           },
           "description": "Globs to use for excluding files",
           "default": [
-            "**/.*/**",
+            "**/.!(todo|todos|task|tasks)/**",
             "**/_output/**",
             "**/bower_components/**",
             "**/build/**",
