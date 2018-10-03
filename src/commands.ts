@@ -37,7 +37,10 @@ async function callTodosMethod ( options? ) {
 
   if ( !doc.isSupported () ) return;
 
-  const lines = _.uniq ( textEditor.selections.map ( selection => selection.active.line ) ),
+  const lines = _.uniq ( [].concat(...textEditor.selections.map ( selection => {
+    const [startLine, endLine]= [selection.active.line, selection.anchor.line].sort((a, b) => a - b);
+    return [...Array(endLine-startLine+1)].map((x,index) => index+startLine );
+  } ) ) ),
         todos = _.filter ( lines.map ( line => doc.getTodoAt ( line, options.checkValidity ) ) );
 
   if ( todos.length !== lines.length ) vscode.window.showErrorMessage ( options.errors.invalid );
