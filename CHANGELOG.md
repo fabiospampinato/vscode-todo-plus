@@ -1,7 +1,7 @@
 ### Version 4.6.1
-- Embedded: updated regex with support for `//TODO (foo)`
-- Embedded view: ensuring the support dot files are not excluded
+- Embedded: add support for `//TODO (foo)`
 - Embedded: added support for JSDoc-style comments
+- Embedded view: ensuring the supported dot files are not excluded
 
 ### Version 4.6.0
 - Improved mouse support
