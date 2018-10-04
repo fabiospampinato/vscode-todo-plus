@@ -1,3 +1,9 @@
+### Version 4.7.0
+- Added single-cursor multi-line toggle support
+- Add `[lasted]`, `[wasted]` and `[elasped]` statistics tokens
+- Ensuring lazily evaluated tokens are only evaluated if they are actually needed
+- Computing expensive statistics tokens only if they are used
+
 ### Version 4.6.1
 - Embedded: add support for `//TODO (foo)`
 - Embedded: added support for JSDoc-style comments
