@@ -6,14 +6,8 @@ import Config from '../config';
 import Consts from '../consts';
 import {Comment, Project, Tag, TodoBox, TodoDone, TodoCancelled} from '../todo/items';
 import AST from './ast';
+import Tokens from './statistics_tokens';
 import Time from './time';
-import Tokens from './tokens';
-
-const char_e = 101,
-      char_l = 108,
-      char_w = 119,
-      char_0 = 48,
-      char_9 = 57;
 
 /* STATISTICS */
 
@@ -27,19 +21,28 @@ const Statistics = {
 
     add ( tag: string, tokens: Tokens, includeEstimates = true ) {
 
-      const prefix = tag.charCodeAt(1);
+      const prefix = tag [ 1 ];
 
       // maybe @est(1h20m) or @1h20m
-      if ( includeEstimates && ( prefix === char_e || ( prefix >= char_0 && prefix <= char_9 ) ) )
+      if ( includeEstimates && ( prefix === "e" || ( prefix >= "0" && prefix <= "9" ) ) ) {
+
         tokens.estSeconds += Statistics.estimate.parse ( tag );
 
+      }
+
       // maybe @lasted(2h)
-      else if ( prefix === char_l )
+      else if ( prefix === "l" ) {
+
         tokens.lastedSeconds += Statistics.timeTags.parse ( tag, Consts.regexes.tagElapsed );
 
+      }
+
       // maybe @wasted(30m)
-      else if (prefix === char_w )
+      else if (prefix === "w" ) {
+
         tokens.wastedSeconds += Statistics.timeTags.parse ( tag, Consts.regexes.tagElapsed );
+
+      }
     },
 
     parse ( tag: string, regex: RegExp ) {
@@ -291,7 +294,7 @@ const Statistics = {
 
       if ( !tokens ) return;
 
-      for ( let token in tokens ) {
+      for ( let token of Tokens.supported ) {
 
         const re = Statistics.template.getTokenRe ( token );
 
