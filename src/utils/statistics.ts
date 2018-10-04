@@ -287,6 +287,8 @@ const Statistics = {
 
         const re = Statistics.template.getTokenRe ( token );
 
+        if ( !re.test ( template ) ) continue;
+
         template = template.replace ( re, tokens[token] );
 
       }
