@@ -17,65 +17,59 @@ const Statistics = {
 
   timeTags: {
 
-    cache: {},
-
     add ( tag: string, tokens: Tokens, includeEstimates = true ) {
 
       const prefix = tag[1];
 
       if ( prefix === 'l' ) { // Maybe @lasted(2h)
 
-        tokens.lastedSeconds += Statistics.timeTags.parse ( tag, Consts.regexes.tagElapsed );
+        tokens.lastedSeconds += Statistics.timeTags.parseElapsed ( tag );
 
       } else if ( prefix === 'w' ) { // maybe @wasted(30m)
 
-        tokens.wastedSeconds += Statistics.timeTags.parse ( tag, Consts.regexes.tagElapsed );
+        tokens.wastedSeconds += Statistics.timeTags.parseElapsed ( tag );
 
       } else if ( includeEstimates && ( prefix === 'e' || ( prefix >= '0' && prefix <= '9' ) ) ) { // Maybe @est(1h20m) or @1h20m
 
-        tokens.estSeconds += Statistics.estimate.parse ( tag );
+        tokens.estSeconds += Statistics.timeTags.parseEstimate ( tag );
 
       }
 
     },
 
-    parse ( tag: string, regex: RegExp ) {
+    elapseds: {},
 
-      if ( Statistics.timeTags.cache[tag] ) return Statistics.timeTags.cache[tag];
+    parseElapsed ( tag: string ) {
 
-      const match = tag.match ( regex );
+      if ( Statistics.timeTags.elapseds[tag] ) return Statistics.timeTags.elapseds[tag];
+
+      const match = tag.match ( Consts.regexes.tagElapsed );
 
       if ( !match ) return 0;
 
       const time = match[1],
             seconds = Time.diffSeconds ( time );
 
-      Statistics.timeTags.cache[tag] = seconds;
+      Statistics.timeTags.elapseds[tag] = seconds;
 
       return seconds;
 
-    }
-
-  },
-
-  /* ESTIMATE */
-
-  estimate: {
+    },
 
     estimates: {}, // It assumes that all estimates are relative to `now`
 
-    parse ( str, from?: Date ) {
+    parseEstimate ( tag: string, from?: Date ) {
 
-      if ( Statistics.estimate.estimates[str] ) return Statistics.estimate.estimates[str];
+      if ( Statistics.timeTags.estimates[tag] ) return Statistics.timeTags.estimates[tag];
 
-      const est = str.match ( Consts.regexes.tagEstimate );
+      const est = tag.match ( Consts.regexes.tagEstimate );
 
       if ( !est ) return 0;
 
       const time = est[2] || est[1],
             seconds = Time.diffSeconds ( time, from );
 
-      Statistics.estimate.estimates[str] = seconds;
+      Statistics.timeTags.estimates[tag] = seconds;
 
       return seconds;
 

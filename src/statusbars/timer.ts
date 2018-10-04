@@ -109,7 +109,7 @@ class Timer {
 
       if ( estTag ) {
 
-        const estSeconds = Utils.statistics.estimate.parse ( estTag );
+        const estSeconds = Utils.statistics.timeTags.parseEstimate ( estTag );
 
         if ( estSeconds ) {
 
