@@ -1,25 +1,9 @@
+
 /* IMPORT */
 
+import * as memoize from 'memoize-decorator';
 import Config from '../config';
 import Time from './time';
-
-/* CACHED COMPUTED PROPERTY */
-
-function cached ( target: object, property: string, descriptor: PropertyDescriptor ) { //TODO: Maybe replace this with _.memoize
-
-  const getter = descriptor.get;
-
-  descriptor.get = function () {
-
-    const value = getter.call ( this );
-
-    Object.defineProperty ( this, property, { value } );
-
-    return value;
-
-  };
-
-}
 
 /* STATISTICS TOKENS */
 
@@ -37,37 +21,37 @@ class StatisticsTokens {
   lastedSeconds = 0;
   wastedSeconds = 0;
 
-  @cached
+  @memoize
   get finished () {
     return this.done + this.cancelled;
   }
 
-  @cached
+  @memoize
   get all () {
     return this.pending + this.finished;
   }
 
-  @cached
+  @memoize
   get percentage () {
     return this.all ? Math.round ( this.finished / this.all * 100 ) : 100;
   }
 
-  @cached
+  @memoize
   get est () {
     return this.formatTime ( this.estSeconds, 'timekeeping.estimate.format' );
   }
 
-  @cached
+  @memoize
   get lasted () {
     return this.formatTime ( this.lastedSeconds, 'timekeeping.elapsed.format' );
   }
 
-  @cached
+  @memoize
   get wasted () {
     return this.formatTime ( this.wastedSeconds, 'timekeeping.elapsed.format' );
   }
 
-  @cached
+  @memoize
   get elapsed () {
     return this.formatTime ( this.lastedSeconds + this.wastedSeconds, 'timekeeping.elapsed.format' );
   }
