@@ -37,7 +37,7 @@ async function callTodosMethod ( options? ) {
 
   if ( !doc.isSupported () ) return;
 
-  const lines = _.uniq ( _.flatten( textEditor.selections.map ( selection =>  _.range( selection.start.line, selection.end.line+1 ) ) ) ),
+  const lines = _.uniq ( _.flatten ( textEditor.selections.map ( selection => _.range ( selection.start.line, selection.end.line + 1 ) ) ) ),
         todos = _.filter ( lines.map ( line => doc.getTodoAt ( line, options.checkValidity ) ) );
 
   if ( todos.length !== lines.length ) vscode.window.showErrorMessage ( options.errors.invalid );

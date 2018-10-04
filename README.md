@@ -159,21 +159,21 @@ This extension supports various providers for searching for embedded todos, it'l
 
 The following tokens can be used in `todo.statistics.project.text`, `todo.statistics.statusbar.text` and `todo.statistics.statusbar.tooltip`, they will be replaced with the value they represent.
 
-| Token          | Value                        |
-|----------------|------------------------------|
-| `[comments]`   | Number of comments           |
-| `[projects]`   | Number of projects           |
-| `[tags]`       | Number of tags               |
-| `[pending]`    | Number of pending todos      |
-| `[done]`       | Number of done todos         |
-| `[cancelled]`  | Number of cancelled todos    |
-| `[finished]`   | Number of finished todos     |
-| `[all]`        | Number of todos              |
-| `[percentage]` | Percentage of finished todos |
-| `[est]`        | Estimated time               |
-| `[lasted]`     | Time the task lasted         |
-| `[wasted]`     | Time wasted on task          |
-| `[elapsed]`    | Total time spent on task     |
+| Token          | Value                            |
+|----------------|----------------------------------|
+| `[comments]`   | Number of comments               |
+| `[projects]`   | Number of projects               |
+| `[tags]`       | Number of tags                   |
+| `[pending]`    | Number of pending todos          |
+| `[done]`       | Number of done todos             |
+| `[cancelled]`  | Number of cancelled todos        |
+| `[finished]`   | Number of finished todos         |
+| `[all]`        | Number of todos                  |
+| `[percentage]` | Percentage of finished todos     |
+| `[est]`        | Estimated time                   |
+| `[lasted]`     | Time the task lasted             |
+| `[wasted]`     | Time wasted on task              |
+| `[elapsed]`    | Sum of `[lasted]` and `[wasted]` |
 
 ## Demo
 

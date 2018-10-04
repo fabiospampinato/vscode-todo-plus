@@ -21,28 +21,22 @@ const Statistics = {
 
     add ( tag: string, tokens: Tokens, includeEstimates = true ) {
 
-      const prefix = tag [ 1 ];
+      const prefix = tag[1];
 
-      // maybe @est(1h20m) or @1h20m
-      if ( includeEstimates && ( prefix === "e" || ( prefix >= "0" && prefix <= "9" ) ) ) {
+      if ( prefix === 'l' ) { // Maybe @lasted(2h)
+
+        tokens.lastedSeconds += Statistics.timeTags.parse ( tag, Consts.regexes.tagElapsed );
+
+      } else if ( prefix === 'w' ) { // maybe @wasted(30m)
+
+        tokens.wastedSeconds += Statistics.timeTags.parse ( tag, Consts.regexes.tagElapsed );
+
+      } else if ( includeEstimates && ( prefix === 'e' || ( prefix >= '0' && prefix <= '9' ) ) ) { // Maybe @est(1h20m) or @1h20m
 
         tokens.estSeconds += Statistics.estimate.parse ( tag );
 
       }
 
-      // maybe @lasted(2h)
-      else if ( prefix === "l" ) {
-
-        tokens.lastedSeconds += Statistics.timeTags.parse ( tag, Consts.regexes.tagElapsed );
-
-      }
-
-      // maybe @wasted(30m)
-      else if (prefix === "w" ) {
-
-        tokens.wastedSeconds += Statistics.timeTags.parse ( tag, Consts.regexes.tagElapsed );
-
-      }
     },
 
     parse ( tag: string, regex: RegExp ) {
@@ -54,11 +48,12 @@ const Statistics = {
       if ( !match ) return 0;
 
       const time = match[1],
-            seconds = Time.diffSeconds( time );
+            seconds = Time.diffSeconds ( time );
 
       Statistics.timeTags.cache[tag] = seconds;
 
       return seconds;
+
     }
 
   },
@@ -150,13 +145,13 @@ const Statistics = {
 
       }
 
-      const tokens = Object.assign ( new Tokens (), {
+      const tokens = _.extend ( new Tokens (), {
         comments: items.comments.length,
         projects: items.projects.length,
         tags: items.tags.length,
         pending: items.todosBox.length,
         done: items.todosDone.length,
-        cancelled: items.todosCancelled.length,
+        cancelled: items.todosCancelled.length
       });
 
       items.tags.forEach ( tag => Statistics.timeTags.add ( tag.text, tokens ) );
