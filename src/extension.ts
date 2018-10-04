@@ -34,6 +34,7 @@ const activate = function ( context: vscode.ExtensionContext ) {
   Utils.folder.initRootsRe ();
   Utils.init.language ();
   Utils.init.views ();
+  Utils.statistics.tokens.updateDisabledAll ();
 
   context.subscriptions.push (
     vscode.languages.registerCompletionItemProvider ( Consts.languageId, new CompletionProvider (), ...CompletionProvider.triggerCharacters ),
@@ -42,6 +43,7 @@ const activate = function ( context: vscode.ExtensionContext ) {
     vscode.workspace.onDidChangeConfiguration ( Consts.update ),
     vscode.workspace.onDidChangeConfiguration ( () => delete Utils.embedded.filesData && delete Utils.files.filesData ),
     vscode.workspace.onDidChangeConfiguration ( () => DocumentDecorator.update () ),
+    vscode.workspace.onDidChangeConfiguration ( Utils.statistics.tokens.updateDisabledAll ),
     vscode.workspace.onDidChangeTextDocument ( ChangesDecorator.onChanges ),
     vscode.workspace.onDidChangeWorkspaceFolders ( Utils.embedded.unwatchPaths ),
     vscode.workspace.onDidChangeWorkspaceFolders ( Utils.files.unwatchPaths ),

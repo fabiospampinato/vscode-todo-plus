@@ -17,19 +17,19 @@ const Statistics = {
 
   timeTags: {
 
-    add ( tag: string, tokens: Tokens, includeEstimates = true ) {
+    add ( tag: string, tokens: Tokens, disabledTokens, disabledEst = false ) {
 
       const prefix = tag[1];
 
-      if ( prefix === 'l' ) { // Maybe @lasted(2h)
+      if ( !disabledTokens.lasted && prefix === 'l' ) { // Maybe @lasted(2h)
 
         tokens.lastedSeconds += Statistics.timeTags.parseElapsed ( tag );
 
-      } else if ( prefix === 'w' ) { // maybe @wasted(30m)
+      } else if ( !disabledTokens.wasted && prefix === 'w' ) { // maybe @wasted(30m)
 
         tokens.wastedSeconds += Statistics.timeTags.parseElapsed ( tag );
 
-      } else if ( includeEstimates && ( prefix === 'e' || ( prefix >= '0' && prefix <= '9' ) ) ) { // Maybe @est(1h20m) or @1h20m
+      } else if ( !disabledTokens.est && !disabledEst && ( prefix === 'e' || ( prefix >= '0' && prefix <= '9' ) ) ) { // Maybe @est(1h20m) or @1h20m
 
         tokens.estSeconds += Statistics.timeTags.parseEstimate ( tag );
 
@@ -121,6 +121,35 @@ const Statistics = {
 
   tokens: {
 
+    disabled: { // Disabled tokens, no need to compute them
+      global: {},
+      projects: {}
+    },
+
+    updateDisabledAll () {
+
+      const tokens = ['est', 'lasted', 'wasted', 'elapsed']; // These are the expensive tokens
+
+      const globalSettings = ['statistics.statusbar.enabled', 'statistics.statusbar.text', 'statistics.statusbar.tooltip']; // Global settings where tokens could be in use
+
+      Statistics.tokens.updateDisabled ( Statistics.tokens.disabled.global, tokens, globalSettings );
+
+      const projectsSettings = ['statistics.project.enabled', 'statistics.project.text']; // Local settings where tokens could be in use
+
+      Statistics.tokens.updateDisabled ( Statistics.tokens.disabled.projects, tokens, projectsSettings );
+
+    },
+
+    updateDisabled ( obj, tokens: string[], settings: string[] ) { // Ugly name,
+
+      tokens.forEach ( token => {
+
+        obj[token] = !settings.find ( setting => _.includes ( Config.getKey ( setting ), token ) );
+
+      });
+
+    },
+
     global: {},
 
     updateGlobal ( items ) {
@@ -148,7 +177,7 @@ const Statistics = {
         cancelled: items.todosCancelled.length
       });
 
-      items.tags.forEach ( tag => Statistics.timeTags.add ( tag.text, tokens ) );
+      items.tags.forEach ( tag => Statistics.timeTags.add ( tag.text, tokens, Statistics.tokens.disabled.global ) );
 
       Statistics.tokens.global = tokens;
 
@@ -205,7 +234,7 @@ const Statistics = {
 
           tokens.tags++;
 
-          Statistics.timeTags.add ( nextItem.text, tokens, wasPending );
+          Statistics.timeTags.add ( nextItem.text, tokens, Statistics.tokens.disabled.projects, !wasPending );
 
         } else {
 
