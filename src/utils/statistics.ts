@@ -6,11 +6,62 @@ import Config from '../config';
 import Consts from '../consts';
 import {Comment, Project, Tag, TodoBox, TodoDone, TodoCancelled} from '../todo/items';
 import AST from './ast';
+import Tokens from './statistics_tokens';
 import Time from './time';
 
 /* STATISTICS */
 
 const Statistics = {
+
+  /* TIME TAGS */
+
+  timeTags: {
+
+    cache: {},
+
+    add ( tag: string, tokens: Tokens, includeEstimates = true ) {
+
+      const prefix = tag [ 1 ];
+
+      // maybe @est(1h20m) or @1h20m
+      if ( includeEstimates && ( prefix === "e" || ( prefix >= "0" && prefix <= "9" ) ) ) {
+
+        tokens.estSeconds += Statistics.estimate.parse ( tag );
+
+      }
+
+      // maybe @lasted(2h)
+      else if ( prefix === "l" ) {
+
+        tokens.lastedSeconds += Statistics.timeTags.parse ( tag, Consts.regexes.tagElapsed );
+
+      }
+
+      // maybe @wasted(30m)
+      else if (prefix === "w" ) {
+
+        tokens.wastedSeconds += Statistics.timeTags.parse ( tag, Consts.regexes.tagElapsed );
+
+      }
+    },
+
+    parse ( tag: string, regex: RegExp ) {
+
+      if ( Statistics.timeTags.cache[tag] ) return Statistics.timeTags.cache[tag];
+
+      const match = tag.match ( regex );
+
+      if ( !match ) return 0;
+
+      const time = match[1],
+            seconds = Time.diffSeconds( time );
+
+      Statistics.timeTags.cache[tag] = seconds;
+
+      return seconds;
+    }
+
+  },
 
   /* ESTIMATE */
 
@@ -99,20 +150,16 @@ const Statistics = {
 
       }
 
-      const tokens: any = {
+      const tokens = Object.assign ( new Tokens (), {
         comments: items.comments.length,
         projects: items.projects.length,
         tags: items.tags.length,
         pending: items.todosBox.length,
         done: items.todosDone.length,
         cancelled: items.todosCancelled.length,
-        estSeconds: _.sum ( items.tags.map ( tag => Statistics.estimate.parse ( tag.text ) ) )
-      };
+      });
 
-      tokens.finished = tokens.done + tokens.cancelled;
-      tokens.all = tokens.pending + tokens.done + tokens.cancelled;
-      tokens.percentage = tokens.all ? Math.round ( tokens.finished / tokens.all * 100 ) : 100;
-      tokens.est = tokens.estSeconds ? Time.diff ( Date.now () + ( tokens.estSeconds * 1000 ), undefined, Config.getKey ( 'timekeeping.estimate.format' ) ) : '';
+      items.tags.forEach ( tag => Statistics.timeTags.add ( tag.text, tokens ) );
 
       Statistics.tokens.global = tokens;
 
@@ -157,15 +204,7 @@ const Statistics = {
 
       project.level = ( project.level || AST.getLevel ( project.line.text ) );
 
-      const tokens: any = {
-        comments: 0,
-        projects: 0,
-        tags: 0,
-        pending: 0,
-        done: 0,
-        cancelled: 0,
-        estSeconds: 0
-      };
+      const tokens = new Tokens ();
 
       let wasPending = false;
 
@@ -177,9 +216,7 @@ const Statistics = {
 
           tokens.tags++;
 
-          if ( !wasPending ) continue;
-
-          tokens.estSeconds += Statistics.estimate.parse ( nextItem.text );
+          Statistics.timeTags.add ( nextItem.text, tokens, wasPending );
 
         } else {
 
@@ -200,6 +237,8 @@ const Statistics = {
             tokens.done += nextTokens.done;
             tokens.cancelled += nextTokens.cancelled;
             tokens.estSeconds += nextTokens.estSeconds;
+            tokens.lastedSeconds += nextTokens.lastedSeconds;
+            tokens.wastedSeconds += nextTokens.wastedSeconds;
 
             i += nextTokens.comments + nextTokens.projects + nextTokens.tags + nextTokens.pending + nextTokens.done + nextTokens.cancelled; // Jumping
 
@@ -224,11 +263,6 @@ const Statistics = {
         }
 
       }
-
-      tokens.finished = tokens.done + tokens.cancelled;
-      tokens.all = tokens.pending + tokens.done + tokens.cancelled;
-      tokens.percentage = tokens.all ? Math.round ( tokens.finished / tokens.all * 100 ) : 100;
-      tokens.est = tokens.estSeconds ? Time.diff ( Date.now () + ( tokens.estSeconds * 1000 ), undefined, Config.getKey ( 'timekeeping.estimate.format' ) ) : '';
 
       Statistics.tokens.projects[project.lineNumber] = tokens;
 
@@ -260,7 +294,7 @@ const Statistics = {
 
       if ( !tokens ) return;
 
-      for ( let token in tokens ) {
+      for ( let token of Tokens.supported ) {
 
         const re = Statistics.template.getTokenRe ( token );
 

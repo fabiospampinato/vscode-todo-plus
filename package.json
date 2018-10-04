@@ -304,7 +304,7 @@
             "short-compact",
             "clock"
           ],
-          "description": "Format used for displaying time diff inside @lasted/waster",
+          "description": "Format used for displaying time diff inside @lasted/wasted",
           "default": "short-compact"
         },
         "todo.timekeeping.estimate.format": {
