@@ -1,3 +1,6 @@
+### Version 4.8.1
+- Consts: faster initialization
+
 ### Version 4.8.0
 - Lazily inizialising the embedded provider
 - Refreshing the views automatically
