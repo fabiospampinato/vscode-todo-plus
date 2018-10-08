@@ -33,6 +33,14 @@ class Embedded extends View {
 
 	}
 
+  async getEmbedded () {
+
+    await Utils.embedded.initProvider ();
+
+    return await Utils.embedded.provider.get ( undefined, this.config.embedded.view.groupByRoot, this.config.embedded.view.groupByType, this.config.embedded.view.groupByFile, this.filter );
+
+  }
+
   async getChildren ( item?: Item ): Promise<Item[]> {
 
     if ( this.clear ) {
@@ -43,7 +51,7 @@ class Embedded extends View {
 
     }
 
-    let obj = item ? item.obj : await Utils.embedded.get ( undefined, this.config.embedded.view.groupByRoot, this.config.embedded.view.groupByType, this.config.embedded.view.groupByFile, this.filter );
+    let obj = item ? item.obj : await this.getEmbedded ();
 
     if ( _.isEmpty ( obj ) ) return [new Placeholder ( 'No embedded todos found' )];
 

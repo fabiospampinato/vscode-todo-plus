@@ -118,9 +118,11 @@ async function open ( filePath?: string, lineNumber?: number ) {
 
 async function openEmbedded () {
 
+  await Utils.embedded.initProvider ();
+
   const config = Config.get (),
-        todos = await Utils.embedded.get ( undefined, config.embedded.file.groupByRoot, config.embedded.file.groupByType, config.embedded.file.groupByFile ),
-        content = Utils.embedded.renderTodos ( todos );
+        todos = await Utils.embedded.provider.get ( undefined, config.embedded.file.groupByRoot, config.embedded.file.groupByType, config.embedded.file.groupByFile ),
+        content = Utils.embedded.provider.renderTodos ( todos );
 
   if ( !content ) return vscode.window.showInformationMessage ( 'No embedded todos found' );
 

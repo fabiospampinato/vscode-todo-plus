@@ -41,11 +41,11 @@ const activate = function ( context: vscode.ExtensionContext ) {
     vscode.languages.registerDocumentSymbolProvider ( Consts.languageId, new SymbolsProvider () ),
     vscode.window.onDidChangeActiveTextEditor ( () => DocumentDecorator.update () ),
     vscode.workspace.onDidChangeConfiguration ( Consts.update ),
-    vscode.workspace.onDidChangeConfiguration ( () => delete Utils.embedded.filesData && delete Utils.files.filesData ),
+    vscode.workspace.onDidChangeConfiguration ( () => delete Utils.files.filesData && Utils.embedded.provider && delete Utils.embedded.provider.filesData ),
     vscode.workspace.onDidChangeConfiguration ( () => DocumentDecorator.update () ),
     vscode.workspace.onDidChangeConfiguration ( Utils.statistics.tokens.updateDisabledAll ),
     vscode.workspace.onDidChangeTextDocument ( ChangesDecorator.onChanges ),
-    vscode.workspace.onDidChangeWorkspaceFolders ( Utils.embedded.unwatchPaths ),
+    vscode.workspace.onDidChangeWorkspaceFolders ( () => Utils.embedded.provider && Utils.embedded.provider.unwatchPaths () ),
     vscode.workspace.onDidChangeWorkspaceFolders ( Utils.files.unwatchPaths ),
     vscode.workspace.onDidChangeWorkspaceFolders ( Utils.folder.initRootsRe )
   );
