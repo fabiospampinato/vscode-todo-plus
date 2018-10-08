@@ -1,3 +1,7 @@
+### Version 4.8.0
+- Lazily inizialising the embedded provider
+- Refreshing the views automatically
+
 ### Version 4.7.0
 - Added single-cursor multi-line toggle support
 - Add `[lasted]`, `[wasted]` and `[elasped]` statistics tokens
