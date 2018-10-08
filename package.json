@@ -583,22 +583,6 @@
         }
       },
       {
-        "command": "todo.viewFilesRefresh",
-        "title": "Refresh",
-        "icon": {
-          "light": "resources/icons/refresh_light.svg",
-          "dark": "resources/icons/refresh_dark.svg"
-        }
-      },
-      {
-        "command": "todo.viewEmbeddedRefresh",
-        "title": "Refresh",
-        "icon": {
-          "light": "resources/icons/refresh_light.svg",
-          "dark": "resources/icons/refresh_dark.svg"
-        }
-      },
-      {
         "command": "todo.viewEmbeddedCollapse",
         "title": "Collapse",
         "icon": {
@@ -744,14 +728,6 @@
           "when": "false"
         },
         {
-          "command": "todo.viewFilesRefresh",
-          "when": "false"
-        },
-        {
-          "command": "todo.viewEmbeddedRefresh",
-          "when": "false"
-        },
-        {
           "command": "todo.viewEmbeddedCollapse",
           "when": "false"
         },
@@ -838,16 +814,6 @@
           "command": "todo.viewFilesExpand",
           "when": "view == todo.views.1files && todo-files-expanded == false",
           "group": "navigation@2"
-        },
-        {
-          "command": "todo.viewFilesRefresh",
-          "when": "view == todo.views.1files",
-          "group": "navigation@3"
-        },
-        {
-          "command": "todo.viewEmbeddedRefresh",
-          "when": "view == todo.views.2embedded",
-          "group": "navigation@3"
         },
         {
           "command": "todo.viewEmbeddedCollapse",

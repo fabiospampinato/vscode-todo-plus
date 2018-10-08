@@ -48,7 +48,7 @@ const Init = {
     });
 
     vscode.workspace.onDidChangeConfiguration ( () => {
-     Views.forEach ( View => View.refresh () );
+      Views.forEach ( View => View.refresh () );
     });
 
   }

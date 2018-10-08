@@ -6,6 +6,7 @@ import * as chokidar from 'chokidar';
 import * as micromatch from 'micromatch';
 import * as querystring from 'querystring';
 import Config from '../../../config';
+import EmbeddedView from '../../../views/embedded';
 import Folder from '../../folder';
 
 /* ABSTRACT */
@@ -52,12 +53,15 @@ class Abstract {
 
     /* HANDLERS */
 
+    const refresh = _.debounce ( () => EmbeddedView.refresh (), 250 );
+
     const add = filePath => {
       if ( !this.filesData ) return;
       filePath = pathNormalizer ( filePath );
       if ( this.filesData.hasOwnProperty ( filePath ) ) return;
       if ( !this.isIncluded ( filePath ) ) return;
       this.filesData[filePath] = undefined;
+      refresh ();
     };
 
     const change = filePath => {
@@ -65,12 +69,14 @@ class Abstract {
       filePath = pathNormalizer ( filePath );
       if ( !this.isIncluded ( filePath ) ) return;
       this.filesData[filePath] = undefined;
+      refresh ();
     };
 
     const unlink = filePath => {
       if ( !this.filesData ) return;
       filePath = pathNormalizer ( filePath );
       delete this.filesData[filePath];
+      refresh ();
     };
 
     /* WATCHING */

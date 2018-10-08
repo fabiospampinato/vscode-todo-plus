@@ -215,10 +215,6 @@ function viewFilesOpen () {
   open ();
 }
 
-function viewFilesRefresh () {
-  ViewFiles.refresh ();
-}
-
 function viewFilesCollapse () {
   ViewFiles.expanded = false;
   vscode.commands.executeCommand ( 'setContext', 'todo-files-expanded', false );
@@ -232,10 +228,6 @@ function viewFilesExpand () {
 }
 
 /* VIEW EMBEDDED */
-
-function viewEmbeddedRefresh () {
-  ViewEmbedded.refresh ();
-}
 
 function viewEmbeddedCollapse () {
   ViewEmbedded.expanded = false;
@@ -269,5 +261,5 @@ function viewEmbeddedClearFilter () {
 
 /* EXPORT */
 
-export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenFile, viewRevealTodo, viewFilesOpen, viewFilesRefresh, viewFilesCollapse, viewFilesExpand, viewEmbeddedRefresh, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter};
+export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenFile, viewRevealTodo, viewFilesOpen, viewFilesCollapse, viewFilesExpand, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter};
 export {toggleBox as editorToggleBox, toggleDone as editorToggleDone, toggleCancelled as editorToggleCancelled, toggleStart as editorToggleStart, archive as editorArchive}

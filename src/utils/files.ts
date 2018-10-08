@@ -7,6 +7,7 @@ import * as globby from 'globby';
 import * as micromatch from 'micromatch';
 import * as vscode from 'vscode';
 import Config from '../config';
+import FilesView from '../views/files';
 import Folder from './folder';
 
 /* FILES */
@@ -55,12 +56,15 @@ class Files { //FIXME: There's some code duplication between this and `embedded`
 
     /* HANDLERS */
 
+    const refresh = _.debounce ( () => FilesView.refresh (), 250 );
+
     const add = filePath => {
       if ( !this.filesData ) return;
       filePath = pathNormalizer ( filePath );
       if ( this.filesData.hasOwnProperty ( filePath ) ) return;
       if ( !this.isIncluded ( filePath ) ) return;
       this.filesData[filePath] = undefined;
+      refresh ();
     };
 
     const change = filePath => {
@@ -68,12 +72,14 @@ class Files { //FIXME: There's some code duplication between this and `embedded`
       filePath = pathNormalizer ( filePath );
       if ( !this.isIncluded ( filePath ) ) return;
       this.filesData[filePath] = undefined;
+      refresh ();
     };
 
     const unlink = filePath => {
       if ( !this.filesData ) return;
       filePath = pathNormalizer ( filePath );
       delete this.filesData[filePath];
+      refresh ();
     };
 
     /* WATCHING */
