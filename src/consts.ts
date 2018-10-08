@@ -10,34 +10,35 @@ const Consts = {
 
   get () {
 
-    const archiveName = Config.getKey ( 'archive.name' ) || 'Archive',
-          tagsNames = Config.getKey ( 'tags.names' );
+    const config = Config.get (),
+          archiveName = _.get ( config, 'archive.name' ) || 'Archive',
+          tagsNames = _.get ( config, 'tags.names' );
 
     return {
       languageId: 'todo',
-      indentation: Config.getKey ( 'indentation' ),
-      timer: Config.getKey ( 'timer.statusbar.enabled' ),
+      indentation: _.get ( config, 'indentation' ),
+      timer: _.get ( config, 'timer.statusbar.enabled' ),
       symbols: {
         project: ':',
-        box: Config.getKey ( 'symbols.box' ),
-        done: Config.getKey ( 'symbols.done' ),
-        cancelled: Config.getKey ( 'symbols.cancelled' ),
+        box: _.get ( config, 'symbols.box' ),
+        done: _.get ( config, 'symbols.done' ),
+        cancelled: _.get ( config, 'symbols.cancelled' ),
         tag: '@'
       },
       colors: {
-        done: Config.getKey ( 'colors.done' ),
-        cancelled: Config.getKey ( 'colors.cancelled' ),
-        code: Config.getKey ( 'colors.code' ),
-        comment: Config.getKey ( 'colors.comment' ),
-        project: Config.getKey ( 'colors.project' ),
-        projectStatistics: Config.getKey ( 'colors.projectStatistics' ),
-        tag: Config.getKey ( 'colors.tag' ),
-        types: _.transform ( Config.getKey ( 'colors.types' ), ( acc, val, key: string ) => { acc[key.toUpperCase ()] = val }, {} )
+        done: _.get ( config, 'colors.done' ),
+        cancelled: _.get ( config, 'colors.cancelled' ),
+        code: _.get ( config, 'colors.code' ),
+        comment: _.get ( config, 'colors.comment' ),
+        project: _.get ( config, 'colors.project' ),
+        projectStatistics: _.get ( config, 'colors.projectStatistics' ),
+        tag: _.get ( config, 'colors.tag' ),
+        types: _.transform ( _.get ( config, 'colors.types' ), ( acc, val, key: string ) => { acc[key.toUpperCase ()] = val }, {} )
       },
       tags: {
-        names: Config.getKey ( 'tags.names' ),
-        backgroundColors: Config.getKey ( 'tags.backgroundColors' ),
-        foregroundColors: Config.getKey ( 'tags.foregroundColors' )
+        names: _.get ( config, 'tags.names' ),
+        backgroundColors: _.get ( config, 'tags.backgroundColors' ),
+        foregroundColors: _.get ( config, 'tags.foregroundColors' )
       },
       regexes: {
         impossible: /(?=a)b/gm,
@@ -49,7 +50,7 @@ const Consts = {
         todoDone: /^[^\S\n]*((?!--|––|——)(?:(?:(?:[✔✓☑+]|\[[xX+]\])\s[^\n]*)|(?:(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ ?\])\s[^\n]*[^a-zA-Z0-9]@done(?:(?:\([^)]*\))|(?![a-zA-Z]))[^\n]*)))/gm,
         todoCancelled: /^[^\S\n]*((?!--|––|——)(?:(?:(?:[✘xX]|\[-\])\s[^\n]*)|(?:(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ ?\])\s[^\n]*[^a-zA-Z0-9]@cancelled(?:(?:\([^)]*\))|(?![a-zA-Z]))[^\n]*)))/gm,
         todoFinished:  /^[^\S\n]*((?!--|––|——)(?:(?:(?:[✔✓☑+✘xX]|\[[xX+-]\])\s[^\n]*)|(?:(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ ?\])\s[^\n]*[^a-zA-Z0-9]@(?:done|cancelled)(?:(?:\([^)]*\))|(?![a-zA-Z]))[^\n]*)))/gm,
-        todoEmbedded: new RegExp ( Config.getKey ( 'embedded.regex' ), Config.getKey ( 'embedded.regexFlags' ) ),
+        todoEmbedded: new RegExp ( _.get ( config, 'embedded.regex' ), _.get ( config, 'embedded.regexFlags' ) ),
         project: /^(?![^\S\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])\s[^\n]*)[^\S\n]*(.+:)[^\S\n]*(?:(?=@[^\s*~(]+(?:\([^)]*\))?)|$)/gm,
         projectParts: /(\s*)([^:]+):(.*)/,
         archive: new RegExp ( `^(?![^\\S\\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\\[[ xX+-]?\\])\\s[^\\n]*)([^\\S\\n]*${_.escapeRegExp ( archiveName )}:.*$)`, 'gm' ),
@@ -75,7 +76,7 @@ const Consts = {
 
   update () {
 
-    _.merge ( Consts, Consts.get () );
+    _.extend ( Consts, Consts.get () );
 
   }
 
