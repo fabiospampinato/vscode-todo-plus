@@ -5,7 +5,7 @@
   "icon": "resources/logo/logo-128x128.png",
   "version": "4.8.1",
   "license": "MIT",
-  "main": "out/src/extension.js",
+  "main": "out/extension.js",
   "publisher": "fabiospampinato",
   "activationEvents": [
     "*"
@@ -845,9 +845,10 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "tsc -p ./",
+    "vscode:prepublish": "rm -rf out && webpack --mode production",
     "publish": "vsce publish && npm publish",
-    "compile": "tsc -watch -p ./",
+    "compile": "webpack --mode development",
+    "compile:watch": "webpack --mode development --watch",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "node ./node_modules/vscode/bin/test"
   },
@@ -898,8 +899,10 @@
   },
   "devDependencies": {
     "@types/node": "^6.0.40",
+    "ts-loader": "^5.2.1",
     "tslint": "^4.4.2",
     "typescript": "^2.8.0",
-    "vscode": "^1.1.21"
+    "vscode": "^1.1.21",
+    "webpack": "^4.20.2"
   }
 }
