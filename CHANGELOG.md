@@ -1,3 +1,6 @@
+### Version 4.8.4
+- Lazily importing expensive dependencies
+
 ### Version 4.8.3
 - Fixed a regression
 
