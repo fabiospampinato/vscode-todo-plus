@@ -17,7 +17,7 @@ const config = {
   devtool: 'source-map',
   externals: {
     vscode: 'commonjs vscode',
-    fsevents: 'commonjs vscode'
+    fsevents: 'commonjs fsevents'
   },
   resolve: {
     extensions: ['tsx', '.ts', '.jsx', '.js']
