@@ -1,3 +1,6 @@
+### Version 4.8.2
+- Bundling with webpack
+
 ### Version 4.8.1
 - Consts: faster initialization
 
