@@ -2,7 +2,6 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
-import * as globby from 'globby';
 import stringMatches from 'string-matches';
 import Consts from '../../../consts';
 import File from '../../file';
@@ -14,6 +13,8 @@ import Abstract from './abstract';
 class JS extends Abstract {
 
   async getFilePaths ( rootPaths ) {
+
+    const globby = require ( 'globby' ); // Lazy import for performance
 
     return _.flatten ( await Promise.all ( rootPaths.map ( cwd => globby ( this.include, { cwd, ignore: this.exclude, dot: true, absolute: true } ) ) ) );
 

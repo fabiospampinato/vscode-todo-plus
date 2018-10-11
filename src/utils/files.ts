@@ -2,9 +2,6 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
-import * as chokidar from 'chokidar';
-import * as globby from 'globby';
-import * as micromatch from 'micromatch';
 import * as vscode from 'vscode';
 import Config from '../config';
 import FilesView from '../views/files';
@@ -86,6 +83,8 @@ class Files { //FIXME: There's some code duplication between this and `embedded`
 
     if ( !rootPaths.length ) return;
 
+    const chokidar = require ( 'chokidar' ); // Lazy import for performance
+
     const chokidarOptions = {
       ignored: this.exclude,
       ignoreInitial: true
@@ -105,6 +104,8 @@ class Files { //FIXME: There's some code duplication between this and `embedded`
 
   getIncluded ( filePaths ) {
 
+    const micromatch = require ( 'micromatch' ); // Lazy import for performance
+
     return micromatch ( filePaths, this.include, { ignore: this.exclude, dot: true } );
 
   }
@@ -116,6 +117,8 @@ class Files { //FIXME: There's some code duplication between this and `embedded`
   }
 
   async getFilePaths ( rootPaths ) {
+
+    const globby = require ( 'globby' ); // Lazy import for performance
 
     return _.flatten ( await Promise.all ( rootPaths.map ( cwd => globby ( this.include, { cwd, ignore: this.exclude, dot: true, absolute: true } ) ) ) );
 

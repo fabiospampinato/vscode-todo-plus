@@ -2,8 +2,6 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
-import * as chokidar from 'chokidar';
-import * as micromatch from 'micromatch';
 import * as querystring from 'querystring';
 import Config from '../../../config';
 import EmbeddedView from '../../../views/embedded';
@@ -83,6 +81,8 @@ class Abstract {
 
     if ( !rootPaths.length ) return;
 
+    const chokidar = require ( 'chokidar' ); // Lazy import for performance
+
     const chokidarOptions = {
       ignored: this.exclude,
       ignoreInitial: true
@@ -101,6 +101,8 @@ class Abstract {
   }
 
   getIncluded ( filePaths ) {
+
+    const micromatch = require ( 'micromatch' ); // Lazy import for performance
 
     return micromatch ( filePaths, this.include, { ignore: this.exclude, dot: true } );
 

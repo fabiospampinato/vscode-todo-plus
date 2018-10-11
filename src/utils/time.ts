@@ -8,8 +8,6 @@ import * as moment from 'moment';
 import 'moment-precise-range-plugin';
 import * as toTime from 'to-time';
 
-const sugar = require ( 'sugar-date' ); //TSC
-
 /* TIME */
 
 const Time = {
@@ -128,6 +126,8 @@ const Time = {
       to = to.replace ( /(\d)(ms|s|m|h|d|w|y)(\d)/gi, '$1$2 $3' );
 
       if ( /^\s*\d+\s*$/.test ( to ) ) return 0;
+
+      const sugar = require ( 'sugar-date' ); //TSC // Lazy import for performance
 
       if ( !toDate ) { // sugar + ` from now` //FIXME: Should be + ` from ${date.toString ()}` or something
         const date = sugar.Date.create ( `${to} from now` );
