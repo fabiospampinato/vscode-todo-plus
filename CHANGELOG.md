@@ -1,3 +1,6 @@
+### Version 4.8.5
+- Fixed a regression caused by using WebPack
+
 ### Version 4.8.4
 - Lazily importing expensive dependencies
 
