@@ -70,7 +70,7 @@ const Embedded = {
       } catch ( e ) {}
 
       const name = /^win/.test ( process.platform ) ? 'rg.exe' : 'rg',
-            basePath = path.dirname ( path.dirname ( require.main.filename ) ),
+            basePath = path.dirname ( __dirname ),
             filePaths = [
               path.join ( basePath, `node_modules.asar.unpacked/vscode-ripgrep/bin/${name}` ),
               path.join ( basePath, `node_modules/vscode-ripgrep/bin/${name}` )

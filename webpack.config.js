@@ -19,6 +19,9 @@ const config = {
     vscode: 'commonjs vscode',
     fsevents: 'commonjs fsevents'
   },
+  node: {
+    __dirname: false
+  },
   resolve: {
     extensions: ['tsx', '.ts', '.jsx', '.js']
   },
