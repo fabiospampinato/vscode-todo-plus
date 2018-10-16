@@ -1,3 +1,6 @@
+### Version 4.8.6
+- Views: properly removing unnecessary groups
+
 ### Version 4.8.5
 - Fixed a regression caused by using WebPack
 
