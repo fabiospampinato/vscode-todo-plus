@@ -84,7 +84,7 @@ const Document = {
         }
 
         if ( statisticsProjects ) {
-          Utils.statistics.tokens.updateProjects ( items );
+          Utils.statistics.tokens.updateProjects ( doc.textDocument, items );
         }
 
         const decorations = Document.getItemsDecorations ( items );

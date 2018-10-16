@@ -2,6 +2,7 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
+import * as vscode from 'vscode';
 import Config from '../config';
 import Consts from '../consts';
 import {Comment, Project, Tag, TodoBox, TodoDone, TodoCancelled} from '../todo/items';
@@ -185,7 +186,7 @@ const Statistics = {
 
     projects: {},
 
-    updateProjects ( items ) {
+    updateProjects ( textDocument: vscode.TextDocument, items ) {
 
       Statistics.tokens.projects = {};
 
@@ -211,16 +212,16 @@ const Statistics = {
             lines = groups.reduce ( ( arr1, arr2 ) => mergeSorted ( arr1, arr2 ) );
 
       items.projects.forEach ( project => {
-        Statistics.tokens.updateProject ( project, lines, lines.indexOf ( project ) );
+        Statistics.tokens.updateProject ( textDocument, project, lines, lines.indexOf ( project ) );
       });
 
     },
 
-    updateProject ( project, lines, lineNr: number ) {
+    updateProject ( textDocument: vscode.TextDocument, project, lines, lineNr: number ) {
 
       if ( Statistics.tokens.projects[project.lineNumber] ) return Statistics.tokens.projects[project.lineNumber];
 
-      project.level = ( project.level || AST.getLevel ( project.line.text ) );
+      project.level = ( project.level || AST.getLevel ( textDocument, project.line.text ) );
 
       const tokens = new Tokens ();
 
@@ -238,7 +239,7 @@ const Statistics = {
 
         } else {
 
-          nextItem.level = ( nextItem.level || AST.getLevel ( nextItem.line.text ) );
+          nextItem.level = ( nextItem.level || AST.getLevel ( textDocument, nextItem.line.text ) );
 
           if ( nextItem.level <= project.level ) break;
 
@@ -246,7 +247,7 @@ const Statistics = {
 
           if ( nextItem instanceof Project ) {
 
-            const nextTokens = Statistics.tokens.updateProject ( nextItem, lines, i );
+            const nextTokens = Statistics.tokens.updateProject ( textDocument, nextItem, lines, i );
 
             tokens.comments += nextTokens.comments;
             tokens.projects += 1 + nextTokens.projects;

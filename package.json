@@ -881,6 +881,7 @@
   "dependencies": {
     "absolute": "0.0.1",
     "chokidar": "^2.0.4",
+    "detect-indent": "^5.0.0",
     "diff": "^3.5.0",
     "execa": "^0.10.0",
     "find-up": "^2.1.0",

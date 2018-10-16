@@ -23,7 +23,7 @@ class Symbols implements vscode.DocumentSymbolProvider {
       /* SYMBOL */
 
       const parts = project.line.text.match ( Consts.regexes.projectParts ),
-            level = Utils.ast.getLevel ( parts[1] ),
+            level = Utils.ast.getLevel ( textDocument, parts[1] ),
             name = _.trim ( parts[2] ),
             selectionRange = project.range,
             startLine = selectionRange.start.line,

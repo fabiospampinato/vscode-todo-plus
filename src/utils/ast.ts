@@ -1,6 +1,7 @@
 
 /* IMPORT */
 
+import * as detectIndent from 'detect-indent';
 import * as vscode from 'vscode';
 import Consts from '../consts';
 
@@ -8,21 +9,50 @@ import Consts from '../consts';
 
 const AST = {
 
-  getLevel ( str, indentation = Consts.indentation ) {
+  indentationRe: /^( +|\t+)/m,
+
+  indentations: {}, // filePath => { indentation, lineCount, confident }
+
+  getIndentation ( textDocument: vscode.TextDocument ) {
+
+    const filePath = textDocument.fileName,
+          cached = AST.indentations[filePath];
+
+    if ( cached ) {
+
+      if ( cached.confident ) return cached.indentation; // We are confident about this
+
+      if ( cached.lineCount === textDocument.lineCount ) return cached.indentation; // Probably nothing changed
+
+    }
+
+    const text = textDocument.getText (),
+          match = AST.indentationRe.exec ( text ),
+          endIndex = Math.min ( text.length, match ? match.index + 300 : 500 ), // We don't want to process huge documents
+          sample = text.slice ( 0, endIndex ),
+          indentation = detectIndent ( sample ).indent || Consts.indentation;
+
+    AST.indentations[filePath] = {
+      indentation,
+      lineCount: textDocument.lineCount,
+      confident: !!match
+    };
+
+    return indentation;
+
+  },
+
+  getLevel ( textDocument: vscode.TextDocument, str ) {
+
+    const indentation = AST.getIndentation ( textDocument );
 
     let level = 0,
         index = 0;
 
     while ( index < str.length ) {
-      if ( str.substr ( index, indentation.length ) === indentation ) {
-        level++;
-        index += indentation.length;
-      } else if ( str[index] === '\t' ) {
-        level++;
-        index += 1;
-      } else {
-        break;
-      }
+      if ( str.substr ( index, indentation.length ) !== indentation ) break;
+      level++;
+      index += indentation.length;
     }
 
     return level;
@@ -38,7 +68,7 @@ const AST = {
     const {lineCount} = textDocument;
 
     const startLine = lineNr >= 0 ? textDocument.lineAt ( lineNr ) : null,
-          startLevel = startLine ? AST.getLevel ( startLine.text ) : -1;
+          startLevel = startLine ? AST.getLevel ( textDocument, startLine.text ) : -1;
 
     let prevLevel = startLevel,
         nextLine = lineNr + direction;
@@ -52,7 +82,7 @@ const AST = {
         continue;
       }
 
-      const level = AST.getLevel ( line.text );
+      const level = AST.getLevel ( textDocument, line.text );
 
       if ( direction > 0 && level < startLevel ) break;
 
