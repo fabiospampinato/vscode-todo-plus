@@ -1,3 +1,6 @@
+### Version 4.9.0
+- Smart indentation detection
+
 ### Version 4.8.6
 - Views: properly removing unnecessary groups
 
