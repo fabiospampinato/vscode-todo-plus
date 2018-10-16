@@ -53,9 +53,9 @@ class Embedded extends View {
 
     let obj = item ? item.obj : await this.getEmbedded ();
 
-    if ( _.isEmpty ( obj ) ) return [new Placeholder ( 'No embedded todos found' )];
+    while ( obj && '' in obj ) obj = obj['']; // Collapsing unnecessary groups
 
-    while ( obj[''] ) obj = obj['']; // Collpsing unnecessary groups
+    if ( _.isEmpty ( obj ) ) return [new Placeholder ( 'No embedded todos found' )];
 
     if ( _.isArray ( obj ) ) {
 

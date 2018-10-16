@@ -44,9 +44,9 @@ class Files extends View {
 
     let obj = item ? item.obj : await Utils.files.get ();
 
-    if ( _.isEmpty ( obj ) ) return [new Placeholder ( 'No todo files found' )];
+    while ( obj && '' in obj ) obj = obj['']; // Collapsing unnecessary groups
 
-    while ( obj[''] ) obj = obj['']; // Collpsing unnecessary groups
+    if ( _.isEmpty ( obj ) ) return [new Placeholder ( 'No todo files found' )];
 
     if ( obj.textEditor ) {
 
