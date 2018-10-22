@@ -5,7 +5,6 @@ import * as _ from 'lodash';
 import * as absolute from 'absolute';
 import * as findUp from 'find-up';
 import * as path from 'path';
-import * as tildify from 'tildify';
 import * as vscode from 'vscode';
 
 /* FOLDER */
@@ -85,7 +84,7 @@ const Folder = {
     } else { // External path
 
       return {
-        root: tildify ( path.dirname ( filePath ) ),
+        root: path.basename ( path.dirname ( filePath ) ),
         rootPath: path.dirname ( filePath ),
         relativePath: path.basename ( filePath )
       };
