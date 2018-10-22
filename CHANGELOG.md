@@ -1,3 +1,6 @@
+### Version 4.9.2
+- Files view: ensuring external/global files outside of the home directory are supported
+
 ### Version 4.9.1
 - Files view: improved support for extarnal/global files
 
