@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import * as absolute from 'absolute';
 import * as findUp from 'find-up';
 import * as path from 'path';
+import * as tildify from 'tildify';
 import * as vscode from 'vscode';
 
 /* FOLDER */
@@ -73,13 +74,23 @@ const Folder = {
 
     const match = Folder.rootsRe.exec ( filePath );
 
-    if ( !match ) return {};
+    if ( match ) { // Interal path
 
-    return {
-      root: path.basename ( match[1] ),
-      rootPath: match[1],
-      relativePath: match[2]
-    };
+      return {
+        root: path.basename ( match[1] ),
+        rootPath: match[1],
+        relativePath: match[2]
+      };
+
+    } else { // External path
+
+      return {
+        root: tildify ( path.dirname ( filePath ) ),
+        rootPath: path.dirname ( filePath ),
+        relativePath: path.basename ( filePath )
+      };
+
+    }
 
   }
 

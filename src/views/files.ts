@@ -20,7 +20,7 @@ class Files extends View {
   id = 'todo.views.1files';
   clear = false;
   expanded = false;
-  directorySepRe = /\\|\//;
+  filePathRe = /^(?!~).*(?:\\|\/)/;
 
 	getTreeItem ( item: Item ): vscode.TreeItem {
 
@@ -85,7 +85,7 @@ class Files extends View {
 
         const val = obj[key];
 
-        if ( this.directorySepRe.test ( key ) ) {
+        if ( this.filePathRe.test ( key ) ) {
 
           const uri = Utils.view.getURI ( val );
 

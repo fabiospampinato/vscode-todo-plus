@@ -896,6 +896,7 @@
     "sha1": "^1.1.1",
     "string-matches": "^1.0.2",
     "sugar-date": "^2.0.4",
+    "tildify": "^1.2.0",
     "to-time": "^1.0.2"
   },
   "devDependencies": {
