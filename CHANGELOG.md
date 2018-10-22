@@ -1,3 +1,6 @@
+### Version 4.9.1
+- Files view: improved support for extarnal/global files
+
 ### Version 4.9.0
 - Smart indentation detection
 
