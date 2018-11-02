@@ -1,3 +1,7 @@
+### Version 4.9.3
+- Outputting modern code (es2017, faster)
+- Using "Debug Launcher" for debugging
+
 ### Version 4.9.2
 - Files view: ensuring external/global files outside of the home directory are supported
 
