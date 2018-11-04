@@ -39,7 +39,5 @@ package-lock.json
 .nyc_output
 coverage
 typings
-
-# Project specific paths ignore
 out
 .vscode-test
