@@ -1,3 +1,6 @@
+### Version 4.10.0
+- Added support for dark/light theme switching
+
 ### Version 4.9.4
 - Readme: using hi-res logo
 
