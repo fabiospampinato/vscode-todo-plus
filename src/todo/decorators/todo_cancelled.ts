@@ -10,7 +10,13 @@ import Line from './line';
 
 const TODO_CANCELLED = vscode.window.createTextEditorDecorationType ({
   color: Consts.colors.cancelled,
-  rangeBehavior: vscode.DecorationRangeBehavior.ClosedOpen
+  rangeBehavior: vscode.DecorationRangeBehavior.ClosedOpen,
+  dark: {
+    color: Consts.colors.dark.cancelled
+  },
+  light: {
+    color: Consts.colors.light.cancelled
+  }
 });
 
 /* TODO CANCELLED */

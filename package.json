@@ -154,6 +154,32 @@
           "description": "Tag color",
           "default": "#e6db74"
         },
+        "todo.colors.tags.background": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Special tags' background colors",
+          "default": [
+            "#e54545",
+            "#e59f45",
+            "#e5d145",
+            "#ae81ff"
+          ]
+        },
+        "todo.colors.tags.foreground": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Special tags' foreground colors",
+          "default": [
+            "#000000",
+            "#000000",
+            "#000000",
+            "#000000"
+          ]
+        },
         "todo.colors.types": {
           "type": "object",
           "description": "Object mapping todo types to their color",
@@ -172,6 +198,90 @@
             "IDEA": "#cc00cc"
           }
         },
+        "todo.colors.dark": {
+          "type": "object",
+          "description": "Colors for dark themes",
+          "properties": {
+            "done": {
+              "type": "string"
+            },
+            "cancelled": {
+              "type": "string"
+            },
+            "code": {
+              "type": "string"
+            },
+            "comment": {
+              "type": "string"
+            },
+            "project": {
+              "type": "string"
+            },
+            "projectStatistics": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "object",
+              "properties": {
+                "background": {
+                  "type": "array"
+                },
+                "foreground": {
+                  "type": "array"
+                }
+              }
+            },
+            "types": {
+              "type": "object"
+            }
+          },
+          "default": {}
+        },
+        "todo.colors.light": {
+          "type": "object",
+          "description": "Colors for light themes",
+          "properties": {
+            "done": {
+              "type": "string"
+            },
+            "cancelled": {
+              "type": "string"
+            },
+            "code": {
+              "type": "string"
+            },
+            "comment": {
+              "type": "string"
+            },
+            "project": {
+              "type": "string"
+            },
+            "projectStatistics": {
+              "type": "string"
+            },
+            "tag": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "object",
+              "properties": {
+                "background": {
+                  "type": "array"
+                },
+                "foreground": {
+                  "type": "array"
+                }
+              }
+            },
+            "types": {
+              "type": "object"
+            }
+          },
+          "default": {}
+        },
         "todo.tags.names": {
           "type": "array",
           "items": {
@@ -189,32 +299,6 @@
           "type": "boolean",
           "description": "Infer commonly used tags' names",
           "default": true
-        },
-        "todo.tags.backgroundColors": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Special tags' background colors",
-          "default": [
-            "#e54545",
-            "#e59f45",
-            "#e5d145",
-            "#ae81ff"
-          ]
-        },
-        "todo.tags.foregroundColors": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Special tags' foreground colors",
-          "default": [
-            "#000000",
-            "#000000",
-            "#000000",
-            "#000000"
-          ]
         },
         "todo.archive.name": {
           "type": "string",

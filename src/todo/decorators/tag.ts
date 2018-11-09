@@ -9,15 +9,29 @@ import Line from './line';
 /* DECORATION TYPES */
 
 const SPECIAL_TAGS = Consts.tags.names.map ( ( name, index ) => vscode.window.createTextEditorDecorationType ({
-  backgroundColor: Consts.tags.backgroundColors[index],
-  color: Consts.tags.foregroundColors[index],
+  backgroundColor: Consts.colors.tags.background[index],
+  color: Consts.colors.tags.foreground[index],
   borderRadius: '2px',
-  rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed
+  rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
+  dark: {
+    backgroundColor: Consts.colors.dark.tags.background[index],
+    color: Consts.colors.dark.tags.foreground[index]
+  },
+  light: {
+    backgroundColor: Consts.colors.light.tags.background[index],
+    color: Consts.colors.light.tags.foreground[index]
+  }
 }));
 
 const TAG = vscode.window.createTextEditorDecorationType ({
   color: Consts.colors.tag,
-  rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed
+  rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
+  dark: {
+    color: Consts.colors.dark.tag
+  },
+  light: {
+    color: Consts.colors.light.tag
+  }
 });
 
 /* TAG */

@@ -31,7 +31,7 @@ const View = {
 
   icons: {},
 
-  getTypeIcon ( type ) {
+  getTypeIcon ( type ) { //TODO: Add support for light/dark colors
 
     if ( View.icons[type] ) return View.icons[type];
 

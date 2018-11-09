@@ -14,6 +14,23 @@ const Consts = {
           archiveName = _.get ( config, 'archive.name' ) || 'Archive',
           tagsNames = _.get ( config, 'tags.names' );
 
+    function getColors ( root ) {
+      return {
+        done: _.get ( config, `${root}.done` ),
+        cancelled: _.get ( config, `${root}.cancelled` ),
+        code: _.get ( config, `${root}.code` ),
+        comment: _.get ( config, `${root}.comment` ),
+        project: _.get ( config, `${root}.project` ),
+        projectStatistics: _.get ( config, `${root}.projectStatistics` ),
+        tag: _.get ( config, `${root}.tag` ),
+        tags: {
+          background: _.get ( config, `${root}.tags.background`, [] ),
+          foreground: _.get ( config, `${root}.tags.foreground`, [] )
+        },
+        types: _.transform ( _.get ( config, `${root}.types`, {} ), ( acc, val, key: string ) => { acc[key.toUpperCase ()] = val }, {} )
+      }
+    }
+
     return {
       languageId: 'todo',
       indentation: _.get ( config, 'indentation' ),
@@ -25,20 +42,12 @@ const Consts = {
         cancelled: _.get ( config, 'symbols.cancelled' ),
         tag: '@'
       },
-      colors: {
-        done: _.get ( config, 'colors.done' ),
-        cancelled: _.get ( config, 'colors.cancelled' ),
-        code: _.get ( config, 'colors.code' ),
-        comment: _.get ( config, 'colors.comment' ),
-        project: _.get ( config, 'colors.project' ),
-        projectStatistics: _.get ( config, 'colors.projectStatistics' ),
-        tag: _.get ( config, 'colors.tag' ),
-        types: _.transform ( _.get ( config, 'colors.types' ), ( acc, val, key: string ) => { acc[key.toUpperCase ()] = val }, {} )
-      },
+      colors: _.extend ( getColors ( 'colors' ), {
+        dark: getColors ( 'colors.dark' ),
+        light: getColors ( 'colors.light' )
+      }),
       tags: {
-        names: _.get ( config, 'tags.names' ),
-        backgroundColors: _.get ( config, 'tags.backgroundColors' ),
-        foregroundColors: _.get ( config, 'tags.foregroundColors' )
+        names: _.get ( config, 'tags.names' )
       },
       regexes: {
         impossible: /(?=a)b/gm,

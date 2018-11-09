@@ -10,7 +10,13 @@ import Consts from '../../consts';
 
 const COMMENT = vscode.window.createTextEditorDecorationType ({
   color: Consts.colors.comment,
-  rangeBehavior: vscode.DecorationRangeBehavior.OpenOpen
+  rangeBehavior: vscode.DecorationRangeBehavior.OpenOpen,
+  dark: {
+    color: Consts.colors.dark.comment
+  },
+  light: {
+    color: Consts.colors.light.comment
+  }
 });
 
 /* COMMENT */

@@ -11,7 +11,13 @@ import Line from './line';
 
 const CODE = vscode.window.createTextEditorDecorationType ({
   color: Consts.colors.code,
-  rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed
+  rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
+  dark: {
+    color: Consts.colors.dark.code
+  },
+  light: {
+    color: Consts.colors.light.code
+  }
 });
 
 const BOLD = vscode.window.createTextEditorDecorationType ({

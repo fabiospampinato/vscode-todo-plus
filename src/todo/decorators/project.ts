@@ -12,7 +12,13 @@ import Line from './line';
 
 const PROJECT_BASIC = vscode.window.createTextEditorDecorationType ({
   color: Consts.colors.project,
-  rangeBehavior: vscode.DecorationRangeBehavior.OpenClosed
+  rangeBehavior: vscode.DecorationRangeBehavior.OpenClosed,
+  dark: {
+    color: Consts.colors.dark.project
+  },
+  light: {
+    color: Consts.colors.light.project
+  }
 });
 
 const PROJECT_STATISTICS = () => ({
@@ -23,6 +29,18 @@ const PROJECT_STATISTICS = () => ({
     color: Consts.colors.projectStatistics,
     margin: '.05em 0 .05em .5em',
     textDecoration: ';font-size: .9em'
+  },
+  dark: {
+    color: Consts.colors.dark.project,
+    after: {
+      color: Consts.colors.dark.projectStatistics,
+    }
+  },
+  light: {
+    color: Consts.colors.light.project,
+    after: {
+      color: Consts.colors.light.projectStatistics,
+    }
   }
 });
 

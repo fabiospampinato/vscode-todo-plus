@@ -80,11 +80,13 @@ It adds 5 shortcuts when editing a `Todo` file:
   "todo.colors.project": "#66d9ef", // Project color
   "todo.colors.projectStatistics": "#4694a3", // Project statistics color
   "todo.colors.tag": "#e6db74", // Tag color
+  "todo.colors.tags.background": ["#e54545", "#e59f45", "#e5d145", "#ae81ff"], // Special tags' background colors
+  "todo.colors.tags.foreground": ["#000000", "#000000", "#000000", "#000000"], // Special tags' foreground colors
   "todo.colors.types": { "TODO": "#ffcc00", "FIXME": "#cc0000" ... }, // Object mapping todo types to their color
+  "todo.colors.dark": { /* "done": "white", ... */ }, // Colors for dark themes
+  "todo.colors.light": { /* "done": "black", ... */ }, // Colors for light themes
   "todo.tags.names": ["critical", "high", "low", "today"], // Special tags' names
   "todo.tags.namesInference": true, // Infer commonly used tags' names
-  "todo.tags.backgroundColors": ["#e54545", "#e59f45", "#e5d145", "#ae81ff"], // Special tags' background colors
-  "todo.tags.foregroundColors": ["#000000", "#000000", "#000000", "#000000"], // Special tags' foreground colors
   "todo.archive.name": "Archive", // Name of the special "Archive" section
   "todo.archive.remove.emptyProjects": true, // Remove projects without todos
   "todo.archive.remove.emptyLines": 1, // Remove extra empty lines, keeping no more than `emptyLinesThreshold` consecutive empty lines
@@ -202,6 +204,8 @@ The following tokens can be used in `todo.statistics.project.text`, `todo.statis
 ![Timekeeping & Timer](resources/demo/timer.gif)
 
 ## Hints
+
+- **Dark/Light Themes**: if you switch between dark and light themes, remember that you can provide specific colors for them via the `todo.colors.dark.*` and `todo.colors.light.*` settings, which will override the default `todo.colors.*` settings.
 
 - **Activity Bar**: you can switch the focus to the `Todo` activity bar view by assigning a shortcut to the `workbench.view.extension.todo` command.
 
