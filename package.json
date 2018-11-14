@@ -683,6 +683,22 @@
         }
       },
       {
+        "command": "todo.viewCurrentOnlyFilter",
+        "title": "Show only TODOs from current file",
+        "icon": {
+          "light": "resources/icons/filter_light.svg",
+          "dark": "resources/icons/filter_dark.svg"
+        }
+      },
+      {
+        "command": "todo.viewCurrentOnlyClearFilter",
+        "title": "Show TODOs from all files",
+        "icon": {
+          "light": "resources/icons/clear_filter_light.svg",
+          "dark": "resources/icons/clear_filter_dark.svg"
+        }
+      },
+      {
         "command": "todo.viewEmbeddedFilter",
         "title": "Filter",
         "icon": {
@@ -908,6 +924,16 @@
           "command": "todo.viewEmbeddedExpand",
           "when": "view == todo.views.2embedded && todo-embedded-expanded == false",
           "group": "navigation@2"
+        },
+        {
+          "command": "todo.viewCurrentOnlyFilter",
+          "when": "view == todo.views.2embedded && todo-embedded-filtered-current == false",
+          "group": "navigation@1"
+        },
+        {
+          "command": "todo.viewCurrentOnlyClearFilter",
+          "when": "view == todo.views.2embedded && todo-embedded-filtered-current == true",
+          "group": "navigation@1"
         },
         {
           "command": "todo.viewEmbeddedFilter",

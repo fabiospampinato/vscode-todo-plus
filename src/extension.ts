@@ -40,6 +40,11 @@ const activate = function ( context: vscode.ExtensionContext ) {
     vscode.languages.registerCompletionItemProvider ( Consts.languageId, new CompletionProvider (), ...CompletionProvider.triggerCharacters ),
     vscode.languages.registerDocumentSymbolProvider ( Consts.languageId, new SymbolsProvider () ),
     vscode.window.onDidChangeActiveTextEditor ( () => DocumentDecorator.update () ),
+    vscode.window.onDidChangeActiveTextEditor ( () => {
+      if (ViewEmbedded.file_filter !== false){
+        vscode.commands.executeCommand("todo.viewCurrentOnlyFilter")
+      }
+    }),
     vscode.workspace.onDidChangeConfiguration ( Consts.update ),
     vscode.workspace.onDidChangeConfiguration ( () => delete Utils.files.filesData && Utils.embedded.provider && delete Utils.embedded.provider.filesData ),
     vscode.workspace.onDidChangeConfiguration ( () => DocumentDecorator.update () ),

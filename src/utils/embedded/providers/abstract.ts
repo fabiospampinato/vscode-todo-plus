@@ -17,7 +17,7 @@ class Abstract {
   filesData = undefined; // { [filePath]: todo[] | undefined }
   watcher = undefined;
 
-  async get ( rootPaths = Folder.getAllRootPaths (), groupByRoot = true, groupByType = true, groupByFile = true, filter: string | false = false ) {
+  async get ( rootPaths = Folder.getAllRootPaths (), groupByRoot = true, groupByType = true, groupByFile = true, filter: string | false = false, file_filter: string | false = false ) {
 
     rootPaths = _.castArray ( rootPaths );
 
@@ -39,7 +39,7 @@ class Abstract {
 
     }
 
-    return this.getTodos ( groupByRoot, groupByType, groupByFile, filter );
+    return this.getTodos ( groupByRoot, groupByType, groupByFile, filter, file_filter );
 
   }
 
@@ -122,39 +122,45 @@ class Abstract {
 
   async updateFilesData () {}
 
-  getTodos ( groupByRoot, groupByType, groupByFile, filter ) {
+  getTodos ( groupByRoot, groupByType, groupByFile, filter, file_filter ) {
 
     if ( _.isEmpty ( this.filesData ) ) return;
 
     const todos = {}, // { [ROOT] { [TYPE] => { [FILEPATH] => [DATA] } } }
           filterRe = filter ? new RegExp ( _.escapeRegExp ( filter ), 'i' ) : false,
+          fileFilterRe = file_filter ? new RegExp ( _.escapeRegExp ( file_filter ), 'i' ) : false,
           filePaths = Object.keys ( this.filesData );
 
     filePaths.forEach ( filePath => {
 
-      const data = this.filesData[filePath];
+      const matchedFile = (!fileFilterRe || fileFilterRe.test ( filePath ));
 
-      if ( !data || !data.length ) return;
+      if ( matchedFile ) {
 
-      const filePathGroup = groupByFile ? filePath : '';
+        const data = this.filesData[filePath];
 
-      data.forEach ( datum => {
+        if ( !data || !data.length ) return;
 
-        if ( filterRe && !filterRe.test ( datum.line ) ) return;
+        const filePathGroup = groupByFile ? filePath : '';
 
-        const rootGroup = groupByRoot ? datum.root : '';
+        data.forEach ( datum => {
 
-        if ( !todos[rootGroup] ) todos[rootGroup] = {};
+          if ( filterRe && !filterRe.test ( datum.line ) ) return;
 
-        const typeGroup = groupByType ? datum.type : '';
+          const rootGroup = groupByRoot ? datum.root : '';
 
-        if ( !todos[rootGroup][typeGroup] ) todos[rootGroup][typeGroup] = {};
+          if ( !todos[rootGroup] ) todos[rootGroup] = {};
 
-        if ( !todos[rootGroup][typeGroup][filePathGroup] ) todos[rootGroup][typeGroup][filePathGroup] = [];
+          const typeGroup = groupByType ? datum.type : '';
 
-        todos[rootGroup][typeGroup][filePathGroup].push ( datum );
+          if ( !todos[rootGroup][typeGroup] ) todos[rootGroup][typeGroup] = {};
 
-      });
+          if ( !todos[rootGroup][typeGroup][filePathGroup] ) todos[rootGroup][typeGroup][filePathGroup] = [];
+
+          todos[rootGroup][typeGroup][filePathGroup].push ( datum );
+
+        });
+      }
 
     });
 

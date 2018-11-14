@@ -248,10 +248,31 @@ async function viewEmbeddedFilter () {
   if ( !filter || ViewEmbedded.filter === filter ) return;
 
   ViewEmbedded.filter = filter;
+
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', true );
   ViewEmbedded.refresh ();
 
 }
+
+function viewCurrentOnlyClearFilter(){
+  ViewEmbedded.file_filter = false;
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered-current', false );
+  ViewEmbedded.refresh ();
+}
+
+function viewCurrentOnlyFilter(){
+  if (vscode.window.activeTextEditor == undefined){
+    // We set this to empty string because the filter is still active, it's just
+    // filtering to no file, setting it to false would disable it.
+    ViewEmbedded.file_filter = "";
+  }
+  else{
+    ViewEmbedded.file_filter = vscode.window.activeTextEditor.document.fileName;
+  }
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered-current', true );
+  ViewEmbedded.refresh ();
+}
+
 
 function viewEmbeddedClearFilter () {
   ViewEmbedded.filter = false;
@@ -261,5 +282,5 @@ function viewEmbeddedClearFilter () {
 
 /* EXPORT */
 
-export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenFile, viewRevealTodo, viewFilesOpen, viewFilesCollapse, viewFilesExpand, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter};
+export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenFile, viewRevealTodo, viewFilesOpen, viewFilesCollapse, viewFilesExpand, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter, viewCurrentOnlyFilter, viewCurrentOnlyClearFilter};
 export {toggleBox as editorToggleBox, toggleDone as editorToggleDone, toggleCancelled as editorToggleCancelled, toggleStart as editorToggleStart, archive as editorArchive}
