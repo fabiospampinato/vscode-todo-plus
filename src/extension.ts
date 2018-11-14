@@ -41,7 +41,7 @@ const activate = function ( context: vscode.ExtensionContext ) {
     vscode.languages.registerDocumentSymbolProvider ( Consts.languageId, new SymbolsProvider () ),
     vscode.window.onDidChangeActiveTextEditor ( () => DocumentDecorator.update () ),
     vscode.window.onDidChangeActiveTextEditor ( () => {
-      if (ViewEmbedded.file_filter !== false){
+      if (ViewEmbedded.fileFilter !== false){
         vscode.commands.executeCommand("todo.viewCurrentOnlyFilter")
       }
     }),

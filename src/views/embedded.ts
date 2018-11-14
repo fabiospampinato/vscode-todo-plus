@@ -21,7 +21,7 @@ class Embedded extends View {
   clear = false;
   expanded = true;
   filter: string | false = false;
-  file_filter: string | false = false;
+  fileFilter: string | false = false;
   filePathRe = /^(?!~).*(?:\\|\/)/;
 
 	getTreeItem ( item: Item ): vscode.TreeItem {
@@ -38,7 +38,7 @@ class Embedded extends View {
 
     await Utils.embedded.initProvider ();
 
-    return await Utils.embedded.provider.get ( undefined, this.config.embedded.view.groupByRoot, this.config.embedded.view.groupByType, this.config.embedded.view.groupByFile, this.filter, this.file_filter );
+    return await Utils.embedded.provider.get ( undefined, this.config.embedded.view.groupByRoot, this.config.embedded.view.groupByType, this.config.embedded.view.groupByFile, this.filter, this.fileFilter );
 
   }
 

@@ -17,7 +17,7 @@ class Abstract {
   filesData = undefined; // { [filePath]: todo[] | undefined }
   watcher = undefined;
 
-  async get ( rootPaths = Folder.getAllRootPaths (), groupByRoot = true, groupByType = true, groupByFile = true, filter: string | false = false, file_filter: string | false = false ) {
+  async get ( rootPaths = Folder.getAllRootPaths (), groupByRoot = true, groupByType = true, groupByFile = true, filter: string | false = false, fileFilter: string | false = false ) {
 
     rootPaths = _.castArray ( rootPaths );
 
@@ -39,7 +39,7 @@ class Abstract {
 
     }
 
-    return this.getTodos ( groupByRoot, groupByType, groupByFile, filter, file_filter );
+    return this.getTodos ( groupByRoot, groupByType, groupByFile, filter, fileFilter );
 
   }
 
@@ -122,13 +122,13 @@ class Abstract {
 
   async updateFilesData () {}
 
-  getTodos ( groupByRoot, groupByType, groupByFile, filter, file_filter ) {
+  getTodos ( groupByRoot, groupByType, groupByFile, filter, fileFilter ) {
 
     if ( _.isEmpty ( this.filesData ) ) return;
 
     const todos = {}, // { [ROOT] { [TYPE] => { [FILEPATH] => [DATA] } } }
           filterRe = filter ? new RegExp ( _.escapeRegExp ( filter ), 'i' ) : false,
-          fileFilterRe = file_filter ? new RegExp ( _.escapeRegExp ( file_filter ), 'i' ) : false,
+          fileFilterRe = fileFilter ? new RegExp ( _.escapeRegExp ( fileFilter ), 'i' ) : false,
           filePaths = Object.keys ( this.filesData );
 
     filePaths.forEach ( filePath => {

@@ -255,7 +255,7 @@ async function viewEmbeddedFilter () {
 }
 
 function viewCurrentOnlyClearFilter(){
-  ViewEmbedded.file_filter = false;
+  ViewEmbedded.fileFilter = false;
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered-current', false );
   ViewEmbedded.refresh ();
 }
@@ -264,10 +264,10 @@ function viewCurrentOnlyFilter(){
   if (vscode.window.activeTextEditor == undefined){
     // We set this to empty string because the filter is still active, it's just
     // filtering to no file, setting it to false would disable it.
-    ViewEmbedded.file_filter = "";
+    ViewEmbedded.fileFilter = "";
   }
   else{
-    ViewEmbedded.file_filter = vscode.window.activeTextEditor.document.fileName;
+    ViewEmbedded.fileFilter = vscode.window.activeTextEditor.document.fileName;
   }
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered-current', true );
   ViewEmbedded.refresh ();
