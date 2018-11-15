@@ -963,6 +963,7 @@
     "Other"
   ],
   "dependencies": {
+    "@types/node": "^10.12.8",
     "absolute": "0.0.1",
     "chokidar": "^2.0.4",
     "detect-indent": "^5.0.0",
@@ -983,7 +984,6 @@
     "to-time": "^1.0.2"
   },
   "devDependencies": {
-    "@types/node": "^6.0.40",
     "ts-loader": "^5.2.1",
     "typescript": "^2.8.0",
     "vscode": "^1.1.21",
