@@ -22,15 +22,15 @@ class Files extends View {
   expanded = false;
   filePathRe = /^(?!~).*(?:\\|\/)/;
 
-	getTreeItem ( item: Item ): vscode.TreeItem {
+  getTreeItem ( item: Item ): vscode.TreeItem {
 
     if ( item.collapsibleState !== vscode.TreeItemCollapsibleState.None ) {
       item.collapsibleState = this.expanded ? vscode.TreeItemCollapsibleState.Expanded : vscode.TreeItemCollapsibleState.Collapsed;
     }
 
-		return item;
+    return item;
 
-	}
+  }
 
   async getChildren ( item?: Item ): Promise<Item[]> {
 
