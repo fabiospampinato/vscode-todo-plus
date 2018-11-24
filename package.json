@@ -487,7 +487,7 @@
         "todo.embedded.regex": {
           "type": "string",
           "description": "Regex used for finding embedded todos, requires double escaping",
-          "default": "(?:<!-- *)?(?:#|//|/\\*+|<!--|--|\\* @) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?:\\s*\\([^)]+\\))?:?(?!\\w)(?: *-->| *\\*/|(?= *(?:[^:]//|/\\*+|<!--|@|--))|((?: +[^\\n@]*?)(?= *(?:[^:]//|/\\*+|<!--|@|--(?!>)))|(?: +[^@\\n]+)?))"
+          "default": "(?:<!-- *)?(?:#|//|/\\*+|<!--|--|\\* @|{!) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?:\\s*\\([^)]+\\))?:?(?!\\w)(?: *-->| *\\*/| *!}|(?= *(?:[^:]//|/\\*+|<!--|@|--|{!))|((?: +[^\\n@]*?)(?= *(?:[^:]//|/\\*+|<!--|@|--(?!>)|{!))|(?: +[^@\\n]+)?))"
         },
         "todo.embedded.regexFlags": {
           "type": "string",
@@ -536,7 +536,7 @@
         "todo.embedded.providers.ag.regex": {
           "type": "string",
           "description": "Regex used by ag, requires double escaping",
-          "default": "(?:#|//|/\\*+|<!--|--|\\* @) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)"
+          "default": "(?:#|//|/\\*+|\\<!--|--|\\* @|{!) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)"
         },
         "todo.embedded.providers.ag.args": {
           "type": "string",
@@ -548,7 +548,7 @@
         "todo.embedded.providers.rg.regex": {
           "type": "string",
           "description": "Regex used by rg, requires double escaping",
-          "default": "(?:#|//|/\\*+|<!--|--|\\* @) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)"
+          "default": "(?:#|//|/\\*+|\\<!--|--|\\* @|{!) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)"
         },
         "todo.embedded.providers.rg.args": {
           "type": "string",
