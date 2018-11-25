@@ -55,7 +55,7 @@ class Line {
 
     /* DIFFERENCE */
 
-    if ( !negRanges.length ) return posRange;
+    if ( !negRanges.length ) return [posRange];
 
     // Algorithm:
     // 1. All cells start unfilled
@@ -69,7 +69,7 @@ class Line {
 
     negRanges.forEach ( ({ start, end }) => _.fill ( cells, false, posOffset + start, posOffset + end ) ); // 3.
 
-    const ranges = [];
+    const ranges: vscode.Range[] = [];
 
     let start = null,
         end = null;
@@ -108,7 +108,7 @@ class Line {
   getItemsRanges ( items: LineItem[], negRanges?: vscode.Range | vscode.Range[] | RegExp | RegExp[] ) {
 
     const ranges = items.map ( item => this.getItemRanges ( item, negRanges ) ),
-          zipped = _.zip ( ...ranges ),
+          zipped = _.zip ( ...ranges as any ), //TSC
           compact = zipped.map ( _.compact ),
           concat = compact.map ( r => _.concat ( [], ...r ) );
 

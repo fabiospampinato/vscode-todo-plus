@@ -73,6 +73,12 @@ class Project extends Line {
 
   TYPES = [PROJECT_BASIC];
 
+  getItemRanges ( project: ProjectItem, negRange?: vscode.Range | vscode.Range[] ) {
+
+    return [this.getRangeDifference ( project.text, project.range, negRange || [Consts.regexes.tag] )];
+
+  }
+
   getDecorations ( projects: ProjectItem[] ) {
 
     const condition = Config.getKey ( 'statistics.project.enabled' );
@@ -89,7 +95,7 @@ class Project extends Line {
 
     projects.forEach ( project => {
 
-      const ranges = this.getItemRanges ( project ),
+      const ranges = this.getItemRanges ( project )[0],
             tokens = Utils.statistics.tokens.projects[project.lineNumber],
             withStatistics = Utils.statistics.condition.is ( condition, Utils.statistics.tokens.global, tokens );
 
@@ -102,7 +108,7 @@ class Project extends Line {
 
       } else {
 
-        basicRanges.push ( ranges[0] );
+        basicRanges.push ( ...ranges );
 
       }
 
