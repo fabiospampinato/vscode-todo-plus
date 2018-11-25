@@ -1,3 +1,6 @@
+### Version 4.10.1
+- Improved support for projects with tags
+
 ### Version 4.10.0
 - Added support for dark/light theme switching
 
