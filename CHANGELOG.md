@@ -1,3 +1,8 @@
+### Version 4.11.0
+- Fixed a regression regarding url-tags
+- Embedded: addded support for Dust.js
+- Embedded: added support for Mustache and Handlebars
+
 ### Version 4.10.1
 - Improved support for projects with tags
 
