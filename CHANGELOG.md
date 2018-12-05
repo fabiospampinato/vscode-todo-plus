@@ -1,3 +1,6 @@
+### Version 4.11.1
+- Ignoring folders named `release` or `releases`
+
 ### Version 4.11.0
 - Fixed a regression regarding url-tags
 - Embedded: addded support for Dust.js
