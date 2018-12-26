@@ -227,6 +227,8 @@ alias todo="ag --color-line-number '1;36' --color-path '1;36' --ignore-case --pr
 
 - **[Noty](https://github.com/fabiospampinato/noty)**: Autosaving sticky note with support for multiple notes, find/replace, programmers shortcuts and more. It implements a subset of the functionalities provided by this extension.
 
+- **[Notable](https://github.com/fabiospampinato/notable)**: The markdown-based note-taking app that doesn't suck.
+
 ## Contributing
 
 If you found a problem, or have a feature request, please open an [issue](https://github.com/fabiospampinato/vscode-todo-plus/issues) about it.
