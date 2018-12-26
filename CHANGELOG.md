@@ -1,3 +1,6 @@
+### Version 4.11.2
+- Readme: added a link to Notable
+
 ### Version 4.11.1
 - Ignoring folders named `release` or `releases`
 
