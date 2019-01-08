@@ -3,6 +3,7 @@
 
 import * as _ from 'lodash';
 import * as querystring from 'querystring';
+import * as vscode from 'vscode';
 import Config from '../../../config';
 import EmbeddedView from '../../../views/embedded';
 import Folder from '../../folder';
@@ -15,7 +16,7 @@ class Abstract {
   exclude = undefined;
   rootPaths = undefined;
   filesData = undefined; // { [filePath]: todo[] | undefined }
-  watcher = undefined;
+  watcher: vscode.FileSystemWatcher = undefined;
 
   async get ( rootPaths = Folder.getAllRootPaths (), groupByRoot = true, groupByType = true, groupByFile = true, filter: string | false = false ) {
 
@@ -31,7 +32,7 @@ class Abstract {
       this.rootPaths = rootPaths;
       this.unwatchPaths ();
       await this.initFilesData ( rootPaths );
-      this.watchPaths ( rootPaths );
+      this.watchPaths ();
 
     } else {
 
@@ -43,7 +44,7 @@ class Abstract {
 
   }
 
-  async watchPaths ( rootPaths ) {
+  async watchPaths () {
 
     /* HELPERS */
 
@@ -53,42 +54,41 @@ class Abstract {
 
     const refresh = _.debounce ( () => EmbeddedView.refresh (), 250 );
 
-    const add = filePath => {
+    const add = event => {
       if ( !this.filesData ) return;
-      filePath = pathNormalizer ( filePath );
+      const filePath = pathNormalizer ( event.fsPath );
       if ( this.filesData.hasOwnProperty ( filePath ) ) return;
       if ( !this.isIncluded ( filePath ) ) return;
       this.filesData[filePath] = undefined;
       refresh ();
     };
 
-    const change = filePath => {
+    const change = event => {
       if ( !this.filesData ) return;
-      filePath = pathNormalizer ( filePath );
+      const filePath = pathNormalizer ( event.fsPath );
       if ( !this.isIncluded ( filePath ) ) return;
       this.filesData[filePath] = undefined;
       refresh ();
     };
 
-    const unlink = filePath => {
+    const unlink = event => {
       if ( !this.filesData ) return;
-      filePath = pathNormalizer ( filePath );
+      const filePath = pathNormalizer ( event.fsPath );
       delete this.filesData[filePath];
       refresh ();
     };
 
     /* WATCHING */
 
-    if ( !rootPaths.length ) return;
+    this.include.forEach ( glob => {
 
-    const chokidar = require ( 'chokidar' ); // Lazy import for performance
+      this.watcher = vscode.workspace.createFileSystemWatcher ( glob );
 
-    const chokidarOptions = {
-      ignored: this.exclude,
-      ignoreInitial: true
-    };
+      this.watcher.onDidCreate ( add );
+      this.watcher.onDidChange ( change );
+      this.watcher.onDidDelete ( unlink );
 
-    this.watcher = chokidar.watch ( rootPaths, chokidarOptions ).on ( 'add', add ).on ( 'change', change ).on ( 'unlink', unlink );
+    });
 
   }
 
@@ -96,7 +96,7 @@ class Abstract {
 
     if ( !this.watcher ) return;
 
-    this.watcher.close ();
+    this.watcher.dispose ();
 
   }
 
