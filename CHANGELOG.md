@@ -1,3 +1,6 @@
+### Version 4.11.3
+- Avoiding using chokidar
+
 ### Version 4.11.2
 - Readme: added a link to Notable
 
