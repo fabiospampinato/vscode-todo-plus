@@ -1,3 +1,6 @@
+### Version 4.11.4
+- Ensuring curly braces in regexes are properly escaped
+
 ### Version 4.11.3
 - Avoiding using chokidar
 
