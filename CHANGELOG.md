@@ -1,3 +1,6 @@
+### Version 4.12.0
+- Added Alt+Enter as an alias to Cmd/Ctrl+Enter
+
 ### Version 4.11.4
 - Ensuring curly braces in regexes are properly escaped
 
