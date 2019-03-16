@@ -739,6 +739,11 @@
         "when": "editorTextFocus && editorLangId == todo"
       },
       {
+        "command": "todo.toggleBox",
+        "key": "Alt+Enter",
+        "when": "editorTextFocus && editorLangId == todo"
+      },
+      {
         "command": "todo.toggleDone",
         "key": "Alt+d",
         "when": "editorTextFocus && editorLangId == todo"
