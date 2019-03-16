@@ -1,3 +1,6 @@
+### Version 4.13.0
+- Embedded: excluding changelog files
+
 ### Version 4.12.0
 - Added Alt+Enter as an alias to Cmd/Ctrl+Enter
 
