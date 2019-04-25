@@ -8,6 +8,7 @@ import CompletionProvider from './providers/completion';
 import SymbolsProvider from './providers/symbols';
 import DocumentDecorator from './todo/decorators/document';
 import ChangesDecorator from './todo/decorators/changes';
+import ChangesCommands from './changes';
 import Utils from './utils';
 import ViewEmbedded from './views/embedded';
 import ViewFiles from './views/files';
@@ -45,6 +46,7 @@ const activate = function ( context: vscode.ExtensionContext ) {
     vscode.workspace.onDidChangeConfiguration ( () => DocumentDecorator.update () ),
     vscode.workspace.onDidChangeConfiguration ( Utils.statistics.tokens.updateDisabledAll ),
     vscode.workspace.onDidChangeTextDocument ( ChangesDecorator.onChanges ),
+    vscode.workspace.onDidChangeTextDocument ( ChangesCommands.onChanges ),
     vscode.workspace.onDidChangeWorkspaceFolders ( () => Utils.embedded.provider && Utils.embedded.provider.unwatchPaths () ),
     vscode.workspace.onDidChangeWorkspaceFolders ( Utils.files.unwatchPaths ),
     vscode.workspace.onDidChangeWorkspaceFolders ( Utils.folder.initRootsRe )
