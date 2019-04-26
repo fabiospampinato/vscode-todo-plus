@@ -43,21 +43,22 @@ const Changes = {
           lastChangeText = lastChange.text;
 
     //an enter is inputed
-    if ( lastChangeText.match(/[\s\t]*\n[\s\t]*/) ) {
+    if ( lastChangeText.match(/[\s]*\n[\s]*/) ) {
 
         //still working on this
         const todo = Changes.doc.getTodoAt(currentLine),
-              todoText = todo.text.replace(/\u2610/,'');
+              todoText = todo.text.replace(Consts.regexes.todo,'');
 
         //last line was an empty todo line
-        if (todoText.match(/^[\s\t]*$/)){
+        if (todoText.match(/^[\s]*$/)){
           //remove the empty todo
           toggleBox();
 
         }
         //last line was a filled todo line
-        else if(todoText && !todoText.match(/^[\s\t]*$/)){
+        else if(todoText && !todoText.match(/^[\s]*$/)){
           //here we add the toggleBox but in the next line
+
         }
     }
     
