@@ -47,7 +47,7 @@ const Changes = {
 
         //still working on this
         const todo = Changes.doc.getTodoAt(currentLine),
-              todoText = todo.text.replace(Consts.regexes.todo,'');
+              todoText = todo.text.replace(Consts.regexes.todoSymbol,'');
 
         //last line was an empty todo line
         if (todoText.match(/^[\s]*$/)){
