@@ -46,11 +46,14 @@ const activate = function ( context: vscode.ExtensionContext ) {
     vscode.workspace.onDidChangeConfiguration ( () => DocumentDecorator.update () ),
     vscode.workspace.onDidChangeConfiguration ( Utils.statistics.tokens.updateDisabledAll ),
     vscode.workspace.onDidChangeTextDocument ( ChangesDecorator.onChanges ),
-    vscode.workspace.onDidChangeTextDocument ( ChangesCommands.onChanges ),
     vscode.workspace.onDidChangeWorkspaceFolders ( () => Utils.embedded.provider && Utils.embedded.provider.unwatchPaths () ),
     vscode.workspace.onDidChangeWorkspaceFolders ( Utils.files.unwatchPaths ),
     vscode.workspace.onDidChangeWorkspaceFolders ( Utils.folder.initRootsRe )
   );
+  
+  if ( Config.getKey ( 'automaticSymbol' ) ){
+    context.subscriptions.push( vscode.workspace.onDidChangeTextDocument ( ChangesCommands.onChanges ));
+  };
 
   DocumentDecorator.update ();
 
