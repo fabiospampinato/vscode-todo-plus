@@ -4,7 +4,7 @@
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
 import Consts from './consts';
-import { toggleBox, toggleBoxChain } from './commands'
+import { toggleBox, boxNextLine } from './commands'
 import Document from './todo/document'
 import Utils from './utils';
 
@@ -63,7 +63,7 @@ const Changes = {
         //Last line was a filled todo line
         else if(todoText && !todoText.match(/^[\s]*$/)){
           //Add an empty todo
-          toggleBoxChain();
+          boxNextLine();
 
         }
       }

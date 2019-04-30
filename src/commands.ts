@@ -136,9 +136,9 @@ function toggleBox () {
 
 }
 
-function toggleBoxChain () {
+function boxNextLine () {
 
-  return callTodosMethod ( 'toggleBoxChain' );
+  return callTodosMethod ( 'boxNextLine' );
 
 }
 
@@ -275,7 +275,7 @@ function viewEmbeddedClearFilter () {
 
 /* EXPORT */
 
-export {open, openEmbedded, toggleBox, toggleBoxChain, toggleDone, toggleCancelled, toggleStart,
+export {open, openEmbedded, toggleBox, boxNextLine, toggleDone, toggleCancelled, toggleStart,
        toggleTimer, archive, viewOpenFile, viewRevealTodo, viewFilesOpen, viewFilesCollapse, viewFilesExpand, 
        viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter, insertNewLine};
 export {toggleBox as editorToggleBox, toggleDone as editorToggleDone, toggleCancelled as editorToggleCancelled, toggleStart as editorToggleStart, archive as editorArchive}

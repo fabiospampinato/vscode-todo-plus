@@ -634,8 +634,8 @@
         "title": "Todo: Toggle Box"
       },
       {
-        "command": "todo.toggleBoxChain",
-        "title": "Todo: Toggle Box Chain"
+        "command": "todo.boxNextLine",
+        "title": "Todo: Create Box Next Line"
       },
       {
         "command": "todo.toggleDone",

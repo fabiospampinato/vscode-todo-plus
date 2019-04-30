@@ -321,7 +321,7 @@ class Todo extends Item {
 
   }
 
-  toggleBoxChain () {
+  boxNextLine () {
 
     this.automaticTodo = true;
 
