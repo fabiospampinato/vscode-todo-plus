@@ -6,6 +6,7 @@ import * as vscode from 'vscode';
 import Consts from './consts';
 import { toggleBox, toggleBoxChain } from './commands'
 import Document from './todo/document'
+import Utils from './utils';
 
 
 const Editor = {
@@ -38,12 +39,17 @@ const Changes = {
 
   symbolInsertion () {
     //Get the text of the last change
-    const lastChange = Changes.changes[ String( Changes.changes.length - 1 ) ],
-          currentLine = lastChange.range._end.line,
-          lastChangeText = lastChange.text;
+    let lastChange = Changes.changes[ String( Changes.changes.length - 1 ) ],
+        currentLine = lastChange.range._end.line,
+        lastChangeText = lastChange.text;
 
-    //An enter is inputed
-    if ( lastChangeText.match(/[\s]*\n[\s]*/) ) {
+    if(Utils.isShiftEnter('read')){
+      //Do nothing
+      Utils.isShiftEnter('write');
+    }
+    else{
+      //An enter is inputed
+      if ( lastChangeText.match(/[\s]*\n[\s]*/) ) {
 
         const todo = Changes.doc.getTodoAt(currentLine),
               todoText = todo.text.replace(Consts.regexes.todoSymbol,'');
@@ -60,8 +66,8 @@ const Changes = {
           toggleBoxChain();
 
         }
-    }
-    
+      }
+    }    
   }
 
 };
