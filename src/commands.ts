@@ -190,6 +190,14 @@ function archive () {
 
 }
 
+function insertNewLine () {
+
+  Utils.isShiftEnter('write');
+
+  vscode.commands.executeCommand('editor.action.insertLineAfter');  
+
+}
+
 /* VIEW */
 
 function viewOpenFile ( file: ItemFile ) {
@@ -269,5 +277,5 @@ function viewEmbeddedClearFilter () {
 
 export {open, openEmbedded, toggleBox, toggleBoxChain, toggleDone, toggleCancelled, toggleStart,
        toggleTimer, archive, viewOpenFile, viewRevealTodo, viewFilesOpen, viewFilesCollapse, viewFilesExpand, 
-       viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter};
+       viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter, insertNewLine};
 export {toggleBox as editorToggleBox, toggleDone as editorToggleDone, toggleCancelled as editorToggleCancelled, toggleStart as editorToggleStart, archive as editorArchive}
