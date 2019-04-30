@@ -12,6 +12,7 @@ import file from './file';
 import files from './files';
 import folder from './folder';
 import init from './init';
+import isShiftEnter from './isShiftEnter'
 import regex from './regex';
 import time from './time';
 import todo from './todo';
@@ -32,6 +33,7 @@ const Utils = {
   files,
   folder,
   init,
+  isShiftEnter,
   regex,
   time,
   todo,
