@@ -658,6 +658,10 @@
         "title": "Todo: Archive"
       },
       {
+        "command": "todo.insertNewLine",
+        "title": "Todo: New Line"
+      },
+      {
         "command": "todo.viewFilesOpen",
         "title": "Open",
         "icon": {
@@ -773,6 +777,11 @@
         "command": "todo.archive",
         "key": "Shift+Ctrl+a",
         "mac": "Shift+Cmd+a",
+        "when": "editorTextFocus && editorLangId == todo"
+      },
+      {
+        "command": "todo.insertNewLine",
+        "key": "Shift+enter",
         "when": "editorTextFocus && editorLangId == todo"
       }
     ],
