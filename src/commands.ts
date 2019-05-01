@@ -192,7 +192,7 @@ function archive () {
 
 function insertNewLine () {
 
-  Utils.isShiftEnter('write');
+  Utils.isShiftEnter('set');
 
   vscode.commands.executeCommand('editor.action.insertLineAfter');  
 

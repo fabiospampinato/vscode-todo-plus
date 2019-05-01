@@ -5,9 +5,9 @@ const isShiftEnter = (function () {
 
   return function (operation: string) {
 
-    if(operation == 'read')
+    if(operation == 'get')
       return flag;
-    else if (operation == 'write')
+    else if (operation == 'set')
       flag = !flag;
 
   }

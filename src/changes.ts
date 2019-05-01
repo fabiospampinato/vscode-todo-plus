@@ -43,9 +43,9 @@ const Changes = {
         currentLine = lastChange.range._end.line,
         lastChangeText = lastChange.text;
 
-    if(Utils.isShiftEnter('read')){
+    if(Utils.isShiftEnter('get')){
       //Do nothing
-      Utils.isShiftEnter('write');
+      Utils.isShiftEnter('set');
     }
     else{
       //An enter is inputed
