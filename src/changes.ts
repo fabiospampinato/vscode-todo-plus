@@ -24,6 +24,8 @@ const Changes = {
   doc: new Document ( Editor.textEditor ),
 
   changes: [],
+  
+  lastNumberOfChanges: 0,
 
   onChanges ({ document, contentChanges }) {
 
@@ -39,29 +41,53 @@ const Changes = {
 
   symbolInsertion () {
     //Get the text of the last change
-    let lastChange = Changes.changes[ String( Changes.changes.length - 1 ) ],
+    const changesLength = this.changes.length;
+    let lastChange = this.changes[ String( changesLength - 1 ) ],
         currentLine = lastChange.range._end.line,
         lastChangeText = lastChange.text;
+    
+    /*
+      Sometimes when you press an enter it makes 2 changes at the same time:
+        one is a '\n' to make a new line
+        the other one is a '' 
+      The order of these can change and if the last change becomes '' the
+      enter press is going to pass unnoticed.
+      So if 2 changes at the same time happen, and the last change is '',
+      then take the before last value as last.
+    */
+    if( changesLength - this.lastNumberOfChanges == 2 ){
+      
+      if ( lastChangeText.match( /^[ ]*$/ ) ){
 
-    if(Utils.isShiftEnter('get')){
+        lastChange = this.changes[ String( changesLength - 2 ) ];
+        currentLine = lastChange.range._end.line;
+        lastChangeText = lastChange.text;
+
+      }
+    }
+
+    this.lastNumberOfChanges = changesLength;
+
+    if( Utils.isShiftEnter( 'get' ) ){
       //Do nothing
-      Utils.isShiftEnter('set');
+      Utils.isShiftEnter( 'set' );
+
     }
     else{
       //An enter is inputed
-      if ( lastChangeText.match(/[\s]*\n[\s]*/) ) {
+      if ( lastChangeText.match( /[\s]*\n[\s]*/ ) ) {
 
         const todo = Changes.doc.getTodoAt(currentLine),
               todoText = todo.text.replace(Consts.regexes.todoSymbol,'');
 
         //Last line was an empty todo line
-        if (todoText.match(/^[\s]*$/)){
+        if (todoText.match( /^[\s]*$/ )){
           //Remove the empty todo
           toggleBox();
 
         }
         //Last line was a filled todo line
-        else if(todoText && !todoText.match(/^[\s]*$/)){
+        else if( todoText ){
           //Add an empty todo
           boxNextLine();
 
