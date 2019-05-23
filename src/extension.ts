@@ -8,7 +8,6 @@ import CompletionProvider from './providers/completion';
 import SymbolsProvider from './providers/symbols';
 import DocumentDecorator from './todo/decorators/document';
 import ChangesDecorator from './todo/decorators/changes';
-import ChangesCommands from './changes';
 import Utils from './utils';
 import ViewEmbedded from './views/embedded';
 import ViewFiles from './views/files';
@@ -50,10 +49,6 @@ const activate = function ( context: vscode.ExtensionContext ) {
     vscode.workspace.onDidChangeWorkspaceFolders ( Utils.files.unwatchPaths ),
     vscode.workspace.onDidChangeWorkspaceFolders ( Utils.folder.initRootsRe )
   );
-  
-  if ( Config.getKey ( 'automaticSymbol' ) ){
-    context.subscriptions.push( vscode.workspace.onDidChangeTextDocument ( ChangesCommands.onChanges ));
-  };
 
   DocumentDecorator.update ();
 
