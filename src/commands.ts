@@ -9,6 +9,7 @@ import Consts from './consts';
 import Document from './todo/document';
 import ItemFile from './views/items/item';
 import ItemTodo from './views/items/todo';
+import AutomaticTodo from './todo/items/automatic_todo';
 import StatusbarTimer from './statusbars/timer';
 import Utils from './utils';
 import ViewEmbedded from './views/embedded';
@@ -136,9 +137,11 @@ function toggleBox () {
 
 }
 
-function boxNextLine () {
+async function boxNextLine () {
 
-  return callTodosMethod ( 'boxNextLine' );
+  await vscode.commands.executeCommand('editor.action.insertLineAfter');
+
+  return AutomaticTodo.boxNextLine();
 
 }
 
@@ -191,8 +194,6 @@ function archive () {
 }
 
 function insertNewLine () {
-
-  Utils.isShiftEnter('set');
 
   vscode.commands.executeCommand('editor.action.insertLineAfter');  
 
@@ -275,7 +276,5 @@ function viewEmbeddedClearFilter () {
 
 /* EXPORT */
 
-export {open, openEmbedded, toggleBox, boxNextLine, toggleDone, toggleCancelled, toggleStart,
-       toggleTimer, archive, viewOpenFile, viewRevealTodo, viewFilesOpen, viewFilesCollapse, viewFilesExpand, 
-       viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter, insertNewLine};
+export {open, openEmbedded, toggleBox, boxNextLine, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenFile, viewRevealTodo, viewFilesOpen, viewFilesCollapse, viewFilesExpand, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter, insertNewLine};
 export {toggleBox as editorToggleBox, toggleDone as editorToggleDone, toggleCancelled as editorToggleCancelled, toggleStart as editorToggleStart, archive as editorArchive}
