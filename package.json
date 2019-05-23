@@ -106,9 +106,9 @@
           "description": "String used for indentation",
           "default": "  "
         },
-        "todo.automaticSymbol": {
+        "todo.symbols.auto": {
           "type": "boolean",
-          "description": "Automatically insert new todo symbols and remove them when pressing enter",
+          "description": "Automatic box symbol insertion/removal",
           "default": false
         },
         "todo.symbols.box": {
@@ -882,6 +882,14 @@
         },
         {
           "command": "todo.editorArchive",
+          "when": "false"
+        },
+        {
+          "command": "todo.insertNewLine",
+          "when": "false"
+        },
+        {
+          "command": "todo.boxNextLine",
           "when": "false"
         }
       ],
