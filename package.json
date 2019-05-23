@@ -783,6 +783,11 @@
         "command": "todo.insertNewLine",
         "key": "Shift+enter",
         "when": "editorTextFocus && editorLangId == todo"
+      },
+      {
+        "command": "todo.boxNextLine",
+        "key": "enter",
+        "when": "editorTextFocus && editorLangId == todo"
       }
     ],
     "views": {
