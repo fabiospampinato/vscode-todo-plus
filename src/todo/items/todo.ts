@@ -25,36 +25,11 @@ class Todo extends Item {
     this._lineNextText = val;
   }
 
-  _automaticTodo;
-
-  get automaticTodo () {
-    return this._automaticTodo;
-  }
-
-  set automaticTodo ( auto: boolean ){
-    this._automaticTodo = auto;
-  }
-
-  _nextLineNextText;
-
-  get nextLineNextText () {
-    if ( !_.isUndefined ( this._nextLineNextText ) ) return this._nextLineNextText;
-    return this.textDocument.lineAt(this.line.lineNumber + 1).text;
-  }
-
-  set nextLineNextText ( val ) {
-    this._nextLineNextText = val;
-  }
-
   /* EDIT */
 
   makeEdit () {
 
-    if(this.automaticTodo) //Replace only the box and the space after the box
-      return Utils.editor.edits.makeDiff ( this.nextLineNextText.replace(/([-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])\s/,'')
-                                         , this.nextLineNextText, this.line.lineNumber + 1 );
-    else
-      return Utils.editor.edits.makeDiff ( this.line.text, this.lineNextText, this.line.lineNumber );
+    return Utils.editor.edits.makeDiff ( this.line.text, this.lineNextText, this.line.lineNumber );
 
   }
 
@@ -293,10 +268,7 @@ class Todo extends Item {
           startIndex = match ? match[0].indexOf ( match[1] ) : ( firstChar ? firstChar.index : this.lineNextText.length ),
           endIndex = match ? match[0].length : startIndex;
 
-    if(this.automaticTodo)
-      this.nextLineNextText = `${this.nextLineNextText.substring ( 0, startIndex )}${symbol ? `${symbol} ` : ''}${this.nextLineNextText.substring ( endIndex )}`;
-    else
-      this.lineNextText = `${this.lineNextText.substring ( 0, startIndex )}${symbol ? `${symbol} ` : ''}${this.lineNextText.substring ( endIndex )}`;
+    this.lineNextText = `${this.lineNextText.substring ( 0, startIndex )}${symbol ? `${symbol} ` : ''}${this.lineNextText.substring ( endIndex )}`;
 
   }
 
@@ -316,18 +288,6 @@ class Todo extends Item {
 
     const symbol = force ? Consts.symbols.box : '',
           state = force ? 'box' : 'other';
-
-    this.setSymbolAndState ( symbol, state );
-
-  }
-
-  boxNextLine () {
-
-    this.automaticTodo = true;
-
-    //Forces the new line to be an empty TODO
-    const symbol = Consts.symbols.box,
-          state = 'box';
 
     this.setSymbolAndState ( symbol, state );
 
