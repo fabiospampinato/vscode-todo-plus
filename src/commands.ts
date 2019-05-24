@@ -137,9 +137,9 @@ function toggleBox () {
 
 }
 
-async function boxNextLine () {
+function boxNextLine () {
 
-  await vscode.commands.executeCommand('editor.action.insertLineAfter');
+  //await vscode.commands.executeCommand('editor.action.insertLineAfter');
 
   return AutomaticTodo.boxNextLine();
 
