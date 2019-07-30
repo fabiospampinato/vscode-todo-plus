@@ -161,7 +161,7 @@ This extension supports various providers for searching for embedded todos, it'l
 
 ## Statistics Tokens
 
-The following tokens can be used in `todo.statistics.project.text`, `todo.statistics.statusbar.text` and `todo.statistics.statusbar.tooltip`, they will be replaced with the value they represent.
+The following tokens can be used in `todo.statistics.project.text`, `todo.statistics.project.done`, `todo.statistics.statusbar.text` and `todo.statistics.statusbar.tooltip`, they will be replaced with the value they represent.
 
 | Token          | Value                            |
 |----------------|----------------------------------|
