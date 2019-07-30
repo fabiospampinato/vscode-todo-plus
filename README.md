@@ -112,6 +112,7 @@ It adds 6 shortcuts when editing a `Todo` file:
   "todo.timer.statusbar.priority": -10, // The priority of this item. Higher value means the item should be shown more to the left
   "todo.statistics.project.enabled": "global.projects < 100 && project.pending > 0", // Show statistics next to a project, boolean or JS expression
   "todo.statistics.project.text": "([pending]) [est]", // Template used for rendering the text
+  "todo.statistics.project.done": "", // Template used for rendering the text when project is done
   "todo.statistics.statusbar.enabled": "global.all > 0", // Show statistics in the statusbar, boolean or JS expression
   "todo.statistics.statusbar.ignoreArchive": true, // Ignore the archive when rendering statistics in the statusbar
   "todo.statistics.statusbar.alignment": "left", // Should the item be placed to the left or right?
@@ -119,7 +120,6 @@ It adds 6 shortcuts when editing a `Todo` file:
   "todo.statistics.statusbar.command": "", // Command to execute on click
   "todo.statistics.statusbar.priority": -1, // The priority of this item. Higher value means the item should be shown more to the left
   "todo.statistics.statusbar.text": "$(check) [finished]/[all] ([percentage]%)", // Template used for rendering the text
-  "todo.statistics.statusbar.done": "", // Template used for rendering the text when project is done
   "todo.statistics.statusbar.tooltip": "[pending] Pending - [done] Done - [cancelled] Cancelled", // Template used for rendering the tooltip
   "todo.embedded.regex": "(?:<!-- *)?(?:#|//|/\\*+|<!--|--|\\* @|\\{!|\\{\\{!--|\\{\\{!) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?:\\s*\\([^)]+\\))?:?(?!\\w)(?: *-->| *\\*/| *!}| *--}}| *}}|(?= *(?:[^:]//|/\\*+|<!--|@|--|\\{!|\\{\\{!--|\\{\\{!))|((?: +[^\\n@]*?)(?= *(?:[^:]//|/\\*+|<!--|@|--(?!>)|\\{!|\\{\\{!--|\\{\\{!))|(?: +[^@\\n]+)?))", // Regex used for finding embedded todos, requires double escaping
   "todo.embedded.regexFlags": "gi", // Regex flags to use
