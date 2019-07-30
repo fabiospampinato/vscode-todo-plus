@@ -90,6 +90,7 @@ class Project extends Line {
     StatisticsTypes.reset ( textEditor );
 
     const template = Config.getKey ( 'statistics.project.text' ),
+          templateDone = Config.getKey( 'statistics.project.done'),  // Use different template if all items are marked done
           basicRanges = [],
           statisticsData = [];
 
@@ -100,12 +101,12 @@ class Project extends Line {
             withStatistics = Utils.statistics.condition.is ( condition, Utils.statistics.tokens.global, tokens );
 
       if ( withStatistics ) {
+          const contentTemplate = tokens.pending === 0 ? templateDone : template
 
-        const contentText = Utils.statistics.template.render ( template, tokens ),
-              type = StatisticsTypes.get ( contentText, textEditor );
+          const contentText = Utils.statistics.template.render ( contentTemplate, tokens ),
+                type = StatisticsTypes.get ( contentText, textEditor );
 
-        statisticsData.push ({ type, ranges });
-
+          statisticsData.push ({ type, ranges });
       } else {
 
         basicRanges.push ( ...ranges );
