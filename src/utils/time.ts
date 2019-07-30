@@ -122,7 +122,7 @@ const Time = {
 
     } else {
 
-      to = to.replace ( / and /gi, ' ' );
+      to = (to as string).replace ( / and /gi, ' ' );
       to = to.replace ( /(\d)(ms|s|m|h|d|w|y)(\d)/gi, '$1$2 $3' );
 
       if ( /^\s*\d+\s*$/.test ( to ) ) return 0;
