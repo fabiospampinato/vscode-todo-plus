@@ -208,7 +208,7 @@ const Statistics = {
 
       }
 
-      const groups = [items.projects, items.todosBox, items.todosDone, items.todosCancelled, items.tags.length >= 500 ? [] : items.tags], //TODO: Undocumented, uncustomizable limitation regarding tags
+      const groups = [items.projects, items.todosBox, items.todosDone, items.todosCancelled, items.tags],
             lines = groups.reduce ( ( arr1, arr2 ) => mergeSorted ( arr1, arr2 ) );
 
       items.projects.forEach ( project => {
