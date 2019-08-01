@@ -1,3 +1,6 @@
+### Version 4.13.1
+- Statistics: removed tags limit
+
 ### Version 4.13.0
 - Embedded: excluding changelog files
 
