@@ -436,7 +436,7 @@
             "string"
           ],
           "description": "Show statistics next to a project, boolean or JS expression",
-          "default": "global.projects < 100 && project.pending > 0"
+          "default": "global.projects < 100"
         },
         "todo.statistics.project.text": {
           "type": "string",
