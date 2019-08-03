@@ -1,3 +1,6 @@
+### Version 4.13.2
+- Always showing project statistics by default, even if all of its todos are completed
+
 ### Version 4.13.1
 - Statistics: removed tags limit
 
