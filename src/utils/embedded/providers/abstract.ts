@@ -140,7 +140,7 @@ class Abstract {
 
       data.forEach ( datum => {
 
-        if ( filterRe && !filterRe.test ( datum.line ) ) return;
+        if ( filterRe && !filterRe.test ( datum.line ) && !filterRe.test ( filePath ) ) return;
 
         const rootGroup = groupByRoot ? datum.root : '';
 
