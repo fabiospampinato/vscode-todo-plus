@@ -657,6 +657,10 @@
         "title": "Todo: Embedded View - Clear Filter"
       },
       {
+        "command": "todo.viewEmbeddedToggleAllFiles",
+        "title": "Todo: Embedded View - Toggle View All Files"
+      },
+      {
         "command": "todo.viewFilesOpen",
         "title": "Open",
         "icon": {

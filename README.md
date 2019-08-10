@@ -37,7 +37,7 @@ ext install fabiospampinato.vscode-todo-plus
 
 ## Usage
 
-It adds 10 commands to the command palette:
+It adds 11 commands to the command palette:
 
 ```js
 'Todo: Open' // Open or create your project's todo file
@@ -50,6 +50,7 @@ It adds 10 commands to the command palette:
 'Todo: Archive' // Archive finished todos
 'Todo: Embedded View - Filter' // Filter the embedded todos view
 'Todo: Embedded View - Clear Filter' // Clear the filter in the embedded todos view
+'Todo: Embedded View - Toggle View All Files' // Toggle between viewing all files or only the current one
 ```
 
 It adds 6 shortcuts when editing a `Todo` file:
