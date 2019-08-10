@@ -18,10 +18,22 @@ import View from './view';
 class Embedded extends View {
 
   id = 'todo.views.2embedded';
+  all = true;
   clear = false;
   expanded = true;
   filter: string | false = false;
   filePathRe = /^(?!~).*(?:\\|\/)/;
+
+  constructor () {
+
+    super ();
+
+    vscode.window.onDidChangeActiveTextEditor ( ()  => {
+      if ( this.all ) return;
+      this.refresh ();
+    });
+
+  }
 
   getTreeItem ( item: Item ): vscode.TreeItem {
 
@@ -37,7 +49,7 @@ class Embedded extends View {
 
     await Utils.embedded.initProvider ();
 
-    return await Utils.embedded.provider.get ( undefined, this.config.embedded.view.groupByRoot, this.config.embedded.view.groupByType, this.config.embedded.view.groupByFile, this.filter );
+    return await Utils.embedded.provider.get ( undefined, this.config.embedded.view.groupByRoot, this.config.embedded.view.groupByType, this.config.embedded.view.groupByFile, this.filter, !this.all );
 
   }
 

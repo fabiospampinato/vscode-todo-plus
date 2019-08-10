@@ -263,7 +263,25 @@ function viewEmbeddedClearFilter () {
 
 const embeddedClearFilter = viewEmbeddedClearFilter;
 
+function viewEmbeddedToggleAllFiles ( force: boolean = !ViewEmbedded.all ) {
+  ViewEmbedded.all = force;
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-all', force );
+  ViewEmbedded.refresh ();
+}
+
+function viewEmbeddedShowAllFiles () {
+
+  viewEmbeddedToggleAllFiles ( true );
+
+}
+
+function viewEmbeddedShowActiveFile () {
+
+  viewEmbeddedToggleAllFiles ( false );
+
+}
+
 /* EXPORT */
 
-export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenFile, viewRevealTodo, viewFilesOpen, viewFilesCollapse, viewFilesExpand, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, embeddedFilter, viewEmbeddedClearFilter, embeddedClearFilter};
+export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenFile, viewRevealTodo, viewFilesOpen, viewFilesCollapse, viewFilesExpand, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, embeddedFilter, viewEmbeddedClearFilter, embeddedClearFilter, viewEmbeddedToggleAllFiles, viewEmbeddedShowAllFiles, viewEmbeddedShowActiveFile};
 export {toggleBox as editorToggleBox, toggleDone as editorToggleDone, toggleCancelled as editorToggleCancelled, toggleStart as editorToggleStart, archive as editorArchive}

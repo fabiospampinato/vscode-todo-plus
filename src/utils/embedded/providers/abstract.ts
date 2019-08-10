@@ -18,7 +18,7 @@ class Abstract {
   filesData = undefined; // { [filePath]: todo[] | undefined }
   watcher: vscode.FileSystemWatcher = undefined;
 
-  async get ( rootPaths = Folder.getAllRootPaths (), groupByRoot = true, groupByType = true, groupByFile = true, filter: string | false = false ) {
+  async get ( rootPaths = Folder.getAllRootPaths (), groupByRoot = true, groupByType = true, groupByFile = true, filter: string | false = false, onlyActiveFile: boolean = false ) {
 
     rootPaths = _.castArray ( rootPaths );
 
@@ -40,7 +40,7 @@ class Abstract {
 
     }
 
-    return this.getTodos ( groupByRoot, groupByType, groupByFile, filter );
+    return this.getTodos ( groupByRoot, groupByType, groupByFile, filter, onlyActiveFile );
 
   }
 
@@ -122,15 +122,18 @@ class Abstract {
 
   async updateFilesData () {}
 
-  getTodos ( groupByRoot, groupByType, groupByFile, filter ) {
+  getTodos ( groupByRoot, groupByType, groupByFile, filter, onlyActiveFile ) {
 
     if ( _.isEmpty ( this.filesData ) ) return;
 
     const todos = {}, // { [ROOT] { [TYPE] => { [FILEPATH] => [DATA] } } }
           filterRe = filter ? new RegExp ( _.escapeRegExp ( filter ), 'i' ) : false,
-          filePaths = Object.keys ( this.filesData );
+          filePaths = Object.keys ( this.filesData ),
+          activeFilePath = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.document.uri.fsPath : '';
 
     filePaths.forEach ( filePath => {
+
+      if ( onlyActiveFile && filePath !== activeFilePath ) return;
 
       const data = this.filesData[filePath];
 

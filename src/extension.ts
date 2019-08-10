@@ -25,6 +25,10 @@ const activate = function ( context: vscode.ExtensionContext ) {
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-expanded', ViewEmbedded.expanded );
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', !!ViewEmbedded.filter );
 
+  ViewEmbedded.all = true;
+
+  vscode.commands.executeCommand ( 'setContext', 'todo-embedded-all', !!ViewEmbedded.all );
+
   ViewFiles.expanded = config.file.view.expanded;
 
   vscode.commands.executeCommand ( 'setContext', 'todo-files-expanded', ViewFiles.expanded );

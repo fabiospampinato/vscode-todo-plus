@@ -713,6 +713,22 @@
         }
       },
       {
+        "command": "todo.viewEmbeddedShowAllFiles",
+        "title": "Show All Files",
+        "icon": {
+          "light": "resources/icons/files_light.svg",
+          "dark": "resources/icons/files_dark.svg"
+        }
+      },
+      {
+        "command": "todo.viewEmbeddedShowActiveFile",
+        "title": "Show Only Active File",
+        "icon": {
+          "light": "resources/icons/file_active_light.svg",
+          "dark": "resources/icons/file_active_dark.svg"
+        }
+      },
+      {
         "command": "todo.viewOpenFile",
         "title": "Open"
       },
@@ -929,21 +945,32 @@
         {
           "command": "todo.viewEmbeddedCollapse",
           "when": "view == todo.views.2embedded && todo-embedded-expanded == true",
-          "group": "navigation@2"
+          "group": "navigation@3"
         },
         {
           "command": "todo.viewEmbeddedExpand",
           "when": "view == todo.views.2embedded && todo-embedded-expanded == false",
-          "group": "navigation@2"
+          "group": "navigation@3"
         },
         {
           "command": "todo.viewEmbeddedFilter",
           "when": "view == todo.views.2embedded && todo-embedded-filtered == false",
-          "group": "navigation@1"
+          "group": "navigation@2"
         },
         {
           "command": "todo.viewEmbeddedClearFilter",
           "when": "view == todo.views.2embedded && todo-embedded-filtered == true",
+          "group": "navigation@2"
+        },
+
+        {
+          "command": "todo.viewEmbeddedShowAllFiles",
+          "when": "view == todo.views.2embedded && todo-embedded-all == false",
+          "group": "navigation@1"
+        },
+        {
+          "command": "todo.viewEmbeddedShowActiveFile",
+          "when": "view == todo.views.2embedded && todo-embedded-all == true",
           "group": "navigation@1"
         }
       ],
