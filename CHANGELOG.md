@@ -1,3 +1,12 @@
+### Version 4.14.0
+- Ensuring that tags starting with a colon are supported too (e.g. `@:foo`)
+- Updated icons, using the new outline style
+- Embedded view: added support for filtering todos by file path
+- Embedded view: added a couple of standalone commands for filtering/unfiltering
+- Embedded view: added a button for viewing only the embedded todos of the active file
+- Added a “Todo: Embedded View - Toggle View All Files” command
+- Improved support for JSDoc-like comments
+
 ### Version 4.13.2
 - Always showing project statistics by default, even if all of its todos are completed
 
