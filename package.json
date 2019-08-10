@@ -649,6 +649,14 @@
         "title": "Todo: Archive"
       },
       {
+        "command": "todo.embeddedFilter",
+        "title": "Todo: Embedded View - Filter"
+      },
+      {
+        "command": "todo.embeddedClearFilter",
+        "title": "Todo: Embedded View - Clear Filter"
+      },
+      {
         "command": "todo.viewFilesOpen",
         "title": "Open",
         "icon": {
@@ -865,6 +873,14 @@
         {
           "command": "todo.editorArchive",
           "when": "false"
+        },
+        {
+          "command": "todo.embeddedFilter",
+          "when": "todo-embedded-filtered == false"
+        },
+        {
+          "command": "todo.embeddedClearFilter",
+          "when": "todo-embedded-filtered == true"
         }
       ],
       "editor/context": [

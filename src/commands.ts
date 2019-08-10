@@ -253,13 +253,17 @@ async function viewEmbeddedFilter () {
 
 }
 
+const embeddedFilter = viewEmbeddedFilter;
+
 function viewEmbeddedClearFilter () {
   ViewEmbedded.filter = false;
   vscode.commands.executeCommand ( 'setContext', 'todo-embedded-filtered', false );
   ViewEmbedded.refresh ();
 }
 
+const embeddedClearFilter = viewEmbeddedClearFilter;
+
 /* EXPORT */
 
-export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenFile, viewRevealTodo, viewFilesOpen, viewFilesCollapse, viewFilesExpand, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, viewEmbeddedClearFilter};
+export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenFile, viewRevealTodo, viewFilesOpen, viewFilesCollapse, viewFilesExpand, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, embeddedFilter, viewEmbeddedClearFilter, embeddedClearFilter};
 export {toggleBox as editorToggleBox, toggleDone as editorToggleDone, toggleCancelled as editorToggleCancelled, toggleStart as editorToggleStart, archive as editorArchive}
