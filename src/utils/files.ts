@@ -118,11 +118,11 @@ class Files { //FIXME: There's some code duplication between this and `embedded`
 
   }
 
-  async getFilePaths ( rootPaths ) {
+  async getFilePaths ( rootPaths ): Promise<string[]> {
 
     const globby = require ( 'globby' ); // Lazy import for performance
 
-    return _.flatten ( await Promise.all ( rootPaths.map ( cwd => globby ( this.include, { cwd, ignore: this.exclude, dot: true, absolute: true } ) ) ) );
+    return _.flatten ( await Promise.all ( rootPaths.map ( cwd => globby ( this.include, { cwd, ignore: this.exclude, dot: true, absolute: true } ) ) ) ) as string[]; //TSC
 
   }
 
