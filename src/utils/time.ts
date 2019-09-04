@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import 'moment-precise-range-plugin';
 import * as toTime from 'to-time';
+import Consts from '../consts'
 
 /* TIME */
 
@@ -43,12 +44,12 @@ const Time = {
         parts = [];
 
     const sections: [string, number][] = [
-      ['y', 31536000 ],
-      ['w', 604800 ],
-      ['d', 86400 ],
-      ['h', 3600 ],
-      ['m', 60 ],
-      ['s', 1 ]
+      ["y", Consts.yearLength],
+      ["w", Consts.weekLength],
+      ["d", Consts.dayLength],
+      ["h", 3600],
+      ["m", 60],
+      ["s", 1]
     ];
 
     sections.forEach ( ([ token, seconds ]) => {
