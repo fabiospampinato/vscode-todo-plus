@@ -44,9 +44,9 @@ const Time = {
         parts = [];
 
     const sections: [string, number][] = [
-      ["y", Consts.yearLength],
-      ["w", Consts.weekLength],
-      ["d", Consts.dayLength],
+      ["y", Consts.yearLength || 31536000],
+      ["w", Consts.weekLength || 604800],
+      ["d", Consts.dayLength || 86400],
       ["h", 3600],
       ["m", 60],
       ["s", 1]
