@@ -8,33 +8,33 @@ import Config from './config';
 
 const Consts = {
 
-  get() {
+  get () {
 
-    const config = Config.get(),
-      archiveName = _.get(config, 'archive.name') || 'Archive',
-      tagsNames = _.get(config, 'tags.names');
+    const config = Config.get (),
+          archiveName = _.get ( config, 'archive.name' ) || 'Archive',
+          tagsNames = _.get ( config, 'tags.names' );
 
-    function getColors(root) {
+    function getColors ( root ) {
       return {
-        done: _.get(config, `${root}.done`),
-        cancelled: _.get(config, `${root}.cancelled`),
-        code: _.get(config, `${root}.code`),
-        comment: _.get(config, `${root}.comment`),
-        project: _.get(config, `${root}.project`),
-        projectStatistics: _.get(config, `${root}.projectStatistics`),
-        tag: _.get(config, `${root}.tag`),
+        done: _.get ( config, `${root}.done` ),
+        cancelled: _.get ( config, `${root}.cancelled` ),
+        code: _.get ( config, `${root}.code` ),
+        comment: _.get ( config, `${root}.comment` ),
+        project: _.get ( config, `${root}.project` ),
+        projectStatistics: _.get ( config, `${root}.projectStatistics` ),
+        tag: _.get ( config, `${root}.tag` ),
         tags: {
-          background: _.get(config, `${root}.tags.background`, []),
-          foreground: _.get(config, `${root}.tags.foreground`, [])
+          background: _.get ( config, `${root}.tags.background`, [] ),
+          foreground: _.get ( config, `${root}.tags.foreground`, [] )
         },
-        types: _.transform(_.get(config, `${root}.types`, {}), (acc, val, key: string) => { acc[key.toUpperCase()] = val }, {})
+        types: _.transform ( _.get ( config, `${root}.types`, {} ), ( acc, val, key: string ) => { acc[key.toUpperCase ()] = val }, {} )
       }
     }
 
     return {
       languageId: 'todo',
-      indentation: _.get(config, 'indentation'),
-      timer: _.get(config, 'timer.statusbar.enabled'),
+      indentation: _.get ( config, 'indentation' ),
+      timer: _.get ( config, 'timer.statusbar.enabled' ),
       timekeeping: {
         yearLength: _.get(config, "timekeeping.yearLength"),
         weekLength: _.get(config, "timekeeping.weekLength"),
@@ -42,17 +42,17 @@ const Consts = {
       },
       symbols: {
         project: ':',
-        box: _.get(config, 'symbols.box'),
-        done: _.get(config, 'symbols.done'),
-        cancelled: _.get(config, 'symbols.cancelled'),
+        box: _.get ( config, 'symbols.box' ),
+        done: _.get ( config, 'symbols.done' ),
+        cancelled: _.get ( config, 'symbols.cancelled' ),
         tag: '@'
       },
-      colors: _.extend(getColors('colors'), {
-        dark: getColors('colors.dark'),
-        light: getColors('colors.light')
+      colors: _.extend ( getColors ( 'colors' ), {
+        dark: getColors ( 'colors.dark' ),
+        light: getColors ( 'colors.light' )
       }),
       tags: {
-        names: _.get(config, 'tags.names')
+        names: _.get ( config, 'tags.names' )
       },
       regexes: {
         impossible: /(?=a)b/gm,
@@ -63,16 +63,16 @@ const Consts = {
         todoBoxStarted: /^[^\S\n]*((?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ ?\])\s(?=[^\n]*[^a-zA-Z0-9]@started(?:(?:\([^)]*\))|(?![a-zA-Z])))[^\n]*)/gm,
         todoDone: /^[^\S\n]*((?!--|––|——)(?:(?:(?:[✔✓☑+]|\[[xX+]\])\s[^\n]*)|(?:(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ ?\])\s[^\n]*[^a-zA-Z0-9]@done(?:(?:\([^)]*\))|(?![a-zA-Z]))[^\n]*)))/gm,
         todoCancelled: /^[^\S\n]*((?!--|––|——)(?:(?:(?:[✘xX]|\[-\])\s[^\n]*)|(?:(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ ?\])\s[^\n]*[^a-zA-Z0-9]@cancelled(?:(?:\([^)]*\))|(?![a-zA-Z]))[^\n]*)))/gm,
-        todoFinished: /^[^\S\n]*((?!--|––|——)(?:(?:(?:[✔✓☑+✘xX]|\[[xX+-]\])\s[^\n]*)|(?:(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ ?\])\s[^\n]*[^a-zA-Z0-9]@(?:done|cancelled)(?:(?:\([^)]*\))|(?![a-zA-Z]))[^\n]*)))/gm,
-        todoEmbedded: new RegExp(_.get(config, 'embedded.regex'), _.get(config, 'embedded.regexFlags')),
+        todoFinished:  /^[^\S\n]*((?!--|––|——)(?:(?:(?:[✔✓☑+✘xX]|\[[xX+-]\])\s[^\n]*)|(?:(?:[-❍❑■⬜□☐▪▫–—≡→›]|\[ ?\])\s[^\n]*[^a-zA-Z0-9]@(?:done|cancelled)(?:(?:\([^)]*\))|(?![a-zA-Z]))[^\n]*)))/gm,
+        todoEmbedded: new RegExp ( _.get ( config, 'embedded.regex' ), _.get ( config, 'embedded.regexFlags' ) ),
         project: /^(?![^\S\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])\s[^\n]*)[^\S\n]*(.+:)[^\S\n]*(?:(?=@[^\s*~(]+(?::\/\/[^\s*~(:]+)?(?:\([^)]*\))?)|$)/gm,
         projectParts: /(\s*)([^:]+):(.*)/,
-        archive: new RegExp(`^(?![^\\S\\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\\[[ xX+-]?\\])\\s[^\\n]*)([^\\S\\n]*${_.escapeRegExp(archiveName)}:.*$)`, 'gm'),
+        archive: new RegExp ( `^(?![^\\S\\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\\[[ xX+-]?\\])\\s[^\\n]*)([^\\S\\n]*${_.escapeRegExp ( archiveName )}:.*$)`, 'gm' ),
         comment: /^(?!\s*$)(?![^\S\n]*(?!--|––|——)(?:[-❍❑■⬜□☐▪▫–—≡→›✘xX✔✓☑+]|\[[ xX+-]?\])\s[^\n]*)(?![^\S\n]*.+:[^\S\n]*(?:(?=@[^\s*~(]+(?::\/\/[^\s*~(:]+)?(?:\([^)]*\))?)|$))[^\S\n]*([^\n]+)/gm,
         tag: /(?:^|[^a-zA-Z0-9`])(@[^\s*~(]+(?::\/\/[^\s*~(:]+)?(?:\([^)]*\))?)/gm,
-        tagSpecial: new RegExp(`(?:^|[^a-zA-Z0-9])@(${tagsNames.map(n => _.escapeRegExp(n)).join('|')})(?:(?:\\([^)]*\\))|(?![a-zA-Z]))`, 'gm'),
-        tagSpecialNormal: new RegExp(`(?:^|[^a-zA-Z0-9])(?:${tagsNames.map(n => `(@${_.escapeRegExp(n)}(?:(?:\\([^)]*\\))|(?![a-zA-Z])))`).join('|')}|(@[^\\s*~(]+(?::\/\/[^\\s*~(:]+)?(?:(?:\\([^)]*\\))|(?![a-zA-Z]))))`, 'gm'),
-        tagNormal: new RegExp(`(?:^|[^a-zA-Z0-9])@(?!${tagsNames.map(n => _.escapeRegExp(n)).join('|')}|created|done|cancelled|started|lasted|wasted|est|\\d)[^\\s*~(:]+(?::\/\/[^\\s*~(:]+)?(?:\\([^)]*\\))?`),
+        tagSpecial: new RegExp ( `(?:^|[^a-zA-Z0-9])@(${tagsNames.map ( n => _.escapeRegExp ( n ) ).join ( '|' )})(?:(?:\\([^)]*\\))|(?![a-zA-Z]))`, 'gm' ),
+        tagSpecialNormal: new RegExp ( `(?:^|[^a-zA-Z0-9])(?:${tagsNames.map ( n => `(@${_.escapeRegExp ( n )}(?:(?:\\([^)]*\\))|(?![a-zA-Z])))` ).join ( '|' )}|(@[^\\s*~(]+(?::\/\/[^\\s*~(:]+)?(?:(?:\\([^)]*\\))|(?![a-zA-Z]))))`, 'gm' ),
+        tagNormal: new RegExp ( `(?:^|[^a-zA-Z0-9])@(?!${tagsNames.map ( n => _.escapeRegExp ( n ) ).join ( '|' )}|created|done|cancelled|started|lasted|wasted|est|\\d)[^\\s*~(:]+(?::\/\/[^\\s*~(:]+)?(?:\\([^)]*\\))?` ),
         tagCreated: /(?:^|[^a-zA-Z0-9])@created(?:(?:\(([^)]*)\))|(?![a-zA-Z]))/,
         tagStarted: /(?:^|[^a-zA-Z0-9])@started(?:(?:\(([^)]*)\))|(?![a-zA-Z]))/,
         tagFinished: /(?:^|[^a-zA-Z0-9])@(?:done|cancelled)(?:(?:\(([^)]*)\))|(?![a-zA-Z]))/,
@@ -88,15 +88,15 @@ const Consts = {
 
   },
 
-  update() {
+  update () {
 
-    _.extend(Consts, Consts.get());
+    _.extend ( Consts, Consts.get () );
 
   }
 
 };
 
-Consts.update();
+Consts.update ();
 
 type IConsts = typeof Consts & ReturnType<typeof Consts.get>;
 
