@@ -115,7 +115,7 @@ It adds 6 shortcuts when editing a `Todo` file:
   "todo.timer.statusbar.priority": -10, // The priority of this item. Higher value means the item should be shown more to the left
   "todo.statistics.project.enabled": "global.projects < 100", // Show statistics next to a project, boolean or JS expression
   "todo.statistics.project.text": "([pending]) [est]", // Template used for rendering the text
-  "todo.statistics.statusbar.enabled": "global.all > 0", // Show statistics in the statusbar, boolean or JS expression
+  "todo.statistics.statusbar.enabled": "global.projects < 100 && project.all > 0", // Show statistics in the statusbar, boolean or JS expression
   "todo.statistics.statusbar.ignoreArchive": true, // Ignore the archive when rendering statistics in the statusbar
   "todo.statistics.statusbar.alignment": "left", // Should the item be placed to the left or right?
   "todo.statistics.statusbar.color": "", // The foreground color for this item
