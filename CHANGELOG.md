@@ -1,3 +1,7 @@
+### Version 4.14.1
+- Readme: updated a config value
+- Hiding project-level statistics by default if a project doesn’t contain any todo
+
 ### Version 4.14.0
 - Ensuring that tags starting with a colon are supported too (e.g. `@:foo`)
 - Updated icons, using the new outline style
