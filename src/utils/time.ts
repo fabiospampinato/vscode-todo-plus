@@ -23,6 +23,7 @@ const Time = {
       case 'short-compact': return Time.diffShortCompact ( toDate, from );
       case 'clock': return Time.diffClock ( toDate, from );
       case 'seconds': return Time.diffSeconds ( toDate, from );
+      case 'hours': return Time.diffHours ( toDate, from );
     }
 
   },
@@ -154,7 +155,14 @@ const Time = {
 
     return toDate ? Math.round ( ( toDate.getTime () - from.getTime () ) / 1000 ) : 0;
 
-  }
+  },
+
+  diffHours ( to: Date, from: Date = new Date () ) {
+    let hours = moment(to).diff(moment(from), 'hours');
+    let formattedHours = `${hours}h`;
+    return formattedHours;
+
+  },
 
 };
 

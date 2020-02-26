@@ -399,7 +399,8 @@
             "long",
             "short",
             "short-compact",
-            "clock"
+            "clock",
+            "hours"
           ],
           "description": "Format used for the `[est]` token",
           "default": "short-compact"
