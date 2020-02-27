@@ -158,11 +158,12 @@ const Time = {
   },
 
   diffHours ( to: Date, from: Date = new Date () ) {
-    let hours = moment(to).diff(moment(from), 'hours');
-    let formattedHours = `${hours}h`;
-    return formattedHours;
 
-  },
+    const hours = moment ( to ).diff ( moment ( from ), 'hours' );
+
+    return `${hours}h`;
+
+  }
 
 };
 
