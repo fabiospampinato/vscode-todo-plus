@@ -1,3 +1,6 @@
+### Version 4.15.0
+- Timekeeping: added support for the “hours” format
+
 ### Version 4.14.1
 - Hiding project-level statistics by default if a project doesn’t contain any todo
 
