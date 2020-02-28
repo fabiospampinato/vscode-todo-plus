@@ -388,7 +388,8 @@
             "long",
             "short",
             "short-compact",
-            "clock"
+            "clock",
+            "hours"
           ],
           "description": "Format used for displaying time diff inside @lasted/wasted",
           "default": "short-compact"
@@ -399,7 +400,8 @@
             "long",
             "short",
             "short-compact",
-            "clock"
+            "clock",
+            "hours"
           ],
           "description": "Format used for the `[est]` token",
           "default": "short-compact"
