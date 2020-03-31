@@ -1,3 +1,6 @@
+### Version 4.16.0
+- Added built-in support for more filenames
+
 ### Version 4.15.0
 - Timekeeping: added support for the “hours” format
 
