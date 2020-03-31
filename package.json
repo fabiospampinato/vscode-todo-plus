@@ -22,6 +22,9 @@
         ],
         "extensions": [
           "TODO",
+          "TODOS",
+          ".TODO",
+          ".TODOS",
           "todolist.txt",
           ".todo",
           ".todos",
@@ -65,6 +68,9 @@
           "description": "Globs to use for including files",
           "default": [
             "**/TODO",
+            "**/TODOS",
+            "**/*.TODO",
+            "**/*.TODOS",
             "**/*.todo",
             "**/*.todos",
             "**/*.task",
