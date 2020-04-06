@@ -9,7 +9,7 @@ import Time from './time';
 
 class StatisticsTokens {
 
-  static supported = ['comments', 'projects', 'tags', 'pending', 'done', 'cancelled', 'finished', 'all', 'percentage', 'est', 'lasted', 'wasted', 'elapsed'];
+  static supported = ['comments', 'projects', 'tags', 'pending', 'done', 'cancelled', 'finished', 'all', 'percentage', 'est', 'estTotal', 'lasted', 'wasted', 'elapsed'];
 
   comments = 0;
   projects = 0;
@@ -18,6 +18,7 @@ class StatisticsTokens {
   done = 0;
   cancelled = 0;
   estSeconds = 0;
+  estTotalSeconds = 0;
   lastedSeconds = 0;
   wastedSeconds = 0;
 
@@ -39,6 +40,11 @@ class StatisticsTokens {
   @memoize
   get est () {
     return this.formatTime ( this.estSeconds, 'timekeeping.estimate.format' );
+  }
+
+  memoize
+  get estTotal () {
+    return this.formatTime ( this.estTotalSeconds, 'timekeeping.estimate.format' );
   }
 
   @memoize

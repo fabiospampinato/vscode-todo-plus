@@ -20,22 +20,27 @@ const Statistics = {
 
     add ( tag: string, tokens: Tokens, disabledTokens, disabledEst = false ) {
 
-      const prefix = tag[1];
-
-      if ( !disabledTokens.lasted && prefix === 'l' ) { // Maybe @lasted(2h)
+      if(tag.startsWith("@lasted")) { // Maybe @lasted(2h)
+        if(disabledTokens.lasted) return;
 
         tokens.lastedSeconds += Statistics.timeTags.parseElapsed ( tag );
 
-      } else if ( !disabledTokens.wasted && prefix === 'w' ) { // maybe @wasted(30m)
+      } else if(tag.startsWith("@wasted")) { // maybe @wasted(30m)
+        if(disabledTokens.wasted) return;
 
         tokens.wastedSeconds += Statistics.timeTags.parseElapsed ( tag );
 
-      } else if ( !disabledTokens.est && !disabledEst && ( prefix === 'e' || ( prefix >= '0' && prefix <= '9' ) ) ) { // Maybe @est(1h20m) or @1h20m
+      } else if( tag.startsWith("@est") || Number.isInteger(parseInt(tag[1]) )) { // Maybe @est(1h20m) or @1h20m
+        if(disabledTokens.est) return;
 
-        tokens.estSeconds += Statistics.timeTags.parseEstimate ( tag );
+        // always add to total
+        tokens.estTotalSeconds += Statistics.timeTags.parseEstimate ( tag );
 
+        // only add if not disabled
+        if(!disabledEst) {
+          tokens.estSeconds += Statistics.timeTags.parseEstimate ( tag );
+        }
       }
-
     },
 
     elapseds: {},
@@ -256,6 +261,7 @@ const Statistics = {
             tokens.done += nextTokens.done;
             tokens.cancelled += nextTokens.cancelled;
             tokens.estSeconds += nextTokens.estSeconds;
+            tokens.estTotalSeconds += nextTokens.estTotalSeconds;
             tokens.lastedSeconds += nextTokens.lastedSeconds;
             tokens.wastedSeconds += nextTokens.wastedSeconds;
 

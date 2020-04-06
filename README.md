@@ -176,7 +176,8 @@ The following tokens can be used in `todo.statistics.project.text`, `todo.statis
 | `[finished]`   | Number of finished todos         |
 | `[all]`        | Number of todos                  |
 | `[percentage]` | Percentage of finished todos     |
-| `[est]`        | Estimated time                   |
+| `[est]`        | Estimated time left              |
+| `[estTotal]`   | Total estimation                 |
 | `[lasted]`     | Time the task lasted             |
 | `[wasted]`     | Time wasted on task              |
 | `[elapsed]`    | Sum of `[lasted]` and `[wasted]` |
