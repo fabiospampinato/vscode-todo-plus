@@ -32,11 +32,9 @@ const Statistics = {
 
       } else if ( !disabledTokens.est && ( prefix === 'e' || ( prefix >= '0' && prefix <= '9' ) ) ) { // Maybe @est(1h20m) or @1h20m
 
-        // always add to total
         tokens.estTotalSeconds += Statistics.timeTags.parseEstimate ( tag );
 
-        // only add if not disabled
-        if(!disabledEst) {
+        if( !disabledEst ) {
           tokens.estSeconds += Statistics.timeTags.parseEstimate ( tag );
         }
 
