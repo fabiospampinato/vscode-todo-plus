@@ -34,9 +34,7 @@ const Statistics = {
 
         tokens.estTotalSeconds += Statistics.timeTags.parseEstimate ( tag );
 
-        if( !disabledEst ) {
-          tokens.estSeconds += Statistics.timeTags.parseEstimate ( tag );
-        }
+        if ( !disabledEst ) tokens.estSeconds += Statistics.timeTags.parseEstimate ( tag );
 
       }
     },
