@@ -30,12 +30,15 @@ const Statistics = {
 
         tokens.wastedSeconds += Statistics.timeTags.parseElapsed ( tag );
 
-      } else if ( !disabledTokens.est && !disabledEst && ( prefix === 'e' || ( prefix >= '0' && prefix <= '9' ) ) ) { // Maybe @est(1h20m) or @1h20m
+      } else if ( !disabledTokens.est && ( prefix === 'e' || ( prefix >= '0' && prefix <= '9' ) ) ) { // Maybe @est(1h20m) or @1h20m
 
-        tokens.estSeconds += Statistics.timeTags.parseEstimate ( tag );
+        tokens.estTotalSeconds += Statistics.timeTags.parseEstimate ( tag );
+
+        if( !disabledEst ) {
+          tokens.estSeconds += Statistics.timeTags.parseEstimate ( tag );
+        }
 
       }
-
     },
 
     elapseds: {},
@@ -129,7 +132,7 @@ const Statistics = {
 
     updateDisabledAll () {
 
-      const tokens = ['est', 'lasted', 'wasted', 'elapsed']; // These are the expensive tokens
+      const tokens = ['est', 'est-total', 'lasted', 'wasted', 'elapsed']; // These are the expensive tokens
 
       const globalSettings = ['statistics.statusbar.enabled', 'statistics.statusbar.text', 'statistics.statusbar.tooltip']; // Global settings where tokens could be in use
 
@@ -256,6 +259,7 @@ const Statistics = {
             tokens.done += nextTokens.done;
             tokens.cancelled += nextTokens.cancelled;
             tokens.estSeconds += nextTokens.estSeconds;
+            tokens.estTotalSeconds += nextTokens.estTotalSeconds;
             tokens.lastedSeconds += nextTokens.lastedSeconds;
             tokens.wastedSeconds += nextTokens.wastedSeconds;
 
