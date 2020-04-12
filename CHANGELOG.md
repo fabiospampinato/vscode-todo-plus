@@ -1,3 +1,7 @@
+### Version 4.17.0
+- Added the "est-total" statistics token
+- Minor style changes
+
 ### Version 4.16.0
 - Added built-in support for more filenames
 
