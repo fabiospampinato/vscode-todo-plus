@@ -1,3 +1,6 @@
+### Version 4.17.1
+- Fixed some dependencies issues
+
 ### Version 4.17.0
 - Added the "est-total" statistics token
 - Minor style changes
