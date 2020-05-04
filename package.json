@@ -974,7 +974,6 @@
           "when": "view == todo.views.2embedded && todo-embedded-filtered == true",
           "group": "navigation@2"
         },
-
         {
           "command": "todo.viewEmbeddedShowAllFiles",
           "when": "view == todo.views.2embedded && todo-embedded-all == false",
@@ -1029,23 +1028,24 @@
     "Other"
   ],
   "dependencies": {
-    "@types/node": "^10.12.8",
+    "@types/lodash": "^4.14.150",
+    "@types/node": "^13.13.4",
     "absolute": "0.0.1",
     "detect-indent": "^5.0.0",
     "diff": "^3.5.0",
     "execa": "^0.10.0",
     "find-up": "^2.1.0",
-    "globby": "^8.0.1",
-    "lodash": "^4.17.11",
+    "globby": "^8.0.2",
+    "lodash": "^4.17.15",
     "memoize-decorator": "^1.0.2",
     "micromatch": "^3.1.10",
-    "mkdirp": "^0.5.1",
-    "moment": "^2.22.2",
-    "moment-precise-range-plugin": "^1.2.4",
+    "mkdirp": "^0.5.5",
+    "moment": "2.22.2",
+    "moment-precise-range-plugin": "^1.3.0",
     "pify": "^3.0.0",
     "sha1": "^1.1.1",
-    "string-matches": "^1.0.2",
-    "sugar-date": "^2.0.4",
+    "string-matches": "^1.1.3",
+    "sugar-date": "^2.0.6",
     "to-time": "^1.0.2"
   },
   "devDependencies": {
