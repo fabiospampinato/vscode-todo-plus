@@ -137,6 +137,11 @@
           "description": "Cancelled todo color",
           "default": "#f92672"
         },
+        "todo.colors.started": {
+          "type": "string",
+          "description": "Started todo color",
+          "default": "#A4DEFF"
+        },
         "todo.colors.code": {
           "type": "string",
           "description": "Code color",
