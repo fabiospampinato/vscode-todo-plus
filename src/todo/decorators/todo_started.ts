@@ -24,13 +24,13 @@ class TodoStarted extends Line {
   TYPES = [TODO_STARTED];
 
   getItemRanges(
-    todoDone: TodoBox,
+    todoStarted: TodoBox,
     negRange?: vscode.Range | vscode.Range[]
   ) {
     return [
       this.getRangeDifference(
-        todoDone.text,
-        todoDone.range,
+        todoStarted.text,
+        todoStarted.range,
         negRange || [Consts.regexes.tag, Consts.regexes.formattedCode]
       ),
     ];
