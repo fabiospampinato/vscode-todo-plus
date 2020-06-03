@@ -9,7 +9,9 @@ import Line from "./line";
 
 const TODO_STARTED = vscode.window.createTextEditorDecorationType({
   color: Consts.colors.started,
+  fontWeight: 'bold',
   rangeBehavior: vscode.DecorationRangeBehavior.ClosedOpen,
+  isWholeLine: true,
   dark: {
     color: Consts.colors.dark.done,
   },
