@@ -22,7 +22,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable. [View the d
 - **[TaskPaper](https://www.taskpaper.com) compatible**: just set `todo.symbols.box`, `todo.symbols.done` and `todo.symbols.cancelled` to `-`
 - **Timekeeping**: you can mark todos as started and track elapsed time until completion
 - **Timer**: a timer can be displayed in the statusbar for started todos
-- **Time estimates**: you can estimate the time it will take to complete a todo by adding a tag to it that looks like this: `@est(3 hours)`, `@est(2h30m)` or `@2h30m`. Then you can use the `[est]` and `[est-total]` tokens in statistics
+- **Time estimates**: you can estimate the time it will take to complete a todo by adding a tag to it that looks like this: `@est(3 hours)`, `@est(2h30m)` or `@2h30m`. Then you can use the `[est]`, `[est-total]`, `[est-finished]` and `[est-finished-percentage]` tokens in statistics
 - **Statistics**: statistics about your entire file and/or project-level statistics about your individual projects
 - **Embedded todos**: it's common to have `//TODO` or `//FIXME` comments in our code, this extension can find those as well
 - **Activity bar views**: you can view your todo file and your embedded todos from a custom activity bar section
@@ -108,7 +108,7 @@ It adds 6 shortcuts when editing a `Todo` file:
   "todo.timekeeping.finished.format": "YY-MM-DD HH:mm", // Format used for displaying time inside @done/cancelled
   "todo.timekeeping.elapsed.enabled": true, // Enable the @lasted/wasted tag
   "todo.timekeeping.elapsed.format": "short-compact", // Format used for displaying time diff inside @lasted/waster
-  "todo.timekeeping.estimate.format": "short-compact", // Format used for the `[est]` and `[est-total]` tokens
+  "todo.timekeeping.estimate.format": "short-compact", // Format used for the `[est]`, `[est-total]` and `[est-finished]` tokens
   "todo.timer.statusbar.enabled": true, // Show a timer for started todos in the statusbar
   "todo.timer.statusbar.alignment": "left", // Should the item be placed to the left or right?
   "todo.timer.statusbar.color": "", // The foreground color for this item
@@ -165,22 +165,24 @@ This extension supports various providers for searching for embedded todos, it'l
 
 The following tokens can be used in `todo.statistics.project.text`, `todo.statistics.statusbar.text` and `todo.statistics.statusbar.tooltip`, they will be replaced with the value they represent.
 
-| Token          | Value                            |
-|----------------|----------------------------------|
-| `[comments]`   | Number of comments               |
-| `[projects]`   | Number of projects               |
-| `[tags]`       | Number of tags                   |
-| `[pending]`    | Number of pending todos          |
-| `[done]`       | Number of done todos             |
-| `[cancelled]`  | Number of cancelled todos        |
-| `[finished]`   | Number of finished todos         |
-| `[all]`        | Number of todos                  |
-| `[percentage]` | Percentage of finished todos     |
-| `[est]`        | Estimated time left              |
-| `[est-total]`  | Total estimated time             |
-| `[lasted]`     | Time the task lasted             |
-| `[wasted]`     | Time wasted on task              |
-| `[elapsed]`    | Sum of `[lasted]` and `[wasted]` |
+| Token                        | Value                                          |
+|------------------------------|------------------------------------------------|
+| `[comments]`                 | Number of comments                             |
+| `[projects]`                 | Number of projects                             |
+| `[tags]`                     | Number of tags                                 |
+| `[pending]`                  | Number of pending todos                        |
+| `[done]`                     | Number of done todos                           |
+| `[cancelled]`                | Number of cancelled todos                      |
+| `[finished]`                 | Number of finished todos                       |
+| `[all]`                      | Number of todos                                |
+| `[percentage]`               | Percentage of finished todos                   |
+| `[est]`                      | Estimated time left                            |
+| `[est-total]`                | Total estimated time                           |
+| `[est-finished]`             | Estimated time of finished todos               |
+| `[est-finished-percentage]`  | Percentage of estimated time in finished todos |
+| `[lasted]`                   | Time the task lasted                           |
+| `[wasted]`                   | Time wasted on task                            |
+| `[elapsed]`                  | Sum of `[lasted]` and `[wasted]`               |
 
 ## Demo
 

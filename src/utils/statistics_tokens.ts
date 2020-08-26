@@ -9,7 +9,7 @@ import Time from './time';
 
 class StatisticsTokens {
 
-  static supported = ['comments', 'projects', 'tags', 'pending', 'done', 'cancelled', 'finished', 'all', 'percentage', 'est', 'est-total', 'lasted', 'wasted', 'elapsed'];
+  static supported = ['comments', 'projects', 'tags', 'pending', 'done', 'cancelled', 'finished', 'all', 'percentage', 'est', 'est-total', 'lasted', 'wasted', 'elapsed', 'est-finished', 'est-finished-percentage'];
 
   comments = 0;
   projects = 0;
@@ -42,9 +42,19 @@ class StatisticsTokens {
     return this.formatTime ( this.estSeconds, 'timekeeping.estimate.format' );
   }
 
-  memoize
+  @memoize
   get 'est-total' () {
     return this.formatTime ( this.estTotalSeconds, 'timekeeping.estimate.format' );
+  }
+
+  @memoize
+  get 'est-finished' () {
+    return this.formatTime ( this.estTotalSeconds - this.estSeconds, 'timekeeping.estimate.format' );
+  }
+
+  @memoize
+  get 'est-finished-percentage' () {
+    return this.estTotalSeconds ? Math.round ( ( this.estTotalSeconds - this.estSeconds ) / this.estTotalSeconds * 100 ) : 100;
   }
 
   @memoize
