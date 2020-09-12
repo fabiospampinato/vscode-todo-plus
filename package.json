@@ -410,7 +410,7 @@
             "clock",
             "hours"
           ],
-          "description": "Format used for the `[est]` token",
+          "description": "Format used for the `[est]`, `[est-total]`, `[est-finished]` and `[est-finished-percentage]` tokens",
           "default": "short-compact"
         },
         "todo.timer.statusbar.enabled": {

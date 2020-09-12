@@ -130,7 +130,7 @@ const Statistics = {
 
     updateDisabledAll () {
 
-      const tokens = ['est', 'est-total', 'lasted', 'wasted', 'elapsed']; // These are the expensive tokens
+      const tokens = ['est', 'est-total', 'lasted', 'wasted', 'elapsed', 'est-finished', 'est-finished-percentage']; // These are the expensive tokens
 
       const globalSettings = ['statistics.statusbar.enabled', 'statistics.statusbar.text', 'statistics.statusbar.tooltip']; // Global settings where tokens could be in use
 
