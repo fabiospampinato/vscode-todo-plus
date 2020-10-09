@@ -4,6 +4,7 @@
 import * as _ from 'lodash';
 import * as querystring from 'querystring';
 import * as vscode from 'vscode';
+import * as path from 'path';
 import Config from '../../../config';
 import EmbeddedView from '../../../views/embedded';
 import Folder from '../../folder';
@@ -133,7 +134,10 @@ class Abstract {
 
     filePaths.forEach ( filePath => {
 
-      if ( onlyActiveFile && filePath !== activeFilePath ) return;
+      const filePathNormal = path.normalize(filePath);
+      const activeFilePathNormal = path.normalize(activeFilePath);
+
+      if ( onlyActiveFile && filePathNormal !== activeFilePathNormal ) return;
 
       const data = this.filesData[filePath];
 
