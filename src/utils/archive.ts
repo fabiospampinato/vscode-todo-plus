@@ -3,13 +3,13 @@
 
 import * as _ from 'lodash';
 import * as vscode from 'vscode';
-import * as moment from 'moment';
 import {Comment, Project, Todo, TodoBox} from '../todo/items';
 import Document from '../todo/document';
 import Config from '../config';
 import Consts from '../consts';
 import AST from './ast';
 import Editor from './editor';
+import Utils from '.';
 
 /* ARCHIVE */
 
@@ -66,13 +66,13 @@ const Archive = {
 
     let prevFinishedDate: number | Date = -1; // Ensuring comments' position relative to their parent todo is preserved
 
-    function getFinishedDate ( line ) {
+    function getFinishedDate ( line: string ) {
 
       if ( Consts.regexes.todoFinished.test ( line ) ) {
 
         const match = line.match ( Consts.regexes.tagFinished );
 
-        if ( match ) return prevFinishedDate = moment ( match[1], finishedFormat ).toDate ();
+        if ( match ) return prevFinishedDate = Utils.time.parseDate ( match[1], finishedFormat );
 
         return prevFinishedDate = -1;
 
