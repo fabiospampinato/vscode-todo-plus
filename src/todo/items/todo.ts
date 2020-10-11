@@ -2,7 +2,6 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
-import * as moment from 'moment';
 import * as vscode from 'vscode';
 import Config from '../../config';
 import Consts from '../../consts';
@@ -138,10 +137,9 @@ class Todo extends Item {
 
       if ( Config.getKey ( 'timekeeping.created.time' ) ) {
 
-        const date = moment (),
-              format = Config.getKey ( 'timekeeping.created.format' ),
-              time = date.format ( format ),
-              tag = `@created(${time})`;
+        const format = Config.getKey ( 'timekeeping.created.format' );
+        const time = Utils.time.parseDate('', format) // ParseDate fills missing values with current time
+        const tag = `@created(${time})`;
 
         this.addTag ( tag );
 
@@ -181,10 +179,9 @@ class Todo extends Item {
 
     if ( Config.getKey ( 'timekeeping.started.time' ) ) {
 
-      const date = moment (),
-            format = Config.getKey ( 'timekeeping.started.format' ),
-            time = date.format ( format ),
-            tag = `@started(${time})`;
+      const format = Config.getKey ( 'timekeeping.started.format' );
+      const time = Utils.time.parseDate('', format) // ParseDate fills missing values with current time
+      const tag = `@started(${time})`;
 
       this.replaceTag ( Consts.regexes.tagStarted, tag );
 
@@ -218,10 +215,9 @@ class Todo extends Item {
 
       if ( Config.getKey ( 'timekeeping.finished.time' ) ) {
 
-        const finishedDate = moment (),
-              finishedFormat = Config.getKey ( 'timekeeping.finished.format' ),
-              finishedTime = finishedDate.format ( finishedFormat ),
-              finishedTag = `@${isPositive ? 'done' : 'cancelled'}(${finishedTime})`;
+        const finishedFormat = Config.getKey ( 'timekeeping.finished.format' );
+        const finishedTime = Utils.time.parseDate('', finishedFormat) // ParseDate fills missing values with current time
+        const finishedTag = `@${isPositive ? 'done' : 'cancelled'}(${finishedTime})`;
 
         this.addTag ( finishedTag );
 
@@ -237,12 +233,12 @@ class Todo extends Item {
 
       if ( Config.getKey ( 'timekeeping.elapsed.enabled' ) && started ) {
 
-        const startedFormat = Config.getKey ( 'timekeeping.started.format' ),
-              startedMoment = moment ( started, startedFormat ),
-              startedDate = new Date ( startedMoment.valueOf () ),
-              elapsedFormat = Config.getKey ( 'timekeeping.elapsed.format' ),
-              time = Utils.time.diff ( new Date (), startedDate, elapsedFormat ),
-              elapsedTag = `@${isPositive ? 'lasted' : 'wasted'}(${time})`;
+        const startedFormat = Config.getKey ( 'timekeeping.started.format' );
+        const startedDate = Utils.time.parseDate(started, startedFormat);
+
+        const elapsedFormat = Config.getKey ( 'timekeeping.elapsed.format' );
+        const elapsedTime = Utils.time.diff ( new Date (), startedDate, elapsedFormat );
+        const elapsedTag = `@${isPositive ? 'lasted' : 'wasted'}(${elapsedTime})`;
 
         this.addTag ( elapsedTag );
 
