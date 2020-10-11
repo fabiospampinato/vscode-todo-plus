@@ -4,10 +4,11 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
-import * as moment from 'moment';
-import 'moment-precise-range-plugin';
 import * as toTime from 'to-time';
 import parse from 'date-fns/parse';
+import intervalToDuration from 'date-fns/intervalToDuration';
+import formatDuration from 'date-fns/formatDuration';
+import differenceInHours from 'date-fns/differenceInHours';
 
 /* TIME */
 
@@ -31,8 +32,12 @@ const Time = {
 
   diffLong ( to: Date, from: Date = new Date () ) {
 
-    return moment['preciseDiff']( from, to );
+    const duration = intervalToDuration({
+      start: to,
+      end: from
+    });
 
+    return formatDuration(duration)
   },
 
   diffShortRaw ( to: Date, from: Date = new Date () ) {
@@ -160,7 +165,7 @@ const Time = {
 
   diffHours ( to: Date, from: Date = new Date () ) {
 
-    const hours = moment ( to ).diff ( moment ( from ), 'hours' );
+    const hours = differenceInHours(to, from);
 
     return `${hours}h`;
 
