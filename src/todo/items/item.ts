@@ -14,11 +14,13 @@ class Item {
   textEditor: vscode.TextEditor;
   textDocument: vscode.TextDocument;
   match?: RegExpMatchArray;
-  _line; _pos; _matchRange; _range; _text;
+  _line: vscode.TextLine;
+  _text: string;
+  _pos; _matchRange; _range;
 
   /* GETTERS */ // For performance reasons, trying to lazily evaluate as much as possible
 
-  get line (): vscode.TextLine {
+  get line () {
     if ( !_.isUndefined ( this._line ) ) return this._line;
     return this._line = ( this.textDocument && this.matchRange ? this.textDocument.lineAt ( this.lineNumber ) : null );
   }

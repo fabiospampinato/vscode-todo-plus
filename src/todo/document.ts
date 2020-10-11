@@ -141,10 +141,9 @@ class Document {
 
   }
 
-  getTodosBoxStarted () {
+  getTodosBoxStarted () : TodoBox[] {
 
-    return this.getItems ( TodoBox, Consts.regexes.todoBoxStarted );
-
+    return this.getItems ( TodoBox, Consts.regexes.todoBoxStarted ) as TodoBox[];
   }
 
   getTodosDone () {

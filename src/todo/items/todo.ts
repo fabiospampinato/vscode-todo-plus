@@ -15,7 +15,7 @@ class Todo extends Item {
 
   /* GETTERS & SETTERS */
 
-  _lineNextText;
+  _lineNextText: string;
   get lineNextText () {
     if ( !_.isUndefined ( this._lineNextText ) ) return this._lineNextText;
     return this._lineNextText = ( this.line ? this.line.text : this.text );
