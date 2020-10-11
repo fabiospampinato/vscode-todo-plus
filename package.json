@@ -1033,6 +1033,7 @@
     "@types/lodash": "^4.14.150",
     "@types/node": "^13.13.4",
     "absolute": "0.0.1",
+    "date-fns": "2.16.1",
     "detect-indent": "^5.0.0",
     "diff": "^3.5.0",
     "execa": "^0.10.0",

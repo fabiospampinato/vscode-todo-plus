@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import * as moment from 'moment';
 import 'moment-precise-range-plugin';
 import * as toTime from 'to-time';
+import parse from 'date-fns/parse';
 
 /* TIME */
 
@@ -163,8 +164,18 @@ const Time = {
 
     return `${hours}h`;
 
-  }
+  },
 
+  parseDate(dateString: string, format: string): Date {
+    // Datfns' format string and moment's are different.
+    // To match with datefns' format, we replace capital D and Y 
+    // see here: https://git.io/fxCyr
+    const dateFnsformat = format.replace("D", "d").replace("Y", "y");
+
+    const date = parse(dateString, dateFnsformat, new Date());
+
+    return date;
+  }
 };
 
 /* EXPORT */

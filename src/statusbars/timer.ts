@@ -1,8 +1,8 @@
 
 /* IMPORT */
 
-import * as moment from 'moment';
 import * as vscode from 'vscode';
+import setSeconds from 'date-fns/setSeconds';
 import Config from '../config';
 import Consts from '../consts';
 import Document from '../todo/document';
@@ -81,11 +81,12 @@ class Timer {
 
       if ( this.data.text === todo.text ) return false;
 
-      const startedTag = todo['getTag']( Consts.regexes.tagStarted ), //TSC
-            startedFormat = this.config.timekeeping.started.format,
-            startedMoment = moment ( startedTag, startedFormat ),
-            startedMilliseconds = startedFormat.indexOf ( 's' ) >= 0 ? startedMoment.valueOf () : ( Math.floor ( startedMoment.valueOf () / 60000 ) * 60000 ) + ( Date.now () % 60000 ),// Syncing the seconds with the current time if they are not provided
-            startedDate = new Date ( startedMilliseconds );
+      const startedTag = todo.getTag(Consts.regexes.tagStarted); //TSC
+      const startedFormat = this.config.timekeeping.started.format as string;
+      const parsedDate = Utils.time.parseDate(startedTag, startedFormat);
+      const startedDate = startedFormat.includes("s")
+        ? parsedDate
+        : setSeconds(parsedDate, new Date().getSeconds()); // Syncing the seconds with the current time if they are not provided
 
       if ( this.data.line && this.data.line.lineNumber === todo.line.lineNumber && this.data.startedTag === startedTag ) { // Support for editing the todo without resetting the timer
 
