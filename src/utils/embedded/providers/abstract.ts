@@ -3,6 +3,7 @@
 
 import * as _ from 'lodash';
 import * as querystring from 'querystring';
+import * as path from 'path';
 import * as vscode from 'vscode';
 import Config from '../../../config';
 import EmbeddedView from '../../../views/embedded';
@@ -132,8 +133,8 @@ class Abstract {
           activeFilePath = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.document.uri.fsPath : '';
 
     filePaths.forEach ( filePath => {
-
-      if ( onlyActiveFile && filePath !== activeFilePath ) return;
+      
+      if ( onlyActiveFile && path.normalize ( filePath ) !== path.normalize ( activeFilePath ) ) return;
 
       const data = this.filesData[filePath];
 
