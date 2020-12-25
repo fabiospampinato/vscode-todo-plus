@@ -3,7 +3,7 @@
   "displayName": "Todo+",
   "description": "Manage todo lists with ease. Powerful, easy to use and customizable.",
   "icon": "resources/logo/logo-128x128.png",
-  "version": "4.17.1",
+  "version": "4.18.2",
   "license": "MIT",
   "main": "out/extension.js",
   "publisher": "fabiospampinato",
@@ -91,6 +91,7 @@
             "**/bower_components/**",
             "**/build/**",
             "**/dist/**",
+            "**/venv/**",
             "**/node_modules/**",
             "**/out/**",
             "**/output/**",
@@ -414,7 +415,7 @@
             "clock",
             "hours"
           ],
-          "description": "Format used for the `[est]` token",
+          "description": "Format used for the `[est]`, `[est-total]`, `[est-finished]` and `[est-finished-percentage]` tokens",
           "default": "short-compact"
         },
         "todo.timer.statusbar.enabled": {
@@ -526,6 +527,7 @@
             "**/bower_components/**",
             "**/build/**",
             "**/dist/**",
+            "**/venv/**",
             "**/node_modules/**",
             "**/out/**",
             "**/output/**",
