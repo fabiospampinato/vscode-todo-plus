@@ -1,3 +1,6 @@
+### Version 4.18.1
+- Ensuring the only-active-file filter works
+
 ### Version 4.18.0
 - Added "venv" to the excluded paths
 - Added two new statistics tokens: `est-finished` and `est-finished-percentage`
