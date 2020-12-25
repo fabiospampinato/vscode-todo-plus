@@ -3,8 +3,8 @@
 
 import * as _ from 'lodash';
 import * as querystring from 'querystring';
-import * as vscode from 'vscode';
 import * as path from 'path';
+import * as vscode from 'vscode';
 import Config from '../../../config';
 import EmbeddedView from '../../../views/embedded';
 import Folder from '../../folder';
@@ -133,11 +133,8 @@ class Abstract {
           activeFilePath = vscode.window.activeTextEditor ? vscode.window.activeTextEditor.document.uri.fsPath : '';
 
     filePaths.forEach ( filePath => {
-
-      const filePathNormal = path.normalize(filePath);
-      const activeFilePathNormal = path.normalize(activeFilePath);
-
-      if ( onlyActiveFile && filePathNormal !== activeFilePathNormal ) return;
+      
+      if ( onlyActiveFile && path.normalize ( filePath ) !== path.normalize ( activeFilePath ) ) return;
 
       const data = this.filesData[filePath];
 
