@@ -1,3 +1,6 @@
+### Version 4.18.2
+- Improved support for project titles that contain a colon
+
 ### Version 4.18.1
 - Ensuring the only-active-file filter works
 
