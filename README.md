@@ -12,6 +12,7 @@ Manage todo lists with ease. Powerful, easy to use and customizable. [View the d
 - **Portable**: being a plain text format you can read and edit it using any editor
 - **Custom symbols**: you can replace the default symbols with any of the supported ones
   - **Box**: `-` `❍` `❑` `■` `⬜` `□` `☐` `▪` `▫` `–` `—` `≡` `→` `›` `[]` `[ ]`
+  - `NEW` **Started**: `⭘` `⭕` `◯` `o` `O` `[o]` `[O]`
   - **Done**: `✔` `✓` `☑` `+` `[x]` `[X]` `[+]`
   - **Cancelled**: `✘` `x` `X` `[-]`
 - **Custom colors**: all colors can be customized
@@ -77,6 +78,7 @@ It adds 6 shortcuts when editing a `Todo` file:
   "todo.symbols.box": "☐", // Box symbol
   "todo.symbols.done": "✔", // Done symbol
   "todo.symbols.cancelled": "✘", // Cancelled symbol
+  "todo.symbols.started": "⭘", // Started symbol
   "todo.colors.done": "#a6e22e", // Done todo color
   "todo.colors.cancelled": "#f92672", // Cancelled todo color
   "todo.colors.code": "#fd971f", // Code color
@@ -171,6 +173,7 @@ The following tokens can be used in `todo.statistics.project.text`, `todo.statis
 | `[projects]`                 | Number of projects                             |
 | `[tags]`                     | Number of tags                                 |
 | `[pending]`                  | Number of pending todos                        |
+| `[doing]`                    | Number of doing/on progress todos              |
 | `[done]`                     | Number of done todos                           |
 | `[cancelled]`                | Number of cancelled todos                      |
 | `[finished]`                 | Number of finished todos                       |
