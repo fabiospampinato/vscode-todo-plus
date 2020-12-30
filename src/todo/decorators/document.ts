@@ -168,7 +168,7 @@ const Document = {
       todosBox: doc.getTodosBox (),
       todosDone: doc.getTodosDone (),
       todosCancelled: doc.getTodosCancelled (),
-      todosStarted: doc.getTodosBoxStarted ()
+      todosStarted: doc.getTodosStarted ()
     };
 
   },

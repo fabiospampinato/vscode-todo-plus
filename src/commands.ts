@@ -152,7 +152,7 @@ function toggleStart () {
 
   return callTodosMethod ({
     checkValidity: true,
-    filter: todo => todo.isBox (),
+    filter: todo => todo.isBox () || todo.isStarted(),
     method: 'toggleStart',
     errors: {
       invalid: 'Only todos can be started',

@@ -2,7 +2,7 @@
 
 import * as vscode from "vscode";
 import Consts from "../../consts";
-import TodoBox from "../items/todo_box";
+import TodoStartedItem from "../items/todo_started";
 import Line from "./line";
 
 /* DECORATION TYPES */
@@ -13,10 +13,10 @@ const TODO_STARTED = vscode.window.createTextEditorDecorationType({
   rangeBehavior: vscode.DecorationRangeBehavior.ClosedOpen,
   isWholeLine: true,
   dark: {
-    color: Consts.colors.dark.done,
+    color: Consts.colors.dark.started,
   },
   light: {
-    color: Consts.colors.light.done,
+    color: Consts.colors.light.started,
   },
 });
 
@@ -26,7 +26,7 @@ class TodoStarted extends Line {
   TYPES = [TODO_STARTED];
 
   getItemRanges(
-    todoStarted: TodoBox,
+    todoStarted: TodoStartedItem,
     negRange?: vscode.Range | vscode.Range[]
   ) {
     return [
