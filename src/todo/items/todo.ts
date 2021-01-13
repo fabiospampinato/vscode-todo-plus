@@ -3,7 +3,6 @@
 
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import * as vscode from 'vscode';
 import Config from '../../config';
 import Consts from '../../consts';
 import Utils from '../../utils';
@@ -57,7 +56,7 @@ class Todo extends Item {
           done = !box && this.isDone (),
           cancelled = !box && !done && this.isCancelled (),
           started = !box && !done && !cancelled && this.isStarted(),
-          other = !box && !done && !cancelled && !started; 
+          other = !box && !done && !cancelled && !started;
 
     return { box, done, cancelled, started, other };
 
@@ -167,13 +166,12 @@ class Todo extends Item {
 
   toggleStart () {
 
-    // NOTE: can be checked using this.isStarted also
-    if ( this.hasTag ( Consts.regexes.tagStarted ) ) {
+    if ( this.isStarted() ) {
 
       this.unstart ();
-      
+
     } else {
-      
+
       this.start ();
 
     }
@@ -182,20 +180,24 @@ class Todo extends Item {
 
   start () {
 
-    if ( Config.getKey ( 'timekeeping.started.time' ) ) {
+    if ( Config.getKey ( 'timekeeping.started.enabled' ) ) {
 
-      const date = moment (),
-            format = Config.getKey ( 'timekeeping.started.format' ),
-            time = date.format ( format ),
-            tag = `@started(${time})`;
+      if ( Config.getKey ( 'timekeeping.started.time' ) ) {
 
-      this.replaceTag ( Consts.regexes.tagStarted, tag );
+        const date = moment (),
+              format = Config.getKey ( 'timekeeping.started.format' ),
+              time = date.format ( format ),
+              tag = `@started(${time})`;
 
-    } else {
+        this.replaceTag ( Consts.regexes.tagStarted, tag );
 
-      const tag = '@started';
+      } else {
 
-      this.replaceTag ( Consts.regexes.tagStarted, tag );
+        const tag = '@started';
+
+        this.replaceTag ( Consts.regexes.tagStarted, tag );
+
+      }
 
     }
 
@@ -382,7 +384,7 @@ class Todo extends Item {
   isStarted () {
 
     // NOTE: may only need to call this.hasTag ( Consts.regexes.tagStarted ), not really sure
-    
+
     return Item.is ( this.text, Consts.regexes.todoBoxStarted ) || this.hasTag ( Consts.regexes.tagStarted );
 
   }
