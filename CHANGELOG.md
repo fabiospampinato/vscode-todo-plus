@@ -1,3 +1,7 @@
+### Version 4.18.3
+- Updated one regex matching projects to behave more predictably
+- Temporarily disabled support for AG and RG as embedded todos providers as a workaround
+
 ### Version 4.18.2
 - Improved support for project titles that contain a colon
 
