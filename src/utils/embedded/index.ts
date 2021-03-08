@@ -20,7 +20,8 @@ const Embedded = {
 
     const {javascript, ag, rg} = Embedded.providers,
           provider = Config.get ().embedded.provider,
-          Provider = provider ? await Embedded.providers[provider]() || javascript () : await ag () || await rg () || javascript ();
+          // Provider = provider ? await Embedded.providers[provider]() || javascript () : await ag () || await rg () || javascript (); //FIXME: Trying to spawn "ag" or "rg" causes execa to never return, why is that?
+          Provider = javascript ();
 
     Embedded.provider = new Provider ();
 
