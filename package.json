@@ -598,6 +598,11 @@
           "description": "Show the whole line",
           "default": false
         },
+        "todo.embedded.view.sort": {
+          "type": "boolean",
+          "description": "Sort todos alphabetically",
+          "default": false
+        },
         "todo.embedded.view.groupByRoot": {
           "type": "boolean",
           "description": "Group embedded todos by workspace root",

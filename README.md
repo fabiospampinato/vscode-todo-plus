@@ -137,6 +137,7 @@ It adds 6 shortcuts when editing a `Todo` file:
   "todo.embedded.file.groupByType": true, // Group embedded todos by type
   "todo.embedded.file.groupByFile": true, // Group embedded todos by file
   "todo.embedded.view.wholeLine": false, // Show the whole line
+  "todo.embedded.view.sort": false, // Sort todos alphabetically
   "todo.embedded.view.groupByRoot": true, // Group embedded todos by workspace root
   "todo.embedded.view.groupByType": true, // Group embedded todos by type
   "todo.embedded.view.groupByFile": true, // Group embedded todos by file
