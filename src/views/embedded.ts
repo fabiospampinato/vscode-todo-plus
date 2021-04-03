@@ -77,10 +77,16 @@ class Embedded extends View {
 
       });
 
-      if(this.config.embedded.view.sort) {
-        result.sort((a, b) => {
-          return a.label.toString().localeCompare(b.label.toString());
+      // By default todos are sorted by "line"
+
+      if( this.config.embedded.view.sortBy === "label" ) {
+
+        result.sort( ( a, b ) => {
+
+          return a.label.toString ().localeCompare( b.label.toString () );
+
         });
+
       }
 
       return result;

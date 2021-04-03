@@ -599,9 +599,10 @@
           "default": false
         },
         "todo.embedded.view.sort": {
-          "type": "boolean",
-          "description": "Sort todos alphabetically",
-          "default": false
+          "type": "string",
+          "enum": ["line", "label"],
+          "description": "Sort todos either by label or by source line",
+          "default": "line"
         },
         "todo.embedded.view.groupByRoot": {
           "type": "boolean",
