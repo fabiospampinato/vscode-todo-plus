@@ -71,11 +71,25 @@ class Embedded extends View {
 
     if ( _.isArray ( obj ) ) {
 
-      return obj.map ( obj => {
+      let result = obj.map ( obj => {
 
         return new Todo ( obj, this.config.embedded.view.wholeLine ? obj.line : obj.message || obj.todo, this.config.embedded.view.icons );
 
       });
+
+      // By default todos are sorted by "line"
+
+      if( this.config.embedded.view.sortBy === "label" ) {
+
+        result.sort( ( a, b ) => {
+
+          return a.label.toString ().localeCompare( b.label.toString () );
+
+        });
+
+      }
+
+      return result;
 
     } else if ( _.isObject ( obj ) ) {
 
