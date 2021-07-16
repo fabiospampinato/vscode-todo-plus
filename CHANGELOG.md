@@ -1,3 +1,8 @@
+### Version 4.18.4
+- Ensuring ts-loader doesn’t prevent production builds to be made
+- Deleted repo-level github funding.yml
+- Added a dialog announcing the fundraising
+
 ### Version 4.18.3
 - Updated one regex matching projects to behave more predictably
 - Temporarily disabled support for AG and RG as embedded todos providers as a workaround
