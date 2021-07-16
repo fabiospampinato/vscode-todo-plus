@@ -2,6 +2,7 @@
 /* IMPORT */
 
 import * as vscode from 'vscode';
+import beggar from 'vscode-beggar';
 import Config from './config';
 import Consts from './consts';
 import CompletionProvider from './providers/completion';
@@ -15,6 +16,23 @@ import ViewFiles from './views/files';
 /* ACTIVATE */
 
 const activate = function ( context: vscode.ExtensionContext ) {
+
+  beggar ({
+    id: 'vscode-todo-plus',
+    title: '𝗧𝗼𝗱𝗼+ - 𝗙𝘂𝗻𝗱𝗿𝗮𝗶𝘀𝗶𝗻𝗴 𝗔𝗻𝗻𝗼𝘂𝗻𝗰𝗲𝗺𝗲𝗻𝘁: We are collecting some money to allow for further development, if you find this extension useful please please please consider donating to it and be part of something amazing!',
+    url: 'https://buy.stripe.com/4gweWHcsh71lbN6dQQ',
+    actions: {
+      yes: {
+        webhook: `https://telemetry.notable.app/track?events=%5B%7B%22event%22%3A%22vscode-beggar%22%2C%22extension%22%3A%22vscode-todo-plus%22%2C%22result%22%3A1%2C%22timestamp%22%3A${Date.now ()}%7D%5D`
+      },
+      no: {
+        webhook: `https://telemetry.notable.app/track?events=%5B%7B%22event%22%3A%22vscode-beggar%22%2C%22extension%22%3A%22vscode-todo-plus%22%2C%22result%22%3A0%2C%22timestamp%22%3A${Date.now ()}%7D%5D`
+      },
+      cancel: {
+        webhook: `https://telemetry.notable.app/track?events=%5B%7B%22event%22%3A%22vscode-beggar%22%2C%22extension%22%3A%22vscode-todo-plus%22%2C%22result%22%3A2%2C%22timestamp%22%3A${Date.now ()}%7D%5D`
+      }
+    }
+  });
 
   const config = Config.get ();
 
