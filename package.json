@@ -521,6 +521,8 @@
             "**/_output/**",
             "**/bower_components/**",
             "**/build/**",
+            "**/cover/**",
+            "**/deps/**",
             "**/dist/**",
             "**/venv/**",
             "**/node_modules/**",
