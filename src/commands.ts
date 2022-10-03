@@ -6,13 +6,13 @@ import * as path from 'path';
 import * as vscode from 'vscode';
 import Config from './config';
 import Consts from './consts';
-import Document from './todo/document';
-import ItemFile from './views/items/item';
-import ItemTodo from './views/items/todo';
 import StatusbarTimer from './statusbars/timer';
+import Document from './todo/document';
 import Utils from './utils';
 import ViewEmbedded from './views/embedded';
 import ViewFiles from './views/files';
+import ItemFile from './views/items/item';
+import ItemTodo from './views/items/todo';
 
 /* CALL TODOS METHOD */
 
@@ -152,11 +152,11 @@ function toggleStart () {
 
   return callTodosMethod ({
     checkValidity: true,
-    filter: todo => todo.isBox (),
+    filter: todo => todo.isBox () || ! todo.isFinished (),
     method: 'toggleStart',
     errors: {
       invalid: 'Only todos can be started',
-      filtered: 'Only not done/cancelled todos can be started'
+      filtered: 'Only not done/cancelled todos can be started/unstarted'
     }
   });
 
@@ -283,5 +283,5 @@ function viewEmbeddedShowActiveFile () {
 
 /* EXPORT */
 
-export {open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenFile, viewRevealTodo, viewFilesOpen, viewFilesCollapse, viewFilesExpand, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, embeddedFilter, viewEmbeddedClearFilter, embeddedClearFilter, viewEmbeddedToggleAllFiles, viewEmbeddedShowAllFiles, viewEmbeddedShowActiveFile};
-export {toggleBox as editorToggleBox, toggleDone as editorToggleDone, toggleCancelled as editorToggleCancelled, toggleStart as editorToggleStart, archive as editorArchive}
+export { open, openEmbedded, toggleBox, toggleDone, toggleCancelled, toggleStart, toggleTimer, archive, viewOpenFile, viewRevealTodo, viewFilesOpen, viewFilesCollapse, viewFilesExpand, viewEmbeddedCollapse, viewEmbeddedExpand, viewEmbeddedFilter, embeddedFilter, viewEmbeddedClearFilter, embeddedClearFilter, viewEmbeddedToggleAllFiles, viewEmbeddedShowAllFiles, viewEmbeddedShowActiveFile };
+export { toggleBox as editorToggleBox, toggleDone as editorToggleDone, toggleCancelled as editorToggleCancelled, toggleStart as editorToggleStart, archive as editorArchive };
