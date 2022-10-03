@@ -9,13 +9,14 @@ import Time from './time';
 
 class StatisticsTokens {
 
-  static supported = ['comments', 'projects', 'tags', 'pending', 'done', 'cancelled', 'finished', 'all', 'percentage', 'est', 'est-total', 'lasted', 'wasted', 'elapsed', 'est-finished', 'est-finished-percentage'];
+  static supported = ['comments', 'projects', 'tags', 'pending', 'done', 'doing', 'cancelled', 'finished', 'all', 'percentage', 'est', 'est-total', 'lasted', 'wasted', 'elapsed', 'est-finished', 'est-finished-percentage'];
 
   comments = 0;
   projects = 0;
   tags = 0;
   pending = 0;
   done = 0;
+  doing = 0;
   cancelled = 0;
   estSeconds = 0;
   estTotalSeconds = 0;
@@ -29,7 +30,7 @@ class StatisticsTokens {
 
   @memoize
   get all () {
-    return this.pending + this.finished;
+    return this.pending + this.doing + this.finished;
   }
 
   @memoize

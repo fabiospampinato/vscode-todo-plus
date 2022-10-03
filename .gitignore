@@ -41,3 +41,7 @@ coverage
 typings
 out
 .vscode-test
+
+# Emils changes
+.history/*
+

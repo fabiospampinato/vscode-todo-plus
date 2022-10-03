@@ -3,7 +3,6 @@
 
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import * as vscode from 'vscode';
 import Config from '../../config';
 import Consts from '../../consts';
 import Utils from '../../utils';
@@ -41,6 +40,7 @@ class Todo extends Item {
       box: false,
       done: false,
       cancelled: false,
+      started: false,
       other: false
     };
 
@@ -55,9 +55,10 @@ class Todo extends Item {
     const box = this.isBox (),
           done = !box && this.isDone (),
           cancelled = !box && !done && this.isCancelled (),
-          other = !box && !done && !cancelled;
+          started = !box && !done && !cancelled && this.isStarted(),
+          other = !box && !done && !cancelled && !started;
 
-    return { box, done, cancelled, other };
+    return { box, done, cancelled, started, other };
 
   }
 
@@ -79,13 +80,13 @@ class Todo extends Item {
 
     }
 
-    if ( ( was.done || was.cancelled ) && is.box ) {
+    if ( ( was.done || was.cancelled ) && ( is.started || is.box ) ) {
 
       this.unfinish ();
 
     }
 
-    if ( ( ( was.box || was.other ) && ( is.done || is.cancelled ) ) || ( was.cancelled && is.done ) || ( was.done && is.cancelled ) ) {
+    if ( ( ( was.box || was.started || was.other ) && ( is.done || is.cancelled ) ) || ( was.cancelled && is.done ) || ( was.done && is.cancelled ) ) {
 
       this.finish ( is.done );
 
@@ -165,7 +166,7 @@ class Todo extends Item {
 
   toggleStart () {
 
-    if ( this.hasTag ( Consts.regexes.tagStarted ) ) {
+    if ( this.isStarted() ) {
 
       this.unstart ();
 
@@ -179,28 +180,36 @@ class Todo extends Item {
 
   start () {
 
-    if ( Config.getKey ( 'timekeeping.started.time' ) ) {
+    if ( Config.getKey ( 'timekeeping.started.enabled' ) ) {
 
-      const date = moment (),
-            format = Config.getKey ( 'timekeeping.started.format' ),
-            time = date.format ( format ),
-            tag = `@started(${time})`;
+      if ( Config.getKey ( 'timekeeping.started.time' ) ) {
 
-      this.replaceTag ( Consts.regexes.tagStarted, tag );
+        const date = moment (),
+              format = Config.getKey ( 'timekeeping.started.format' ),
+              time = date.format ( format ),
+              tag = `@started(${time})`;
 
-    } else {
+        this.replaceTag ( Consts.regexes.tagStarted, tag );
 
-      const tag = '@started';
+      } else {
 
-      this.replaceTag ( Consts.regexes.tagStarted, tag );
+        const tag = '@started';
+
+        this.replaceTag ( Consts.regexes.tagStarted, tag );
+
+      }
 
     }
+
+    this.toggleStarted( true );
 
   }
 
   unstart () {
 
     this.removeTag ( Consts.regexes.tagStarted );
+
+    this.toggleStarted ( false );
 
   }
 
@@ -307,8 +316,12 @@ class Todo extends Item {
 
   toggleDone ( force: boolean = !this.isDone () ) {
 
-    const symbol = force ? Consts.symbols.done : Consts.symbols.box,
-          state = force ? 'done' : 'box';
+    const nextSymbol = this.isStarted () ? Consts.symbols.started : Consts.symbols.box;
+
+    const nextState = this.isStarted () ? 'started' : 'box';
+
+    const symbol = force ? Consts.symbols.done : nextSymbol,
+          state = force ? 'done' : nextState;
 
     this.setSymbolAndState ( symbol, state );
 
@@ -328,8 +341,12 @@ class Todo extends Item {
 
   toggleCancelled ( force: boolean = !this.isCancelled () ) {
 
-    const symbol = force ? Consts.symbols.cancelled : Consts.symbols.box,
-          state = force ? 'cancelled' : 'box';
+    const nextSymbol = this.isStarted () ? Consts.symbols.started : Consts.symbols.box;
+
+    const nextState = this.isStarted () ? 'started' : 'box';
+
+    const symbol = force ? Consts.symbols.cancelled : nextSymbol,
+          state = force ? 'cancelled' : nextState;
 
     this.setSymbolAndState ( symbol, state );
 
@@ -347,11 +364,28 @@ class Todo extends Item {
 
   }
 
+  toggleStarted ( force: boolean = !this.isStarted () ) {
+
+    const symbol = force ? Consts.symbols.started : Consts.symbols.box,
+          state = force ? 'started' : 'box';
+
+    this.setSymbolAndState ( symbol, state );
+
+  }
+
   /* IS */
 
   isBox () {
 
     return Item.is ( this.text, Consts.regexes.todoBox );
+
+  }
+
+  isStarted () {
+
+    // NOTE: may only need to call this.hasTag ( Consts.regexes.tagStarted ), not really sure
+
+    return Item.is ( this.text, Consts.regexes.todoBoxStarted ) || this.hasTag ( Consts.regexes.tagStarted );
 
   }
 
