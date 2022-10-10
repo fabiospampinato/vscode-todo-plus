@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 import * as vscode from 'vscode';
 import Config from '../config';
 import Consts from '../consts';
-import {Comment, Project, Tag, TodoBox, TodoDone, TodoCancelled, TodoStarted} from '../todo/items';
+import {Comment, Project, Tag, TodoBox, TodoDone, TodoCancelled, TodoStarted, TodoInfo} from '../todo/items';
 import AST from './ast';
 import Tokens from './statistics_tokens';
 import Time from './time';
@@ -177,7 +177,8 @@ const Statistics = {
         pending: items.todosBox.length,
         doing: items.todosStarted.length,
         done: items.todosDone.length,
-        cancelled: items.todosCancelled.length
+        cancelled: items.todosCancelled.length,
+        info: items.todosInfo.length,
       });
 
       items.tags.forEach ( tag => Statistics.timeTags.add ( tag.text, tokens, Statistics.tokens.disabled.global ) );
@@ -210,7 +211,7 @@ const Statistics = {
 
       }
 
-      const groups = [items.projects, items.todosBox, items.todosStarted, items.todosDone, items.todosCancelled, items.tags],
+      const groups = [items.projects, items.todosBox, items.todosStarted, items.todosDone, items.todosCancelled, items.todosInfo, items.tags],
             lines = groups.reduce ( ( arr1, arr2 ) => mergeSorted ( arr1, arr2 ) );
 
       items.projects.forEach ( project => {
@@ -258,12 +259,13 @@ const Statistics = {
             tokens.done += nextTokens.done;
             tokens.doing += nextTokens.doing;
             tokens.cancelled += nextTokens.cancelled;
+            tokens.info += nextTokens.info;
             tokens.estSeconds += nextTokens.estSeconds;
             tokens.estTotalSeconds += nextTokens.estTotalSeconds;
             tokens.lastedSeconds += nextTokens.lastedSeconds;
             tokens.wastedSeconds += nextTokens.wastedSeconds;
 
-            i += nextTokens.comments + nextTokens.projects + nextTokens.tags + nextTokens.pending + nextTokens.doing + nextTokens.done + nextTokens.cancelled; // Jumping
+            i += nextTokens.comments + nextTokens.projects + nextTokens.tags + nextTokens.pending + nextTokens.doing + nextTokens.done + nextTokens.cancelled + nextTokens.info; // Jumping
 
           } if ( nextItem instanceof Comment ) {
 
@@ -284,6 +286,11 @@ const Statistics = {
           } else if ( nextItem instanceof TodoCancelled ) {
 
             tokens.cancelled++;
+
+          }
+          else if ( nextItem instanceof TodoInfo ) {
+
+            tokens.info++;
 
           }
 

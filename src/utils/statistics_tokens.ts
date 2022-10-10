@@ -4,12 +4,13 @@
 import * as memoize from 'memoize-decorator';
 import Config from '../config';
 import Time from './time';
+import Todo from './todo';
 
 /* STATISTICS TOKENS */
 
 class StatisticsTokens {
 
-  static supported = ['comments', 'projects', 'tags', 'pending', 'done', 'doing', 'cancelled', 'finished', 'all', 'percentage', 'est', 'est-total', 'lasted', 'wasted', 'elapsed', 'est-finished', 'est-finished-percentage'];
+  static supported = ['comments', 'projects', 'tags', 'pending', 'done', 'doing', 'cancelled', 'finished', 'info', 'all', 'percentage', 'est', 'est-total', 'lasted', 'wasted', 'elapsed', 'est-finished', 'est-finished-percentage'];
 
   comments = 0;
   projects = 0;
@@ -18,6 +19,7 @@ class StatisticsTokens {
   done = 0;
   doing = 0;
   cancelled = 0;
+  info = 0;
   estSeconds = 0;
   estTotalSeconds = 0;
   lastedSeconds = 0;
@@ -30,7 +32,7 @@ class StatisticsTokens {
 
   @memoize
   get all () {
-    return this.pending + this.doing + this.finished;
+    return this.pending + this.doing + this.finished + this.info;
   }
 
   @memoize
