@@ -3,7 +3,7 @@
   "displayName": "YATD+",
   "description": "Yet Another Manage todo lists with ease. Powerful, easy to use and customizable. Based on fabiospampinato!s work",
   "icon": "resources/logo/logo-128x128.png",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "main": "out/extension.js",
   "publisher": "albuemil",
