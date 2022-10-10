@@ -5,7 +5,9 @@ Based on Fabio Spampinatos work : https://github.com/fabiospampinato/vscode-todo
 
 My changes :
 
+- changed extension name 
 - `NEW` **Started**: `⭘` `⭕` `◯` `o` `O` `[o]` `[O]`
+- `NEW` **Task Info**: `-` `→` `›` `⇶` `›` `–` `—` `≡` `[.]` `[→]` `[›]` `[⇶]` `[›]` `[–]` `[—]` `[≡]`
 
 
 <p align="center">
