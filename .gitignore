@@ -44,4 +44,4 @@ out
 
 # Emils changes
 .history/*
-
+*.vsix

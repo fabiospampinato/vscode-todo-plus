@@ -1,3 +1,8 @@
+### Version 0.1.0
+- First version modified by Emil
+- Added support for colloring the "working" (or "in progress") tasks
+- rename the extension to "Yet Another ToDo+" (YATD+ for short)
+
 ### Version 4.18.4
 - Ensuring ts-loader doesn’t prevent production builds to be made
 - Deleted repo-level github funding.yml
