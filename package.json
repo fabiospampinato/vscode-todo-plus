@@ -133,6 +133,11 @@
           "description": "Todo started string",
           "default": "⭘"
         },
+        "todo.symbols.info": {
+          "type": "string",
+          "description": "Todo info string",
+          "default": "→"
+        },
         "todo.colors.done": {
           "type": "string",
           "description": "Done todo color",
@@ -147,6 +152,11 @@
           "type": "string",
           "description": "Started todo color",
           "default": "#FF9EFB"
+        },
+        "todo.colors.info": {
+          "type": "string",
+          "description": "Info todo color",
+          "default": "#9E9EFF"
         },
         "todo.colors.code": {
           "type": "string",
@@ -230,6 +240,9 @@
             "started": {
               "type": "string"
             },
+            "info": {
+              "type": "string"
+            },
             "code": {
               "type": "string"
             },
@@ -273,6 +286,9 @@
               "type": "string"
             },
             "started": {
+              "type": "string"
+            },
+            "info": {
               "type": "string"
             },
             "code": {
@@ -514,7 +530,7 @@
         "todo.statistics.statusbar.tooltip": {
           "type": "string",
           "description": "Template used for rendering the tooltip",
-          "default": "[pending] Pending - [doing] Doing - [done] Done - [cancelled] Cancelled"
+          "default": "[pending] Pending - [doing] Doing - [done] Done - [cancelled] Cancelled - [info] Info"
         },
         "todo.embedded.regex": {
           "type": "string",

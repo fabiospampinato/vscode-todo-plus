@@ -69,7 +69,7 @@ class Timer {
 
   updateData ( doc: Document ) {
 
-    const todo = doc.getTodosBoxStarted ()[0];
+    const todo = doc.getTodosStarted  ()[0];
 
     if ( !todo ) {
 

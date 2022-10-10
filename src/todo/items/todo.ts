@@ -41,6 +41,7 @@ class Todo extends Item {
       done: false,
       cancelled: false,
       started: false,
+      info: false,
       other: false
     };
 
@@ -56,9 +57,10 @@ class Todo extends Item {
           done = !box && this.isDone (),
           cancelled = !box && !done && this.isCancelled (),
           started = !box && !done && !cancelled && this.isStarted(),
-          other = !box && !done && !cancelled && !started;
+          info = !box && !done && !cancelled && this.isInfo(),
+          other = !box && !done && !cancelled && !started && !info;
 
-    return { box, done, cancelled, started, other };
+    return { box, done, cancelled, started, info, other };
 
   }
 
@@ -404,6 +406,12 @@ class Todo extends Item {
   isFinished () {
 
     return this.isDone () || this.isCancelled ();
+
+  }
+
+  isInfo () {
+
+    return Item.is ( this.text, Consts.regexes.todoInfo );
 
   }
 

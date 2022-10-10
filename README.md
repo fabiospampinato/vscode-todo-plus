@@ -19,10 +19,11 @@ Manage todo lists with ease. Powerful, easy to use and customizable. [View the d
 - **Easy to use**: you're just a few shortcuts away from becoming a master
 - **Portable**: being a plain text format you can read and edit it using any editor
 - **Custom symbols**: you can replace the default symbols with any of the supported ones
-  - **Box**: `-` `❍` `❑` `■` `⬜` `□` `☐` `▪` `▫` `–` `—` `≡` `→` `›` `[]` `[ ]`
-  - `NEW` **Started**: `⭘` `⭕` `◯` `o` `O` `[o]` `[O]`
+  - **Box**: `❍` `❑` `■` `⬜` `□` `☐` `▪` `▫` `[]` `[ ]`
+  - `NEW` **Started**: `⭘` `⭕` `◯` `o` `O` `[o]` `[O]` `[=]`
   - **Done**: `✔` `✓` `☑` `+` `[x]` `[X]` `[+]`
   - **Cancelled**: `✘` `x` `X` `[-]`
+  - `NEW` **Task Info**: `-` `→` `›` `⇶` `›` `–` `—` `≡` `[.]` `[→]` `[›]` `[⇶]` `[›]` `[–]` `[—]` `[≡]`
 - **Custom colors**: all colors can be customized
 - **Custom special tags**: special tags' names and their colors can be customized
 - **Archive**: you can move finished todos to a special "Archive" section with a shortcut
@@ -87,6 +88,7 @@ It adds 6 shortcuts when editing a `Todo` file:
   "todo.symbols.done": "✔", // Done symbol
   "todo.symbols.cancelled": "✘", // Cancelled symbol
   "todo.symbols.started": "⭘", // Started symbol
+  "todo.symbols.info": "→", // Info symbol
   "todo.colors.done": "#a6e22e", // Done todo color
   "todo.colors.cancelled": "#f92672", // Cancelled todo color
   "todo.colors.code": "#fd971f", // Code color
@@ -185,6 +187,7 @@ The following tokens can be used in `todo.statistics.project.text`, `todo.statis
 | `[done]`                     | Number of done todos                           |
 | `[cancelled]`                | Number of cancelled todos                      |
 | `[finished]`                 | Number of finished todos                       |
+| `[info]`                     | Number of info todos                           |
 | `[all]`                      | Number of todos                                |
 | `[percentage]`               | Percentage of finished todos                   |
 | `[est]`                      | Estimated time left                            |

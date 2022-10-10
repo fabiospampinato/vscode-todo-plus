@@ -14,6 +14,7 @@ import Tag from './tag';
 import TodoDone from './todo_done';
 import TodoCancelled from './todo_cancelled';
 import TodoStarted from './todo_started';
+import TodoInfo from './todo_info';
 
 /* DOCUMENTS LINES CACHE */
 
@@ -168,7 +169,8 @@ const Document = {
       todosBox: doc.getTodosBox (),
       todosDone: doc.getTodosDone (),
       todosCancelled: doc.getTodosCancelled (),
-      todosStarted: doc.getTodosStarted ()
+      todosStarted: doc.getTodosStarted (),
+      todosInfo: doc.getTodosInfo ()
     };
 
   },
@@ -182,7 +184,8 @@ const Document = {
       new Project ().getDecorations ( items.projects ),
       new TodoDone ().getDecorations ( items.todosDone ),
       new TodoCancelled ().getDecorations ( items.todosCancelled ),
-      new TodoStarted ().getDecorations ( items.todosStarted )
+      new TodoStarted ().getDecorations ( items.todosStarted ),
+      new TodoInfo ().getDecorations ( items.todosInfo )
     );
 
   }
