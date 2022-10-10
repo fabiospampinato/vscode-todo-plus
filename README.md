@@ -1,5 +1,13 @@
 # Todo+
 
+
+Based on Fabio Spampinatos work : https://github.com/fabiospampinato/vscode-todo-plus
+
+My changes :
+
+- `NEW` **Started**: `⭘` `⭕` `◯` `o` `O` `[o]` `[O]`
+
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/fabiospampinato/vscode-todo-plus/master/resources/logo/logo.png" width="128" alt="Logo">
 </p>
