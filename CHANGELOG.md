@@ -1,3 +1,6 @@
+### Version 4.19.0
+- Added "todo.embedded.view.sortBy" setting
+
 ### Version 4.18.4
 - Ensuring ts-loader doesn’t prevent production builds to be made
 - Deleted repo-level github funding.yml
