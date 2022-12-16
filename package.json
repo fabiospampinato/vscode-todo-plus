@@ -3,7 +3,7 @@
   "displayName": "Todo+",
   "description": "Manage todo lists with ease. Powerful, easy to use and customizable.",
   "icon": "resources/logo/logo-128x128.png",
-  "version": "4.18.4",
+  "version": "4.19.0",
   "license": "MIT",
   "main": "out/extension.js",
   "publisher": "fabiospampinato",
@@ -597,6 +597,12 @@
           "type": "boolean",
           "description": "Show the whole line",
           "default": false
+        },
+        "todo.embedded.view.sort": {
+          "type": "string",
+          "enum": ["line", "label"],
+          "description": "Sort todos either by label or by source line number",
+          "default": "line"
         },
         "todo.embedded.view.groupByRoot": {
           "type": "boolean",
