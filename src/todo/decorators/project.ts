@@ -21,11 +21,10 @@ const PROJECT_BASIC = vscode.window.createTextEditorDecorationType ({
   }
 });
 
-const PROJECT_STATISTICS = () => ({
+const PROJECT_STATISTICS = vscode.window.createTextEditorDecorationType ({
   color: Consts.colors.project,
   rangeBehavior: vscode.DecorationRangeBehavior.OpenClosed,
   after: {
-    contentText: undefined,
     color: Consts.colors.projectStatistics,
     margin: '.05em 0 .05em .5em',
     textDecoration: ';font-size: .9em'
@@ -43,29 +42,6 @@ const PROJECT_STATISTICS = () => ({
     }
   }
 });
-
-const StatisticsTypes = {
-
-  types: {},
-
-  get ( contentText: string, textEditor: vscode.TextEditor ) {
-    const decorations = PROJECT_STATISTICS ();
-    decorations.after.contentText = contentText;
-    const type = vscode.window.createTextEditorDecorationType ( decorations );
-    const id = textEditor.document.uri.fsPath;
-    if ( !StatisticsTypes.types[id] ) StatisticsTypes.types[id] = [];
-    StatisticsTypes.types[id].push ( type );
-    return type;
-  },
-
-  reset ( textEditor: vscode.TextEditor ) {
-    const id = textEditor.document.uri.fsPath;
-    if ( !StatisticsTypes.types[id] ) return;
-    StatisticsTypes.types[id].forEach ( type => textEditor.setDecorations ( type, [] ) );
-    StatisticsTypes.types[id] = [];
-  }
-
-};
 
 /* PROJECT */
 
@@ -87,11 +63,11 @@ class Project extends Line {
 
     const textEditor = projects.length ? projects[0].textEditor : vscode.window.activeTextEditor;
 
-    StatisticsTypes.reset ( textEditor );
+    textEditor.setDecorations ( PROJECT_STATISTICS, [] )
 
     const template = Config.getKey ( 'statistics.project.text' ),
           basicRanges = [],
-          statisticsData = [];
+          statisticRanges = [];
 
     projects.forEach ( project => {
 
@@ -101,10 +77,15 @@ class Project extends Line {
 
       if ( withStatistics ) {
 
-        const contentText = Utils.statistics.template.render ( template, tokens ),
-              type = StatisticsTypes.get ( contentText, textEditor );
-
-        statisticsData.push ({ type, ranges });
+        const contentText = Utils.statistics.template.render ( template, tokens )
+        statisticRanges.push( ...ranges.map ( range => ({
+          range,
+          renderOptions: {
+            after: {
+              contentText
+            }
+          }
+        })))
 
       } else {
 
@@ -119,7 +100,10 @@ class Project extends Line {
         type: PROJECT_BASIC,
         ranges: basicRanges
       },
-      ...statisticsData
+      {
+        type: PROJECT_STATISTICS,
+        ranges: statisticRanges
+      }
     ];
 
   }
