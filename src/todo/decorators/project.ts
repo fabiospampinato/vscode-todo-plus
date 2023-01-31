@@ -63,7 +63,7 @@ class Project extends Line {
 
     const textEditor = projects.length ? projects[0].textEditor : vscode.window.activeTextEditor;
 
-    textEditor.setDecorations ( PROJECT_STATISTICS, [] )
+    textEditor.setDecorations ( PROJECT_STATISTICS, [] );
 
     const template = Config.getKey ( 'statistics.project.text' ),
           basicRanges = [],
@@ -77,15 +77,16 @@ class Project extends Line {
 
       if ( withStatistics ) {
 
-        const contentText = Utils.statistics.template.render ( template, tokens )
-        statisticRanges.push( ...ranges.map ( range => ({
+        const contentText = Utils.statistics.template.render ( template, tokens );
+
+        statisticRanges.push ( ...ranges.map ( range => ({
           range,
           renderOptions: {
             after: {
               contentText
             }
           }
-        })))
+        })));
 
       } else {
 
