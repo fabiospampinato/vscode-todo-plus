@@ -1,3 +1,7 @@
+### Version 4.19.1
+- Fixed slow update of statistics decorations (fixes #210) (#367) (thanks to @squidfunk and @marvinhagemeister)
+- Minor code style tweaks
+
 ### Version 4.19.0
 - Added "todo.embedded.view.sortBy" setting
 
