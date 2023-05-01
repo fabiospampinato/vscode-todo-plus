@@ -8,20 +8,24 @@ import Line from './line';
 
 /* DECORATION TYPES */
 
-const SPECIAL_TAGS = Consts.tags.names.map ( ( name, index ) => vscode.window.createTextEditorDecorationType ({
-  backgroundColor: Consts.colors.tags.background[index],
-  color: Consts.colors.tags.foreground[index],
-  borderRadius: '2px',
-  rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
-  dark: {
-    backgroundColor: Consts.colors.dark.tags.background[index],
-    color: Consts.colors.dark.tags.foreground[index]
-  },
-  light: {
-    backgroundColor: Consts.colors.light.tags.background[index],
-    color: Consts.colors.light.tags.foreground[index]
-  }
-}));
+const SPECIAL_TAGS = Consts.tags.names.map((name, index) => {
+  const colorIndex = index % Consts.colors.tags.background.length;
+  return vscode.window.createTextEditorDecorationType({
+    backgroundColor: Consts.colors.tags.background[colorIndex],
+    color: Consts.colors.tags.foreground[colorIndex],
+    borderRadius: '2px',
+    rangeBehavior: vscode.DecorationRangeBehavior.ClosedClosed,
+    dark: {
+      backgroundColor: Consts.colors.dark.tags.background[colorIndex],
+      color: Consts.colors.dark.tags.foreground[colorIndex],
+    },
+    light: {
+      backgroundColor: Consts.colors.light.tags.background[colorIndex],
+      color: Consts.colors.light.tags.foreground[colorIndex],
+    },
+  });
+});
+
 
 const TAG = vscode.window.createTextEditorDecorationType ({
   color: Consts.colors.tag,
