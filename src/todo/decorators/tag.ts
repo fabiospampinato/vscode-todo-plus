@@ -8,7 +8,7 @@ import Line from './line';
 
 /* DECORATION TYPES */
 
-const SPECIAL_TAGS = Consts.tags.names.map((name, index) => {
+const SPECIAL_TAGS = Consts.tags.names.map ( ( name, index ) => {
   const colorIndex = index % Consts.colors.tags.background.length;
   return vscode.window.createTextEditorDecorationType({
     backgroundColor: Consts.colors.tags.background[colorIndex],
