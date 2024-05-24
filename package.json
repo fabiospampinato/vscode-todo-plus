@@ -1,12 +1,40 @@
 {
+  "publisher": "fabiospampinato",
   "name": "vscode-todo-plus",
   "displayName": "Todo+",
-  "description": "Manage todo lists with ease. Powerful, easy to use and customizable.",
-  "icon": "resources/logo/logo-128x128.png",
   "version": "4.19.1",
+  "description": "Manage todo lists with ease. Powerful, easy to use and customizable.",
+  "author": {
+    "name": "Fabio Spampinato",
+    "email": "spampinabio@gmail.com"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabiospampinato/vscode-todo-plus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fabiospampinato/vscode-todo-plus/issues"
+  },
+  "keywords": [
+    "vscode",
+    "extension",
+    "todo",
+    "task",
+    "taskpaper",
+    "todos",
+    "tasks"
+  ],
+  "categories": [
+    "Other"
+  ],
   "main": "out/extension.js",
-  "publisher": "fabiospampinato",
+  "icon": "resources/logo/logo-128x128.png",
+  "engines": {
+    "vscode": "^1.89.0",
+    "node": "^20.9.0",
+    "typescript": "^5.5.0"
+  },
   "activationEvents": [
     "*"
   ],
@@ -1002,66 +1030,27 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "rm -rf out && webpack --mode production",
-    "publish": "vsce publish && npm publish",
-    "compile": "webpack --mode development",
-    "compile:watch": "webpack --mode development --watch",
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "node ./node_modules/vscode/bin/test"
-  },
-  "bugs": {
-    "url": "https://github.com/fabiospampinato/vscode-todo-plus/issues"
-  },
-  "author": {
-    "name": "Fabio Spampinato",
-    "email": "spampinabio@gmail.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/fabiospampinato/vscode-todo-plus.git"
-  },
-  "engines": {
-    "vscode": "^1.25.0"
-  },
-  "keywords": [
-    "vscode",
-    "extension",
-    "todo",
-    "task",
-    "taskpaper",
-    "todos",
-    "tasks"
-  ],
-  "categories": [
-    "Other"
-  ],
-  "dependencies": {
-    "@types/lodash": "^4.14.150",
-    "@types/node": "^13.13.4",
-    "absolute": "0.0.1",
-    "detect-indent": "^5.0.0",
-    "diff": "^3.5.0",
-    "execa": "^0.10.0",
-    "find-up": "^2.1.0",
-    "globby": "^8.0.2",
-    "lodash": "^4.17.15",
-    "memoize-decorator": "^1.0.2",
-    "micromatch": "^3.1.10",
-    "mkdirp": "^0.5.5",
-    "moment": "2.22.2",
-    "moment-precise-range-plugin": "^1.3.0",
-    "pify": "^3.0.0",
-    "sha1": "^1.1.1",
-    "string-matches": "^1.1.3",
-    "sugar-date": "^2.0.6",
-    "to-time": "^1.0.2",
-    "vscode-beggar": "^1.0.0"
+    "preinstall": "npx only-allow pnpm",
+    "vscode:prepublish": "pnpm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
   },
   "devDependencies": {
-    "ts-loader": "^5.2.1",
-    "typescript": "^2.8.0",
-    "vscode": "^1.1.21",
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.2"
+    "@antfu/eslint-config": "^2.18.1",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.12.12",
+    "@vscode/test-cli": "^0.0.9",
+    "@vscode/test-electron": "2.3.10",
+    "eslint": "^8.57.0",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.5.0-dev.20240524",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
   }
 }

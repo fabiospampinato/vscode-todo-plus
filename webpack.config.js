@@ -1,18 +1,20 @@
+// @ts-check
 
-/* IMPORT */
+'use strict'
 
-const path = require ( 'path' );
+const path = require('node:path')
 
-/* CONFIG */
+// @ts-check
+/** @typedef {import('webpack').Configuration} WebpackConfig */
 
 const config = {
   target: 'node',
+  mode: 'none',
   entry: './src/extension.ts',
   output: {
-    path: path.resolve ( __dirname, 'out' ),
+    path: path.resolve(__dirname, 'dist'),
     filename: 'extension.js',
     libraryTarget: 'commonjs2',
-    devtoolModuleFilenameTemplate: 'file:///[absolute-resource-path]'
   },
   devtool: 'source-map',
   externals: {
@@ -23,7 +25,7 @@ const config = {
     __dirname: false
   },
   resolve: {
-    extensions: ['tsx', '.ts', '.jsx', '.js']
+    extensions: ['.ts', '.js']
   },
   module: {
     rules: [{
@@ -41,6 +43,6 @@ const config = {
   }
 }
 
-/* EXPORT */
+
 
 module.exports = config;
