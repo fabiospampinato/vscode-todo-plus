@@ -775,6 +775,11 @@
       {
         "command": "todo.editorArchive",
         "title": "Archive"
+      },
+      {
+        "command": "todo.exportEmbeddedToTodo",
+        "title": "Export comments to todo file"
+        
       }
     ],
     "keybindings": [
@@ -991,6 +996,11 @@
           "command": "todo.viewEmbeddedShowActiveFile",
           "when": "view == todo.views.2embedded && todo-embedded-all == true",
           "group": "navigation@1"
+        },
+        {
+          "command": "todo.exportEmbeddedToTodo",
+          "when": "view == todo.views.2embedded",
+          "group": "navigation"
         }
       ],
       "view/item/context": [
