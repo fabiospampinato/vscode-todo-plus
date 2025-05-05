@@ -102,6 +102,7 @@ class Embedded extends View {
 
       return todos;
     } 
+    
     // 如果是对象，处理分组
     else if ( _.isObject ( obj ) ) {
       const keys = Object.keys ( obj ).sort ();
@@ -155,24 +156,40 @@ class Embedded extends View {
       
       // 处理嵌入式待办事项
       const processTodos = (obj: any, prefix: string = '') => {
+        console.log('Processing object:', JSON.stringify(obj, null, 2));
+        console.log('Current prefix:', prefix);
+
         if (_.isArray(obj)) {
+          console.log('Processing array with length:', obj.length);
           // 如果是数组，直接处理每个待办事项
           obj.forEach(todo => {
-            if (todo.file && todo.line) {
+            if (todo.file && todo.lineNr) {
               const relativePath = path.relative(workspaceRoot, todo.file);
+              console.log(`Adding todo for file: ${relativePath}, line: ${todo.lineNr}`);
               content += `${prefix}${relativePath}\n`;
-              content += `${prefix}Line ${todo.line}: ${todo.message || todo.todo}\n\n`;
+              content += `${prefix}Line ${todo.lineNr}: ${todo.message || todo.todo}\n`;
+              if (todo.code) {
+                content += `${prefix}Code: ${todo.code}\n`;
+              }
+              content += '\n';
             }
           });
         } else if (_.isObject(obj)) {
+          console.log('Processing object with keys:', Object.keys(obj));
           // 如果是对象，递归处理每个键
           Object.keys(obj).forEach(key => {
+            console.log(`Processing key: ${key}`);
             if (this.filePathRe.test(key)) {
               // 如果是文件路径，添加文件标题
+              console.log(`Adding file path: ${key}`);
               content += `${prefix}${key}\n`;
               processTodos(obj[key], prefix + '  ');
+            } else if (key === '') {
+              // 如果是空键，直接处理其值
+              processTodos(obj[key], prefix);
             } else {
               // 如果是其他分组，添加分组标题
+              console.log(`Adding group: ${key}`);
               content += `${prefix}${key}\n`;
               processTodos(obj[key], prefix + '  ');
             }
