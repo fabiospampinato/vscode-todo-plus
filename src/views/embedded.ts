@@ -163,12 +163,16 @@ class Embedded extends View {
           console.log('Processing array with length:', obj.length);
           // 如果是数组，直接处理每个待办事项
           obj.forEach(todo => {
-            if (todo.file && todo.lineNr) {
-              const relativePath = path.relative(workspaceRoot, todo.file);
+            if (todo.filePath && todo.lineNr) {
+              console.log('enter the array of todoarray process');
+              // 如果是待办事项，添加文件标题和待办事项内容
+              const relativePath = todo.relativePath;
               console.log(`Adding todo for file: ${relativePath}, line: ${todo.lineNr}`);
               content += `${prefix}${relativePath}\n`;
-              content += `${prefix}Line ${todo.lineNr}: ${todo.message || todo.todo}\n`;
+              content += `${prefix}Line ${todo.lineNr}: ${todo.message}\n`;
               if (todo.code) {
+                console.log('Adding code snippet:', todo.code);
+                // 如果有代码片段，添加代码内容
                 content += `${prefix}Code: ${todo.code}\n`;
               }
               content += '\n';
@@ -183,7 +187,12 @@ class Embedded extends View {
               // 如果是文件路径，添加文件标题
               console.log(`Adding file path: ${key}`);
               content += `${prefix}${key}\n`;
+              console.log('Processing todos array key for file:', key);
+              console.log('Todos:', obj[key]);
+              //console.log("Processing todos array size:", Object.);
+              // 递归处理文件下的待办事项
               processTodos(obj[key], prefix + '  ');
+
             } else if (key === '') {
               // 如果是空键，直接处理其值
               processTodos(obj[key], prefix);
