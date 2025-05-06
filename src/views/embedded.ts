@@ -45,6 +45,11 @@ class Embedded extends View {
     vscode.commands.registerCommand('todo.exportEmbeddedToTodo', () => {
       this.exportToTodoFile();
     });
+
+    // 注册同步 .todo 文件与代码注释的命令
+    vscode.commands.registerCommand('todo.syncTodoWithCode', () => {
+      this.syncTodoWithCode();
+    });
   }
 
   /**
@@ -147,6 +152,20 @@ class Embedded extends View {
       await this.todoExporter.exportToTodoFile(embeddedTodos);
     } catch (error) {
       vscode.window.showErrorMessage(`Failed to export todos: ${error.message}`);
+    }
+  }
+
+  /**
+   * 同步 .todo 文件与代码注释
+   */
+  async syncTodoWithCode() {
+    try {
+      if (!this.todoExporter) {
+        this.todoExporter = new TodoExporter();
+      }
+      await this.todoExporter.syncTodoWithCode();
+    } catch (error) {
+      vscode.window.showErrorMessage(`Failed to sync todos: ${error.message}`);
     }
   }
 }
