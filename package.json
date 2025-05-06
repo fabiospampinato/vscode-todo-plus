@@ -779,7 +779,7 @@
 
       {
         "command": "todo.syncTodoWithCode",
-        "title": "Todo: Sync Todo with Code Comments",
+        "title": "Sync Todo with Code Comments",
         "category": "Todo"
       }
     ],
