@@ -169,7 +169,7 @@ class Embedded extends View {
               const relativePath = todo.relativePath;
               console.log(`Adding todo for file: ${relativePath}, line: ${todo.lineNr}`);
               content += `${prefix}${relativePath}\n`;
-              content += `${prefix}Line ${todo.lineNr}: ${todo.message}\n`;
+              content += `${prefix}☐ Line ${todo.lineNr}: ${todo.message}\n`;
               if (todo.code) {
                 console.log('Adding code snippet:', todo.code);
                 // 如果有代码片段，添加代码内容
