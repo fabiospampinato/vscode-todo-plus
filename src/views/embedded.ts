@@ -11,6 +11,7 @@ import Group from './items/group';  // 导入分组组件
 import Placeholder from './items/placeholder';  // 导入占位符组件
 import Todo from './items/todo';  // 导入待办事项组件
 import View from './view';  // 导入视图基类
+import { TodoExporter } from '../utils/todoExporter';  // 导入待办事项导出器
 
 /* EMBEDDED */
 
@@ -32,6 +33,7 @@ class Embedded extends View {
 
   constructor () {
     super ();
+    this.todoExporter = new TodoExporter();
 
     // 监听活动编辑器变化事件
     vscode.window.onDidChangeActiveTextEditor ( ()  => {
@@ -137,8 +139,15 @@ class Embedded extends View {
    * 将嵌入式待办事项导出到 .todo 文件
    */
   async exportToTodoFile() {
-    const embeddedTodos = await this.getEmbedded();
-    await this.todoExporter.exportToTodoFile(embeddedTodos);
+    try {
+      const embeddedTodos = await this.getEmbedded();
+      if (!this.todoExporter) {
+        this.todoExporter = new TodoExporter();
+      }
+      await this.todoExporter.exportToTodoFile(embeddedTodos);
+    } catch (error) {
+      vscode.window.showErrorMessage(`Failed to export todos: ${error.message}`);
+    }
   }
 }
 /* EXPORT */
