@@ -779,6 +779,11 @@
       {
         "command": "todo.exportEmbeddedToTodo",
         "title": "Todo: Export Embedded Todos to .todo file"
+      },
+      {
+        "command": "todo.syncTodoWithCode",
+        "title": "Todo: Sync Todo with Code Comments",
+        "category": "Todo"
       }
     ],
     "keybindings": [
