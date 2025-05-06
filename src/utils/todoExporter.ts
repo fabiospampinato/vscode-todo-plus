@@ -150,15 +150,28 @@ export class TodoExporter {
         }
       }
       // 如果代码注释中有新的 TODO，添加到 .todo 文件
-      for (const commentTodo of commentsTodos) {
-        // 检查是否已经存在于 .todo 文件中
-        const exists = todoLines.some(line => line.includes(commentTodo.message));
-        if (!exists) {
-          // 添加新的 TODO，包含文件路径和行号信息
-          const relativePath = path.relative(workspaceRoot, commentTodo.filePath);
-          updatedLines.push(`${relativePath} Line ${commentTodo.lineNumber}:`);
-          updatedLines.push(`☐ ${commentTodo.message}\n`);
-          updated = true;
+      // 按文件路径分组 TODO
+      const todosByFile = _.groupBy(commentsTodos, todo => todo.filePath);
+      
+      for (const [filePath, todos] of Object.entries(todosByFile)) {
+        // 检查这个文件是否已经有任何 TODO 存在于 .todo 文件中
+        const relativePath = path.relative(workspaceRoot, filePath);
+        const fileExists = todoLines.some(line => line.includes(relativePath));
+        
+        // 如果文件不存在于 .todo 文件中，添加文件路径
+        if (!fileExists) {
+          updatedLines.push(`\n${relativePath}`);
+        }
+        
+        // 添加该文件的所有 TODO
+        for (const todo of todos) {
+          // 检查这个具体的 TODO 是否已经存在
+          const exists = todoLines.some(line => line.includes(todo.message));
+          if (!exists) {
+            updatedLines.push(`  ${relativePath} Line ${todo.lineNumber}:`);
+            updatedLines.push(`  ☐  ${todo.message}\n`);
+            updated = true;
+          }
         }
       }
       console.log('Updated lines after processing:', updatedLines);
