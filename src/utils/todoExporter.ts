@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
+import * as moment from 'moment';
 
 /**
  * TodoExporter 类 - 负责处理待办事项的导出功能
@@ -140,7 +141,9 @@ export class TodoExporter {
         console.log('Todo message:', todo.message);
         // 如果 todo message 不在代码注释中，标记为已完成
         if (!codeTodos.includes(todo.message)) {
-          updatedLines[todo.idx] = todo.line.replace('☐', '✔');
+          const timestamp = moment().format('YY-MM-DD HH:mm');
+          const message = todo.line.replace(/^.*☐\s*/, '').trim();
+          updatedLines[todo.idx] = `✔ ${message} @done(${timestamp})`;
           console.log('Updating line:', updatedLines[todo.idx]);
           // 更新行内容
           updated = true;
