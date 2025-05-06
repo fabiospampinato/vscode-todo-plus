@@ -127,8 +127,8 @@ export class TodoExporter {
         }));
       console.log('Unchecked todos:', uncheckedTodos);
       // 扫描代码中的 TODO 注释
-      const codeTodos = await this.scanCodeTodos(workspaceRoot);
-      console.log('comments todos:', codeTodos);
+      const commentsTodos = await this.scanCodeTodos(workspaceRoot);
+      console.log('comments todos:', commentsTodos);
       // 更新 .todo 文件
       const updatedLines = [...todoLines];//  // 复制原始行
       // 遍历未完成的 todos，检查是否在代码注释中
@@ -140,7 +140,7 @@ export class TodoExporter {
         console.log('Processing todo:', todo);
         console.log('Todo message:', todo.message);
         // 如果 todo message 不在代码注释中，标记为已完成
-        if (!codeTodos.includes(todo.message)) {
+        if (!commentsTodos.some(comment => comment.message === todo.message)) {
           const timestamp = moment().format('YY-MM-DD HH:mm');
           const message = todo.line.replace(/^.*☐\s*/, '').trim();
           updatedLines[todo.idx] = `✔ ${message} @done(${timestamp})`;
@@ -149,6 +149,19 @@ export class TodoExporter {
           updated = true;
         }
       }
+      // 如果代码注释中有新的 TODO，添加到 .todo 文件
+      for (const commentTodo of commentsTodos) {
+        // 检查是否已经存在于 .todo 文件中
+        const exists = todoLines.some(line => line.includes(commentTodo.message));
+        if (!exists) {
+          // 添加新的 TODO，包含文件路径和行号信息
+          const relativePath = path.relative(workspaceRoot, commentTodo.filePath);
+          updatedLines.push(`${relativePath} Line ${commentTodo.lineNumber}:`);
+          updatedLines.push(`☐ ${commentTodo.message}\n`);
+          updated = true;
+        }
+      }
+      console.log('Updated lines after processing:', updatedLines);
 
       // 如果有更新，保存文件
       if (updated) {
@@ -170,11 +183,11 @@ export class TodoExporter {
   /**
    * 扫描代码中的 TODO 注释
    * @param workspaceRoot 工作区根目录
-   * @returns 所有 TODO 注释的 message 数组
+   * @returns 包含文件路径、行号和消息的对象数组
    */
-  private async scanCodeTodos(workspaceRoot: string): Promise<string[]> {
+  private async scanCodeTodos(workspaceRoot: string): Promise<Array<{filePath: string, lineNumber: number, message: string}>> {
     console.log('Scanning code for TODO comments...');
-    const todoMessages: string[] = [];
+    const todoItems: Array<{filePath: string, lineNumber: number, message: string}> = [];
     const codeFilePatterns = [
       '**/*.js',
       '**/*.ts',
@@ -200,12 +213,21 @@ export class TodoExporter {
             // 使用正则表达式匹配 TODO 注释
             const regex = /\/\/\s*TODO:?\s*(.*)/g;
             let match;
+            let lineNumber = 1;
             
-            while ((match = regex.exec(content)) !== null) {
-              console.log(`Found TODO in file: ${file.fsPath}, message: ${match[1]}`);
-              // 将 TODO 注释的 message 添加到数组中
-              todoMessages.push(match[1].trim());
-              console.log(`todoMessages: ${todoMessages}`);
+            // 按行处理文件内容
+            const lines = content.split('\n');
+            for (const line of lines) {
+              if ((match = regex.exec(line)) !== null) {
+                console.log(`Found TODO in file: ${file.fsPath}, line: ${lineNumber}, message: ${match[1]}`);
+                // 将 TODO 注释的信息添加到数组中
+                todoItems.push({
+                  filePath: file.fsPath,
+                  lineNumber: lineNumber,
+                  message: match[1].trim()
+                });
+              }
+              lineNumber++;
             }
           } catch (error) {
             console.error(`Error reading file ${file.fsPath}:`, error);
@@ -216,8 +238,6 @@ export class TodoExporter {
       console.error('Error scanning code files:', error);
     }
 
-      
-
-    return todoMessages;
+    return todoItems;
   }
 } 
