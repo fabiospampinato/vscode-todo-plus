@@ -41,10 +41,10 @@ class Embedded extends View {
       this.refresh ();  // 否则刷新视图
     });
 
-    // 注册导出到 .todo 文件的命令
-    vscode.commands.registerCommand('todo.exportEmbeddedToTodo', () => {
-      this.exportToTodoFile();
-    });
+    // // 注册导出到 .todo 文件的命令
+    // vscode.commands.registerCommand('todo.exportEmbeddedToTodo', () => {
+    //   this.exportToTodoFile();
+    // });
 
     // 注册同步 .todo 文件与代码注释的命令
     vscode.commands.registerCommand('todo.syncTodoWithCode', () => {
@@ -140,20 +140,20 @@ class Embedded extends View {
     super.refresh ();
   }
 
-  /**
-   * 将嵌入式待办事项导出到 .todo 文件
-   */
-  async exportToTodoFile() {
-    try {
-      const embeddedTodos = await this.getEmbedded();
-      if (!this.todoExporter) {
-        this.todoExporter = new TodoExporter();
-      }
-      await this.todoExporter.exportToTodoFile(embeddedTodos);
-    } catch (error) {
-      vscode.window.showErrorMessage(`Failed to export todos: ${error.message}`);
-    }
-  }
+  // /**
+  //  * 将嵌入式待办事项导出到 .todo 文件
+  //  */
+  // async exportToTodoFile() {
+  //   try {
+  //     const embeddedTodos = await this.getEmbedded();
+  //     if (!this.todoExporter) {
+  //       this.todoExporter = new TodoExporter();
+  //     }
+  //     await this.todoExporter.exportToTodoFile(embeddedTodos);
+  //   } catch (error) {
+  //     vscode.window.showErrorMessage(`Failed to export todos: ${error.message}`);
+  //   }
+  // }
 
   /**
    * 同步 .todo 文件与代码注释

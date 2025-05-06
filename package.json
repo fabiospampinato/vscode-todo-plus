@@ -776,10 +776,7 @@
         "command": "todo.editorArchive",
         "title": "Archive"
       },
-      {
-        "command": "todo.exportEmbeddedToTodo",
-        "title": "Todo: Export Embedded Todos to .todo file"
-      },
+
       {
         "command": "todo.syncTodoWithCode",
         "title": "Todo: Sync Todo with Code Comments",
@@ -1000,12 +997,8 @@
           "command": "todo.viewEmbeddedShowActiveFile",
           "when": "view == todo.views.2embedded && todo-embedded-all == true",
           "group": "navigation@1"
-        },
-        {
-          "command": "todo.exportEmbeddedToTodo",
-          "when": "view == todo.views.2embedded",
-          "group": "navigation"
         }
+
       ],
       "view/item/context": [
         {
