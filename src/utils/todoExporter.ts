@@ -95,4 +95,113 @@ export class TodoExporter {
       vscode.window.showErrorMessage(`Failed to export embedded todos: ${error.message}`);
     }
   }
+
+  /**
+   * 同步 .todo 文件与代码中的 TODO 注释
+   */
+  async syncTodoWithCode() {
+    try {
+      // 获取工作区根目录
+      const workspaceRoot = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders[0] ? 
+                           vscode.workspace.workspaceFolders[0].uri.fsPath : undefined;
+      if (!workspaceRoot) {
+        vscode.window.showErrorMessage('No workspace folder found');
+        return;
+      }
+
+      // 获取 .todo 文件路径
+      const todoFilePath = path.join(workspaceRoot, '.todo');
+      console.log('Todo file path:', todoFilePath);
+      // 读取 .todo 文件内容
+      const todoContent = fs.readFileSync(todoFilePath, 'utf8');
+      const todoLines = todoContent.split('\n');
+
+      // 提取所有未完成的 todo
+      const uncheckedTodos = todoLines
+        .map((line, idx) => ({ line, idx }))
+        .filter(obj => obj.line.trim().startsWith('☐'))
+        .map(obj => ({
+          ...obj,
+          message: obj.line.replace(/^.*☐\s*/, '').trim()
+        }));
+
+      // 扫描代码中的 TODO 注释
+      const codeTodos = await this.scanCodeTodos(workspaceRoot);
+
+      // 更新 .todo 文件
+      const updatedLines = [...todoLines];
+      let updated = false;
+
+      for (const todo of uncheckedTodos) {
+        // 如果 todo message 不在代码注释中，标记为已完成
+        if (!codeTodos.includes(todo.message)) {
+          updatedLines[todo.idx] = todo.line.replace('☐', '✔');
+          updated = true;
+        }
+      }
+
+      // 如果有更新，保存文件
+      if (updated) {
+        fs.writeFileSync(todoFilePath, updatedLines.join('\n'), 'utf8');
+        vscode.window.showInformationMessage('Successfully synced todos with code comments');
+        
+        // 打开更新后的 .todo 文件
+        const doc = await vscode.workspace.openTextDocument(todoFilePath);
+        await vscode.window.showTextDocument(doc);
+      } else {
+        vscode.window.showInformationMessage('No todos need to be updated');
+      }
+
+    } catch (error) {
+      vscode.window.showErrorMessage(`Failed to sync todos: ${error.message}`);
+    }
+  }
+
+  /**
+   * 扫描代码中的 TODO 注释
+   * @param workspaceRoot 工作区根目录
+   * @returns 所有 TODO 注释的 message 数组
+   */
+  private async scanCodeTodos(workspaceRoot: string): Promise<string[]> {
+    const todoMessages: string[] = [];
+    const codeFilePatterns = [
+      '**/*.js',
+      '**/*.ts',
+      '**/*.jsx',
+      '**/*.tsx',
+      '**/*.py',
+      '**/*.java',
+      '**/*.c',
+      '**/*.cpp',
+      '**/*.cs'
+    ];
+    try {
+      // 使用 VS Code 的文件搜索功能
+      for (const pattern of codeFilePatterns) {
+        const files = await vscode.workspace.findFiles(pattern, '**/node_modules/**');
+        
+        for (const file of files) {
+          try {
+            const content = fs.readFileSync(file.fsPath, 'utf8');
+            
+            // 使用正则表达式匹配 TODO 注释
+            const regex = /\/\/\s*TODO:?\s*(.*)/g;
+            let match;
+            
+            while ((match = regex.exec(content)) !== null) {
+              todoMessages.push(match[1].trim());
+            }
+          } catch (error) {
+            console.error(`Error reading file ${file.fsPath}:`, error);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error scanning code files:', error);
+    }
+
+      
+
+    return todoMessages;
+  }
 } 
