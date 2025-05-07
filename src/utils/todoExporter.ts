@@ -10,9 +10,10 @@ import * as moment from 'moment';
  */
 export class TodoExporter {
   private filePathRe = /^(?!~).*(?:\\|\/)/;  // Regular expression for file paths
+  private readonly TODO_FILE_NAME = 'CodingTODO.todo';
 
   /**
-   * Synchronize .todo file with TODO comments in code
+   * Synchronize CodingTODO.todo file with TODO comments in code
    */
   async syncTodoWithCode() {
     try {
@@ -24,9 +25,16 @@ export class TodoExporter {
         return;
       }
 
-      // Get .todo file path
-      const todoFilePath = path.join(workspaceRoot, '.todo');
-      // Read .todo file content
+      // Get CodingTODO.todo file path
+      const todoFilePath = path.join(workspaceRoot, this.TODO_FILE_NAME);
+      
+      // Check if CodingTODO.todo file exists, if not create it
+      if (!fs.existsSync(todoFilePath)) {
+        fs.writeFileSync(todoFilePath, '', 'utf8');
+        vscode.window.showInformationMessage(`Created new ${this.TODO_FILE_NAME} file`);
+      }
+
+      // Read CodingTODO.todo file content
       const todoContent = fs.readFileSync(todoFilePath, 'utf8');
       const todoLines = todoContent.split('\n');
       // Extract all unchecked todos
@@ -39,7 +47,7 @@ export class TodoExporter {
         }));
       // Scan TODO comments in code
       const commentsTodos = await this.scanCodeTodos(workspaceRoot);
-      // Update .todo file
+      // Update CodingTODO.todo file
       const updatedLines = [...todoLines];  // Copy original lines
       // Process unchecked todos
       let updated = false;
@@ -54,16 +62,16 @@ export class TodoExporter {
         }
       }
 
-      // If there are new TODOs in code comments, add them to .todo file
+      // If there are new TODOs in code comments, add them to CodingTODO.todo file
       // Group TODOs by file path
       const todosByFile = _.groupBy(commentsTodos, todo => todo.filePath);
       
       for (const [filePath, todos] of Object.entries(todosByFile)) {
-        // Check if this file already has any TODOs in .todo file
+        // Check if this file already has any TODOs in CodingTODO.todo file
         const relativePath = path.relative(workspaceRoot, filePath);
         const fileExists = todoLines.some(line => line.includes(relativePath));
         
-        // If file doesn't exist in .todo file, add file path
+        // If file doesn't exist in CodingTODO.todo file, add file path
         if (!fileExists) {
           updatedLines.push(`\n${relativePath}`);
         }
@@ -85,7 +93,7 @@ export class TodoExporter {
         fs.writeFileSync(todoFilePath, updatedLines.join('\n'), 'utf8');
         vscode.window.showInformationMessage('Successfully synced todos with code comments');
         
-        // Open updated .todo file
+        // Open updated CodingTODO.todo file
         const doc = await vscode.workspace.openTextDocument(todoFilePath);
         await vscode.window.showTextDocument(doc);
       } else {
