@@ -288,7 +288,7 @@
 - Fixed a regression when removing tags
 
 ### Version 1.18.1
-- Supporting interacting with all support-but-not-setted symbols
+- Supporting interacting with all support-but-not-set symbols
 - Performance improvements
 
 ### Version 1.18.0
