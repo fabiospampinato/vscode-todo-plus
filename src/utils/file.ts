@@ -2,9 +2,9 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 import * as mkdirp from 'mkdirp';
-import * as path from 'path';
+import * as path from 'node:path';
 import * as pify from 'pify';
 import * as vscode from 'vscode';
 

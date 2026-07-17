@@ -4,7 +4,7 @@
 import * as _ from 'lodash';
 import * as absolute from 'absolute';
 import * as findUp from 'find-up';
-import * as path from 'path';
+import * as path from 'node:path';
 import * as vscode from 'vscode';
 
 /* FOLDER */
