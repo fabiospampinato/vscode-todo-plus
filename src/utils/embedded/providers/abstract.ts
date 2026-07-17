@@ -2,8 +2,8 @@
 /* IMPORT */
 
 import * as _ from 'lodash';
-import * as querystring from 'querystring';
-import * as path from 'path';
+import * as querystring from 'node:querystring';
+import * as path from 'node:path';
 import * as vscode from 'vscode';
 import Config from '../../../config';
 import EmbeddedView from '../../../views/embedded';
