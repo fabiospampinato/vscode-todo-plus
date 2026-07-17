@@ -73,7 +73,7 @@ const Folder = {
 
     const match = Folder.rootsRe.exec ( filePath );
 
-    if ( match ) { // Interal path
+    if ( match ) { // Internal path
 
       return {
         root: path.basename ( match[1] ),
