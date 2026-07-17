@@ -75,7 +75,7 @@
 
 ### Version 4.11.0
 - Fixed a regression regarding url-tags
-- Embedded: addded support for Dust.js
+- Embedded: added support for Dust.js
 - Embedded: added support for Mustache and Handlebars
 
 ### Version 4.10.1
@@ -95,7 +95,7 @@
 - Files view: ensuring external/global files outside of the home directory are supported
 
 ### Version 4.9.1
-- Files view: improved support for extarnal/global files
+- Files view: improved support for external/global files
 
 ### Version 4.9.0
 - Smart indentation detection
@@ -119,12 +119,12 @@
 - Consts: faster initialization
 
 ### Version 4.8.0
-- Lazily inizialising the embedded provider
+- Lazily initialising the embedded provider
 - Refreshing the views automatically
 
 ### Version 4.7.0
 - Added single-cursor multi-line toggle support
-- Add `[lasted]`, `[wasted]` and `[elasped]` statistics tokens
+- Add `[lasted]`, `[wasted]` and `[elapsed]` statistics tokens
 - Ensuring lazily evaluated tokens are only evaluated if they are actually needed
 - Computing expensive statistics tokens only if they are used
 
