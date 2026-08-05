@@ -498,7 +498,7 @@
         "todo.embedded.regex": {
           "type": "string",
           "description": "Regex used for finding embedded todos, requires double escaping",
-          "default": "(?:<!-- *)?(?:#|// @|//|/\\*+|<!--|--|\\* @|\\{!|\\{\\{!--|\\{\\{!) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?:\\s*\\([^)]+\\))?:?(?!\\w)(?: *-->| *\\*/| *!}| *--}}| *}}|(?= *(?:[^:]//|/\\*+|<!--|@|--|\\{!|\\{\\{!--|\\{\\{!))|((?: +[^\\n@]*?)(?= *(?:[^:]//|/\\*+|<!--|@|--(?!>)|\\{!|\\{\\{!--|\\{\\{!))|(?: +[^@\\n]+)?))"
+          "default": "(?:<!-- *)?(?:#|// @|//|/\\*+|<!--|--|\\* @|\\{!|\\{\\{!--|\\{\\{!) *(TODO|FIXME|FIX|BUG|UGLY|HACK|NOTE|IDEA|REVIEW|DEBUG|OPTIMIZE)(?:\\s*\\([^)]+\\))?:?(?!\\w)(?: *-->| *\\*/| *!}| *--}}| *}}|(?= *(?:[^:]//|/\\*+|<!--|@|--|\\{!|\\{\\{!--|\\{\\{!))|((?: +[^\\n@]*?)(?= *(?:[^:]//|/\\*+|<!--|@|--|\\{!|\\{\\{!--|\\{\\{!))|(?: +[^@\\n]+)?))"
         },
         "todo.embedded.regexFlags": {
           "type": "string",
@@ -775,6 +775,12 @@
       {
         "command": "todo.editorArchive",
         "title": "Archive"
+      },
+
+      {
+        "command": "todo.syncTodoWithCode",
+        "title": "Sync Todo with Code Comments",
+        "category": "Todo"
       }
     ],
     "keybindings": [
@@ -992,6 +998,7 @@
           "when": "view == todo.views.2embedded && todo-embedded-all == true",
           "group": "navigation@1"
         }
+
       ],
       "view/item/context": [
         {
