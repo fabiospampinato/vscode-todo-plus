@@ -209,7 +209,7 @@ const Statistics = {
 
       }
 
-      const groups = [items.projects, items.todosBox, items.todosDone, items.todosCancelled, items.tags],
+      const groups = [items.comments, items.projects, items.todosBox, items.todosDone, items.todosCancelled, items.tags],
             lines = groups.reduce ( ( arr1, arr2 ) => mergeSorted ( arr1, arr2 ) );
 
       items.projects.forEach ( project => {
